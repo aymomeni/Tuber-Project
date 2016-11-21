@@ -10,8 +10,49 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.tuber.tuber.LoginActivity">
 
-    <TextView
+    <ImageView
+        android:id="@+id/loginImage"
+        android:src="@drawable/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:maxWidth="300dp"
+        android:maxHeight="300dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:id="@+id/loginUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:focusable="true"
+        android:textColorHighlight="#E98201"
+        android:textColorHint="#A0A0A0"
+        android:layout_below="@+id/loginImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:hint="@string/UserNameHint"
+        />
+
+    <EditText
+        android:id="@+id/loginPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:layout_below="@+id/loginUsername"
+        android:layout_centerHorizontal="true"
+        android:textColorHighlight="#E98201"
+        android:textColorHint="#A0A0A0"
+        android:hint="@string/UserPasswordHint"
+        />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/loginPassword"
+        android:text="@string/Login"/>
+
 </RelativeLayout>
