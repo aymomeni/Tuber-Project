@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">Tuber</string>
-    <string name="Login">Login</string>
-    <string name="UserNameHint">University Email</string>
-    <string name="UserPasswordHint">Password</string>
-    <string name="title_activity_home">HomeActivity</string>
-</resources>
