@@ -21,8 +21,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="30pt"
         android:layout_marginRight="30pt"
-        android:src="@drawable/rsz_2ic_tuber_logo"
-        />
+        android:src="@drawable/ic_launcher"
+        tools:adjustViewBounds="false"/>
 
     <EditText
         android:id="@+id/login_username"
@@ -32,11 +32,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10pt"
         android:background="@color/colorPrimary_Grey"
-        android:ems="10"
+        android:ems="5"
         android:hint="Username"
         android:inputType="textEmailAddress"
         android:paddingBottom="2pt"
         android:paddingLeft="5pt"
+        android:paddingRight="5pt"
         android:paddingTop="2pt"
         android:textColor="@color/colorAccent_Blue"
         android:textColorHint="@color/colorAccent_Blue"
@@ -51,11 +52,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@color/colorPrimary_Grey"
-        android:ems="10"
+        android:ems="5"
         android:hint="Password"
         android:inputType="textPassword"
         android:paddingBottom="2pt"
         android:paddingLeft="5pt"
+        android:paddingRight="5pt"
         android:paddingTop="2pt"
         android:textColor="@color/colorAccent_Blue"
         android:textColorHint="@color/colorAccent_Blue"
@@ -68,7 +70,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_password"
         android:layout_marginTop="20pt"
-        android:text="login"
+        android:ems="8"
+        android:text="@string/login_text"
         android:onClick="login"
         />
 
@@ -76,10 +79,11 @@
         android:id="@+id/register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ems="8"
         android:layout_toRightOf="@id/login_button"
         android:layout_below="@+id/login_password"
         android:layout_marginTop="20pt"
-        android:text="Register"
+        android:text="@string/register_text"
         />
 
 

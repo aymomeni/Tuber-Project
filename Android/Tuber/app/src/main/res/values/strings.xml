@@ -3,4 +3,6 @@
     <string name="parse_app_id">d537bd63e2416cce6821b38ccbd736c9032cc8d7</string>
     <string name="parse_client_key">68ced8cd209806658170d238c749274d03adc489</string>
     <string name="parse_server">http://ec2-35-163-71-13.us-west-2.compute.amazonaws.com:80/parse/</string>
+    <string name="login_text">login</string>
+    <string name="register_text">register</string>
 </resources>
