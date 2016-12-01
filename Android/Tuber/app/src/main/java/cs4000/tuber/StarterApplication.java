@@ -3,7 +3,6 @@ package cs4000.tuber;
 import android.app.Application;
 import android.net.ParseException;
 import android.util.Log;
-
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseObject;
