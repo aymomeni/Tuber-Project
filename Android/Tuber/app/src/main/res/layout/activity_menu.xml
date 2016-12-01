@@ -15,45 +15,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/MenuBar"
-        android:padding="40dp"
         android:background="@android:color/darker_gray"
+        android:padding="30dp"
         >
 
-        <ImageButton
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/user"
+            android:layout_height="60dp"
+            app:srcCompat="@drawable/home"
             android:id="@+id/imageButton4"
-            android:layout_weight="1"
             android:background="@android:color/white"
+            android:layout_weight="0.21"
+            android:clickable="true"
             />
 
-        <ImageButton
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="62dp"
             app:srcCompat="@drawable/settings"
             android:id="@+id/imageButton3"
-            android:layout_weight="1"
             android:background="@android:color/white"
+            android:clickable="true"
             />
 
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:layout_width="66dp"
+            android:layout_height="60dp"
             app:srcCompat="@drawable/message"
             android:id="@+id/imageButton2"
-            android:layout_weight="1"
             android:background="@android:color/white"
+            android:layout_weight="0.06"
+            android:clickable="true"
             />
 
-        <ImageButton
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/home"
+            android:layout_height="60dp"
+            app:srcCompat="@drawable/user"
             android:id="@+id/imageButton"
-            android:layout_weight="1"
             android:background="@android:color/white"
+            android:layout_weight="0.50"
+            android:clickable="true"
             />
 
     </LinearLayout>
@@ -83,7 +86,6 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/acadClass1"
                 android:padding="40dp"
-                android:layout_alignParentRight="true"
                 android:background="@color/colorAccent_Blue"
                 android:clickable="true"/>
 
@@ -106,13 +108,14 @@
                 android:id="@+id/acadClass3"
                 android:layout_marginTop="10dp"
                 android:background="@color/colorAccent_Orange"
-                android:padding="40dp"/>
+                android:padding="40dp"
+                android:clickable="true"/>
 
         </LinearLayout>
     </ScrollView>
 
     <TextView
-        android:text="Select Class:"
+        android:text="@string/your_classes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/SelectClassText"
@@ -126,7 +129,7 @@
         android:paddingLeft="40dp"/>
 
     <TextView
-        android:text="+Add Class"
+        android:text="@string/add_class"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/classAddText"
