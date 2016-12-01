@@ -68,7 +68,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="200dp"
-        android:layout_marginBottom="100dp"
         android:paddingLeft="40dp"
         android:paddingRight="40dp">
 
@@ -80,37 +79,37 @@
             >
 
             <TextView
-                android:text="CS4400"
-                android:textColor="@color/colorPrimary_White"
+                android:text="CS4400 - Fall 2016"
                 android:textSize="18sp"
+                android:textColor="@color/colorPrimary_White"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/acadClass1"
                 android:padding="40dp"
-                android:background="@color/colorAccent_Blue"
+                android:background="@color/colorAccent_BlueGreen"
                 android:clickable="true"/>
 
             <TextView
-                android:text="CS4000"
-                android:textColor="@color/colorPrimary_White"
+                android:text="CS4000 - Fall 2016"
                 android:textSize="18sp"
+                android:textColor="@color/colorPrimary_White"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/acadClass2"
                 android:padding="40dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorAccent_Green"
+                android:background="@color/colorAccent_Blue"
                 android:clickable="true"/>
 
             <TextView
-                android:text="Math2240"
-                android:textColor="@color/colorPrimary_White"
+                android:text="Math2240 - Fall 2016"
                 android:textSize="18sp"
+                android:textColor="@color/colorPrimary_White"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/acadClass3"
                 android:layout_marginTop="10dp"
-                android:background="@color/colorAccent_Orange"
+                android:background="@color/colorAccent_Green"
                 android:padding="40dp"
                 android:clickable="true"/>
 
@@ -138,12 +137,12 @@
         android:id="@+id/classAddText"
         android:textSize="18sp"
         android:textStyle="normal|bold"
-        android:textColor="@android:color/darker_gray"
         android:layout_marginBottom="49dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:paddingRight="40dp"/>
+        android:paddingRight="40dp"
+        android:clickable="true"/>/>
 
     <LinearLayout
         android:orientation="horizontal"

@@ -3,7 +3,8 @@
     <color name="colorPrimary_Grey">#dedede</color>
     <color name="colorPrimary_White">#ffffff</color>
     <color name="colorAccent_Orange">#ff7400</color>
-    <color name="colorAccent_Blue">#029a9a</color>
-    <color name="colorAccent_Green">#028602</color>
+    <color name="colorAccent_Blue">#6dadd8</color>
+    <color name="colorAccent_Green">#8cc24b</color>
     <color name="colorAccent_Red">#ff7474</color>
+    <color name="colorAccent_BlueGreen">#57bbb1</color>
 </resources>
