@@ -57,6 +57,7 @@ public class StarterApplication extends Application {
 
 	Log.i("StarterApplication", "Attempting to save...");
 	parseObject.saveInBackground(new SaveCallback() {
+
 	  @Override
 	  public void done(com.parse.ParseException e) {
 		if (e == null) {

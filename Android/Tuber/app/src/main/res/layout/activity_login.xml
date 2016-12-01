@@ -2,72 +2,85 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPrimary_White"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary_White"
     android:paddingBottom="16pt"
     android:paddingLeft="16pt"
     android:paddingRight="16pt"
     android:paddingTop="16pt"
+    android:screenOrientation="portrait"
     tools:context="cs4000.tuber.LoginActivity">
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/rsz_2ic_tuber_logo"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginRight="30pt"
         android:layout_marginLeft="30pt"
+        android:layout_marginRight="30pt"
+        android:src="@drawable/rsz_2ic_tuber_logo"
         />
 
     <EditText
+        android:id="@+id/login_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary_Grey"
-        android:inputType="textEmailAddress"
-        android:textSize="10pt"
-        android:ems="10"
-        android:id="@+id/login_username"
         android:layout_below="@+id/imageView"
-        android:textColor="@color/colorAccent_Blue"
-        android:textColorHint="@color/colorAccent_Blue"
-        android:hint="Username"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10pt"
-        android:paddingLeft="10pt"
+        android:background="@color/colorPrimary_Grey"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textEmailAddress"
+        android:paddingBottom="2pt"
+        android:paddingLeft="5pt"
+        android:paddingTop="2pt"
+        android:textColor="@color/colorAccent_Blue"
+        android:textColorHint="@color/colorAccent_Blue"
+        android:textSize="10pt"
         />
 
     <EditText
+        android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary_Grey"
-        android:inputType="textPassword"
-        android:textSize="10pt"
-        android:ems="10"
-        android:id="@+id/login_password"
-        android:textColor="@color/colorAccent_Blue"
-        android:textColorHint="@color/colorAccent_Blue"
         android:layout_below="@+id/login_username"
-        android:hint="Password"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:paddingLeft="10pt"
+        android:background="@color/colorPrimary_Grey"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:paddingBottom="2pt"
+        android:paddingLeft="5pt"
+        android:paddingTop="2pt"
+        android:textColor="@color/colorAccent_Blue"
+        android:textColorHint="@color/colorAccent_Blue"
+        android:textSize="10pt"
         />
 
     <Button
+        android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10pt"
-        android:text="login"
-        android:id="@+id/button"
         android:layout_below="@+id/login_password"
-        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20pt"
+        android:text="login"
+        android:onClick="login"
         />
 
-
+    <Button
+        android:id="@+id/register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/login_button"
+        android:layout_below="@+id/login_password"
+        android:layout_marginTop="20pt"
+        android:text="Register"
+        />
 
 
 </RelativeLayout>
