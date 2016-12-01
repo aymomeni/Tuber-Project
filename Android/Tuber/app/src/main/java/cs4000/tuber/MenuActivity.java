@@ -33,6 +33,4 @@ public class MenuActivity extends Activity {
 //	setContentView(l);
 
   }
-
-
 }
