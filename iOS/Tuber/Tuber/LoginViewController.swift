@@ -26,9 +26,11 @@ class LoginViewController: UIViewController {
     }
     
     @IBAction func loginButtonPress(_ sender: Any) {
+        
+        //check w/ database
+        
         if (emailTextField.text == "test" && passwordTextField.text == "test")
         {
-            //errorLabel.text = "Good"
             performSegue(withIdentifier: "loginSuccess", sender: nil)
         }
         else
