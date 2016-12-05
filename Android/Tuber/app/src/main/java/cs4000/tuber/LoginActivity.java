@@ -101,7 +101,7 @@ public class LoginActivity extends Activity {
 
   protected void switchToMenu() {
 
-	Intent intent = new Intent(this, MenuActivity.class);
+	Intent intent = new Intent(this, MenuActivity2.class);
 	//EditText editText = (EditText) findViewById(R.id.edit_message);
 	//String message = editText.getText().toString();
 	intent.putExtra("", "");
