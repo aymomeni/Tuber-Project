@@ -1,0 +1,538 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971400EC1DF527D60099A8DB /* AppDelegate.swift */; };
+		971400EF1DF527D60099A8DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971400EE1DF527D60099A8DB /* ViewController.swift */; };
+		971400F21DF527D60099A8DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 971400F01DF527D60099A8DB /* Main.storyboard */; };
+		971400F41DF527D60099A8DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 971400F31DF527D60099A8DB /* Assets.xcassets */; };
+		971400F71DF527D60099A8DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 971400F51DF527D60099A8DB /* LaunchScreen.storyboard */; };
+		971401021DF527D60099A8DB /* TuberTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971401011DF527D60099A8DB /* TuberTests.swift */; };
+		9714010D1DF527D60099A8DB /* TuberUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9714010C1DF527D60099A8DB /* TuberUITests.swift */; };
+		9714011B1DF528490099A8DB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9714011A1DF528490099A8DB /* LoginViewController.swift */; };
+		9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9714011C1DF52C130099A8DB /* ScheduleTutorViewController.swift */; };
+		9714011F1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9714011E1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		971400FE1DF527D60099A8DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 971400E11DF527D60099A8DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 971400E81DF527D60099A8DB;
+			remoteInfo = Tuber;
+		};
+		971401091DF527D60099A8DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 971400E11DF527D60099A8DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 971400E81DF527D60099A8DB;
+			remoteInfo = Tuber;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		971400E91DF527D60099A8DB /* Tuber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tuber.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		971400EC1DF527D60099A8DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		971400EE1DF527D60099A8DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		971400F11DF527D60099A8DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		971400F31DF527D60099A8DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		971400F61DF527D60099A8DB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		971400F81DF527D60099A8DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		971400FD1DF527D60099A8DB /* TuberTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TuberTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		971401011DF527D60099A8DB /* TuberTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuberTests.swift; sourceTree = "<group>"; };
+		971401031DF527D60099A8DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		971401081DF527D60099A8DB /* TuberUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TuberUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9714010C1DF527D60099A8DB /* TuberUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuberUITests.swift; sourceTree = "<group>"; };
+		9714010E1DF527D60099A8DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9714011A1DF528490099A8DB /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		9714011C1DF52C130099A8DB /* ScheduleTutorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTutorViewController.swift; sourceTree = "<group>"; };
+		9714011E1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTutorConfirmViewController.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		971400E61DF527D60099A8DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		971400FA1DF527D60099A8DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		971401051DF527D60099A8DB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		971400E01DF527D60099A8DB = {
+			isa = PBXGroup;
+			children = (
+				971400EB1DF527D60099A8DB /* Tuber */,
+				971401001DF527D60099A8DB /* TuberTests */,
+				9714010B1DF527D60099A8DB /* TuberUITests */,
+				971400EA1DF527D60099A8DB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		971400EA1DF527D60099A8DB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				971400E91DF527D60099A8DB /* Tuber.app */,
+				971400FD1DF527D60099A8DB /* TuberTests.xctest */,
+				971401081DF527D60099A8DB /* TuberUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		971400EB1DF527D60099A8DB /* Tuber */ = {
+			isa = PBXGroup;
+			children = (
+				971400EC1DF527D60099A8DB /* AppDelegate.swift */,
+				971400EE1DF527D60099A8DB /* ViewController.swift */,
+				971400F01DF527D60099A8DB /* Main.storyboard */,
+				971400F31DF527D60099A8DB /* Assets.xcassets */,
+				971400F51DF527D60099A8DB /* LaunchScreen.storyboard */,
+				971400F81DF527D60099A8DB /* Info.plist */,
+				9714011A1DF528490099A8DB /* LoginViewController.swift */,
+				9714011C1DF52C130099A8DB /* ScheduleTutorViewController.swift */,
+				9714011E1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift */,
+			);
+			path = Tuber;
+			sourceTree = "<group>";
+		};
+		971401001DF527D60099A8DB /* TuberTests */ = {
+			isa = PBXGroup;
+			children = (
+				971401011DF527D60099A8DB /* TuberTests.swift */,
+				971401031DF527D60099A8DB /* Info.plist */,
+			);
+			path = TuberTests;
+			sourceTree = "<group>";
+		};
+		9714010B1DF527D60099A8DB /* TuberUITests */ = {
+			isa = PBXGroup;
+			children = (
+				9714010C1DF527D60099A8DB /* TuberUITests.swift */,
+				9714010E1DF527D60099A8DB /* Info.plist */,
+			);
+			path = TuberUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		971400E81DF527D60099A8DB /* Tuber */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 971401111DF527D60099A8DB /* Build configuration list for PBXNativeTarget "Tuber" */;
+			buildPhases = (
+				971400E51DF527D60099A8DB /* Sources */,
+				971400E61DF527D60099A8DB /* Frameworks */,
+				971400E71DF527D60099A8DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tuber;
+			productName = Tuber;
+			productReference = 971400E91DF527D60099A8DB /* Tuber.app */;
+			productType = "com.apple.product-type.application";
+		};
+		971400FC1DF527D60099A8DB /* TuberTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 971401141DF527D60099A8DB /* Build configuration list for PBXNativeTarget "TuberTests" */;
+			buildPhases = (
+				971400F91DF527D60099A8DB /* Sources */,
+				971400FA1DF527D60099A8DB /* Frameworks */,
+				971400FB1DF527D60099A8DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				971400FF1DF527D60099A8DB /* PBXTargetDependency */,
+			);
+			name = TuberTests;
+			productName = TuberTests;
+			productReference = 971400FD1DF527D60099A8DB /* TuberTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		971401071DF527D60099A8DB /* TuberUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 971401171DF527D60099A8DB /* Build configuration list for PBXNativeTarget "TuberUITests" */;
+			buildPhases = (
+				971401041DF527D60099A8DB /* Sources */,
+				971401051DF527D60099A8DB /* Frameworks */,
+				971401061DF527D60099A8DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9714010A1DF527D60099A8DB /* PBXTargetDependency */,
+			);
+			name = TuberUITests;
+			productName = TuberUITests;
+			productReference = 971401081DF527D60099A8DB /* TuberUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		971400E11DF527D60099A8DB /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0810;
+				LastUpgradeCheck = 0810;
+				ORGANIZATIONNAME = Tuber;
+				TargetAttributes = {
+					971400E81DF527D60099A8DB = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+					};
+					971400FC1DF527D60099A8DB = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 971400E81DF527D60099A8DB;
+					};
+					971401071DF527D60099A8DB = {
+						CreatedOnToolsVersion = 8.1;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 971400E81DF527D60099A8DB;
+					};
+				};
+			};
+			buildConfigurationList = 971400E41DF527D60099A8DB /* Build configuration list for PBXProject "Tuber" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 971400E01DF527D60099A8DB;
+			productRefGroup = 971400EA1DF527D60099A8DB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				971400E81DF527D60099A8DB /* Tuber */,
+				971400FC1DF527D60099A8DB /* TuberTests */,
+				971401071DF527D60099A8DB /* TuberUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		971400E71DF527D60099A8DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				971400F71DF527D60099A8DB /* LaunchScreen.storyboard in Resources */,
+				971400F41DF527D60099A8DB /* Assets.xcassets in Resources */,
+				971400F21DF527D60099A8DB /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		971400FB1DF527D60099A8DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		971401061DF527D60099A8DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		971400E51DF527D60099A8DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9714011F1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift in Sources */,
+				9714011B1DF528490099A8DB /* LoginViewController.swift in Sources */,
+				971400EF1DF527D60099A8DB /* ViewController.swift in Sources */,
+				9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */,
+				971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		971400F91DF527D60099A8DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				971401021DF527D60099A8DB /* TuberTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		971401041DF527D60099A8DB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9714010D1DF527D60099A8DB /* TuberUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		971400FF1DF527D60099A8DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 971400E81DF527D60099A8DB /* Tuber */;
+			targetProxy = 971400FE1DF527D60099A8DB /* PBXContainerItemProxy */;
+		};
+		9714010A1DF527D60099A8DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 971400E81DF527D60099A8DB /* Tuber */;
+			targetProxy = 971401091DF527D60099A8DB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		971400F01DF527D60099A8DB /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				971400F11DF527D60099A8DB /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		971400F51DF527D60099A8DB /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				971400F61DF527D60099A8DB /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		9714010F1DF527D60099A8DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		971401101DF527D60099A8DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		971401121DF527D60099A8DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Tuber/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Tuber;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		971401131DF527D60099A8DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Tuber/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Tuber;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		971401151DF527D60099A8DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = TuberTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.TuberTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tuber.app/Tuber";
+			};
+			name = Debug;
+		};
+		971401161DF527D60099A8DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = TuberTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.TuberTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tuber.app/Tuber";
+			};
+			name = Release;
+		};
+		971401181DF527D60099A8DB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				INFOPLIST_FILE = TuberUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.TuberUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = Tuber;
+			};
+			name = Debug;
+		};
+		971401191DF527D60099A8DB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				INFOPLIST_FILE = TuberUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.TuberUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_TARGET_NAME = Tuber;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		971400E41DF527D60099A8DB /* Build configuration list for PBXProject "Tuber" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9714010F1DF527D60099A8DB /* Debug */,
+				971401101DF527D60099A8DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		971401111DF527D60099A8DB /* Build configuration list for PBXNativeTarget "Tuber" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				971401121DF527D60099A8DB /* Debug */,
+				971401131DF527D60099A8DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		971401141DF527D60099A8DB /* Build configuration list for PBXNativeTarget "TuberTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				971401151DF527D60099A8DB /* Debug */,
+				971401161DF527D60099A8DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		971401171DF527D60099A8DB /* Build configuration list for PBXNativeTarget "TuberUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				971401181DF527D60099A8DB /* Debug */,
+				971401191DF527D60099A8DB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 971400E11DF527D60099A8DB /* Project object */;
+}
