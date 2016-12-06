@@ -123,6 +123,7 @@ public class StudentImmediateRequestActivity extends FragmentActivity implements
 
 		  ParseObject request = new ParseObject("Request");
 		  request.put("username", ParseUser.getCurrentUser().getUsername());
+		  request.put("studentOrTutor", userType);
 		  ParseGeoPoint parseGeoPoint = new ParseGeoPoint(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
 		  request.put("location", parseGeoPoint);
 
@@ -160,10 +161,12 @@ public class StudentImmediateRequestActivity extends FragmentActivity implements
 	mapFragment.getMapAsync(this);
 
 	ParseUser.getCurrentUser().put("studentOrTutor", userType);
+
 	ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
 	  @Override
 	  public void done(ParseException e) {
 		// TODO: empty for now
+		//redirectActivity?
 	  }
 	});
 
