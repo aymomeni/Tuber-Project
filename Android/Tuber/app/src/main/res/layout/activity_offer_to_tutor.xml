@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_offer_to_tutor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cs4000.tuber.OfferToTutorActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary_White"
+        android:weightSum="1"
+        >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_offer_tutor_immediate_service"
+            android:id="@+id/imageView12"
+            android:layout_below="@+id/tutor_services_immediate_service"
+            android:clickable="true"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:layout_marginTop="100dp"
+            />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/ic_offer_tutor_commited_time_slots"
+            android:id="@+id/imageView13"
+            android:layout_below="@+id/tutor_services_schedule_commited_time_slots"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            />
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

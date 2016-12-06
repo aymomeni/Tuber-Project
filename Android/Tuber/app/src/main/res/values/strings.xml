@@ -7,4 +7,8 @@
     <string name="register_text">register</string>
     <string name="add_class">+add Class</string>
     <string name="your_classes">Your Classes:</string>
+    <string name="title_activity_tutor_services">TutorServicesActivity</string>
+    <string name="title_activity_offer_to_tutor">OfferToTutorActivity</string>
+    <string name="title_activity_immediate_student_request">ImmediateStudentRequestActivity</string>
+    <string name="title_activity_immediate_tutor_service">ImmediateTutorServiceActivity</string>
 </resources>

@@ -10,57 +10,6 @@
     tools:context="cs4000.tuber.MenuActivity">
 
 
-    <!--<LinearLayout-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:id="@+id/MenuBar"-->
-        <!--android:background="@android:color/darker_gray"-->
-        <!--android:padding="30dp"-->
-        <!--&gt;-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="60dp"-->
-            <!--app:srcCompat="@drawable/home"-->
-            <!--android:id="@+id/imageButton4"-->
-            <!--android:background="@android:color/white"-->
-            <!--android:layout_weight="0.21"-->
-            <!--android:clickable="true"-->
-            <!--/>-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="62dp"-->
-            <!--app:srcCompat="@drawable/settings"-->
-            <!--android:id="@+id/imageButton3"-->
-            <!--android:background="@android:color/white"-->
-            <!--android:clickable="true"-->
-            <!--/>-->
-
-
-        <!--<ImageView-->
-            <!--android:layout_width="66dp"-->
-            <!--android:layout_height="60dp"-->
-            <!--app:srcCompat="@drawable/message"-->
-            <!--android:id="@+id/imageButton2"-->
-            <!--android:background="@android:color/white"-->
-            <!--android:layout_weight="0.06"-->
-            <!--android:clickable="true"-->
-            <!--/>-->
-
-        <!--<ImageView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="60dp"-->
-            <!--app:srcCompat="@drawable/user"-->
-            <!--android:id="@+id/imageButton"-->
-            <!--android:background="@android:color/white"-->
-            <!--android:layout_weight="0.50"-->
-            <!--android:clickable="true"-->
-            <!--/>-->
-
-    <!--</LinearLayout>-->
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

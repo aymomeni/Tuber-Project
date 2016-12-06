@@ -13,11 +13,69 @@
     android:background="@color/colorPrimary_White">
 
 
-    <ImageView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_tutor"
-        android:id="@+id/imageView21"/>
+        android:background="@color/colorPrimary_White"
+        android:weightSum="1"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        >
+
+        <ImageView
+            android:src="@drawable/ic_tutor_services"
+            android:id="@+id/classViewElement1"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:clickable="true"
+            android:onClick="class_option_tutorServices_clicked"
+            android:layout_marginTop="30dp"
+            />
+
+        <ImageView
+            android:src="@drawable/ic_study_hotspot"
+            android:id="@+id/classViewElement2"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_below="@+id/classViewElement1"
+            />
+
+        <ImageView
+            android:src="@drawable/ic_discussion_forum"
+            android:id="@+id/classViewElement3"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_below="@+id/classViewElement2"
+            />
+
+
+        <ImageView
+            android:src="@drawable/ic_message"
+            android:id="@+id/classViewElement4"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_below="@+id/classViewElement3"
+            />
+
+        <ImageView
+            android:src="@drawable/ic_offer_tutor"
+            android:id="@+id/classViewElement5"
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:layout_below="@+id/classViewElement4"
+            android:clickable="true"
+            android:onClick="class_option_offerToTutor_clicked"
+            />
+    </LinearLayout>
+
+
+
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:src="@drawable/ic_tutor"-->
+        <!--android:id="@+id/imageView21"/>-->
 
 </RelativeLayout>
 
