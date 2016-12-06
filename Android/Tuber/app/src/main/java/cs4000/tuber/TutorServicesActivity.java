@@ -6,6 +6,9 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 
+import com.parse.ParseUser;
+
+// Only viewed by student
 public class TutorServicesActivity extends Activity {
 
   @Override
@@ -14,9 +17,9 @@ public class TutorServicesActivity extends Activity {
 	setContentView(R.layout.activity_tutor_services);
   }
 
-  public void tutor_services_immediate_service(View view) {
+  public void tutor_services_immediate_request(View view) {
 	Log.i("OnListner", "clicked!");
-	startActivity(new Intent(TutorServicesActivity.this, ClassActivity.class));
+	startActivity(new Intent(TutorServicesActivity.this, StudentImmediateRequestActivity.class));
   }
 
 }

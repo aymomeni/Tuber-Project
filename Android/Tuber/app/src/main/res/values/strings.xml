@@ -11,4 +11,5 @@
     <string name="title_activity_offer_to_tutor">OfferToTutorActivity</string>
     <string name="title_activity_immediate_student_request">ImmediateStudentRequestActivity</string>
     <string name="title_activity_immediate_tutor_service">ImmediateTutorServiceActivity</string>
+    <string name="title_activity_student_immediate_request">Map</string>
 </resources>

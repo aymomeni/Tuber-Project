@@ -15,7 +15,7 @@ public class OfferToTutorActivity extends Activity {
   }
 
   public void tutor_services_immediate_request(View view) {
-	Log.i("OnListner", "clicked!");
+	Log.i("Immediate Request", "clicked!");
 	startActivity(new Intent(OfferToTutorActivity.this, ClassActivity.class));
   }
 
