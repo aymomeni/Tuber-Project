@@ -37,7 +37,6 @@
             android:value="@string/parse_client_key"/>
 
         <activity android:name=".MenuActivity"/>
-        <activity android:name=".MenuActivity2"/>
         <activity android:name=".ClassActivity"/>
         <activity
             android:name=".TutorServicesActivity"

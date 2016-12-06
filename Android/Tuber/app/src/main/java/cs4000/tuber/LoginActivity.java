@@ -10,12 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseAnalytics;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -113,7 +110,7 @@ public class LoginActivity extends Activity {
 
   protected void switchToMenu() {
 
-	Intent intent = new Intent(this, MenuActivity2.class);
+	Intent intent = new Intent(this, MenuActivity.class);
 	//EditText editText = (EditText) findViewById(R.id.edit_message);
 	//String message = editText.getText().toString();
 	intent.putExtra("UserID: ", userObjectID);

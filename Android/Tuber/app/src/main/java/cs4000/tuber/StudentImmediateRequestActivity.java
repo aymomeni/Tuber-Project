@@ -1,6 +1,5 @@
 package cs4000.tuber;
 
-import android.*;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.appdatasearch.GetRecentContextCall;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -53,7 +51,7 @@ public class StudentImmediateRequestActivity extends FragmentActivity implements
 	Log.i("Info", "Logout Student Immediate Service");
 	ParseUser.logOut();
 
-	Intent intent = new Intent(getApplicationContext(), MenuActivity2.class);
+	Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
 	startActivity(intent);
 
   }
