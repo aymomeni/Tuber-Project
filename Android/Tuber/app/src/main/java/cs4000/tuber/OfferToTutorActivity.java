@@ -14,9 +14,10 @@ public class OfferToTutorActivity extends Activity {
 	setContentView(R.layout.activity_offer_to_tutor);
   }
 
-  public void tutor_services_immediate_request(View view) {
-	Log.i("OnListner", "clicked!");
-	startActivity(new Intent(OfferToTutorActivity.this, ClassActivity.class));
+  public void tutor_services_immediate_service(View view) {
+	Log.i("Immediate Tutor Service", "clicked!");
+	startActivity(new Intent(OfferToTutorActivity.this, ImmediateTutorServiceActivity.class));
   }
+
 
 }

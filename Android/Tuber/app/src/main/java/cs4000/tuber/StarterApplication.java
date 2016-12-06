@@ -50,22 +50,21 @@ public class StarterApplication extends Application {
 	ParseACL.setDefaultACL(defaultACL, true);
 
 	// object = table
-	// feel free to enter your own test values here
-	ParseObject parseObject = new ParseObject("Test");
-	parseObject.put("pasta", "cannelloni");
-	parseObject.put("price", 4.99);
-
-	Log.i("StarterApplication", "Attempting to save...");
-	parseObject.saveInBackground(new SaveCallback() {
-
-	  @Override
-	  public void done(com.parse.ParseException e) {
-		if (e == null) {
-		  Log.i("saveInBackground", "Success... congrats!");
-		} else {
-		  Log.i("saveInBackground", "Ooops... " + e.toString());
-		}
-	  }
-	});
+//	ParseObject parseObject = new ParseObject("Test");
+//	parseObject.put("pasta", "cannelloni");
+//	parseObject.put("price", 4.99);
+//
+//	Log.i("StarterApplication", "Attempting to save...");
+//	parseObject.saveInBackground(new SaveCallback() {
+//
+//	  @Override
+//	  public void done(com.parse.ParseException e) {
+//		if (e == null) {
+//		  Log.i("saveInBackground", "Success... congrats!");
+//		} else {
+//		  Log.i("saveInBackground", "Ooops... " + e.toString());
+//		}
+//	  }
+//	});
   }
 }

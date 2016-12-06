@@ -23,6 +23,7 @@ public class LoginActivity extends Activity {
 
   Button login_button, register_button;
   EditText username, password;
+  String usernameStr, passwordStr, userObjectID;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +36,13 @@ public class LoginActivity extends Activity {
 	username = (EditText) findViewById(R.id.login_username);
 	password = (EditText) findViewById(R.id.login_password);
 
+
+
 	  register_button.setOnClickListener(new View.OnClickListener() {
 		  @Override
 		  public void onClick(View view) {
-			  String usernameStr = username.getText().toString();
-			  String passwordStr = password.getText().toString();
+			  usernameStr = username.getText().toString();
+			  passwordStr = password.getText().toString();
 
 			  if(usernameStr.matches("") || passwordStr.matches("")){
 				  Toast.makeText(LoginActivity.this, "A username and password are required", Toast.LENGTH_SHORT).show();
@@ -48,6 +51,7 @@ public class LoginActivity extends Activity {
 
 				  user.setUsername(usernameStr);
 				  user.setPassword(passwordStr);
+				  userObjectID = user.getObjectId();
 
 				  user.signUpInBackground(new SignUpCallback() {
 					  @Override
@@ -70,8 +74,8 @@ public class LoginActivity extends Activity {
 	  login_button.setOnClickListener(new View.OnClickListener() {
 		  @Override
 		  public void onClick(View view) {
-			  String usernameStr = username.getText().toString();
-			  String passwordStr = password.getText().toString();
+			  usernameStr = username.getText().toString();
+			  passwordStr = password.getText().toString();
 
 			  if(usernameStr.matches("") || passwordStr.matches("")) {
 				  Toast.makeText(LoginActivity.this, "A username and password are required", Toast.LENGTH_SHORT).show();
@@ -81,9 +85,17 @@ public class LoginActivity extends Activity {
 					  @Override
 					  public void done(ParseUser user, ParseException e) {
 						  if (user != null) {
+							  usernameStr = user.getUsername();
+							  userObjectID = user.getObjectId();
+
 							  Log.i("LogIn", "Successful");
 							  Log.i("LogIn", "username: " + user.getUsername());
 							  Log.i("LogIn", "password: " + user.get("password"));
+							  Log.i("LogIn", "UID: " + user.getObjectId());
+
+							// TODO: What if the password is incorrect?
+							// TODO: How to store username and maybe UserID Application Wide?
+
 							  Toast.makeText(getApplicationContext(),
 									  "Redirecting...", Toast.LENGTH_SHORT).show();
 							  switchToMenu();
@@ -104,7 +116,7 @@ public class LoginActivity extends Activity {
 	Intent intent = new Intent(this, MenuActivity2.class);
 	//EditText editText = (EditText) findViewById(R.id.edit_message);
 	//String message = editText.getText().toString();
-	intent.putExtra("", "");
+	intent.putExtra("UserID: ", userObjectID);
 	startActivity(intent);
 
   }
