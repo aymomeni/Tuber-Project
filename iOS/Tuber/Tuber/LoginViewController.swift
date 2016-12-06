@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Parse
+import Bolts
 
 class LoginViewController: UIViewController {
 
@@ -18,6 +20,12 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+//        let gameScore = PFObject(className:"GameScore")
+//        gameScore["score"] = 1337
+//        gameScore["playerName"] = "Sean Plott"
+//        gameScore["cheatMode"] = false
+//        gameScore.saveInBackground()
+        
     }
 
     override func didReceiveMemoryWarning() {
