@@ -1,3 +1,12 @@
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_tutor_services"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cs4000.tuber.TutorServicesActivity">
+
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:map="http://schemas.android.com/apk/res-auto"
           xmlns:tools="http://schemas.android.com/tools"
@@ -6,3 +15,32 @@
           android:layout_width="match_parent"
           android:layout_height="match_parent"
           tools:context="cs4000.tuber.StudentImmediateRequestActivity"/>
+
+    <Button
+        android:text="Request Tutor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:id="@+id/requestTutorButton"
+        android:onClick="requestTutor"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/logoutButton"
+        android:layout_toStartOf="@+id/logoutButton"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"/>
+
+    <Button
+        android:text="Logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/logoutButton"
+        android:onClick="logout"
+        android:layout_marginRight="21dp"
+        android:layout_marginEnd="21dp"
+        android:layout_alignBaseline="@+id/requestTutorButton"
+        android:layout_alignBottom="@+id/requestTutorButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
+
+
+</RelativeLayout>
