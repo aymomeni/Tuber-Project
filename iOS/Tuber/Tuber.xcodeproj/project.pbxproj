@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9709067B1DF6B93400C68561 /* ClassListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067A1DF6B93400C68561 /* ClassListViewController.swift */; };
+		9709067D1DF6BAF500C68561 /* ClassTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */; };
 		971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971400EC1DF527D60099A8DB /* AppDelegate.swift */; };
 		971400EF1DF527D60099A8DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971400EE1DF527D60099A8DB /* ViewController.swift */; };
 		971400F21DF527D60099A8DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 971400F01DF527D60099A8DB /* Main.storyboard */; };
@@ -50,6 +52,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9709067A1DF6B93400C68561 /* ClassListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassListViewController.swift; sourceTree = "<group>"; };
+		9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassTableViewCell.swift; sourceTree = "<group>"; };
 		971400E91DF527D60099A8DB /* Tuber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tuber.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		971400EC1DF527D60099A8DB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		971400EE1DF527D60099A8DB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +156,8 @@
 				9714011A1DF528490099A8DB /* LoginViewController.swift */,
 				9714011C1DF52C130099A8DB /* ScheduleTutorViewController.swift */,
 				9714011E1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift */,
+				9709067A1DF6B93400C68561 /* ClassListViewController.swift */,
+				9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */,
 			);
 			path = Tuber;
 			sourceTree = "<group>";
@@ -331,6 +337,8 @@
 				9714011F1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift in Sources */,
 				9714011B1DF528490099A8DB /* LoginViewController.swift in Sources */,
 				971400EF1DF527D60099A8DB /* ViewController.swift in Sources */,
+				9709067B1DF6B93400C68561 /* ClassListViewController.swift in Sources */,
+				9709067D1DF6BAF500C68561 /* ClassTableViewCell.swift in Sources */,
 				9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */,
 				971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */,
 			);
