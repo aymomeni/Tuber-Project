@@ -1,6 +1,7 @@
 package cs4000.tuber;
 
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -48,7 +50,7 @@ public class TutorLocationActivity extends FragmentActivity implements OnMapRead
 
 			for(ParseObject object : objects) {
 
-			  object.put("driverUsername", ParseUser.getCurrentUser().getUsername());
+			  object.put("tutorUsername", ParseUser.getCurrentUser().getUsername());
 
 			  object.saveInBackground(new SaveCallback() {
 				@Override
@@ -93,31 +95,7 @@ public class TutorLocationActivity extends FragmentActivity implements OnMapRead
 
 
 
-	RelativeLayout mapLayout = (RelativeLayout)findViewById(R.id.tutorLocationRelLayout);
-	mapLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-	  @Override
-	  public void onGlobalLayout(){
 
-		LatLng tutorLocation = new LatLng(intent.getDoubleExtra("tutorLatitude", 0), intent.getDoubleExtra("tutorLongitude", 0));
-		LatLng requestLocation = new LatLng(intent.getDoubleExtra("requestLatitude", 0), intent.getDoubleExtra("requestLongitude", 0));
-
-		ArrayList<Marker> markers = new ArrayList<>();
-		
-		markers.add(mMap.addMarker(new MarkerOptions().position(requestLocation).title("Request Location")));
-		markers.add(mMap.addMarker(new MarkerOptions().position(tutorLocation).title("Your Location")));
-
-		LatLngBounds.Builder builder = new LatLngBounds.Builder();
-		for(Marker marker : markers) {
-		  builder.include(marker.getPosition());
-		}
-		LatLngBounds bounds = builder.build();
-
-		int padding = 50;
-		CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-
-		mMap.animateCamera(cu);
-	  }
-	});
   }
 
 
@@ -133,5 +111,34 @@ public class TutorLocationActivity extends FragmentActivity implements OnMapRead
   @Override
   public void onMapReady(GoogleMap googleMap) {
 	mMap = googleMap;
+
+	  RelativeLayout mapLayout = (RelativeLayout)findViewById(R.id.tutorLocationRelLayout);
+	  mapLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+		  @Override
+		  public void onGlobalLayout(){
+
+			  LatLng tutorLocation = new LatLng(intent.getDoubleExtra("tutorLatitude", 0), intent.getDoubleExtra("tutorLongitude", 0));
+			  LatLng requestLocation = new LatLng(intent.getDoubleExtra("requestLatitude", 0), intent.getDoubleExtra("requestLongitude", 0));
+
+			  ArrayList<Marker> markers = new ArrayList<>();
+
+			  markers.add(mMap.addMarker(new MarkerOptions().position(requestLocation).title("Request Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
+			  markers.add(mMap.addMarker(new MarkerOptions().position(tutorLocation).title("Your Location")));
+
+			  LatLngBounds.Builder builder = new LatLngBounds.Builder();
+			  for(Marker marker : markers) {
+				  builder.include(marker.getPosition());
+			  }
+			  LatLngBounds bounds = builder.build();
+
+			  int padding = 60;
+			  CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+			  mMap.animateCamera(cu);
+		  }
+	  });
+
+
+
   }
 }

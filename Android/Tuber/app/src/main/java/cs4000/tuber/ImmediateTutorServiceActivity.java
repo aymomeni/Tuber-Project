@@ -163,7 +163,7 @@ public class ImmediateTutorServiceActivity extends Activity {
 	  final ParseGeoPoint geoPointLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
 	  query.whereNear("location", geoPointLocation);
 	  query.setLimit(10); // usually driver selects one out of the 10 closest locations
-
+	  query.whereDoesNotExist("tutorUsername");
 	  query.findInBackground(new FindCallback<ParseObject>() {
 		@Override
 		public void done(List<ParseObject> objects, ParseException e) {
