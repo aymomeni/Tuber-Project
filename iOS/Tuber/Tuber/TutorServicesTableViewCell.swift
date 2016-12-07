@@ -1,17 +1,17 @@
 //
-//  ClassTableViewCell.swift
+//  TutorServicesTableViewCell.swift
 //  Tuber
 //
-//  Created by Anne on 12/6/16.
+//  Created by Anne on 12/7/16.
 //  Copyright © 2016 Tuber. All rights reserved.
 //
 
 import UIKit
 
-class ClassTableViewCell: UITableViewCell {
+class TutorServicesTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var classNameLabel: UILabel!
-    
+    @IBOutlet weak var optionIconImageView: UIImageView!
+    @IBOutlet weak var optionNameLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

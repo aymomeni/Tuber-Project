@@ -32,6 +32,10 @@
 		97B8E01A1DF56398001EEC79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E0191DF56398001EEC79 /* SystemConfiguration.framework */; };
 		97B8E01C1DF563A3001EEC79 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E01B1DF563A3001EEC79 /* libsqlite3.tbd */; };
 		97B8E01E1DF563A9001EEC79 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E01D1DF563A9001EEC79 /* libz.tbd */; };
+		97D6B3D41DF7EC9C0093479E /* ClassOptionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D31DF7EC9C0093479E /* ClassOptionsTableViewCell.swift */; };
+		97D6B3D61DF7ECF10093479E /* ClassOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */; };
+		97D6B3D81DF801630093479E /* TutorServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D71DF801630093479E /* TutorServicesViewController.swift */; };
+		97D6B3DA1DF80BDA0093479E /* TutorServicesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D91DF80BDA0093479E /* TutorServicesTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +87,10 @@
 		97B8E0191DF56398001EEC79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		97B8E01B1DF563A3001EEC79 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		97B8E01D1DF563A9001EEC79 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		97D6B3D31DF7EC9C0093479E /* ClassOptionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassOptionsTableViewCell.swift; sourceTree = "<group>"; };
+		97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassOptionsViewController.swift; sourceTree = "<group>"; };
+		97D6B3D71DF801630093479E /* TutorServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorServicesViewController.swift; sourceTree = "<group>"; };
+		97D6B3D91DF80BDA0093479E /* TutorServicesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorServicesTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +166,10 @@
 				9714011E1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift */,
 				9709067A1DF6B93400C68561 /* ClassListViewController.swift */,
 				9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */,
+				97D6B3D31DF7EC9C0093479E /* ClassOptionsTableViewCell.swift */,
+				97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */,
+				97D6B3D71DF801630093479E /* TutorServicesViewController.swift */,
+				97D6B3D91DF80BDA0093479E /* TutorServicesTableViewCell.swift */,
 			);
 			path = Tuber;
 			sourceTree = "<group>";
@@ -339,8 +351,12 @@
 				971400EF1DF527D60099A8DB /* ViewController.swift in Sources */,
 				9709067B1DF6B93400C68561 /* ClassListViewController.swift in Sources */,
 				9709067D1DF6BAF500C68561 /* ClassTableViewCell.swift in Sources */,
+				97D6B3D81DF801630093479E /* TutorServicesViewController.swift in Sources */,
+				97D6B3D61DF7ECF10093479E /* ClassOptionsViewController.swift in Sources */,
 				9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */,
 				971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */,
+				97D6B3D41DF7EC9C0093479E /* ClassOptionsTableViewCell.swift in Sources */,
+				97D6B3DA1DF80BDA0093479E /* TutorServicesTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

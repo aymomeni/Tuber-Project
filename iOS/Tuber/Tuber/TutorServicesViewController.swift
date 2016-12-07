@@ -1,18 +1,19 @@
 //
-//  ClassListViewController.swift
+//  TutorServicesViewController.swift
 //  Tuber
 //
-//  Created by Anne on 12/6/16.
+//  Created by Anne on 12/7/16.
 //  Copyright © 2016 Tuber. All rights reserved.
 //
 
 import UIKit
 
-class ClassListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class TutorServicesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet weak var classTableView: UITableView!
-    
-    var classes = ["CS 4400", "CS 3100", "CS 4150"]
+    @IBOutlet weak var servicesTableView: UITableView!
+
+    var icons = [#imageLiteral(resourceName: "immediaterequest"), #imageLiteral(resourceName: "scheduletutor"), #imageLiteral(resourceName: "viewschedule")]
+    var names = ["Immediate Request", "Schedule Tutor", "View Schedule"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,27 +37,15 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     */
     
-    
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "selectClass"
-        {
-            print(sender)
-            if let destination = segue.destination as? ClassOptionsViewController
-            {
-                destination.passed = sender as? String
-            }
-        }
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ClassTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tutorServices", for: indexPath) as! TutorServicesTableViewCell
         
-        cell.classNameLabel.text = classes[indexPath.row]
+        cell.optionIconImageView.image = icons[indexPath.row]
+        cell.optionNameLabel.text = names[indexPath.row]
         
         return cell
     }
@@ -64,15 +53,17 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
         
-        let currentCell = tableView.cellForRow(at: indexPath!)! as! ClassTableViewCell
+        let currentCell = tableView.cellForRow(at: indexPath!)! as! TutorServicesTableViewCell
         
-//        let toPass = currentCell.textLabel!.text
-        let toPass = currentCell.classNameLabel.text
+        //        let toPass = currentCell.textLabel!.text
+        let toPass = currentCell.optionNameLabel.text
         
-        print(toPass)
+        if toPass == "Schedule Tutor"
+        {
+            performSegue(withIdentifier: "scheduleTutor", sender: toPass)
+            
+        }
         
-        performSegue(withIdentifier: "selectClass", sender: toPass)
     }
-    
-    
+
 }
