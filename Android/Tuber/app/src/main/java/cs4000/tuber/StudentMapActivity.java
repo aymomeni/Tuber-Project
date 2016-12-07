@@ -31,9 +31,9 @@ import java.util.List;
 
 /*
  * Displays the tutor's location and the students location on a google map
- * using information that is send through the ImmediateTutorServiceActivity
+ * using information that is send through the ImmediateStudentRequestActivity
  */
-public class TutorLocationActivity extends FragmentActivity implements OnMapReadyCallback {
+public class StudentMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
   private GoogleMap mMap;
   Intent intent;
