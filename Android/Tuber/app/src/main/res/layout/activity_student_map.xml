@@ -4,7 +4,7 @@
     android:id="@+id/tutorLocationRelLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cs4000.tuber.TutorLocationActivity">
+    tools:context="cs4000.tuber.StudentMapActivity">
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:map="http://schemas.android.com/apk/res-auto"
@@ -13,10 +13,10 @@
               android:name="com.google.android.gms.maps.SupportMapFragment"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context="cs4000.tuber.TutorLocationActivity"/>
+              tools:context="cs4000.tuber.StudentMapActivity"/>
 
     <Button
-        android:text="Accept Request"
+        android:text="Accept Tutor Service"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -25,7 +25,7 @@
         android:layout_marginRight="38dp"
         android:layout_marginEnd="38dp"
         android:layout_marginBottom="23dp"
-        android:id="@+id/acceptRequestButton"
-        android:onClick="acceptRequest"/>
+        android:id="@+id/acceptTutorButton"
+        android:onClick="acceptTutorService"/>
 
 </RelativeLayout>
