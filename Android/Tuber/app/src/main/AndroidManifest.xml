@@ -47,7 +47,7 @@
             android:label="@string/title_activity_offer_to_tutor">
         </activity>
         <activity
-            android:name=".ImmediateTutorServiceActivity"
+            android:name=".ImmediateStudentRequestActivity"
             android:label="@string/title_activity_immediate_tutor_service">
         </activity>
         <!--
@@ -63,11 +63,11 @@
             android:value="@string/google_maps_key"/>
 
         <activity
-            android:name=".StudentImmediateRequestActivity"
+            android:name=".ImmediateTutorServiceActivity"
             android:label="@string/title_activity_student_immediate_request">
         </activity>
         <activity
-            android:name=".TutorLocationActivity"
+            android:name=".StudentMapActivity"
             android:label="@string/title_activity_tutor_location">
         </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->

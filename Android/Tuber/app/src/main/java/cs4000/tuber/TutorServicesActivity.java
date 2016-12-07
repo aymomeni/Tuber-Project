@@ -6,8 +6,6 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 
-import com.parse.ParseUser;
-
 /*
  * Displays a view for students in which tutor services are viewable
  */
@@ -21,7 +19,7 @@ public class TutorServicesActivity extends Activity {
 
   public void tutor_services_immediate_request(View view) {
 	Log.i("OnListner", "clicked!");
-	startActivity(new Intent(TutorServicesActivity.this, StudentImmediateRequestActivity.class));
+	startActivity(new Intent(TutorServicesActivity.this, ImmediateStudentRequestActivity.class));
   }
 
 }

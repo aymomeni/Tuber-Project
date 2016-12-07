@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,7 +42,7 @@ public class ImmediateStudentRequestActivity extends Activity {
 
 
   //ListView
-  ListView requestListView;
+  ListView tutorsListView;
   ArrayList<String> requests = new ArrayList<String>();
   ArrayAdapter arrayAdapter;
 
@@ -60,20 +61,20 @@ public class ImmediateStudentRequestActivity extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_immediate_tutor_service);
+	setContentView(R.layout.activity_immediate_student_request);
 
-	setTitle("Nearby Student Requests");
+	setTitle("Nearby Tutors");
 
-	requestListView = (ListView) findViewById(R.id.requestListView);
+	tutorsListView = (ListView) findViewById(R.id.tutorListView);
 
 	arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, requests);
 	requests.clear();
 	requests.add("Getting nearby requests...");
 
-	requestListView.setAdapter(arrayAdapter);
+	tutorsListView.setAdapter(arrayAdapter);
 
 	// pass user current locaton and
-	requestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+	tutorsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 	  // i is the number the user pressed on
 	  @Override
 	  public void onItemClick(AdapterView<?> adapterView, View view, int i, long l){
@@ -84,12 +85,12 @@ public class ImmediateStudentRequestActivity extends Activity {
 
 		  if(requestLatitudes.size() > i && requestLongitudes.size() > i && usernames.size() > i && lastKnownLocation != null) {
 
-			Intent intent = new Intent(getApplicationContext(), TutorLocationActivity.class);
+			Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
 
-			intent.putExtra("requestLatitude", requestLatitudes.get(i));
-			intent.putExtra("requestLongitude", requestLongitudes.get(i));
-			intent.putExtra("tutorLatitude", lastKnownLocation.getLatitude());
-			intent.putExtra("tutorLongitude", lastKnownLocation.getLongitude());
+			intent.putExtra("tutorLatitude", requestLatitudes.get(i));
+			intent.putExtra("tutorLongitude", requestLongitudes.get(i));
+			intent.putExtra("studentLatitude", lastKnownLocation.getLatitude());
+			intent.putExtra("studentLongitude", lastKnownLocation.getLongitude());
 			intent.putExtra("username", usernames.get(i));
 
 			startActivity(intent);
@@ -163,17 +164,17 @@ public class ImmediateStudentRequestActivity extends Activity {
   }
 
 
-  // Updates the list view that the tutor can view
+  // Updates the list view that the students can view
   public void updateListView(Location location) {
 
 	if (location != null) {
 
-	  ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
+	  ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
 
-	  final ParseGeoPoint geoPointLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
-	  query.whereNear("location", geoPointLocation);
+	  final ParseGeoPoint studentLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
+	  query.whereNear("tutorLocation", studentLocation);
 	  query.setLimit(10); // usually driver selects one out of the 10 closest locations
-	  query.whereDoesNotExist("tutorUsername");
+	  query.whereDoesNotExist("studentUsername");
 	  query.findInBackground(new FindCallback<ParseObject>() {
 		@Override
 		public void done(List<ParseObject> objects, ParseException e) {
@@ -186,18 +187,20 @@ public class ImmediateStudentRequestActivity extends Activity {
 
 			if (objects.size() > 0) {
 
+			  //Log.i("Object Size after one insertion: ", objects.size());
+
 			  for (ParseObject object : objects) {
 
-				ParseGeoPoint requestLocation = (ParseGeoPoint)object.get("location");
+				ParseGeoPoint tutorLocation = (ParseGeoPoint)object.get("tutorLocation");
 
-				if(requestLocation != null ){
+				if(tutorLocation != null ){
 
-				  Double distanceInMiles = geoPointLocation.distanceInMilesTo((ParseGeoPoint) object.get("location"));
+				  Double distanceInMiles = studentLocation.distanceInMilesTo((ParseGeoPoint) object.get("tutorLocation"));
 				  Double distanceOneDP = (double) Math.round(distanceInMiles * 10) / 10;
-				  requests.add(object.get("username").toString() + " - Distance: " + distanceOneDP.toString() + " miles");
+				  requests.add(object.get("username").toString() + "        " + distanceOneDP.toString() + " miles");
 
-				  requestLatitudes.add(requestLocation.getLatitude());
-				  requestLongitudes.add(requestLocation.getLongitude());
+				  requestLatitudes.add(tutorLocation.getLatitude());
+				  requestLongitudes.add(tutorLocation.getLongitude());
 				  usernames.add(object.getString("username"));
 
 				}
@@ -246,7 +249,7 @@ public class ImmediateStudentRequestActivity extends Activity {
    */
   public Action getIndexApiAction() {
 	Thing object = new Thing.Builder()
-			.setName("ImmediateTutorService Page") // TODO: Define a title for the content shown.
+			.setName("ImmediateStudentRequest Page") // TODO: Define a title for the content shown.
 			// TODO: Make sure this auto-generated URL is correct.
 			.setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
 			.build();

@@ -50,10 +50,10 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
   private GoogleMap mMap;
   LocationManager locationManager;
   LocationListener locationListener;
-  String userType = "student";
-  Button requestButton;
+  String userType = "tutor";
+  Button offerToTutorButton;
   Boolean requestActive = false;
-  Boolean tutorActive = true;
+  Boolean studentActive = true;
   TextView infoTextView;
 
   Handler handler = new Handler(); // used for polling
@@ -61,10 +61,10 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 
   public void checkForUpdate() {
 
-	ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
+	ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
 	query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
 
-	query.whereExists("tutorUsername");
+	query.whereExists("studentUsername");
 
 
 	query.findInBackground(new FindCallback<ParseObject>() {
@@ -73,10 +73,10 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 
 							   if (e == null && objects.size() > 0) {
 
-								 tutorActive = true;
+								 studentActive = true;
 
 								 ParseQuery<ParseUser> query2 = ParseUser.getQuery();
-								 query2.whereEqualTo("username", objects.get(0).getString("tutorUsername"));
+								 query2.whereEqualTo("username", objects.get(0).getString("studentUsername"));
 
 								 query2.findInBackground(new FindCallback<ParseUser>() {
 								   @Override
@@ -97,10 +97,10 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 										   Double distanceInMiles = tutorLocation.distanceInMilesTo(userLocation);
 
 										   if (distanceInMiles < 0.01) {
-											 infoTextView.setText("Your tutor has arrived");
+											 infoTextView.setText("Your student has arrived");
 
 
-											 ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
+											 ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
 											 query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
 
 											 query.findInBackground(new FindCallback<ParseObject>() {
@@ -120,10 +120,10 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 																		   @Override
 																		   public void run() {
 																			 infoTextView.setText("");
-																			 requestButton.setVisibility(View.VISIBLE);
-																			 requestButton.setText("Request Tutor");
+																			 offerToTutorButton.setVisibility(View.VISIBLE);
+																			 offerToTutorButton.setText("Offer to Tutor");
 																			 requestActive = false;
-																			 tutorActive = false;
+																			 studentActive = false;
 																		   }
 
 																		 }
@@ -157,7 +157,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 
 											 mMap.animateCamera(cu);
 
-											 requestButton.setVisibility(View.INVISIBLE);
+											 offerToTutorButton.setVisibility(View.INVISIBLE);
 
 											 handler.postDelayed(new Runnable() {
 
@@ -203,7 +203,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 
   public void logout(View view) {
 
-	Log.i("Info", "Logout Student Immediate Service");
+	Log.i("Info", "Logout Tutor Immediate Service");
 	ParseUser.logOut();
 
 	Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
@@ -234,14 +234,14 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
   }
 
 
-  public void requestTutor(View view) {
+  public void offerToTutor(View view) {
 
 	Log.i("Info", "Tutor Requested");
 
 	// checking if a request is active
 	if (requestActive) {
 
-	  ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Request");
+	  ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("TutorServices");
 	  query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
 
 	  query.findInBackground(new FindCallback<ParseObject>() {
@@ -258,7 +258,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 			  }
 
 			  requestActive = false;
-			  requestButton.setText("Request Tutor");
+			  offerToTutorButton.setText("Offer to Tutor");
 
 			}
 		  }
@@ -274,20 +274,20 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 
 		if (lastKnownLocation != null) {
 
-		  ParseObject request = new ParseObject("Request");
+		  ParseObject request = new ParseObject("TutorServices");
 		  request.put("username", ParseUser.getCurrentUser().getUsername());
 		  request.put("studentOrTutor", userType);
 		  ParseGeoPoint parseGeoPoint = new ParseGeoPoint(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-		  request.put("location", parseGeoPoint);
+		  request.put("tutorLocation", parseGeoPoint);
 
 		  request.saveInBackground(new SaveCallback() {
 			@Override
 			public void done(ParseException e) {
 
 			  if (e == null) {
-				requestButton.setText("Cancel Request");
+				offerToTutorButton.setText("Cancel Offer");
 				requestActive = true;
-				Log.i("Info", "Tutor Request Cancelled");
+				Log.i("Info", "Tutor Service Cancelled");
 
 				checkForUpdate();
 
@@ -316,7 +316,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
   @Override
   protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_student_immediate_request);
+	setContentView(R.layout.activity_immediate_tutor_service);
 	// Obtain the SupportMapFragment and get notified when the map is ready to be used.
 	SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
 			.findFragmentById(R.id.map);
@@ -332,11 +332,11 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 	  }
 	});
 
-	requestButton = (Button) findViewById(R.id.requestTutorButton);
+	offerToTutorButton = (Button) findViewById(R.id.offerToTutorButton);
 	infoTextView = (TextView) findViewById(R.id.infoTextView);
 
 
-	ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("Request");
+	ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("TutorServices");
 	query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
 
 	query.findInBackground(new FindCallback<ParseObject>() {
@@ -347,7 +347,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 		  if (objects.size() > 0) {
 
 			requestActive = true;
-			requestButton.setText("Cancel Request");
+			offerToTutorButton.setText("Cancel Offer");
 
 			checkForUpdate();
 
@@ -429,7 +429,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
   // Updates the map when location of user changes
   public void updateMap(Location location) {
 
-	if (tutorActive != false) {
+	if (studentActive != false) {
 
 	  LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 

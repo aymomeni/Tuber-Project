@@ -1,7 +1,6 @@
 package cs4000.tuber;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +29,7 @@ import java.util.List;
 
 
 /*
- * Displays the tutor's location and the students location on a google map
+ * Displays the students's location and the tutors location on a google map
  * using information that is send through the ImmediateStudentRequestActivity
  */
 public class StudentMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -39,9 +38,9 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
   Intent intent;
 
 
-  public void acceptRequest(View view){
+  public void acceptTutorService(View view){
 
-	ParseQuery<ParseObject> query = ParseQuery.getQuery("Request");
+	ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
 
 	query.whereEqualTo("username", intent.getStringExtra("username"));
 
@@ -55,7 +54,7 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 
 			for(ParseObject object : objects) {
 
-			  object.put("tutorUsername", ParseUser.getCurrentUser().getUsername());
+			  object.put("studentUsername", ParseUser.getCurrentUser().getUsername());
 
 			  object.saveInBackground(new SaveCallback() {
 				@Override
@@ -84,7 +83,7 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
   protected void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 
-	setContentView(R.layout.activity_tutor_location);
+	setContentView(R.layout.activity_student_map);
 
 
 	intent = getIntent();
@@ -118,13 +117,13 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 		  @Override
 		  public void onGlobalLayout(){
 
+			  LatLng studentLocation = new LatLng(intent.getDoubleExtra("studentLatitude", 0), intent.getDoubleExtra("studentLongitude", 0));
 			  LatLng tutorLocation = new LatLng(intent.getDoubleExtra("tutorLatitude", 0), intent.getDoubleExtra("tutorLongitude", 0));
-			  LatLng requestLocation = new LatLng(intent.getDoubleExtra("requestLatitude", 0), intent.getDoubleExtra("requestLongitude", 0));
 
 			  ArrayList<Marker> markers = new ArrayList<>();
 
-			  markers.add(mMap.addMarker(new MarkerOptions().position(requestLocation).title("Request Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
-			  markers.add(mMap.addMarker(new MarkerOptions().position(tutorLocation).title("Your Location")));
+			  markers.add(mMap.addMarker(new MarkerOptions().position(tutorLocation).title("Tutor Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
+			  markers.add(mMap.addMarker(new MarkerOptions().position(studentLocation).title("Your Location")));
 
 			  LatLngBounds.Builder builder = new LatLngBounds.Builder();
 			  for(Marker marker : markers) {
