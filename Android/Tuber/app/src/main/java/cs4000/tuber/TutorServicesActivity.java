@@ -8,7 +8,9 @@ import android.view.View;
 
 import com.parse.ParseUser;
 
-// Only viewed by student
+/*
+ * Displays a view for students in which tutor services are viewable
+ */
 public class TutorServicesActivity extends Activity {
 
   @Override

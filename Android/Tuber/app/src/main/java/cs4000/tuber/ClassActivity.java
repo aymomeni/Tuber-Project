@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+/*
+ * After accessing an academic class, this view displays
+ * Options that the user can select in the context of the
+ * given academic class
+ */
 public class ClassActivity extends Activity {
 
   @Override

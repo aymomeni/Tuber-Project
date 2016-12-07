@@ -28,6 +28,11 @@ import com.parse.SaveCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/*
+ * Displays the tutor's location and the students location on a google map
+ * using information that is send through the ImmediateTutorServiceActivity
+ */
 public class TutorLocationActivity extends FragmentActivity implements OnMapReadyCallback {
 
   private GoogleMap mMap;
@@ -59,19 +64,15 @@ public class TutorLocationActivity extends FragmentActivity implements OnMapRead
 				  	if(e == null){
 
 					  // pairing complete
-					  //Intent
+					  // Intent where something occures after the pairing
+
 					}
 				}
 			  });
-
 			}
 		  }
-
 		}
-
 	  }
-
-
 	});
 
 

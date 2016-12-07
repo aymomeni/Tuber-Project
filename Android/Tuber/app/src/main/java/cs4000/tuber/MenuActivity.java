@@ -9,6 +9,9 @@ import android.view.Window;
 
 import com.parse.ParseAnalytics;
 
+/*
+ * Initiates the a view in which a user can view academic classes
+ */
 public class MenuActivity extends Activity {
 
     public void pic_clicked(View view){
@@ -21,11 +24,6 @@ public class MenuActivity extends Activity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_menu);
-
-
-        //Intent intent = getIntent();
-
-        //switchToMenu();
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }

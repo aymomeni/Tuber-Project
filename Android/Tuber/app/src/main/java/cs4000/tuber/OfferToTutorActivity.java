@@ -6,6 +6,9 @@ import android.app.Activity;
 import android.util.Log;
 import android.view.View;
 
+/*
+ * Inbetween view where tutors can select options in the tutoring context
+ */
 public class OfferToTutorActivity extends Activity {
 
   @Override

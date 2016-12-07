@@ -28,10 +28,15 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Displays all students that created a immediate tutor request
+ * In list form where each element can be clicked
+ */
 public class ImmediateTutorServiceActivity extends Activity {
 
 
@@ -102,7 +107,12 @@ public class ImmediateTutorServiceActivity extends Activity {
 	locationListener = new LocationListener() {
 	  @Override
 	  public void onLocationChanged(Location location) {
+
 		updateListView(location);
+
+		ParseUser.getCurrentUser().put("location", new ParseGeoPoint(location.getLatitude(), location.getLongitude()));
+
+		ParseUser.getCurrentUser().saveInBackground();
 	  }
 
 	  @Override
@@ -184,7 +194,6 @@ public class ImmediateTutorServiceActivity extends Activity {
 
 				  Double distanceInMiles = geoPointLocation.distanceInMilesTo((ParseGeoPoint) object.get("location"));
 				  Double distanceOneDP = (double) Math.round(distanceInMiles * 10) / 10;
-
 				  requests.add(object.get("username").toString() + " - Distance: " + distanceOneDP.toString() + " miles");
 
 				  requestLatitudes.add(requestLocation.getLatitude());

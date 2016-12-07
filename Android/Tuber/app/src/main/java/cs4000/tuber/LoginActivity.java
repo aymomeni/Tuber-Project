@@ -16,6 +16,10 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
+/*
+ * Initiates the a view in which a users login information is run throught the
+ * Database/Server
+ */
 public class LoginActivity extends Activity {
 
   Button login_button, register_button;

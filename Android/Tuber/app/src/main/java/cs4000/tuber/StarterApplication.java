@@ -45,26 +45,9 @@ public class StarterApplication extends Application {
 	ParseUser.enableAutomaticUser();
 	ParseACL defaultACL = new ParseACL();
 	// Optionally enable public read access.
-	//defaultACL.setPublicReadAccess(true);
-	//defaultACL.setPublicWriteAccess(true);
+	defaultACL.setPublicReadAccess(true);
+	defaultACL.setPublicWriteAccess(true);
 	ParseACL.setDefaultACL(defaultACL, true);
 
-	// object = table
-//	ParseObject parseObject = new ParseObject("Test");
-//	parseObject.put("pasta", "cannelloni");
-//	parseObject.put("price", 4.99);
-//
-//	Log.i("StarterApplication", "Attempting to save...");
-//	parseObject.saveInBackground(new SaveCallback() {
-//
-//	  @Override
-//	  public void done(com.parse.ParseException e) {
-//		if (e == null) {
-//		  Log.i("saveInBackground", "Success... congrats!");
-//		} else {
-//		  Log.i("saveInBackground", "Ooops... " + e.toString());
-//		}
-//	  }
-//	});
   }
 }
