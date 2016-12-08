@@ -16,6 +16,8 @@ class ScheduleTutorConfirmViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = ClassListViewController.selectedClass.className
 
         confirmLabel.text = passed
         // Do any additional setup after loading the view.

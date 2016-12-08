@@ -19,6 +19,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        self.title = ClassListViewController.selectedClass.className
     }
 
     override func didReceiveMemoryWarning() {

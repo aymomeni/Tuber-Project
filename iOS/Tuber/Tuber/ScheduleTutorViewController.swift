@@ -17,6 +17,8 @@ class ScheduleTutorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = ClassListViewController.selectedClass.className
 
         dateDatePicker.minimumDate = Date()
     }

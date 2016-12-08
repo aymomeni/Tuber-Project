@@ -41,10 +41,11 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "selectClass"
         {
-            print(sender)
+            print(sender as? String)
             if let destination = segue.destination as? ClassOptionsViewController
             {
-                destination.passed = sender as? String
+                //destination.passed = sender as? String
+                destination.title = sender as? String
             }
         }
     }
@@ -71,8 +72,13 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         
         print(toPass)
         
+        selectedClass.className = toPass!
+        
         performSegue(withIdentifier: "selectClass", sender: toPass)
     }
     
+    struct selectedClass {
+        static var className = String()
+    }
     
 }

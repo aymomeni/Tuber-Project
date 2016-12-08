@@ -22,9 +22,11 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
 
         // Do any additional setup after loading the view.
         
+        self.title = ClassListViewController.selectedClass.className
+        
         //Class name in nav bar
 //        print(passed)
-        self.title = passed
+        //self.title = passed
     }
 
     override func didReceiveMemoryWarning() {
