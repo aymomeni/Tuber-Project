@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -52,6 +53,8 @@ public class ImmediateStudentRequestActivity extends Activity {
   ArrayList<String> usernames = new ArrayList<String>();
   LocationManager locationManager;
   LocationListener locationListener;
+
+  Handler handler = new Handler(); // used for polling
   /**
    * ATTENTION: This was auto-generated to implement the App Indexing API.
    * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -165,7 +168,7 @@ public class ImmediateStudentRequestActivity extends Activity {
 
 
   // Updates the list view that the students can view
-  public void updateListView(Location location) {
+  public void updateListView(final Location location) {
 
 	if (location != null) {
 
@@ -173,7 +176,7 @@ public class ImmediateStudentRequestActivity extends Activity {
 
 	  final ParseGeoPoint studentLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
 	  query.whereNear("tutorLocation", studentLocation);
-	  query.setLimit(10); // usually driver selects one out of the 10 closest locations
+	  query.setLimit(11); // usually driver selects one out of the 10 closest locations
 	  query.whereDoesNotExist("studentUsername");
 	  query.findInBackground(new FindCallback<ParseObject>() {
 		@Override
@@ -187,7 +190,7 @@ public class ImmediateStudentRequestActivity extends Activity {
 
 			if (objects.size() > 0) {
 
-			  //Log.i("Object Size after one insertion: ", objects.size());
+			  Log.i("Debug Adapter", "" + objects.size());
 
 			  for (ParseObject object : objects) {
 
@@ -209,7 +212,17 @@ public class ImmediateStudentRequestActivity extends Activity {
 
 			} else {
 
-			  requests.add("No active requests nearby");
+			  requests.add("no active tutors nearby");
+			  handler.postDelayed(new Runnable() {
+
+				@Override
+
+				public void run() {
+
+				  updateListView(location);
+
+				}
+			  }, 2000);
 			}
 
 			arrayAdapter.notifyDataSetChanged();

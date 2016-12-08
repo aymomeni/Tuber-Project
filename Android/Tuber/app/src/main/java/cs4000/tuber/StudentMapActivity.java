@@ -1,10 +1,23 @@
 package cs4000.tuber;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -23,6 +36,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import android.Manifest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +50,17 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 
   private GoogleMap mMap;
   Intent intent;
+  Button acceptTutorServiceButton;
+  LocationManager locationManager;
+
+  LocationListener locationListener;
+
 
 
   public void acceptTutorService(View view){
+
+	acceptTutorServiceButton = (Button)findViewById(R.id.acceptTutorButton);
+	acceptTutorServiceButton.setVisibility(View.INVISIBLE);
 
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
 
@@ -63,7 +85,27 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 				  	if(e == null){
 
 					  // pairing complete
-					  // Intent where something occures after the pairing
+					  new AlertDialog.Builder(StudentMapActivity.this)
+							  .setTitle("Paired")
+							  .setMessage("You paired successfully with a Tutor.")
+							  .setCancelable(false)
+							  .setNeutralButton("Directions", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+								  Intent directionsIntent = new Intent(android.content.Intent.ACTION_VIEW,
+										  Uri.parse("http://maps.google.com/maps?saddr=" + intent.getDoubleExtra("driverLatitude", 0) + "," + intent.getDoubleExtra("driverLongitude", 0) + "&daddr=" + intent.getDoubleExtra("requestLatitude", 0) + "," + intent.getDoubleExtra("requestLongitude", 0)));
+								  startActivity(directionsIntent);
+								}
+							  })
+							  .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+								  dialog.cancel();
+								}
+							  }).show();
+
+
+
 
 					}
 				}
@@ -73,11 +115,28 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 		}
 	  }
 	});
-
-
   }
 
+  @Override
+  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+	super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
+	if (requestCode == 1) {
+
+	  if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+		if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+		  locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+		  Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+		  updateMap(lastKnownLocation);
+
+		}
+	  }
+	}
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +198,72 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 	  });
 
 
+	LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+	locationListener = new LocationListener() {
+	  @Override
+	  public void onLocationChanged(Location location) {
+
+		updateMap(location);
+
+
+	  }
+
+	  @Override
+	  public void onStatusChanged(String s, int i, Bundle bundle) {
+
+	  }
+
+	  @Override
+	  public void onProviderEnabled(String s) {
+
+	  }
+
+	  @Override
+	  public void onProviderDisabled(String s) {
+
+	  }
+	};
+
+	if (Build.VERSION.SDK_INT < 23) {
+
+	  locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+	} else {
+
+	  if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+		ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+
+	  } else {
+
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+		Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+		if (lastKnownLocation != null) {
+
+		  updateMap(lastKnownLocation);
+
+		}
+
+
+	  }
+
+
+	}
+
+  }
+
+  // Updates the map when location of user changes
+  public void updateMap(Location location) {
+
+	  LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
+
+	  mMap.clear(); // clears all existing markers
+	  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 14));
+	  mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
   }
 }
