@@ -1,11 +1,15 @@
 package cs4000.tuber;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -53,7 +57,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
   String userType = "tutor";
   Button offerToTutorButton;
   Boolean requestActive = false;
-  Boolean studentActive = true;
+  Boolean studentActive = false;
   TextView infoTextView;
 
   Handler handler = new Handler(); // used for polling
@@ -61,17 +65,29 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 
   public void checkForUpdate() {
 
+	// Grabbing the tutor in an Parse Object and checking if his username exists
 	ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
 	query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
-
 	query.whereExists("studentUsername");
-
-
 	query.findInBackground(new FindCallback<ParseObject>() {
 							 @Override
 							 public void done(List<ParseObject> objects, ParseException e) {
 
 							   if (e == null && objects.size() > 0) {
+
+								 if(studentActive == false){
+
+								   new AlertDialog.Builder(ImmediateTutorServiceActivity.this)
+										   .setTitle("Paired")
+										   .setMessage("You paired successfully with a Tutor.")
+										   .setCancelable(false)
+										   .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
+											 @Override
+											 public void onClick(DialogInterface dialog, int which) {
+											   dialog.cancel();
+											 }
+										   }).show();
+								 }
 
 								 studentActive = true;
 
@@ -97,6 +113,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 										   Double distanceInMiles = tutorLocation.distanceInMilesTo(userLocation);
 
 										   if (distanceInMiles < 0.01) {
+											 infoTextView.setTextColor(Color.GREEN);
 											 infoTextView.setText("Your student has arrived");
 
 
@@ -429,15 +446,12 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
   // Updates the map when location of user changes
   public void updateMap(Location location) {
 
-	if (studentActive != false) {
-
 	  LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 
 	  mMap.clear(); // clears all existing markers
 	  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userLocation, 14));
 	  mMap.addMarker(new MarkerOptions().position(userLocation).title("Your Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
-	}
 
   }
 }
