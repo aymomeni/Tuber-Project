@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        errorLabel.text = ""
 
         // Do any additional setup after loading the view.
 //        let gameScore = PFObject(className:"GameScore")

@@ -36,6 +36,11 @@
 		97D6B3D61DF7ECF10093479E /* ClassOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */; };
 		97D6B3D81DF801630093479E /* TutorServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D71DF801630093479E /* TutorServicesViewController.swift */; };
 		97D6B3DA1DF80BDA0093479E /* TutorServicesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D91DF80BDA0093479E /* TutorServicesTableViewCell.swift */; };
+		97EEACC71DF8FDDC007F23B1 /* OfferTutorTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EEACC61DF8FDDC007F23B1 /* OfferTutorTableViewController.swift */; };
+		97EEACCB1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EEACCA1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift */; };
+		97EEACCD1DF902CD007F23B1 /* TutorViewScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EEACCC1DF902CD007F23B1 /* TutorViewScheduleTableViewController.swift */; };
+		97EEACCF1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EEACCE1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift */; };
+		97EEACD11DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EEACD01DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +96,11 @@
 		97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassOptionsViewController.swift; sourceTree = "<group>"; };
 		97D6B3D71DF801630093479E /* TutorServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorServicesViewController.swift; sourceTree = "<group>"; };
 		97D6B3D91DF80BDA0093479E /* TutorServicesTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorServicesTableViewCell.swift; sourceTree = "<group>"; };
+		97EEACC61DF8FDDC007F23B1 /* OfferTutorTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfferTutorTableViewController.swift; sourceTree = "<group>"; };
+		97EEACCA1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorViewScheduleTableViewCell.swift; sourceTree = "<group>"; };
+		97EEACCC1DF902CD007F23B1 /* TutorViewScheduleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorViewScheduleTableViewController.swift; sourceTree = "<group>"; };
+		97EEACCE1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmedAppointmentTutorViewController.swift; sourceTree = "<group>"; };
+		97EEACD01DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnconfirmedAppointmentTutorViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,10 +176,15 @@
 				9714011E1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift */,
 				9709067A1DF6B93400C68561 /* ClassListViewController.swift */,
 				9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */,
-				97D6B3D31DF7EC9C0093479E /* ClassOptionsTableViewCell.swift */,
 				97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */,
+				97D6B3D31DF7EC9C0093479E /* ClassOptionsTableViewCell.swift */,
 				97D6B3D71DF801630093479E /* TutorServicesViewController.swift */,
 				97D6B3D91DF80BDA0093479E /* TutorServicesTableViewCell.swift */,
+				97EEACC61DF8FDDC007F23B1 /* OfferTutorTableViewController.swift */,
+				97EEACCC1DF902CD007F23B1 /* TutorViewScheduleTableViewController.swift */,
+				97EEACCA1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift */,
+				97EEACCE1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift */,
+				97EEACD01DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift */,
 			);
 			path = Tuber;
 			sourceTree = "<group>";
@@ -346,15 +361,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97EEACD11DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011F1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift in Sources */,
 				9714011B1DF528490099A8DB /* LoginViewController.swift in Sources */,
 				971400EF1DF527D60099A8DB /* ViewController.swift in Sources */,
 				9709067B1DF6B93400C68561 /* ClassListViewController.swift in Sources */,
 				9709067D1DF6BAF500C68561 /* ClassTableViewCell.swift in Sources */,
 				97D6B3D81DF801630093479E /* TutorServicesViewController.swift in Sources */,
+				97EEACCD1DF902CD007F23B1 /* TutorViewScheduleTableViewController.swift in Sources */,
 				97D6B3D61DF7ECF10093479E /* ClassOptionsViewController.swift in Sources */,
+				97EEACCF1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */,
 				971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */,
+				97EEACC71DF8FDDC007F23B1 /* OfferTutorTableViewController.swift in Sources */,
+				97EEACCB1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift in Sources */,
 				97D6B3D41DF7EC9C0093479E /* ClassOptionsTableViewCell.swift in Sources */,
 				97D6B3DA1DF80BDA0093479E /* TutorServicesTableViewCell.swift in Sources */,
 			);

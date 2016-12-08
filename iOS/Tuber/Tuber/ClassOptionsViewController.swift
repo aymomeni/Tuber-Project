@@ -24,9 +24,6 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
         
         self.title = ClassListViewController.selectedClass.className
         
-        //Class name in nav bar
-//        print(passed)
-        //self.title = passed
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,6 +32,10 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
     }
     
 
+    func popToRoot(sender:UIBarButtonItem){
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+    
     /*
     // MARK: - Navigation
 
@@ -70,6 +71,10 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
         {
             performSegue(withIdentifier: "tutorServices", sender: toPass)
             
+        }
+        else if toPass == "Offer To Tutor"
+        {
+            performSegue(withIdentifier: "offerToTutor", sender: toPass)
         }
         
     }
