@@ -18,7 +18,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         self.title = ClassListViewController.selectedClass.className
     }
 
@@ -27,16 +26,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
@@ -56,12 +45,11 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         
         let currentCell = tableView.cellForRow(at: indexPath!)! as! TutorServicesTableViewCell
         
-        //        let toPass = currentCell.textLabel!.text
-        let toPass = currentCell.optionNameLabel.text
+        let selectedOption = currentCell.optionNameLabel.text
         
-        if toPass == "Schedule Tutor"
+        if selectedOption == "Schedule Tutor"
         {
-            performSegue(withIdentifier: "scheduleTutor", sender: toPass)
+            performSegue(withIdentifier: "scheduleTutor", sender: selectedOption)
             
         }
         

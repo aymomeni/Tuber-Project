@@ -12,18 +12,23 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
 
     @IBOutlet weak var optionTableView: UITableView!
     
-    var passed: String!
+    //var passed: String!
     
     var icons = [#imageLiteral(resourceName: "tutorservices"), #imageLiteral(resourceName: "studyhotspot"), #imageLiteral(resourceName: "discussion"), #imageLiteral(resourceName: "messaging"), #imageLiteral(resourceName: "offertutor")]
     var names = ["Tutor Services", "Study Hotspot", "Discussion Forum", "Messaging", "Offer To Tutor"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         
         self.title = ClassListViewController.selectedClass.className
         
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: "< Courses", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ClassOptionsViewController.back(sender:)))
+        self.navigationItem.leftBarButtonItem = newBackButton
+    }
+    
+    func back(sender: UIBarButtonItem) {
+        _ = navigationController?.popToRootViewController(animated: true)
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,20 +36,6 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
         // Dispose of any resources that can be recreated.
     }
     
-
-    func popToRoot(sender:UIBarButtonItem){
-        self.navigationController?.popToRootViewController(animated: true)
-    }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
@@ -64,17 +55,16 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
         
         let currentCell = tableView.cellForRow(at: indexPath!)! as! ClassOptionsTableViewCell
         
-        //        let toPass = currentCell.textLabel!.text
-        let toPass = currentCell.optionNameLabel.text
+        let selectedOption = currentCell.optionNameLabel.text
         
-        if toPass == "Tutor Services"
+        if selectedOption == "Tutor Services"
         {
-            performSegue(withIdentifier: "tutorServices", sender: toPass)
+            performSegue(withIdentifier: "tutorServices", sender: selectedOption)
             
         }
-        else if toPass == "Offer To Tutor"
+        else if selectedOption == "Offer To Tutor"
         {
-            performSegue(withIdentifier: "offerToTutor", sender: toPass)
+            performSegue(withIdentifier: "offerToTutor", sender: selectedOption)
         }
         
     }

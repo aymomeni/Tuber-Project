@@ -12,6 +12,7 @@ class TutorServicesTableViewCell: UITableViewCell {
 
     @IBOutlet weak var optionIconImageView: UIImageView!
     @IBOutlet weak var optionNameLabel: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

@@ -19,12 +19,16 @@ class TutorViewScheduleTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.title = ClassListViewController.selectedClass.className
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        self.navigationController?.willMove(toParentViewController: ClassOptionsViewController())
+        
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(TutorViewScheduleTableViewController.back(sender:)))
+        self.navigationItem.leftBarButtonItem = newBackButton
+    }
+    
+    func back(sender: UIBarButtonItem) {
+        navigationController!.popToViewController(navigationController!.viewControllers[2], animated: false)
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,12 +39,12 @@ class TutorViewScheduleTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
+        //Will be two, confirmed and unconfirmed
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        // TODO: DB query for appointments
         return 3
     }
     
@@ -51,7 +55,6 @@ class TutorViewScheduleTableViewController: UITableViewController {
         cell.dateLabel.text = dates[indexPath.row]
         cell.durationLabel.text = duration[indexPath.row]
         cell.subjectLabel.text = subjects[indexPath.row]
-        
         
         return cell
     }

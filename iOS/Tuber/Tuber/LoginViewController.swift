@@ -20,14 +20,6 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         errorLabel.text = ""
-
-        // Do any additional setup after loading the view.
-//        let gameScore = PFObject(className:"GameScore")
-//        gameScore["score"] = 1337
-//        gameScore["playerName"] = "Sean Plott"
-//        gameScore["cheatMode"] = false
-//        gameScore.saveInBackground()
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,7 +29,7 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButtonPress(_ sender: Any) {
         
-        //check w/ database
+        //TODO: check w/ database
         
         if (emailTextField.text == "test" && passwordTextField.text == "test")
         {
@@ -48,15 +40,5 @@ class LoginViewController: UIViewController {
             errorLabel.text = "Invalid Login Credentials"
         }
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
