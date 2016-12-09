@@ -79,7 +79,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 
 								   new AlertDialog.Builder(ImmediateTutorServiceActivity.this)
 										   .setTitle("Paired")
-										   .setMessage("You paired successfully with a Tutor.")
+										   .setMessage("You paired successfully with a Student.")
 										   .setCancelable(false)
 										   .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
 											 @Override
@@ -112,7 +112,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 
 										   Double distanceInMiles = tutorLocation.distanceInMilesTo(userLocation);
 
-										   if (distanceInMiles < 0.01) {
+										   if (distanceInMiles < 0.5) {
 											 infoTextView.setTextColor(Color.GREEN);
 											 infoTextView.setText("Your student has arrived");
 
