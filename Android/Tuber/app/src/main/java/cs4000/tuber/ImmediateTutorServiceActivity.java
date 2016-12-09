@@ -151,7 +151,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 
 											 Double distanceOneDP = (double) Math.round(distanceInMiles * 10) / 10;
 
-											 infoTextView.setText("Your tutor is " + distanceOneDP.toString() + " miles away!");
+											 infoTextView.setText("Your student is " + distanceOneDP.toString() + " miles away!");
 
 
 											 LatLng tutorLocationLatLng = new LatLng(tutorLocation.getLatitude(), tutorLocation.getLongitude());
