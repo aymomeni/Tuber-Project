@@ -33,7 +33,7 @@
         android:layout_marginTop="10pt"
         android:background="@color/colorPrimary_Grey"
         android:ems="5"
-        android:hint="Username"
+        android:hint="University Email"
         android:inputType="textEmailAddress"
         android:paddingBottom="2pt"
         android:paddingLeft="5pt"
