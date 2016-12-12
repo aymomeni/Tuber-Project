@@ -36,7 +36,7 @@ class ScheduleTutorViewController: UIViewController {
         let date = format.string(from: dateDatePicker.date)
         let duration =  durationTextField.text
         let subject = subjectTextField.text
-        let toPass = date + " " + duration! + " " + subject!
+        let toPass = "Date/Time: " + date + " \nDuration (Hours): " + duration! + " \nSubject: " + subject!
         
         print(toPass)
         
