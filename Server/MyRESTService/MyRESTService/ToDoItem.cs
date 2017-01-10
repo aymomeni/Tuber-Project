@@ -35,6 +35,20 @@ namespace ToDoList
 
     }
 
+    public class TutorUserItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string tutorCourse { get; set; }
+
+        [DataMember]
+        public string latitude { get; set; }
+
+        [DataMember]
+        public string longitude { get; set; }
+    }
 
 
 

@@ -22,7 +22,6 @@ namespace ToDoList
             return Products.Instance.ProductList;
         }
 
-    
         public MakeUserItem MakeUser(UserItem item)
         {
             lock (this)
@@ -143,5 +142,67 @@ namespace ToDoList
                 }
             }
         }
+
+        public void MakeTutorAvailable(TutorUserItem data)
+        {
+            String userEmail = data.userEmail;
+            String tutorCourse = data.tutorCourse;
+            String latitude = data.latitude;
+            String longitude = data.longitude;
+
+            String returnedUserEmail = "";
+            String returnedCourseName = "";
+
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    // Verify the user is able to tutor the course specified 
+                    MySqlCommand command = conn.CreateCommand();
+
+                    command.CommandText = "SELECT * FROM tutor_courses WHERE email = ?userEmail AND name = ?tutorCourse";
+                    command.Parameters.AddWithValue("userEmail", userEmail);
+                    command.Parameters.AddWithValue("tutorCourse", tutorCourse);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            returnedUserEmail = reader.GetString("email");
+                            returnedCourseName = reader.GetString("name");
+                        }
+                    }
+
+                    if (userEmail == returnedUserEmail && tutorCourse == returnedCourseName)
+                    {
+                        command.CommandText = "INSERT INTO available_tutors VALUES (?userEmail, ?tutorCourse, ?latitude, ?longitude)";
+                        //command.Parameters.AddWithValue("userEmail", userEmail);
+                        //command.Parameters.AddWithValue("tutorCourse", tutorCourse);
+                        command.Parameters.AddWithValue("latitude", latitude);
+                        command.Parameters.AddWithValue("longitude", longitude);
+
+                        if (command.ExecuteNonQuery() > 0)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                        }
+                        else
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        }
+                    }
+                    else
+                    {
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
     }
 }
