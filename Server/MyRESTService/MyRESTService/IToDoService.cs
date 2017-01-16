@@ -56,6 +56,21 @@ namespace ToDoList
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
         void MakeTutorAvailable(TutorUserItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "DELETE",
+            UriTemplate = "/deletetutoravailable/{userEmail}",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        void DeleteTutorAvailable(string userEmail);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/findavailabletutors",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        List<AvailableTutorUserItem> FindAvailableTutors(TutorUserItem data);
     }
 }
-

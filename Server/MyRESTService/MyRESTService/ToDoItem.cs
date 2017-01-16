@@ -50,7 +50,23 @@ namespace ToDoList
         public string longitude { get; set; }
     }
 
+    public class AvailableTutorUserItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
 
+        [DataMember]
+        public string tutorCourse { get; set; }
+
+        [DataMember]
+        public double latitude { get; set; }
+
+        [DataMember]
+        public double longitude { get; set; }
+
+        [DataMember]
+        public double distanceFromStudent { get; set; }
+    }
 
 
 

@@ -8,6 +8,8 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 using MySql.Data.MySqlClient;
+using System.Device.Location;
+
 
 namespace ToDoList
 {
@@ -15,8 +17,8 @@ namespace ToDoList
     // NOTE: In order to launch WCF Test Client for testing this service, please select ProductRESTService.svc or ProductRESTService.svc.cs at the Solution Explorer and start debugging.
     public class ProductRESTService : IToDoService
     {
-        //public const string connectionString = "Server=maria.eng.utah.edu;Database=tuber;UID=tobin;Password=traflip53";
-        public const string connectionString = "Server=sql3.freemysqlhosting.net;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW;";
+        public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
+        //public const string connectionString = "Server=sql3.freemysqlhosting.net;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW;";
         public List<Product> GetProductList()
         {
             return Products.Instance.ProductList;
@@ -132,7 +134,7 @@ namespace ToDoList
 
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                             return user;
-           
+
                         }
                     }
                     catch (Exception e)
@@ -145,64 +147,183 @@ namespace ToDoList
 
         public void MakeTutorAvailable(TutorUserItem data)
         {
-            String userEmail = data.userEmail;
-            String tutorCourse = data.tutorCourse;
-            String latitude = data.latitude;
-            String longitude = data.longitude;
-
-            String returnedUserEmail = "";
-            String returnedCourseName = "";
-
-            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            lock (this)
             {
-                try
+
+                String userEmail = data.userEmail;
+                String tutorCourse = data.tutorCourse;
+                String latitude = data.latitude;
+                String longitude = data.longitude;
+
+                String returnedUserEmail = "";
+                String returnedCourseName = "";
+
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
-                    conn.Open();
-
-                    // Verify the user is able to tutor the course specified 
-                    MySqlCommand command = conn.CreateCommand();
-
-                    command.CommandText = "SELECT * FROM tutor_courses WHERE email = ?userEmail AND name = ?tutorCourse";
-                    command.Parameters.AddWithValue("userEmail", userEmail);
-                    command.Parameters.AddWithValue("tutorCourse", tutorCourse);
-
-                    using (MySqlDataReader reader = command.ExecuteReader())
+                    try
                     {
-                        while (reader.Read())
+                        conn.Open();
+
+                        // Verify the user is able to tutor the course specified 
+                        MySqlCommand command = conn.CreateCommand();
+
+                        command.CommandText = "SELECT * FROM tutor_courses WHERE email = ?userEmail AND name = ?tutorCourse";
+                        command.Parameters.AddWithValue("userEmail", userEmail);
+                        command.Parameters.AddWithValue("tutorCourse", tutorCourse);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
                         {
-                            returnedUserEmail = reader.GetString("email");
-                            returnedCourseName = reader.GetString("name");
+                            while (reader.Read())
+                            {
+                                returnedUserEmail = reader.GetString("email");
+                                returnedCourseName = reader.GetString("name");
+                            }
                         }
-                    }
 
-                    if (userEmail == returnedUserEmail && tutorCourse == returnedCourseName)
-                    {
-                        command.CommandText = "INSERT INTO available_tutors VALUES (?userEmail, ?tutorCourse, ?latitude, ?longitude)";
-                        //command.Parameters.AddWithValue("userEmail", userEmail);
-                        //command.Parameters.AddWithValue("tutorCourse", tutorCourse);
-                        command.Parameters.AddWithValue("latitude", latitude);
-                        command.Parameters.AddWithValue("longitude", longitude);
-
-                        if (command.ExecuteNonQuery() > 0)
+                        if (userEmail == returnedUserEmail && tutorCourse == returnedCourseName)
                         {
-                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                            command.CommandText = "INSERT INTO available_tutors VALUES (?userEmail, ?tutorCourse, ?latitude, ?longitude)";
+                            //command.Parameters.AddWithValue("userEmail", userEmail);
+                            //command.Parameters.AddWithValue("tutorCourse", tutorCourse);
+                            command.Parameters.AddWithValue("latitude", latitude);
+                            command.Parameters.AddWithValue("longitude", longitude);
+
+                            if (command.ExecuteNonQuery() > 0)
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                            }
                         }
                         else
                         {
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                         }
                     }
-                    else
+                    catch (Exception e)
                     {
-                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        throw e;
                     }
-                }
-                catch (Exception e)
-                {
-                    throw e;
                 }
             }
         }
 
+        /// <summary>
+        /// Method called to remove tutor from the available_tutor table.
+        /// </summary>
+        /// <param name="userEmail"></param>
+        public void DeleteTutorAvailable(string userEmail)
+        {
+            lock (this)
+            {
+                String returnedUserEmail = "";
+
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+
+                        MySqlCommand command = conn.CreateCommand();
+                        command.CommandText = "SELECT email FROM available_tutors WHERE email = ?userEmail";
+                        command.Parameters.AddWithValue("userEmail", userEmail);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                returnedUserEmail = reader.GetString("email");
+                            }
+                        }
+
+                        if (userEmail == returnedUserEmail)
+                        {
+                            command.CommandText = "DELETE FROM available_tutors WHERE email = ?userEmail";
+
+                            if (command.ExecuteNonQuery() >= 0)
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                            }
+                        }
+                        else
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        throw e;
+                    }
+                }
+            }
+        }
+
+        public List<AvailableTutorUserItem> FindAvailableTutors(TutorUserItem item)
+        {
+            lock (this)
+            {
+                String returnedTutorEmail = "";
+                String returnedCourseName = "";
+                Double returnedTutorLatitude = 0;
+                Double returnedTutorLongitude = 0;
+
+                List<AvailableTutorUserItem> availableTutors = new List<AvailableTutorUserItem>();
+
+                var studentCoord = new GeoCoordinate(Convert.ToDouble(item.latitude), Convert.ToDouble(item.longitude));
+
+
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+
+                        MySqlCommand command = conn.CreateCommand();
+                        command.CommandText = "SELECT * FROM available_tutors WHERE course = ?courseName";
+                        command.Parameters.AddWithValue("courseName", item.tutorCourse);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                returnedTutorEmail = reader.GetString("email");
+                                returnedCourseName = reader.GetString("course");
+                                returnedTutorLatitude = reader.GetDouble("latitude");
+                                returnedTutorLongitude = reader.GetDouble("longitude");
+
+                                var tutorCoord = new GeoCoordinate(returnedTutorLatitude, returnedTutorLongitude);
+
+                                double distanceToTutor = studentCoord.GetDistanceTo(tutorCoord);
+
+                                if (distanceToTutor < 8046.72)
+                                {
+                                    AvailableTutorUserItem tutor = new AvailableTutorUserItem();
+                                    tutor.userEmail = returnedTutorEmail;
+                                    tutor.tutorCourse = returnedCourseName;
+                                    tutor.latitude = returnedTutorLatitude;
+                                    tutor.longitude = returnedTutorLongitude;
+                                    tutor.distanceFromStudent = distanceToTutor / 1609.34;
+
+                                    availableTutors.Add(tutor);
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                        throw e;
+                    }
+                }
+
+                return availableTutors;
+            }
+        }
     }
 }

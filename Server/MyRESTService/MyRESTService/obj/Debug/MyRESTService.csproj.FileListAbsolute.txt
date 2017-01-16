@@ -63,9 +63,6 @@ C:\Users\brand\Desktop\MyRESTService\MyRESTService\bin\zh-Hans\System.Spatial.re
 C:\Users\brand\Desktop\MyRESTService\MyRESTService\bin\zh-Hant\System.Spatial.resources.dll
 C:\Users\brand\Desktop\MyRESTService\MyRESTService\obj\Debug\MyRESTService.dll
 C:\Users\brand\Desktop\MyRESTService\MyRESTService\obj\Debug\MyRESTService.pdb
-C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.csprojResolveAssemblyReference.cache
-C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.dll
-C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.pdb
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\MyRESTService.dll.config
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\MyRESTService.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\MyRESTService.pdb
@@ -123,3 +120,6 @@ C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\ko\System.Sp
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\ru\System.Spatial.resources.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\zh-Hans\System.Spatial.resources.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\zh-Hant\System.Spatial.resources.dll
+C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.dll
+C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.pdb
+C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.csprojResolveAssemblyReference.cache

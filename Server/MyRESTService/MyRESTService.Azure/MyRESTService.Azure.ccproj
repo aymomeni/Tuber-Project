@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>2.9</ProductVersion>
-    <ProjectGuid>071e1c51-8fb7-4c4f-90e0-4509c0e4ff70</ProjectGuid>
+    <ProjectGuid>fa92f551-e8ec-44b4-a15d-86581a8c688e</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MyRESTService.Azure</RootNamespace>
