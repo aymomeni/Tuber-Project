@@ -98,6 +98,54 @@ namespace ToDoList
         public string userToken { get; set; }
     }
 
+    public class StudentTutorRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string requestedTutorEmail { get; set; }
+
+        [DataMember]
+        public string studentLatitude { get; set; }
+
+        [DataMember]
+        public string studentLongitude { get; set; }
+    }
+
+    public class StudentTutorPairedItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string requestedTutorEmail { get; set; }
+
+        [DataMember]
+        public string tutorCourse { get; set; }
+
+        [DataMember]
+        public string studentLatitude { get; set; }
+
+        [DataMember]
+        public string studentLongitude { get; set; }
+
+        [DataMember]
+        public string tutorLatitude { get; set; }
+
+        [DataMember]
+        public string tutorLongitude { get; set; }
+
+        [DataMember]
+        public int session_status { get; set; }
+    }
+
 
 
 

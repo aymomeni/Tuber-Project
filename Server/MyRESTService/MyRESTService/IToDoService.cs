@@ -80,5 +80,13 @@ namespace ToDoList
            ResponseFormat = WebMessageFormat.Json,
            BodyStyle = WebMessageBodyStyle.Bare)]
         List<AvailableTutorUserItem> FindAvailableTutors(TutorUserItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/pairstudenttutor",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StudentTutorPairedItem PairStudentTutor(StudentTutorRequestItem data);
     }
 }

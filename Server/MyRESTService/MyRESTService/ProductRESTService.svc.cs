@@ -375,6 +375,109 @@ namespace ToDoList
             }
         }
 
+        public StudentTutorPairedItem PairStudentTutor(StudentTutorRequestItem item)
+        {
+            lock (this)
+            {
+
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    // Check that the tutor is still available 
+                    String returnedTutorEmail = "";
+                    String returnedCourseName = "";
+                    String returnedTutorLatitude = "";
+                    String returnedTutorLongitude = "";
+
+                    String tutorEmail = item.requestedTutorEmail;
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT * FROM available_tutors WHERE email = ?tutorEmail";
+                            command.Parameters.AddWithValue("tutorEmail", tutorEmail);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedTutorEmail = reader.GetString("email");
+                                    returnedCourseName = reader.GetString("course");
+                                    returnedTutorLatitude = reader.GetString("latitude");
+                                    returnedTutorLongitude = reader.GetString("longitude");
+                                }
+                            }
+
+                            if (returnedTutorEmail == item.requestedTutorEmail)
+                            {
+                                // Remove tutor from available_tutor table
+                                command.CommandText = "DELETE FROM available_tutors WHERE email = ?tutorEmail";
+
+                                if (command.ExecuteNonQuery() >= 0)
+                                {
+                                    // Insert student & tutor into the tutor_sesssion table with session status of 0 -> not started
+                                    command.CommandText = "INSERT INTO tutor_sessions VALUES (?studentEmail, ?tutorEmail, ?course, ?studentLatitude, ?studentLongitude, ?tutorLatitude, ?tutorLongitude, ?session_status)";
+                                    command.Parameters.AddWithValue("studentEmail", item.userEmail);
+                                    command.Parameters.AddWithValue("course", returnedCourseName);
+                                    command.Parameters.AddWithValue("studentLatitude", item.studentLatitude);
+                                    command.Parameters.AddWithValue("studentLongitude", item.studentLongitude);
+                                    command.Parameters.AddWithValue("tutorLatitude", returnedTutorLatitude);
+                                    command.Parameters.AddWithValue("tutorLongitude", returnedTutorLongitude);
+                                    command.Parameters.AddWithValue("session_status", 0);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        StudentTutorPairedItem paired = new StudentTutorPairedItem();
+                                        paired.userEmail = item.userEmail;
+                                        paired.userToken = item.userToken;
+                                        paired.requestedTutorEmail = item.requestedTutorEmail;
+                                        paired.tutorCourse = returnedCourseName;
+                                        paired.studentLatitude = item.studentLatitude;
+                                        paired.studentLongitude = item.studentLongitude;
+                                        paired.tutorLatitude = returnedTutorLatitude;
+                                        paired.tutorLongitude = returnedTutorLongitude;
+                                        paired.session_status = 0;
+
+                                        return paired;
+                                    }
+                                    else
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                        return new StudentTutorPairedItem();
+                                    }
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new StudentTutorPairedItem();
+                                }
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
+                                return new StudentTutorPairedItem();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new StudentTutorPairedItem();
+                }
+            }
+        }
+
+
         private Boolean checkUserToken(String userEmail, String userToken)
         {
             using (MySqlConnection conn = new MySqlConnection(connectionString))
