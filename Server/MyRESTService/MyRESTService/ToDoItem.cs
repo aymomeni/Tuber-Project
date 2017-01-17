@@ -18,11 +18,29 @@ namespace ToDoList
         [DataMember]
         public string userPassword { get; set; }
 
-        [DataMember]
-        public ArrayList userCourses { get; set; }
+        //[DataMember]
+        //public ArrayList userCourses { get; set; }
 
         //[DataMember]
         //public string UserToken { get; set; }
+    }
+
+    public class VerifiedUserItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userPassword { get; set; }
+
+        [DataMember]
+        public ArrayList userStudentCourses { get; set; }
+
+        [DataMember]
+        public ArrayList userTutorCourses { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
     }
 
     public class MakeUserItem
@@ -39,6 +57,9 @@ namespace ToDoList
     {
         [DataMember]
         public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
 
         [DataMember]
         public string tutorCourse { get; set; }
@@ -66,6 +87,15 @@ namespace ToDoList
 
         [DataMember]
         public double distanceFromStudent { get; set; }
+    }
+
+    public class DeleteTutorUserItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
     }
 
 

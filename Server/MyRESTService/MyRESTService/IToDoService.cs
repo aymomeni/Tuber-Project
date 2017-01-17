@@ -44,7 +44,7 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        UserItem VerifyUser(UserItem data);
+        VerifiedUserItem VerifyUser(UserItem data);
 
         /// <summary>
         /// Accepts HTTP request to make a tutor available.
@@ -57,13 +57,21 @@ namespace ToDoList
             BodyStyle = WebMessageBodyStyle.Bare)]
         void MakeTutorAvailable(TutorUserItem data);
 
+        //[OperationContract]
+        //[WebInvoke(Method = "DELETE",
+        //    UriTemplate = "/deletetutoravailable/{userEmail}",
+        //    RequestFormat = WebMessageFormat.Json,
+        //    ResponseFormat = WebMessageFormat.Json,
+        //    BodyStyle = WebMessageBodyStyle.Bare)]
+        //void DeleteTutorAvailable(string userEmail);
+
         [OperationContract]
-        [WebInvoke(Method = "DELETE",
-            UriTemplate = "/deletetutoravailable/{userEmail}",
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json,
-            BodyStyle = WebMessageBodyStyle.Bare)]
-        void DeleteTutorAvailable(string userEmail);
+        [WebInvoke(Method = "POST",
+        UriTemplate = "/deletetutoravailable",
+        RequestFormat = WebMessageFormat.Json,
+        ResponseFormat = WebMessageFormat.Json,
+        BodyStyle = WebMessageBodyStyle.Bare)]
+        void DeleteTutorAvailable(DeleteTutorUserItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
