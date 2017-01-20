@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		559766F81E31533D00C4DE0C /* Registration2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559766F71E31533D00C4DE0C /* Registration2ViewController.swift */; };
+		55A327011E2EE34B007B725E /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A327001E2EE34B007B725E /* RegistrationViewController.swift */; };
 		9709067B1DF6B93400C68561 /* ClassListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067A1DF6B93400C68561 /* ClassListViewController.swift */; };
 		9709067D1DF6BAF500C68561 /* ClassTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */; };
 		971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971400EC1DF527D60099A8DB /* AppDelegate.swift */; };
@@ -61,6 +63,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		559766F71E31533D00C4DE0C /* Registration2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Registration2ViewController.swift; sourceTree = "<group>"; };
+		55A327001E2EE34B007B725E /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		9709067A1DF6B93400C68561 /* ClassListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassListViewController.swift; sourceTree = "<group>"; };
 		9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassTableViewCell.swift; sourceTree = "<group>"; };
 		971400E91DF527D60099A8DB /* Tuber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tuber.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,6 +176,8 @@
 				971400F51DF527D60099A8DB /* LaunchScreen.storyboard */,
 				971400F81DF527D60099A8DB /* Info.plist */,
 				9714011A1DF528490099A8DB /* LoginViewController.swift */,
+				55A327001E2EE34B007B725E /* RegistrationViewController.swift */,
+				559766F71E31533D00C4DE0C /* Registration2ViewController.swift */,
 				9714011C1DF52C130099A8DB /* ScheduleTutorViewController.swift */,
 				9714011E1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift */,
 				9709067A1DF6B93400C68561 /* ClassListViewController.swift */,
@@ -365,10 +371,12 @@
 				9714011F1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift in Sources */,
 				9714011B1DF528490099A8DB /* LoginViewController.swift in Sources */,
 				971400EF1DF527D60099A8DB /* ViewController.swift in Sources */,
+				559766F81E31533D00C4DE0C /* Registration2ViewController.swift in Sources */,
 				9709067B1DF6B93400C68561 /* ClassListViewController.swift in Sources */,
 				9709067D1DF6BAF500C68561 /* ClassTableViewCell.swift in Sources */,
 				97D6B3D81DF801630093479E /* TutorServicesViewController.swift in Sources */,
 				97EEACCD1DF902CD007F23B1 /* TutorViewScheduleTableViewController.swift in Sources */,
+				55A327011E2EE34B007B725E /* RegistrationViewController.swift in Sources */,
 				97D6B3D61DF7ECF10093479E /* ClassOptionsViewController.swift in Sources */,
 				97EEACCF1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */,
