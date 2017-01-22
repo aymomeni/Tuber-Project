@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16C53a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D17a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -320,11 +320,12 @@
                     <connections>
                         <outlet property="servicesTableView" destination="mq0-ia-NTL" id="KXo-V7-tHF"/>
                         <segue destination="EtH-EL-Lam" kind="show" identifier="scheduleTutor" id="OEm-4R-y9o"/>
+                        <segue destination="Wqa-ss-kc7" kind="show" identifier="immediateRequest" id="faO-Ka-0b5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="91g-TI-ruF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2908" y="36"/>
+            <point key="canvasLocation" x="2906" y="36"/>
         </scene>
         <!--Offer Tutor Table View Controller-->
         <scene sceneID="eYa-9f-zEX">
@@ -357,6 +358,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="UGW-Ob-ttF" kind="show" id="MO3-H7-wef"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="viewRequestsSchedule" rowHeight="80" id="7Ce-2s-3V5" customClass="viewRequestSchedule">
                                         <rect key="frame" x="0.0" y="80" width="375" height="80"/>
@@ -394,6 +398,42 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T5F-Aa-kkp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2100" y="752"/>
+        </scene>
+        <!--Immediate Tutor Request View Controller-->
+        <scene sceneID="j1E-SY-ARA">
+            <objects>
+                <viewController id="UGW-Ob-ttF" customClass="ImmediateTutorRequestViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="E5C-Rk-aCt"/>
+                        <viewControllerLayoutGuide type="bottom" id="b3G-W7-VIo"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eJU-ZB-sec">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="k8c-Sm-L1A">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="598"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTS-Dx-N1y">
+                                <rect key="frame" x="137" y="616" width="100" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Begin Tutoring"/>
+                                <connections>
+                                    <action selector="beginTutoring:" destination="UGW-Ob-ttF" eventType="touchUpInside" id="TO4-3h-6jz"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="beginTutoringButton" destination="eTS-Dx-N1y" id="2CQ-Ce-vUz"/>
+                        <outlet property="currentLocationMap" destination="k8c-Sm-L1A" id="JYv-0t-TNn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SHY-G2-MOB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2853.5999999999999" y="1513.4932533733136"/>
         </scene>
         <!--Tutor View Schedule Table View Controller-->
         <scene sceneID="4Ie-TD-uBp">
@@ -567,6 +607,10 @@
                                     <segue destination="Kpc-GY-ED4" kind="show" id="goH-hb-bAZ"/>
                                 </connections>
                             </button>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="1cI-Ra-cFP">
+                                <rect key="frame" x="125" y="294" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -695,7 +739,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="noI-dK-QLr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3247" y="-1058"/>
+            <point key="canvasLocation" x="5399" y="36"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="b93-d8-del">
@@ -715,6 +759,67 @@
             </objects>
             <point key="canvasLocation" x="321" y="36"/>
         </scene>
+        <!--Tutor Services-->
+        <scene sceneID="WTc-Iz-b9d">
+            <objects>
+                <viewController id="Wqa-ss-kc7" customClass="TutorServicesViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="B4l-2x-Wlm"/>
+                        <viewControllerLayoutGuide type="bottom" id="KVo-BV-mdI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="oSD-BC-qlH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TDy-g7-Yz0">
+                                <rect key="frame" x="16" y="0.0" width="343" height="325"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="tutorServices" rowHeight="80" id="nYS-Lp-jJj" customClass="TutorServicesTableViewCell" customModule="Tuber" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="343" height="80"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nYS-Lp-jJj" id="sxC-Re-Wvr">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="79"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KXs-wF-nYC">
+                                                    <rect key="frame" x="8" y="3" width="68" height="68"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9sh-l2-iwy">
+                                                    <rect key="frame" x="84" y="17" width="251" height="41"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="optionIconImageView" destination="KXs-wF-nYC" id="MVd-P1-WDq"/>
+                                            <outlet property="optionNameLabel" destination="9sh-l2-iwy" id="yCF-RM-gZd"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="Wqa-ss-kc7" id="tJR-lv-MMl"/>
+                                    <outlet property="delegate" destination="Wqa-ss-kc7" id="U8G-eK-8rR"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Tutor Services" id="oOI-Dl-gEu"/>
+                    <connections>
+                        <outlet property="servicesTableView" destination="TDy-g7-Yz0" id="mMP-l4-sRo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ydr-FL-Ctc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2905" y="-758"/>
+        </scene>
     </scenes>
     <resources>
         <image name="immediaterequest" width="260" height="260"/>
@@ -722,7 +827,7 @@
         <image name="viewschedule" width="260" height="260"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Biy-uC-Rhh"/>
         <segue reference="w3u-QR-4nb"/>
+        <segue reference="Biy-uC-Rhh"/>
     </inferredMetricsTieBreakers>
 </document>
