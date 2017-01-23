@@ -63,8 +63,8 @@ class ImmediateTutorRequestViewController: UIViewController, CLLocationManagerDe
         request.httpMethod = "POST"
         
         //getting values from text fields
-        let userEmail = "anne@cox.net"
-        let userToken = "127ef466-2210-4b87-9f39-06cacd4b6cf5"
+        let userEmail = "u0820304@utah.edu"
+        let userToken = "89a77f42-2b95-4ada-9eff-cd00f9110610"
         let tutorCourse = "CS 4400"//ClassListViewController.selectedClass.className
         let latitude = location?.coordinate.latitude
         let longitude = location?.coordinate.longitude
@@ -89,22 +89,23 @@ class ImmediateTutorRequestViewController: UIViewController, CLLocationManagerDe
             
             //parsing the response
             do {
-                //converting resonse to NSDictionary
-                let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-                
-                //parsing the json
-                if let parseJSON = myJSON {
-                    
-                    //creating a string
-                    var msg : String!
-                    
-                    //getting the json response
-                    msg = parseJSON["message"] as! String?
-                    
-                    //printing the response
-                    print(msg)
-                    
-                }
+                print(response)
+//                //converting resonse to NSDictionary
+//                let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+//                
+//                //parsing the json
+//                if let parseJSON = myJSON {
+//                    
+//                    //creating a string
+//                    var msg : String!
+//                    
+//                    //getting the json response
+//                    msg = parseJSON["message"] as! String?
+//                    
+//                    //printing the response
+//                    print(msg)
+//                    
+//                }
             } catch {
                 print(error)
             }
