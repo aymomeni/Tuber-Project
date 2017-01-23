@@ -68,7 +68,7 @@ class LoginViewController: UIViewController {
 //                
                 print("made it")
                 
-                let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSArray
+                let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
                 
                 print(myJSON)
                 
