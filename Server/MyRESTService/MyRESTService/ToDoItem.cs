@@ -25,6 +25,39 @@ namespace ToDoList
         //public string UserToken { get; set; }
     }
 
+    public class CreateUserItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userPassword { get; set; }
+
+        [DataMember]
+        public string userFirstName { get; set; }
+
+        [DataMember]
+        public string userLastName { get; set; }
+
+        [DataMember]
+        public string userBillingAddress { get; set; }
+
+        [DataMember]
+        public string userBillingCity { get; set; }
+
+        [DataMember]
+        public string userBillingState { get; set; }
+
+        [DataMember]
+        public string userBillingCCNumber { get; set; }
+
+        [DataMember]
+        public string userBillingCCExpDate { get; set; }
+
+        [DataMember]
+        public string userBillingCCV { get; set; }
+    }
+
     public class VerifiedUserItem
     {
         [DataMember]
@@ -146,7 +179,65 @@ namespace ToDoList
         public int session_status { get; set; }
     }
 
+    public class CreateStudyHotspotRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
 
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string latitude { get; set; }
+
+        [DataMember]
+        public string longitude { get; set; }
+    }
+
+    public class StudyHotspotItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string latitude { get; set; }
+
+        [DataMember]
+        public string longitude { get; set; }
+    }
+
+    public class AvailableStudyHotspotItem
+    {
+        [DataMember]
+        public string hotspotID { get; set; }
+
+        [DataMember]
+        public string ownerEmail { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public double latitude { get; set; }
+
+        [DataMember]
+        public double longitude { get; set; }
+
+        [DataMember]
+        public string student_count { get; set; }
+
+        [DataMember]
+        public double distanceToHotspot { get; set; }
+    }
 
 
 

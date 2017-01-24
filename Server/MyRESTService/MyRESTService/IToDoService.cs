@@ -24,13 +24,21 @@ namespace ToDoList
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
+        //[OperationContract]
+        //[WebInvoke(Method = "POST",
+        //    UriTemplate = "/makeuser",
+        //    RequestFormat = WebMessageFormat.Json,
+        //    ResponseFormat = WebMessageFormat.Json,
+        //    BodyStyle = WebMessageBodyStyle.Bare)]
+        //MakeUserItem MakeUser(UserItem data);
+
         [OperationContract]
         [WebInvoke(Method = "POST",
-            UriTemplate = "/makeuser",
+            UriTemplate = "/createuser",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        MakeUserItem MakeUser(UserItem data);
+        MakeUserItem CreateUser(CreateUserItem data);
 
         /// <summary>
         /// Accepts HTTP request to verify user credentials received match what is in the database 
@@ -88,5 +96,21 @@ namespace ToDoList
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
         StudentTutorPairedItem PairStudentTutor(StudentTutorRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/createstudyhotspot",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        void CreateStudyHotspot(CreateStudyHotspotRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/findstudyhotspots",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        List<AvailableStudyHotspotItem> FindStudyHotspots(StudyHotspotItem data);
     }
 }

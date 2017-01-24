@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.ServiceModel.Web;
 using System.Net;
 using System.Collections;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
 using System.Text;
 using MySql.Data.MySqlClient;
 using System.Device.Location;
+using System.Security.Cryptography;
 
 
 namespace ToDoList
@@ -18,23 +16,22 @@ namespace ToDoList
     public class ProductRESTService : IToDoService
     {
         //public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
-        //public const string connectionString = "Server=sql3.freemysqlhosting.net;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW;";
 
         public const string connectionString = "Server=23.99.55.197;Database=tuber;UID=tobin;Password=Redpack!99!!";
 
-       // public const string connectionString = "Server=us-cdbr-azure-west-b.cleardb.com;Database=tuber;UID=b7b701147be147;Password=9d871255";
         public List<Product> GetProductList()
         {
             return Products.Instance.ProductList;
         }
 
-        public MakeUserItem MakeUser(UserItem item)
+        public MakeUserItem CreateUser(CreateUserItem item)
         {
-            lock (this)
+            lock(this)
             {
-                String userEmail = item.userEmail;
-                String userPassword = item.userPassword;
+                // Create password hash to store in DB
+                String hashValue = computeHash(item.userPassword, null);
 
+                // Store user information in DB
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     try
@@ -42,15 +39,23 @@ namespace ToDoList
                         conn.Open();
 
                         MySqlCommand command = conn.CreateCommand();
-                        command.CommandText = "insert into Users2 (userEmail, userPassword) values (?userEmail, ?userPassword)";
-                        command.Parameters.AddWithValue("userEmail", userEmail);
-                        command.Parameters.AddWithValue("userPassword", userPassword);
+                        command.CommandText = "INSERT INTO users VALUES (?userEmail, ?hashValue, ?userFirstName, ?userLastName, ?userBillingAddress, ?userBillingCity, ?userBillingState, ?userBillingCCNumber, ?userBillingCCExpDate, ?userBillingCCV, 0)";
+                        command.Parameters.AddWithValue("userEmail", item.userEmail);
+                        command.Parameters.AddWithValue("hashValue", hashValue);
+                        command.Parameters.AddWithValue("userFirstName", item.userFirstName);
+                        command.Parameters.AddWithValue("userLastName", item.userLastName);
+                        command.Parameters.AddWithValue("userBillingAddress", item.userBillingAddress);
+                        command.Parameters.AddWithValue("userBillingCity", item.userBillingCity);
+                        command.Parameters.AddWithValue("userBillingState", item.userBillingState);
+                        command.Parameters.AddWithValue("userBillingCCNumber", item.userBillingCCNumber);
+                        command.Parameters.AddWithValue("userBillingCCExpDate", item.userBillingCCExpDate);
+                        command.Parameters.AddWithValue("userBillingCCV", item.userBillingCCV);
 
                         if (command.ExecuteNonQuery() > 0)
                         {
                             MakeUserItem user = new MakeUserItem();
-                            user.userEmail = userEmail;
-                            user.userPassword = userPassword;
+                            user.userEmail = item.userEmail;
+                            user.userPassword = item.userPassword;
 
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
 
@@ -58,6 +63,7 @@ namespace ToDoList
                         }
                         else
                         {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                             return new MakeUserItem();
                         }
                     }
@@ -68,6 +74,47 @@ namespace ToDoList
                 }
             }
         }
+
+        //public MakeUserItem MakeUser(UserItem item)
+        //{
+        //    lock (this)
+        //    {
+        //        String userEmail = item.userEmail;
+        //        String userPassword = item.userPassword;
+
+        //        using (MySqlConnection conn = new MySqlConnection(connectionString))
+        //        {
+        //            try
+        //            {
+        //                conn.Open();
+
+        //                MySqlCommand command = conn.CreateCommand();
+        //                command.CommandText = "insert into Users2 (userEmail, userPassword) values (?userEmail, ?userPassword)";
+        //                command.Parameters.AddWithValue("userEmail", userEmail);
+        //                command.Parameters.AddWithValue("userPassword", userPassword);
+
+        //                if (command.ExecuteNonQuery() > 0)
+        //                {
+        //                    MakeUserItem user = new MakeUserItem();
+        //                    user.userEmail = userEmail;
+        //                    user.userPassword = userPassword;
+
+        //                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+
+        //                    return user;
+        //                }
+        //                else
+        //                {
+        //                    return new MakeUserItem();
+        //                }
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                throw e;
+        //            }
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Verify the user provided the correct credentials to login.
@@ -82,9 +129,7 @@ namespace ToDoList
         {
             lock (this)
             {
-                String userEmail = data.userEmail;
-                String userPassword = data.userPassword;
-
+             
                 String returnedUserEmail = "";
                 String returnedUserPassword = "";
 
@@ -95,19 +140,19 @@ namespace ToDoList
                         conn.Open();
 
                         MySqlCommand command = conn.CreateCommand();
-                        command.CommandText = "select * from Users2 where userEmail = ?userEmail";
-                        command.Parameters.AddWithValue("userEmail", userEmail);
+                        command.CommandText = "select email, password from users where email = ?userEmail";
+                        command.Parameters.AddWithValue("userEmail", data.userEmail);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                returnedUserEmail = reader.GetString("userEmail");
-                                returnedUserPassword = reader.GetString("userPassword");
+                                returnedUserEmail = reader.GetString("email");
+                                returnedUserPassword = reader.GetString("password");
                             }
                         }
 
-                        if (returnedUserEmail != userEmail || userPassword != returnedUserPassword)
+                        if (!verifyHash(data.userPassword, returnedUserPassword))
                         {
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                             return new VerifiedUserItem();
@@ -477,6 +522,243 @@ namespace ToDoList
             }
         }
 
+        public void CreateStudyHotspot(CreateStudyHotspotRequestItem item)
+        {
+            lock (this)
+            {
+
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+
+                    String returnedHotspotID = "";
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "INSERT INTO study_hotspots (owner_email, course_name, latitude, longitude, student_count) VALUES (?owner_email, ?course_name, ?latitude, ?longitude, 0)";
+                            command.Parameters.AddWithValue("owner_email", item.userEmail);
+                            command.Parameters.AddWithValue("course_name", item.course);
+                            command.Parameters.AddWithValue("latitude", item.latitude);
+                            command.Parameters.AddWithValue("longitude", item.longitude);
+
+                            if (command.ExecuteNonQuery() > 0)
+                            {
+                                command.CommandText = "SELECT hotspot_id FROM study_hotspots WHERE owner_email = ?owner_email";
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        returnedHotspotID = reader.GetString("hotspot_id");
+                                    }
+                                }
+
+                                command.CommandText = "INSERT INTO study_hotspots_members (hotspot_id, email) VALUES (?hotspot_id, ?email)";
+                                command.Parameters.AddWithValue("email", item.userEmail);
+                                command.Parameters.AddWithValue("hotspot_id", returnedHotspotID);
+
+                                if (command.ExecuteNonQuery() > 0)
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                }
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                }
+            }
+        }
+
+        public List<AvailableStudyHotspotItem> FindStudyHotspots(StudyHotspotItem item)
+        {
+            lock (this)
+            {
+
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    String returnedHotspotID = "";
+                    String returnedOwnerEmail = "";
+                    String returnedCourseName = "";
+                    Double returnedHotspotLatitude = 0;
+                    Double returnedHotspotLongitude = 0;
+                    String returnedStudentCount = "";
+
+                    List<AvailableStudyHotspotItem> availableHotspots = new List<AvailableStudyHotspotItem>();
+
+                    var studentCoord = new GeoCoordinate(Convert.ToDouble(item.latitude), Convert.ToDouble(item.longitude));
+
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT * FROM study_hotspots WHERE course_name = ?courseName";
+                            command.Parameters.AddWithValue("courseName", item.course);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedHotspotID = reader.GetString("hotspot_id");
+                                    returnedOwnerEmail = reader.GetString("owner_email");
+                                    returnedCourseName = reader.GetString("course_name");
+                                    returnedHotspotLatitude = reader.GetDouble("latitude");
+                                    returnedHotspotLongitude = reader.GetDouble("longitude");
+                                    returnedStudentCount = reader.GetString("student_count");
+
+                                    var hotspotCoord = new GeoCoordinate(returnedHotspotLatitude, returnedHotspotLongitude);
+
+                                    double distanceToHotspot = studentCoord.GetDistanceTo(hotspotCoord);
+
+                                    if (distanceToHotspot < 8046.72)
+                                    {
+                                        AvailableStudyHotspotItem hotspot = new AvailableStudyHotspotItem();
+                                        hotspot.hotspotID = returnedHotspotID;
+                                        hotspot.ownerEmail = returnedOwnerEmail;
+                                        hotspot.course = returnedCourseName;
+                                        hotspot.latitude = returnedHotspotLatitude;
+                                        hotspot.longitude = returnedHotspotLongitude;
+                                        hotspot.student_count = returnedStudentCount;
+                                        hotspot.distanceToHotspot = distanceToHotspot / 1609.34;
+
+                                        availableHotspots.Add(hotspot);
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                    }
+
+                    return availableHotspots;
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new List<AvailableStudyHotspotItem>();
+                }
+            }
+        }
+
+        ////////////////////
+        // Helper Functions 
+        ////////////////////
+
+        private string computeHash(String password, byte[] saltBytes)
+        {
+            // If no salt, then create it
+            if (saltBytes == null)
+            {
+                // Min and max size for salt array
+                int minSaltSize = 4;
+                int maxSaltSize = 8;
+
+                // Generate a random number to determine the salt size
+                Random random = new Random();
+                int saltSize = random.Next(minSaltSize, maxSaltSize);
+
+                // Create the salt byte array
+                saltBytes = new byte[saltSize];
+
+                // Fill the salt array
+                RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                rng.GetNonZeroBytes(saltBytes);
+            }
+            // Convert password string into byte array
+            byte[] plainTextBytes = Encoding.UTF8.GetBytes(password);
+
+            // Create array to hold the plainTextBytes and saltBytes
+            byte[] plainTextWithSaltBytes = new byte[plainTextBytes.Length + saltBytes.Length];
+
+            // Copy plain text bytes into plainTextWithSaltBytes array
+            for (int i = 0; i < plainTextBytes.Length; i++)
+            {
+                plainTextWithSaltBytes[i] = plainTextBytes[i];
+            }
+
+            // Copy salt bytes into end of plainTextWithSaltBytes array
+            for (int i = 0; i < saltBytes.Length; i++)
+            {
+                plainTextWithSaltBytes[plainTextBytes.Length + i] = saltBytes[i];
+            }
+
+            // Create hash function
+            HashAlgorithm hash = new SHA256Managed();
+
+            // Create hash of plainTextWithSaltBytes array
+            byte[] hashBytes = hash.ComputeHash(plainTextWithSaltBytes);
+
+            // Create array to hold hash and original salt bytes
+            byte[] hashWithSaltBytes = new byte[hashBytes.Length + saltBytes.Length];
+
+            // Copy hash bytes into hashWithSaltBytes array
+            for (int i = 0; i < hashBytes.Length; i++)
+            {
+                hashWithSaltBytes[i] = hashBytes[i];
+            }
+
+            // Copy salt bytes into hashWithSaltBytes array
+            for (int i = 0; i < saltBytes.Length; i++)
+            {
+                hashWithSaltBytes[hashBytes.Length + i] = saltBytes[i];
+            }
+
+            // Convert hashWithSaltBytes into a base64-encoded string
+            String hashValue = Convert.ToBase64String(hashWithSaltBytes);
+
+            return hashValue;
+        }
+
+        private Boolean verifyHash(String password, String hashFromDB)
+        {
+            // Convert base64-encoded hash value into byte array
+            byte[] hashWithSaltBytes = Convert.FromBase64String(hashFromDB);
+
+            // Keeps track of hash size in bits and bytes
+            int hashSizeInBits = 256;
+            int hashSizeInBytes = 32;
+
+            // Create array to hold origianl salt bytes from hash
+            byte[] saltBytes = new byte[hashWithSaltBytes.Length - 32];
+
+            // Copy salt from hash to saltBytes array
+            for (int i = 0; i < saltBytes.Length; i++)
+            {
+                saltBytes[i] = hashWithSaltBytes[32 + i];
+            }
+
+            // Compute new hash string
+            String expectedHashString = computeHash(password, saltBytes);
+
+            // Make sure the hash from the DB and newly computed hash match
+            return (hashFromDB == expectedHashString);
+        }
 
         private Boolean checkUserToken(String userEmail, String userToken)
         {
