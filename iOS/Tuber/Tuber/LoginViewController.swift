@@ -44,10 +44,13 @@ class LoginViewController: UIViewController {
         let userPassword = passwordTextField.text
         
         //creating the post parameter by concatenating the keys and values from text field
-        let postParameters = "userEmail=" + userEmail! + "&userPassword=" + userPassword!;
+//        let postParameters = "userEmail=" + userEmail! + "&userPassword=" + userPassword!;
+        let postParameters = "{\"userEmail\":\"" + userEmail! + "\",\"userPassword\":\"" + userPassword! + "\"}"
         
         //adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
         //creating a task to send the post request
@@ -59,35 +62,45 @@ class LoginViewController: UIViewController {
                 return;
             }
             
-            print(response!)
+            let r = response as? HTTPURLResponse
+            
+            print(r?.statusCode)
+            
+            
+//            print(response!)
             
             //parsing the response
+            
+            if (r?.statusCode == 200)
+            {
             do {
                 //converting resonse to NSDictionary
-//                let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-//                
-                print("made it")
-                
                 let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
                 
-                print(myJSON)
+//                print(myJSON)
                 
                 //parsing the json
                 if let parseJSON = myJSON {
                     
-                    //creating a string
-                    var msg : String!
+                    let defaults = UserDefaults.standard
                     
-                    //getting the json response
-                    msg = parseJSON["message"] as! String?
+                    defaults.set(parseJSON["userEmail"] as! String?, forKey: "userEmail")
+                    defaults.set(parseJSON["userStudentCourses"] as! Array<String>?, forKey: "userStudentCourses")
+                    defaults.set(parseJSON["userToken"] as! String?, forKey: "userToken")
+                    defaults.set(parseJSON["userTutorCourses"] as! Array<String>?, forKey: "userTutorCourses")
+                    defaults.synchronize()
                     
-                    //printing the response
-                    print(msg)
+                    print("Added to defaults")
+                    
+                    print(defaults.object(forKey: "userToken")!)
+
+                    self.performSegue(withIdentifier: "loginSuccess", sender: nil)
+                    
                     
                 }
             } catch {
-                print("made error")
                 print(error)
+            }
             }
             
         }
