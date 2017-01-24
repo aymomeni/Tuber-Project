@@ -44,7 +44,6 @@ class LoginViewController: UIViewController {
         let userPassword = passwordTextField.text
         
         //creating the post parameter by concatenating the keys and values from text field
-//        let postParameters = "userEmail=" + userEmail! + "&userPassword=" + userPassword!;
         let postParameters = "{\"userEmail\":\"" + userEmail! + "\",\"userPassword\":\"" + userPassword! + "\"}"
         
         //adding the parameters to request body

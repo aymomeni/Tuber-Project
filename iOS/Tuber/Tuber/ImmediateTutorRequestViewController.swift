@@ -15,6 +15,8 @@ class ImmediateTutorRequestViewController: UIViewController, CLLocationManagerDe
     @IBOutlet weak var currentLocationMap: MKMapView!
     @IBOutlet weak var beginTutoringButton: UIButton!
     
+    let defaults = UserDefaults.standard
+    
     //URL to our web service
     let makeTutorAvailable = "http://tuber-test.cloudapp.net/ProductRESTService.svc/maketutoravailable"
     
@@ -63,19 +65,26 @@ class ImmediateTutorRequestViewController: UIViewController, CLLocationManagerDe
         request.httpMethod = "POST"
         
         //getting values from text fields
-        let userEmail = "u0820304@utah.edu"
-        let userToken = "89a77f42-2b95-4ada-9eff-cd00f9110610"
+        let userEmail = defaults.object(forKey: "userEmail") as! String
+        let userToken = defaults.object(forKey: "userToken") as! String
         let tutorCourse = "CS 4400"//ClassListViewController.selectedClass.className
-        let latitude = location?.coordinate.latitude
-        let longitude = location?.coordinate.longitude
+        let latitude = String(describing: location?.coordinate.latitude)
+        let longitude = String(describing: location?.coordinate.longitude)
+        
+        print(latitude)
         
         //creating the post parameter by concatenating the keys and values from text field
-        var postParameters = "userEmail=" + userEmail + "&userToken=" + userToken + "&tutorCorse=" + tutorCourse;
         
-        postParameters += "&latitude=" + String(latitude!) + "&longitude=" + String(longitude!);
+        let postParameters = "{\"userEmail\":\"" + userEmail + "\",\"userToken\":\"" + userToken + "\",\"tutorCourse\":\"" + tutorCourse + "\",\"latitude\":\"" + latitude + "\",\"longitude\":\"" + longitude + "\"}"
+        
+//        var postParameters = "userEmail=" + userEmail + "&userToken=" + userToken + "&tutorCorse=" + tutorCourse;
+//        
+//        postParameters += "&latitude=" + String(latitude!) + "&longitude=" + String(longitude!);
         
         //adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
         //creating a task to send the post request
