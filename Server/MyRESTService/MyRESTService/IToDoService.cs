@@ -112,5 +112,23 @@ namespace ToDoList
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
         List<AvailableStudyHotspotItem> FindStudyHotspots(StudyHotspotItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/joinstudyhotspot",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        void JoinStudyHotspot(StudyHotspotJoinItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/leavestudyhotspot",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        void LeaveStudyHotspot(StudyHotspotLeaveItem data);
+
+
     }
 }

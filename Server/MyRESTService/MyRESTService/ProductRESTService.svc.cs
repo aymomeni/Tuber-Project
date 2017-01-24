@@ -666,6 +666,158 @@ namespace ToDoList
             }
         }
 
+        public void JoinStudyHotspot(StudyHotspotJoinItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+
+                    String returnedHotspotID = "";
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            // Check to see if hotspot still exists 
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT hotspot_id FROM study_hotspots WHERE hotspot_id = ?hotspotID";
+                            command.Parameters.AddWithValue("hotspotID", item.hotspotID);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedHotspotID = reader.GetString("hotspot_id");
+                                }
+                            }
+
+                            if (returnedHotspotID == item.hotspotID)
+                            {
+                                // Insert user into hotspot 
+                                command.CommandText = "INSERT INTO study_hotspots_members (hotspot_id, email) VALUES (?hotspotID, ?email)";
+                                command.Parameters.AddWithValue("email", item.userEmail);
+
+                                if (command.ExecuteNonQuery() > 0)
+                                {
+                                    // Update hotspot member count
+                                    int returnedStudentCount = 0;
+
+                                    command.CommandText = "SELECT student_count FROM study_hotspots WHERE hotspot_id = ?hotspotID";
+                                    using (MySqlDataReader reader = command.ExecuteReader())
+                                    {
+                                        while (reader.Read())
+                                        {
+                                            returnedStudentCount = reader.GetInt32("student_count");
+                                        }
+                                    }
+
+                                    command.CommandText = "UPDATE study_hotspots SET student_count = ?studentCount where hotspot_id = ?hotspotID;";
+                                    command.Parameters.AddWithValue("studentCount", returnedStudentCount + 1);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    }
+                                    else
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    }
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                }
+            }
+        }
+
+        public void LeaveStudyHotspot(StudyHotspotLeaveItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+
+                    String returnedHotspotID = "";
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            // Get the ID of the hotspot the user is leaving
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT hotspot_id FROM study_hotspots_members WHERE email = ?email";
+                            command.Parameters.AddWithValue("email", item.userEmail);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedHotspotID = reader.GetString("hotspot_id");
+                                }
+                            }
+
+                            command.CommandText = "DELETE FROM study_hotspots_members WHERE hotspot_id = ?hotspotID AND email = ?email";
+                            command.Parameters.AddWithValue("hotspotID", returnedHotspotID);
+
+                            if (command.ExecuteNonQuery() > 0)
+                            {
+                                // Update hotspot member count
+                                int returnedStudentCount = 0;
+
+                                command.CommandText = "SELECT student_count FROM study_hotspots WHERE hotspot_id = ?hotspotID";
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        returnedStudentCount = reader.GetInt32("student_count");
+                                    }
+                                }
+
+                                command.CommandText = "UPDATE study_hotspots SET student_count = ?studentCount where hotspot_id = ?hotspotID;";
+                                command.Parameters.AddWithValue("studentCount", returnedStudentCount - 1);
+
+                                if (command.ExecuteNonQuery() > 0)
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                }
+            }
+        }
+
         ////////////////////
         // Helper Functions 
         ////////////////////

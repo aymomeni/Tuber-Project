@@ -239,6 +239,27 @@ namespace ToDoList
         public double distanceToHotspot { get; set; }
     }
 
+    public class StudyHotspotJoinItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string hotspotID { get; set; }
+    }
+
+    public class StudyHotspotLeaveItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
 
 
 
