@@ -116,5 +116,3 @@ C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\zh-Hant\Syst
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Release\MyRESTService.csprojResolveAssemblyReference.cache
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Release\MyRESTService.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Release\MyRESTService.pdb
-C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\PasswordHashTool.dll
-C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\SimplePassword.dll

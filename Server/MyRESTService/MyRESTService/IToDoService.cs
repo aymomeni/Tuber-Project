@@ -129,6 +129,12 @@ namespace ToDoList
             BodyStyle = WebMessageBodyStyle.Bare)]
         void LeaveStudyHotspot(StudyHotspotLeaveItem data);
 
-
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/getstudyhotspotmembers",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        List<StudyHotspotMemberItem> GetStudyHotspotMembers(StudyHotspotGetMemberItem data);
     }
 }

@@ -540,7 +540,7 @@ namespace ToDoList
                             conn.Open();
 
                             MySqlCommand command = conn.CreateCommand();
-                            command.CommandText = "INSERT INTO study_hotspots (owner_email, course_name, latitude, longitude, student_count) VALUES (?owner_email, ?course_name, ?latitude, ?longitude, 0)";
+                            command.CommandText = "INSERT INTO study_hotspots (owner_email, course_name, latitude, longitude, student_count) VALUES (?owner_email, ?course_name, ?latitude, ?longitude, 1)";
                             command.Parameters.AddWithValue("owner_email", item.userEmail);
                             command.Parameters.AddWithValue("course_name", item.course);
                             command.Parameters.AddWithValue("latitude", item.latitude);
@@ -818,6 +818,88 @@ namespace ToDoList
             }
         }
 
+        public List<StudyHotspotMemberItem> GetStudyHotspotMembers(StudyHotspotGetMemberItem item)
+        {
+            lock (this)
+            {
+
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    //String returnedHotspotID = "";
+                    //String returnedOwnerEmail = "";
+                    //String returnedCourseName = "";
+                    //Double returnedHotspotLatitude = 0;
+                    //Double returnedHotspotLongitude = 0;
+                    //String returnedStudentCount = "";
+
+                    String returnedEmail = "";
+                    String returnedFirstName = "";
+                    String returnedLastName = "";
+
+                    List<String> memberEmails = new List<String>();
+
+                    List<StudyHotspotMemberItem> hotspotMembers = new List<StudyHotspotMemberItem>();
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT email FROM study_hotspots_members WHERE hotspot_id = ?hotspotID";
+                            command.Parameters.AddWithValue("hotspotID", item.hotspotID);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedEmail = reader.GetString("email");
+                                    memberEmails.Add(returnedEmail);
+                                }
+                            }
+
+                            for (int i = 0; i < memberEmails.Count; i++)
+                            {
+                                command.CommandText = "SELECT first_name, last_name FROM users WHERE email = ?email";
+                                command.Parameters.Clear();
+                                command.Parameters.AddWithValue("email", memberEmails[i]);
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        returnedFirstName = reader.GetString("first_name");
+                                        returnedLastName = reader.GetString("last_name");
+                                    }
+                                }
+
+                                StudyHotspotMemberItem member = new StudyHotspotMemberItem();
+                                member.userEmail = memberEmails[i];
+                                member.firstName = returnedFirstName;
+                                member.lastName = returnedLastName;
+
+                                hotspotMembers.Add(member);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                    }
+
+                    return hotspotMembers;
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new List<StudyHotspotMemberItem>();
+                }
+            }
+        }
+
         ////////////////////
         // Helper Functions 
         ////////////////////
@@ -947,5 +1029,7 @@ namespace ToDoList
                 }
             }
         }
+
+        
     }
 }

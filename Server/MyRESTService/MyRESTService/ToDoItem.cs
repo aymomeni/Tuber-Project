@@ -260,7 +260,29 @@ namespace ToDoList
         public string userToken { get; set; }
     }
 
+    public class StudyHotspotGetMemberItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
 
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string hotspotID { get; set; }
+    }
+
+    public class StudyHotspotMemberItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string firstName { get; set; }
+
+        [DataMember]
+        public string lastName { get; set; }
+    }
 
 
 
