@@ -826,13 +826,6 @@ namespace ToDoList
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    //String returnedHotspotID = "";
-                    //String returnedOwnerEmail = "";
-                    //String returnedCourseName = "";
-                    //Double returnedHotspotLatitude = 0;
-                    //Double returnedHotspotLongitude = 0;
-                    //String returnedStudentCount = "";
-
                     String returnedEmail = "";
                     String returnedFirstName = "";
                     String returnedLastName = "";
@@ -896,6 +889,101 @@ namespace ToDoList
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new List<StudyHotspotMemberItem>();
+                }
+            }
+        }
+
+        public void DeleteStudyHotspot(StudyHotspotDeleteItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    //String returnedEmail = "";
+                    //String returnedFirstName = "";
+                    //String returnedLastName = "";
+
+                    String returnedUserEmail = "";
+                    String returnedMemberEmail = "";
+
+                    List<String> memberEmails = new List<String>();
+
+                    //List<StudyHotspotMemberItem> hotspotMembers = new List<StudyHotspotMemberItem>();
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            // Check to see if the user owns the hotspot 
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT owner_email FROM study_hotspots WHERE hotspot_id = ?hotspotID";
+                            command.Parameters.AddWithValue("hotspotID", item.hotspotID);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedUserEmail = reader.GetString("owner_email");
+                                }
+                            }
+
+                            if (returnedUserEmail == item.userEmail)
+                            {
+                                // Remove all members from the hotspot
+                                command.CommandText = "SELECT email FROM study_hotspots_members WHERE hotspot_id = ?hotspotID";
+                                //command.Parameters.AddWithValue("hotspotID", item.hotspotID);
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        returnedMemberEmail = reader.GetString("email");
+                                        memberEmails.Add(returnedMemberEmail);
+                                    }
+                                }
+
+                                for (int i = 0; i < memberEmails.Count; i++)
+                                {
+                                    command.CommandText = "DELETE FROM study_hotspots_members WHERE email = ?email";
+                                    command.Parameters.Clear();
+                                    command.Parameters.AddWithValue("email", memberEmails[i]);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                        break;
+                                    }
+                                }
+
+                                //  Remove delete the study hotspot
+                                command.CommandText = "DELETE FROM study_hotspots WHERE hotspot_id = ?hotspotID";
+                                if (command.ExecuteNonQuery() > 0)
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
         }
@@ -1030,6 +1118,6 @@ namespace ToDoList
             }
         }
 
-        
+       
     }
 }

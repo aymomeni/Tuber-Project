@@ -284,6 +284,17 @@ namespace ToDoList
         public string lastName { get; set; }
     }
 
+    public class StudyHotspotDeleteItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string hotspotID { get; set; }
+    }
 
 
 
