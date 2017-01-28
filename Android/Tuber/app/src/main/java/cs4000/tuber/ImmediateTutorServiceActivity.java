@@ -79,7 +79,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 
 								   new AlertDialog.Builder(ImmediateTutorServiceActivity.this)
 										   .setTitle("Paired")
-										   .setMessage("You paired successfully with a Student.")
+										   .setMessage("You paired successfully with a Tutor.")
 										   .setCancelable(false)
 										   .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
 											 @Override
