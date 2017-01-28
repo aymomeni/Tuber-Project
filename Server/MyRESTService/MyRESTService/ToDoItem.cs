@@ -296,10 +296,74 @@ namespace ToDoList
         public string hotspotID { get; set; }
     }
 
+    public class ScheduleTutorItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
 
+        [DataMember]
+        public string userToken { get; set; }
 
+        [DataMember]
+        public string course { get; set; }
 
+        [DataMember]
+        public string topic { get; set; }
 
+        [DataMember]
+        public string date { get; set; }
+
+        [DataMember]
+        public string time { get; set; }
+
+        [DataMember]
+        public string duration { get; set; }
+    }
+
+    public class FindAllScheduleTutorRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        //[DataMember]
+        //public string topic { get; set; }
+
+        //[DataMember]
+        //public string date { get; set; }
+
+        //[DataMember]
+        //public string time { get; set; }
+
+        //[DataMember]
+        //public string duration { get; set; }
+    }
+
+    public class ScheduleTutorRequestItem
+    {
+        [DataMember]
+        public string studentEmail { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string topic { get; set; }
+
+        [DataMember]
+        public string date { get; set; }
+
+        [DataMember]
+        public string time { get; set; }
+
+        [DataMember]
+        public string duration { get; set; }
+    }
 
 
 

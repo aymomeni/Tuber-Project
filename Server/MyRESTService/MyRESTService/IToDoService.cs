@@ -144,5 +144,21 @@ namespace ToDoList
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
         void DeleteStudyHotspot(StudyHotspotDeleteItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/scheduletutor",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        void ScheduleTutor(ScheduleTutorItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/findallscheduletutorrequests",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        List<ScheduleTutorRequestItem> FindAllScheduleTutorRequests(FindAllScheduleTutorRequestItem data);
     }
 }

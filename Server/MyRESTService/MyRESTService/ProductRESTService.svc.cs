@@ -15,9 +15,14 @@ namespace ToDoList
     // NOTE: In order to launch WCF Test Client for testing this service, please select ProductRESTService.svc or ProductRESTService.svc.cs at the Solution Explorer and start debugging.
     public class ProductRESTService : IToDoService
     {
+        // Active CADE DB
         //public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
 
-        public const string connectionString = "Server=23.99.55.197;Database=tuber;UID=tobin;Password=Redpack!99!!";
+        // Developmental DB
+        public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
+
+        // Old VM DB
+        //public const string connectionString = "Server=23.99.55.197;Database=tuber;UID=tobin;Password=Redpack!99!!";
 
         public List<Product> GetProductList()
         {
@@ -208,6 +213,10 @@ namespace ToDoList
                     }
                     catch (Exception e)
                     {
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadGateway;
+                        VerifiedUserItem user = new VerifiedUserItem();
+                        user.userEmail = e.ToString();
+                        return user;
                         throw e;
                     }
                 }
@@ -900,16 +909,10 @@ namespace ToDoList
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    //String returnedEmail = "";
-                    //String returnedFirstName = "";
-                    //String returnedLastName = "";
-
                     String returnedUserEmail = "";
                     String returnedMemberEmail = "";
 
                     List<String> memberEmails = new List<String>();
-
-                    //List<StudyHotspotMemberItem> hotspotMembers = new List<StudyHotspotMemberItem>();
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
@@ -934,7 +937,6 @@ namespace ToDoList
                             {
                                 // Remove all members from the hotspot
                                 command.CommandText = "SELECT email FROM study_hotspots_members WHERE hotspot_id = ?hotspotID";
-                                //command.Parameters.AddWithValue("hotspotID", item.hotspotID);
 
                                 using (MySqlDataReader reader = command.ExecuteReader())
                                 {
@@ -984,6 +986,119 @@ namespace ToDoList
                 else
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                }
+            }
+        }
+
+        public void ScheduleTutor(ScheduleTutorItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+
+                    // Store student's tutor request in DB
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "INSERT INTO tutor_requests VALUES (?studentEmail, ?course, ?topic, ?date, ?time, ?duration)";
+                            command.Parameters.AddWithValue("studentEmail", item.userEmail);
+                            command.Parameters.AddWithValue("course", item.course);
+                            command.Parameters.AddWithValue("topic", item.topic);
+                            command.Parameters.AddWithValue("date", item.date);
+                            command.Parameters.AddWithValue("time", item.time);
+                            command.Parameters.AddWithValue("duration", item.duration);
+
+                            if (command.ExecuteNonQuery() > 0)
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                }
+            }
+        }
+
+        public List<ScheduleTutorRequestItem> FindAllScheduleTutorRequests(FindAllScheduleTutorRequestItem item)
+        {
+            lock (this)
+            {
+
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    String returnedStudentEmail = "";
+                    String returnedCourse = "";
+                    String returnedTopic = "";
+                    String returnedDate = "";
+                    String returnedTime = "";
+                    String returnedDuration = "";
+
+                    List<ScheduleTutorRequestItem> studentRequests = new List<ScheduleTutorRequestItem>();
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT * FROM tutor_requests WHERE course = ?courseName";
+                            command.Parameters.AddWithValue("courseName", item.course);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedStudentEmail = reader.GetString("student_email");
+                                    returnedCourse = reader.GetString("course");
+                                    returnedTopic = reader.GetString("topic");
+                                    returnedDate = reader.GetString("date");
+                                    returnedTime = reader.GetString("time");
+                                    returnedDuration = reader.GetString("duration");
+
+                                    ScheduleTutorRequestItem request = new ScheduleTutorRequestItem();
+                                    request.studentEmail = returnedStudentEmail;
+                                    request.course = returnedCourse;
+                                    request.topic = returnedTopic;
+                                    request.date = returnedDate;
+                                    request.time = returnedTime;
+                                    request.duration = returnedDuration;
+                                    
+                                    studentRequests.Add(request);
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                    }
+
+                    return studentRequests;
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new List<ScheduleTutorRequestItem>();
                 }
             }
         }
@@ -1117,7 +1232,5 @@ namespace ToDoList
                 }
             }
         }
-
-       
     }
 }
