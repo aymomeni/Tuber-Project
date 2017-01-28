@@ -5,7 +5,7 @@
     android:id="@+id/activity_immediate_tutor_service"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary_Grey"
+    android:background="@color/colorPrimary_White"
     tools:context="cs4000.tuber.ImmediateStudentRequestActivity">
 
 
