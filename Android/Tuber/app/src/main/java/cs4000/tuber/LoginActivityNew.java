@@ -87,7 +87,6 @@ public class LoginActivityNew extends AppCompatActivity {
 
 	ConnectionTask userVerification = new ConnectionTask(new ConnectionTask.CallBack() {
 
-
 	  @Override
 	  public void Done(JSONObject result) {
 
@@ -95,7 +94,6 @@ public class LoginActivityNew extends AppCompatActivity {
 
 		  // TODO: once done save into preferences and call intent
 		  Log.i("Login Successful", result.toString());
-		  onLoginSuccess();
 
 		} else {
 		  // some error occured
@@ -142,10 +140,9 @@ public class LoginActivityNew extends AppCompatActivity {
 
   public void onLoginSuccess() {
 	_loginButton.setEnabled(true);
-	finish();
+	Toast.makeText(getBaseContext(), "Login Successful", Toast.LENGTH_LONG).show();
 	Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
 	startActivityForResult(intent, REQUEST_SIGNUP);
-
   }
 
   public void onLoginFailed() {

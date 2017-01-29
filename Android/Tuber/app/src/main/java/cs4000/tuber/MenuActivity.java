@@ -28,6 +28,12 @@ public class MenuActivity extends Activity {
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
     }
 
+    @Override
+    public void onBackPressed() {
+        // disable going back to the MainActivity
+        moveTaskToBack(false);
+    }
+
 
     protected void switchToMenu() {
 
