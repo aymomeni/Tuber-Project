@@ -18,7 +18,7 @@
         android:icon="@drawable/ic_tuber_logo_medium"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.NoTitleBar">
+        android:theme="@style/AppTheme.Dark">
         <activity android:name=".LoginActivityNew">
             android:name=".LoginActivity"
             android:label="@string/app_name"

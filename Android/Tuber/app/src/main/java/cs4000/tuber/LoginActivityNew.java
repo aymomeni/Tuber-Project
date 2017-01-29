@@ -1,120 +1,180 @@
 package cs4000.tuber;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LoginActivityNew extends Activity {
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
-  // Member variables
-  Button login_button, register_button;
-  EditText username, password;
-  String userEmailAdressStr, userPasswordStr, userObjectID;
+public class LoginActivityNew extends AppCompatActivity {
+  private static final String TAG = "LoginActivity";
+  private static final int REQUEST_SIGNUP = 0;
+
+  @InjectView(R.id.input_email) EditText _emailText;
+  @InjectView(R.id.input_password) EditText _passwordText;
+  @InjectView(R.id.btn_login) Button _loginButton;
+  @InjectView(R.id.link_signup) TextView _signupLink;
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
-
+  public void onCreate(Bundle savedInstanceState) {
 	super.onCreate(savedInstanceState);
 	setContentView(R.layout.activity_login_new);
-	setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+	ButterKnife.inject(this);
 
-	login_button = (Button)findViewById(R.id.login_button);
-	register_button = (Button)findViewById(R.id.register_button);
-	username = (EditText) findViewById(R.id.login_username);
-	password = (EditText) findViewById(R.id.login_password);
+	_loginButton.setOnClickListener(new View.OnClickListener() {
 
-
-	register_button.setOnClickListener(new View.OnClickListener() {
 	  @Override
 	  public void onClick(View v) {
-		switchToRegistration();
+		login();
 	  }
 	});
 
+	_signupLink.setOnClickListener(new View.OnClickListener() {
 
-	login_button.setOnClickListener(new View.OnClickListener() {
 	  @Override
 	  public void onClick(View v) {
+		// Start the Signup activity
+		Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
+		startActivityForResult(intent, REQUEST_SIGNUP);
+	  }
+	});
+  }
 
-		userEmailAdressStr = username.getText().toString();
-		userPasswordStr = password.getText().toString();
+  public void login() {
+	Log.d(TAG, "Login");
+
+	if (!validate()) {
+	  onLoginFailed();
+	  return;
+	}
+
+	_loginButton.setEnabled(false);
+
+	final ProgressDialog progressDialog = new ProgressDialog(LoginActivityNew.this,
+			R.style.AppTheme_Dark_Dialog);
+	progressDialog.setIndeterminate(true);
+	progressDialog.setMessage("Authenticating...");
+	progressDialog.show();
+
+	String email = _emailText.getText().toString();
+	String password = _passwordText.getText().toString();
+
+	// TODO: Further checks necessary
+
+	JSONObject userLoginJSON = new JSONObject();
+
+	try {
+
+	  userLoginJSON.put("userEmail", email);
+	  userLoginJSON.put("userPassword", password);
+
+	}catch(JSONException e){
+	  Log.i("LogIn", "JSON Exception filling the object");
+	  e.printStackTrace();
+	}
+
+	ConnectionTask userVerification = new ConnectionTask(new ConnectionTask.CallBack() {
 
 
-		if(userEmailAdressStr.isEmpty() || userPasswordStr.isEmpty()){
+	  @Override
+	  public void Done(JSONObject result) {
 
-		  Toast.makeText(LoginActivityNew.this, "Please enter a valid username and password", Toast.LENGTH_SHORT).show();
-		  // clear out the boxes?
+		if(result != null) {
 
+		  // TODO: once done save into preferences and call intent
+		  Log.i("Login Successful", result.toString());
+		  onLoginSuccess();
 
 		} else {
-
-		  JSONObject userLoginJSON = new JSONObject();
-
-		  try {
-
-			userLoginJSON.put("userEmail", userEmailAdressStr);
-		  	userLoginJSON.put("userPassword", userPasswordStr);
-
-		  } catch(JSONException e){
-			Log.i("LogIn", "JSON Exception filling the object");
-			e.printStackTrace();
-
-		  }
-
-		  ConnectionTask userVerification = new ConnectionTask(new ConnectionTask.CallBack() {
-
-
-			@Override
-			public void Done(JSONObject result) {
-
-			  if(result != null) {
-
-				// TODO: once done save into preferences and call intent
-				Log.i("Login Successful", result.toString());
-				switchToMenu();
-
-			  } else {
-
-				// some error occured
-				Log.i("Login", "JSON result object error");
-				Toast.makeText(LoginActivityNew.this, "Username or Password where incorrect", Toast.LENGTH_SHORT).show();
-
-			  }
-			}
-		  });
-
-		  userVerification.verify_user(userLoginJSON);
+		  // some error occured
+		  Log.i("Login", "JSON result object error");
+		  Toast.makeText(LoginActivityNew.this, "Username or Password where incorrect", Toast.LENGTH_SHORT).show();
+		  onLoginFailed();
 
 		}
 	  }
 	});
+
+	userVerification.verify_user(userLoginJSON);
+
+
+	new android.os.Handler().postDelayed(
+			new Runnable() {
+			  public void run() {
+				// On complete call either onLoginSuccess or onLoginFailed
+				onLoginSuccess();
+				// onLoginFailed();
+				progressDialog.dismiss();
+			  }
+			}, 3000);
   }
 
-  /**
-   * Method to run main menu activity through an intent
-   */
-  private void switchToMenu(){
 
-	Intent intent = new Intent(this, MenuActivity.class);
-	startActivity(intent);
+  @Override
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	if (requestCode == REQUEST_SIGNUP) {
+	  if (resultCode == RESULT_OK) {
+
+		// TODO: Implement successful signup logic here
+		// By default we just finish the Activity and log them in automatically
+		this.finish();
+	  }
+	}
+  }
+
+  @Override
+  public void onBackPressed() {
+	// disable going back to the MainActivity
+	moveTaskToBack(true);
+  }
+
+  public void onLoginSuccess() {
+	_loginButton.setEnabled(true);
+	finish();
+	Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+	startActivityForResult(intent, REQUEST_SIGNUP);
 
   }
 
-  /**
-   * Method to run the registration activity through an intent
-   */
-  private void switchToRegistration(){
-	Intent intent = new Intent(this, RegistrationActivity.class);
-	startActivity(intent);
+  public void onLoginFailed() {
+	Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+	_loginButton.setEnabled(true);
+  }
+
+
+  public boolean validate() {
+	boolean valid = true;
+
+	String email = _emailText.getText().toString();
+	String password = _passwordText.getText().toString();
+
+	if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+	  _emailText.setError("enter a valid email address");
+	  valid = false;
+	} else {
+	  _emailText.setError(null);
+	}
+
+	if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+	  _passwordText.setError("between 4 and 10 alphanumeric characters");
+	  valid = false;
+	} else {
+	  _passwordText.setError(null);
+	}
+
+	return valid;
   }
 
 

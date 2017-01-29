@@ -1,8 +1,8 @@
 package cs4000.tuber;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -11,13 +11,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class RegistrationActivity extends AppCompatActivity {
   private static final String TAG = "RegistrationActivity";
 
-  @InjectView(R.id.input_name) EditText _nameText;
+  @InjectView(R.id.input_first_name) EditText firstNameText;
+  @InjectView(R.id.input_last_name) EditText lastNameText;
   @InjectView(R.id.input_email) EditText _emailText;
   @InjectView(R.id.input_password) EditText _passwordText;
   @InjectView(R.id.btn_signup) Button _signupButton;
@@ -40,8 +44,8 @@ public class RegistrationActivity extends AppCompatActivity {
 	_loginLink.setOnClickListener(new View.OnClickListener() {
 	  @Override
 	  public void onClick(View v) {
-		// Finish the registration screen and return to the Login activity
-		finish();
+		Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
+		startActivity(intent);
 	  }
 	});
 
@@ -63,11 +67,56 @@ public class RegistrationActivity extends AppCompatActivity {
 	progressDialog.setMessage("Creating Account...");
 	progressDialog.show();
 
-	String name = _nameText.getText().toString();
+
+	String fName = firstNameText.getText().toString();
+	String lName = lastNameText.getText().toString();
 	String email = _emailText.getText().toString();
 	String password = _passwordText.getText().toString();
 
-	// TODO: Implement your own signup logic here.
+	// TODO: For now it's a simple create_user
+	// in the future this must validate
+	// email address
+	// bank account information
+	JSONObject newUser = new JSONObject();
+	try{
+	  newUser.put("userEmail", email);
+	  newUser.put("userPassword", password);
+	  newUser.put("userFirstName", fName);
+	  newUser.put("userLastName", lName);
+	  newUser.put("userBillingAddress", "219 Clayton Dr.");
+	  newUser.put("userBillingCity", "Yorktown");
+	  newUser.put("userBillingState", "VA");
+	  newUser.put("userBillingCCNumber" ,"1234567890112233");
+	  newUser.put("userBillingCCExpDate", "2018-01-19");
+	  newUser.put("userBillingCCV", "801");
+
+
+	} catch(JSONException e){
+
+	  onSignupFailed();
+	  e.printStackTrace();
+
+	}
+
+	ConnectionTask cT = new ConnectionTask(new ConnectionTask.CallBack() {
+	  @Override
+	  public void Done(JSONObject result) {
+
+		if(result != null){
+
+		  Log.i("CreateUser/Success", "User successfully added to the db");
+
+		} else {
+
+		  onSignupFailed();
+		  Log.i("CreateUser/Error", "Issue connecting to the server");
+		}
+	  }
+	});
+
+	cT.create_user(newUser);
+
+
 
 	new android.os.Handler().postDelayed(
 			new Runnable() {
@@ -82,14 +131,17 @@ public class RegistrationActivity extends AppCompatActivity {
   }
 
   public void onSignupSuccess() {
+	Toast.makeText(getBaseContext(), "Registration successful", Toast.LENGTH_LONG).show();
 	_signupButton.setEnabled(true);
 	setResult(RESULT_OK, null);
-	finish();
+	Intent intent = new Intent(getApplicationContext(), LoginActivityNew.class);
+	startActivity(intent);
+
   }
 
 
   public void onSignupFailed() {
-	Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+	Toast.makeText(getBaseContext(), "Registration failed", Toast.LENGTH_LONG).show();
 
 	_signupButton.setEnabled(true);
   }
@@ -98,15 +150,23 @@ public class RegistrationActivity extends AppCompatActivity {
   public boolean validate() {
 	boolean valid = true;
 
-	String name = _nameText.getText().toString();
+	String fname = firstNameText.getText().toString();
+	String lname = lastNameText.getText().toString();
 	String email = _emailText.getText().toString();
 	String password = _passwordText.getText().toString();
 
-	if (name.isEmpty() || name.length() < 3) {
-	  _nameText.setError("at least 3 characters");
+	if (fname.isEmpty() || fname.length() < 3) {
+	  firstNameText.setError("at least 3 characters");
 	  valid = false;
 	} else {
-	  _nameText.setError(null);
+	  firstNameText.setError(null);
+	}
+
+	if (lname.isEmpty() || lname.length() < 3) {
+	  lastNameText.setError("at least 3 characters");
+	  valid = false;
+	} else {
+	  lastNameText.setError(null);
 	}
 
 	if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
