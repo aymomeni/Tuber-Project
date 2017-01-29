@@ -39,6 +39,7 @@ public class LoginActivityNew extends AppCompatActivity {
 	  public void onClick(View v) {
 		login();
 	  }
+
 	});
 
 	_signupLink.setOnClickListener(new View.OnClickListener() {

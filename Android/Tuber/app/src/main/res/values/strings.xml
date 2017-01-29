@@ -14,4 +14,7 @@
     <string name="title_activity_student_immediate_request">Map</string>
     <string name="title_activity_tutor_location">Map</string>
     <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="title_activity_immediate_tutor_service_maps">TutorServiceMap</string>
+    <string name="title_activity_immediate_student_request_maps">ImmediateStudentRequestMaps
+    </string>
 </resources>

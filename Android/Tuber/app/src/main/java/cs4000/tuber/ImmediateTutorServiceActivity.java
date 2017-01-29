@@ -70,7 +70,8 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 	query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
 	query.whereExists("studentUsername");
 	query.findInBackground(new FindCallback<ParseObject>() {
-							 @Override
+
+	  						@Override
 							 public void done(List<ParseObject> objects, ParseException e) {
 
 							   if (e == null && objects.size() > 0) {

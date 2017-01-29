@@ -29,9 +29,9 @@ import com.parse.SignUpCallback;
  */
 public class LoginActivity extends Activity {
 
-  Button login_button, register_button;
-  EditText username, password;
-  String usernameStr, passwordStr, userObjectID;
+  private Button login_button, register_button;
+  private EditText username, password;
+  private String usernameStr, passwordStr, userObjectID;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
