@@ -36,7 +36,7 @@ public class LoginActivityNew extends Activity {
 	register_button.setOnClickListener(new View.OnClickListener() {
 	  @Override
 	  public void onClick(View v) {
-		// start intent for registration
+		switchToRegistration();
 	  }
 	});
 
@@ -113,7 +113,8 @@ public class LoginActivityNew extends Activity {
    * Method to run the registration activity through an intent
    */
   private void switchToRegistration(){
-
+	Intent intent = new Intent(this, RegistrationActivity.class);
+	startActivity(intent);
   }
 
 
