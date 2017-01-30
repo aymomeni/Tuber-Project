@@ -31,7 +31,7 @@ namespace ToDoList
 
         public MakeUserItem CreateUser(CreateUserItem item)
         {
-            lock(this)
+            lock (this)
             {
                 // Create password hash to store in DB
                 String hashValue = computeHash(item.userPassword, null);
@@ -134,7 +134,7 @@ namespace ToDoList
         {
             lock (this)
             {
-             
+
                 String returnedUserEmail = "";
                 String returnedUserPassword = "";
 
@@ -291,7 +291,7 @@ namespace ToDoList
                 else
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
-                } 
+                }
             }
         }
 
@@ -474,7 +474,7 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() >= 0)
                                 {
                                     // Insert student & tutor into the tutor_sesssion table with session status of 0 -> not started
-                                    command.CommandText = "INSERT INTO tutor_sessions VALUES (?studentEmail, ?tutorEmail, ?course, ?studentLatitude, ?studentLongitude, ?tutorLatitude, ?tutorLongitude, ?session_status)";
+                                    command.CommandText = "INSERT INTO tutor_sessions (studentEmail, tutorEmail, course, studentLatitude, studentLongitude, tutorLatitude, tutorLongitude, session_status) VALUES (?studentEmail, ?tutorEmail, ?course, ?studentLatitude, ?studentLongitude, ?tutorLatitude, ?tutorLongitude, ?session_status)";
                                     command.Parameters.AddWithValue("studentEmail", item.userEmail);
                                     command.Parameters.AddWithValue("course", returnedCourseName);
                                     command.Parameters.AddWithValue("studentLatitude", item.studentLatitude);
@@ -527,6 +527,79 @@ namespace ToDoList
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new StudentTutorPairedItem();
+                }
+            }
+        }
+
+        public PairedStatusItem CheckPairedStatus(CheckPairedStatusItem item)
+        {
+            lock (this)
+            {
+
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    // Check that the tutor is still available 
+                    String returnedTutorEmail = "";
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT * FROM available_tutors WHERE email = ?userEmail";
+                            command.Parameters.AddWithValue("userEmail", item.userEmail);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedTutorEmail = reader.GetString("email");
+                                }
+                            }
+
+                            if (returnedTutorEmail == "")
+                            {
+                                // Remove tutor from available_tutor table
+                                command.CommandText = "SELECT * FROM tutor_sessions WHERE tutorEmail = ?userEmail";
+
+                                PairedStatusItem pairedStatus = new PairedStatusItem();
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        pairedStatus.studentEmail = reader.GetString("studentEmail");
+                                        pairedStatus.userEmail = reader.GetString("tutorEmail");
+                                        pairedStatus.tutorCourse = reader.GetString("course");
+                                        pairedStatus.studentLatitude = reader.GetString("studentLatitude");
+                                        pairedStatus.studentLongitude = reader.GetString("studentLongitude");
+                                        pairedStatus.tutorLatitude = reader.GetString("tutorLatitude");
+                                        pairedStatus.tutorLongitude = reader.GetString("tutorLongitude");
+                                        pairedStatus.session_status = reader.GetInt32("session_status");
+                                    }
+                                }
+
+                                return pairedStatus;
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                return new PairedStatusItem();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new PairedStatusItem();
                 }
             }
         }
@@ -1081,7 +1154,7 @@ namespace ToDoList
                                     request.date = returnedDate;
                                     request.time = returnedTime;
                                     request.duration = returnedDuration;
-                                    
+
                                     studentRequests.Add(request);
                                 }
                             }

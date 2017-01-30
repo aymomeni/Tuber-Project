@@ -179,6 +179,46 @@ namespace ToDoList
         public int session_status { get; set; }
     }
 
+    // Sent to server to see if the tutor has been paired with a student for immediate tutor case
+    public class CheckPairedStatusItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class PairedStatusItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string studentEmail { get; set; }
+
+        [DataMember]
+        public string tutorCourse { get; set; }
+
+        [DataMember]
+        public string studentLatitude { get; set; }
+
+        [DataMember]
+        public string studentLongitude { get; set; }
+
+        [DataMember]
+        public string tutorLatitude { get; set; }
+
+        [DataMember]
+        public string tutorLongitude { get; set; }
+
+        [DataMember]
+        public int session_status { get; set; }
+    }
+
     public class CreateStudyHotspotRequestItem
     {
         [DataMember]

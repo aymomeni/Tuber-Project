@@ -99,6 +99,14 @@ namespace ToDoList
 
         [OperationContract]
         [WebInvoke(Method = "POST",
+            UriTemplate = "/checkpairedstatus",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        PairedStatusItem CheckPairedStatus(CheckPairedStatusItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
             UriTemplate = "/createstudyhotspot",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
