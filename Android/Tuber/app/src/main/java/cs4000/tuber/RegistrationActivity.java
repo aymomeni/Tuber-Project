@@ -100,7 +100,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
 	ConnectionTask cT = new ConnectionTask(new ConnectionTask.CallBack() {
 	  @Override
-	  public void Done(JSONObject result) {
+	  public boolean Done(JSONObject result) {
 
 		if(result != null){
 
@@ -111,6 +111,7 @@ public class RegistrationActivity extends AppCompatActivity {
 		  onSignupFailed();
 		  Log.i("CreateUser/Error", "Issue connecting to the server");
 		}
+		return false;
 	  }
 	});
 

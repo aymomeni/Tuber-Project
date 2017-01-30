@@ -89,7 +89,7 @@ public class LoginActivityNew extends AppCompatActivity {
 	ConnectionTask userVerification = new ConnectionTask(new ConnectionTask.CallBack() {
 
 	  @Override
-	  public void Done(JSONObject result) {
+	  public boolean Done(JSONObject result) {
 
 		if(result != null) {
 
@@ -103,6 +103,7 @@ public class LoginActivityNew extends AppCompatActivity {
 		  onLoginFailed();
 
 		}
+		return false;
 	  }
 	});
 

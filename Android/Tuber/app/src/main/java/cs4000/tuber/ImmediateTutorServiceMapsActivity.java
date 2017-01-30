@@ -30,6 +30,11 @@ import org.json.JSONObject;
 
 /**
  * Class that depicts the tutor and the student on google maps
+ *
+ * There is a couple of checks that one should be aware of in onCreate:
+ *
+ * - is tutor already offering to tutor?
+ * - is tutor already paired?
  */
 public class ImmediateTutorServiceMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -38,7 +43,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
   private LocationListener _locationListener;
 
   private Button _offerToTutorButton;
-  private Button _cancelTutorServiceButton;
 
   private String _userEmail;
   private String _userToken;
@@ -46,8 +50,8 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
   private String _userLatitude;
   private String _userLongitude;
 
-  private Boolean _requestActive = false;
-  private Boolean _studentActive = false;
+  private Boolean _ServiceRequestActive = false;
+  private Boolean _pairingActive = false;
   private TextView _infoTextView;
 
   private ConnectionTask connectionTask;
@@ -62,22 +66,19 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 			.findFragmentById(R.id.map);
 	mapFragment.getMapAsync(this);
 
+
+	//TODO: Use shared preferences instead of hard coding
 	// grab user's email and password from shared preferences as well as the class in which the tutor
 	// wants to tutor in
-	// TODO: Use shared preferences instead of hard coding
 	// user course should come from a message delivered by the prior activity
 	_userEmail = "u0665302@utah.edu";
 	_userToken = "";
 	_userCourse = "CS 4400";
-	try {
-	  _userLatitude = Double.toString(getMyLocation().getLatitude());
-	  _userLongitude = Double.toString(getMyLocation().getLongitude());
-	} catch(Exception e){
-	  Log.i("Tutor Service Request:", "Error in loading tutor location");
-	  e.printStackTrace();
-	}
+    _userLongitude = "";
+	_userLatitude = "";
 
-
+	_pairingActive = checkIfPaired();
+	_ServiceRequestActive = checkIfAlreadyOffering();
 
 	_offerToTutorButton = (Button) findViewById(R.id.offerToTutorButton);
 	_infoTextView = (TextView) findViewById(R.id.infoTextView);
@@ -98,15 +99,47 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 	  }
 	});
 
-	_cancelTutorServiceButton.setOnClickListener(new View.OnClickListener() {
+  }
+
+
+  /**
+   * Checks if already paired (must be implemented by Brandon)
+   * @return
+   */
+  private boolean checkIfPaired() {
+	return false;
+  }
+
+
+  private boolean checkIfAlreadyOffering() {
+
+	JSONObject jObject = null;
+	// checking if the tutor is already actively offering to tutor
+	try {
+	  jObject = getThisTutorJSONObjectForOfferToTutor();
+	} catch(JSONException e) {
+	  Log.i("Tutor Service:", "Issue parsing the JSON object");
+	  e.printStackTrace();
+	}
+
+	connectionTask = new ConnectionTask(new ConnectionTask.CallBack() {
 	  @Override
-	  public void onClick(View v) {
-		// delete tutor available
+	  public boolean Done(JSONObject result) {
+		if(result != null){
+
+		  // TODO: Can be wrong: tutor is not yet available
+		  return true;
+
+		} else {
+
+		  // tutor is already available
+		  return false;
+		}
 	  }
 	});
+	connectionTask.make_tutor_available(jObject);
 
-
-
+	return false;
   }
 
 
@@ -115,28 +148,44 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
    */
   private void checkForUpdate() {
 
-
-
+	// in a loop should check if paired yet
+		// if yes should check if locations have changed or are close to each other
+			// if changed redraw the information distance
+			// if yes redraw locations
 
   }
 
   /**
    * Returns a JSON Object based on the make_tutor_available request
-   * @param userEmail
-   * @param userToken
-   * @param tutorCourse
-   * @param latitude
-   * @param longtitude
    * @return
    */
-  private JSONObject getThisTutorJSONObject(String userEmail, String userToken, String tutorCourse, String latitude, String longtitude) throws JSONException {
+  private JSONObject getThisTutorJSONObjectForOfferToTutor() throws JSONException {
 
 	JSONObject jO = new JSONObject();
 	jO.put("userEmail", _userEmail);
 	jO.put("userToken", _userToken);
 	jO.put("tutorCourse", _userCourse);
+
+	try {
+	  _userLatitude = Double.toString(getMyLocation().getLatitude());
+	  _userLongitude = Double.toString(getMyLocation().getLongitude());
+	} catch(Exception e){
+	  Log.i("Tutor Service Request:", "Error in loading tutor location");
+	  e.printStackTrace();
+	}
+
 	jO.put("latitude", _userLatitude);
 	jO.put("longitude", _userLongitude);
+
+	return jO;
+  }
+
+
+  private JSONObject getThisTutorJSONOBjectCancelTutorRequest() throws JSONException {
+
+	JSONObject jO = new JSONObject();
+	jO.put("userEmail", _userEmail);
+	jO.put("userToken", _userToken);
 
 	return jO;
   }
@@ -180,13 +229,41 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
   /**
    * Cancels a request made prior by the tutor
-   * @param view
    */
-  private void cancelTutorServiceRequest (View view) {
+  private void cancelTutorServiceRequest () {
 
-	
+	JSONObject jObject = null;
+	// if no active pairing is going on then cancel request
+	if(!_pairingActive && checkIfAlreadyOffering()){
 
+	  // checking if the tutor is already actively offering to tutor
+	  try {
+		jObject = getThisTutorJSONOBjectCancelTutorRequest();
+	  } catch(JSONException e) {
+		Log.i("Tutor Service:", "Issue parsing the JSON object");
+		e.printStackTrace();
+	  }
 
+	  connectionTask = new ConnectionTask(new ConnectionTask.CallBack() {
+
+		@Override
+		public boolean Done(JSONObject result) {
+		  if(result != null){
+
+			// TODO: Can be wrong: tutor is not yet available
+			return true;
+
+		  } else {
+
+			// tutor is already available
+			return false;
+		  }
+		}
+	  });
+
+	  connectionTask.delete_tutor_available(jObject);
+
+	}
   }
 
 
@@ -194,13 +271,12 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
    * if the tutor pushes the offer to tutor button:
    * first check if there is already a active service
    * else notify server that tutor is ready to tutor
-   * @param view
    */
-  private void offerToTutor(View view) {
+  private void offerToTutor() {
 
 	Log.i("OfferToTutor", "Tutor service request processing (offer to tutor method)");
 
-	if(_requestActive){
+	if(!_ServiceRequestActive){
 
 	  // make_tutor_available and if he is already available should not return 200 OK
 
