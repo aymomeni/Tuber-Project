@@ -151,7 +151,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 	connectionTask = new ConnectionTask(new ConnectionTask.CallBack() {
 	  @Override
 	  public boolean Done(JSONObject result) {
-		if(result != null){
+		if(result == null && connectionTask.getIsOfferingToTutor()){
 
 		  // TODO: Can be wrong: tutor is not yet available
 		  return true;
@@ -163,7 +163,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 		}
 	  }
 	});
-	connectionTask.make_tutor_available(jObject);
+	connectionTask.check_paired_status(jObject);
 
 	return false;
   }

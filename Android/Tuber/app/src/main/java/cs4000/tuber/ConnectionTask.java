@@ -117,8 +117,8 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	  int HttpResult = urlConnection.getResponseCode();
 
 	  // EDIT: ALI - If bad request and /checkpai
-	  if ((!(HttpResult == HttpURLConnection.HTTP_BAD_REQUEST)) && params[0].equals("/checkpairedstatus")) {
-		isOfferingToTutor = true;
+	  if(HttpResult == HttpURLConnection.HTTP_BAD_REQUEST && params[0].equals("/checkpairedstatus")) {
+		isOfferingToTutor = false;
 		return null;
 	  }
 
@@ -132,6 +132,16 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 		  char current = (char) data;
 		  result += current;
 		  data = reader.read();
+		}
+	  }
+
+	  // EDIT: ALI - If ok is returned for /checkpairedstatus and json is null the tutor is currently offering to tutor (but isn't paired yet)
+	  if(HttpResult == HttpURLConnection.HTTP_OK && params[0].equals("/checkpairedstatus")) {
+		if(result == null){
+		  isOfferingToTutor = true;
+		  return null;
+		} else {
+		  isOfferingToTutor = false;
 		}
 	  }
 
