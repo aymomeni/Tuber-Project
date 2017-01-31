@@ -57,19 +57,15 @@ public class LoginActivityNew extends AppCompatActivity {
 	  _passwordText.setText(_userPassword);
 
 	} else {
-
 	  _emailText.setText("");
 	  _passwordText.setText("");
-
 	}
 
 	_loginButton.setOnClickListener(new View.OnClickListener() {
-
 	  @Override
 	  public void onClick(View v) {
 		login();
 	  }
-
 	});
 
 	_emailText.setOnTouchListener(new View.OnTouchListener() {
@@ -82,7 +78,6 @@ public class LoginActivityNew extends AppCompatActivity {
 	});
 
 	_signupLink.setOnClickListener(new View.OnClickListener() {
-
 	  @Override
 	  public void onClick(View v) {
 		// Start the Signup activity
@@ -125,13 +120,13 @@ public class LoginActivityNew extends AppCompatActivity {
 	}
 
 	ConnectionTask userVerification = new ConnectionTask(new ConnectionTask.CallBack() {
-
 	  @Override
 	  public boolean Done(JSONObject result) {
 
 		if(result != null) {
 
 		  try {
+			// for some reason the password is messed up when it comes from the server
 //			_userEmail = result.getString("userToken").toString();
 //			_userPassword = result.getString("userPassword").toString();
 			_userToken = result.getString("userToken").toString();
@@ -143,7 +138,6 @@ public class LoginActivityNew extends AppCompatActivity {
 			e.printStackTrace();
 		  }
 		} else {
-		  // some error occured
 		  _lastLoginSuccess = false;
 		  Log.i(TAG, "JSON result object null");
 
@@ -216,7 +210,6 @@ public class LoginActivityNew extends AppCompatActivity {
   }
 
   public void onLoginFailed() {
-
 	//Toast.makeText(getBaseContext(), "Username or Password where incorrect", Toast.LENGTH_LONG).show();
 	_emailText.setError("enter a valid email address");
 	_passwordText.setError("enter a valid password");

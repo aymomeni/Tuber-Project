@@ -8,10 +8,10 @@
     <color name="colorAccent_Red">#ff7474</color>
     <color name="colorAccent_BlueGreen">#57bbb1</color>
 
-    // added Jan 28
-    <color name="primary">#54a754</color>
-    <color name="primary_dark">#4b894b</color>
-    <color name="primary_darker">#3f703f</color>
+    // added Jan 28 ALI
+    <color name="primary">#5ebadc</color>
+    <color name="primary_dark">#35828f</color>
+    <color name="primary_darker">#3e7b91</color>
     <color name="accent">#FFFFFF</color>
 
     <color name="black">#000000</color>
