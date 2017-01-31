@@ -10,9 +10,14 @@ import UIKit
 
 class Registration2ViewController: UIViewController {
 
+    @IBOutlet weak var picker: UIPickerView!
+    var pickerData: [String] = [String]()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        pickerData = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"]
+        
         // Do any additional setup after loading the view.
     }
 
