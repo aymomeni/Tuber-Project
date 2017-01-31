@@ -1,11 +1,14 @@
 package cs4000.tuber;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import android.content.Intent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,13 +22,22 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 public class LoginActivityNew extends AppCompatActivity {
-  private static final String TAG = "LoginActivity";
+  private static final String TAG = "LoginActivityNew";
   private static final int REQUEST_SIGNUP = 0;
+  private String _userEmail = "";
+  private String _userPassword = "";
+  private String _userToken = "";
+  private String _userStudentCourses = "";
+  private String _userTutorCourses = "";
+  private Boolean _lastLoginSuccess = false;
+
+  private SharedPreferences sharedPreferences;
 
   @InjectView(R.id.input_email) EditText _emailText;
   @InjectView(R.id.input_password) EditText _passwordText;
   @InjectView(R.id.btn_login) Button _loginButton;
   @InjectView(R.id.link_signup) TextView _signupLink;
+
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -33,17 +45,39 @@ public class LoginActivityNew extends AppCompatActivity {
 	setContentView(R.layout.activity_login_new);
 	ButterKnife.inject(this);
 
-	_loginButton.setOnClickListener(new View.OnClickListener() {
+	// finding out if last login was successful and if it was we enter in email and password automatically
+	sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+	_lastLoginSuccess = sharedPreferences.getBoolean("lastLoginSuccess", false);
 
+	if(_lastLoginSuccess){
+
+	  _userEmail = sharedPreferences.getString("userEmail", "");
+	  _userPassword = sharedPreferences.getString("userPassword", "");
+	  _emailText.setText(_userEmail);
+	  _passwordText.setText(_userPassword);
+
+	} else {
+	  _emailText.setText("");
+	  _passwordText.setText("");
+	}
+
+	_loginButton.setOnClickListener(new View.OnClickListener() {
 	  @Override
 	  public void onClick(View v) {
 		login();
 	  }
+	});
 
+	_emailText.setOnTouchListener(new View.OnTouchListener() {
+	  @Override
+	  public boolean onTouch(View v, MotionEvent event) {
+		_emailText.setText("");
+		_passwordText.setText("");
+		return false;
+	  }
 	});
 
 	_signupLink.setOnClickListener(new View.OnClickListener() {
-
 	  @Override
 	  public void onClick(View v) {
 		// Start the Signup activity
@@ -69,38 +103,43 @@ public class LoginActivityNew extends AppCompatActivity {
 	progressDialog.setMessage("Authenticating...");
 	progressDialog.show();
 
-	String email = _emailText.getText().toString();
-	String password = _passwordText.getText().toString();
+	_userEmail = _emailText.getText().toString();
+	_userPassword = _passwordText.getText().toString();
 
-	// TODO: Further checks necessary
 
 	JSONObject userLoginJSON = new JSONObject();
 
 	try {
 
-	  userLoginJSON.put("userEmail", email);
-	  userLoginJSON.put("userPassword", password);
+	  userLoginJSON.put("userEmail", _userEmail);
+	  userLoginJSON.put("userPassword", _userPassword);
 
 	}catch(JSONException e){
-	  Log.i("LogIn", "JSON Exception filling the object");
+	  Log.i(TAG, "JSON Exception filling the object");
 	  e.printStackTrace();
 	}
 
 	ConnectionTask userVerification = new ConnectionTask(new ConnectionTask.CallBack() {
-
 	  @Override
 	  public boolean Done(JSONObject result) {
 
 		if(result != null) {
 
-		  // TODO: once done save into preferences and call intent
-		  Log.i("Login Successful", result.toString());
+		  try {
+			// for some reason the password is messed up when it comes from the server
+//			_userEmail = result.getString("userToken").toString();
+//			_userPassword = result.getString("userPassword").toString();
+			_userToken = result.getString("userToken").toString();
+			_userStudentCourses =  result.getString("userStudentCourses").toString();
+			_userTutorCourses = result.getString("userTutorCourses").toString();
+			_lastLoginSuccess = true;
 
+		  } catch (JSONException e) {
+			e.printStackTrace();
+		  }
 		} else {
-		  // some error occured
-		  Log.i("Login", "JSON result object error");
-		  Toast.makeText(LoginActivityNew.this, "Username or Password where incorrect", Toast.LENGTH_SHORT).show();
-		  onLoginFailed();
+		  _lastLoginSuccess = false;
+		  Log.i(TAG, "JSON result object null");
 
 		}
 		return false;
@@ -114,8 +153,8 @@ public class LoginActivityNew extends AppCompatActivity {
 			new Runnable() {
 			  public void run() {
 				// On complete call either onLoginSuccess or onLoginFailed
-				onLoginSuccess();
-				// onLoginFailed();
+				onLoginSuccess(_lastLoginSuccess);
+				//onLoginFailed();
 				progressDialog.dismiss();
 			  }
 			}, 3000);
@@ -140,15 +179,40 @@ public class LoginActivityNew extends AppCompatActivity {
 	moveTaskToBack(true);
   }
 
-  public void onLoginSuccess() {
+  public void onLoginSuccess(Boolean _lastLoginSuccess) {
 	_loginButton.setEnabled(true);
-	Toast.makeText(getBaseContext(), "Login Successful", Toast.LENGTH_LONG).show();
-	Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-	startActivityForResult(intent, REQUEST_SIGNUP);
+	if(_lastLoginSuccess == true) {
+
+	  SharedPreferences.Editor sPref = sharedPreferences.edit();
+	  sPref.putString("userEmail", _userEmail);
+	  sPref.putString("userPassword", _userPassword);
+	  sPref.putString("userToken", _userToken);
+	  sPref.putString("userStudentCourses", _userStudentCourses);
+	  sPref.putString("userTutorCourses", _userTutorCourses);
+	  sPref.putBoolean("lastLoginSuccess", _lastLoginSuccess);
+	  sPref.commit();
+
+	  Log.i(TAG, "userEmail: " + _userEmail);
+	  Log.i(TAG, "userPassword: " + _userPassword);
+	  Log.i(TAG, "userToken: " + _userToken);
+	  Log.i(TAG, "userStudentCourses: " + _userStudentCourses);
+	  Log.i(TAG, "userTutorCourses: " + _userTutorCourses);
+	  Log.i(TAG, "lastLoginSuccess: " + _lastLoginSuccess);
+
+	  Toast.makeText(getBaseContext(), "login successful", Toast.LENGTH_LONG).show();
+	  Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+	  startActivityForResult(intent, REQUEST_SIGNUP);
+	  //finish();
+
+	} else {
+	  onLoginFailed();
+	}
   }
 
   public void onLoginFailed() {
-	Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+	//Toast.makeText(getBaseContext(), "Username or Password where incorrect", Toast.LENGTH_LONG).show();
+	_emailText.setError("enter a valid email address");
+	_passwordText.setError("enter a valid password");
 	_loginButton.setEnabled(true);
   }
 
