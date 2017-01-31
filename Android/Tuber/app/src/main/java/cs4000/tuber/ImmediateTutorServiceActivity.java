@@ -70,7 +70,8 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 	query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername());
 	query.whereExists("studentUsername");
 	query.findInBackground(new FindCallback<ParseObject>() {
-							 @Override
+
+	  						@Override
 							 public void done(List<ParseObject> objects, ParseException e) {
 
 							   if (e == null && objects.size() > 0) {
@@ -79,7 +80,7 @@ public class ImmediateTutorServiceActivity extends FragmentActivity implements O
 
 								   new AlertDialog.Builder(ImmediateTutorServiceActivity.this)
 										   .setTitle("Paired")
-										   .setMessage("You paired successfully with a Student.")
+										   .setMessage("You paired successfully with a Tutor.")
 										   .setCancelable(false)
 										   .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
 											 @Override

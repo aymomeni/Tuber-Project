@@ -1,8 +1,11 @@
 package cs4000.tuber;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -25,7 +28,20 @@ public class MenuActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_menu);
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String useremail = sharedPreferences.getString("useremail", "");
+        String userpw = sharedPreferences.getString("userpassword", "");
+        String usertoken = sharedPreferences.getString("usertoken", "");
+
+
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
+    }
+
+    @Override
+    public void onBackPressed() {
+        // disable going back to the MainActivity
+        moveTaskToBack(false);
     }
 
 

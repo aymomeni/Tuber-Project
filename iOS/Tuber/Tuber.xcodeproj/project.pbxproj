@@ -21,19 +21,7 @@
 		9714011B1DF528490099A8DB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9714011A1DF528490099A8DB /* LoginViewController.swift */; };
 		9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9714011C1DF52C130099A8DB /* ScheduleTutorViewController.swift */; };
 		9714011F1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9714011E1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift */; };
-		97B8E0061DF560AF001EEC79 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E0041DF560AE001EEC79 /* Bolts.framework */; };
-		97B8E0071DF560AF001EEC79 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E0051DF560AF001EEC79 /* Parse.framework */; };
-		97B8E00A1DF5632D001EEC79 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E0091DF5632D001EEC79 /* AudioToolbox.framework */; };
-		97B8E00C1DF56345001EEC79 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E00B1DF56345001EEC79 /* CFNetwork.framework */; };
-		97B8E00E1DF5634D001EEC79 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E00D1DF5634D001EEC79 /* CoreGraphics.framework */; };
-		97B8E0101DF56364001EEC79 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E00F1DF56364001EEC79 /* MobileCoreServices.framework */; };
-		97B8E0121DF56376001EEC79 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E0111DF56376001EEC79 /* CoreLocation.framework */; };
-		97B8E0141DF5637F001EEC79 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E0131DF5637F001EEC79 /* QuartzCore.framework */; };
-		97B8E0161DF56388001EEC79 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E0151DF56388001EEC79 /* Security.framework */; };
-		97B8E0181DF56391001EEC79 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E0171DF56391001EEC79 /* StoreKit.framework */; };
-		97B8E01A1DF56398001EEC79 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E0191DF56398001EEC79 /* SystemConfiguration.framework */; };
-		97B8E01C1DF563A3001EEC79 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E01B1DF563A3001EEC79 /* libsqlite3.tbd */; };
-		97B8E01E1DF563A9001EEC79 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B8E01D1DF563A9001EEC79 /* libz.tbd */; };
+		97A072E31E324FA900D91130 /* ImmediateTutorRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A072E21E324FA900D91130 /* ImmediateTutorRequestViewController.swift */; };
 		97D6B3D41DF7EC9C0093479E /* ClassOptionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D31DF7EC9C0093479E /* ClassOptionsTableViewCell.swift */; };
 		97D6B3D61DF7ECF10093479E /* ClassOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */; };
 		97D6B3D81DF801630093479E /* TutorServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D71DF801630093479E /* TutorServicesViewController.swift */; };
@@ -83,19 +71,7 @@
 		9714011A1DF528490099A8DB /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9714011C1DF52C130099A8DB /* ScheduleTutorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTutorViewController.swift; sourceTree = "<group>"; };
 		9714011E1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTutorConfirmViewController.swift; sourceTree = "<group>"; };
-		97B8E0041DF560AE001EEC79 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		97B8E0051DF560AF001EEC79 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		97B8E0091DF5632D001EEC79 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		97B8E00B1DF56345001EEC79 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		97B8E00D1DF5634D001EEC79 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		97B8E00F1DF56364001EEC79 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		97B8E0111DF56376001EEC79 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		97B8E0131DF5637F001EEC79 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		97B8E0151DF56388001EEC79 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		97B8E0171DF56391001EEC79 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		97B8E0191DF56398001EEC79 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		97B8E01B1DF563A3001EEC79 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		97B8E01D1DF563A9001EEC79 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		97A072E21E324FA900D91130 /* ImmediateTutorRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImmediateTutorRequestViewController.swift; sourceTree = "<group>"; };
 		97D6B3D31DF7EC9C0093479E /* ClassOptionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassOptionsTableViewCell.swift; sourceTree = "<group>"; };
 		97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassOptionsViewController.swift; sourceTree = "<group>"; };
 		97D6B3D71DF801630093479E /* TutorServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorServicesViewController.swift; sourceTree = "<group>"; };
@@ -112,19 +88,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				97B8E01E1DF563A9001EEC79 /* libz.tbd in Frameworks */,
-				97B8E01C1DF563A3001EEC79 /* libsqlite3.tbd in Frameworks */,
-				97B8E01A1DF56398001EEC79 /* SystemConfiguration.framework in Frameworks */,
-				97B8E0181DF56391001EEC79 /* StoreKit.framework in Frameworks */,
-				97B8E0161DF56388001EEC79 /* Security.framework in Frameworks */,
-				97B8E0141DF5637F001EEC79 /* QuartzCore.framework in Frameworks */,
-				97B8E0121DF56376001EEC79 /* CoreLocation.framework in Frameworks */,
-				97B8E00E1DF5634D001EEC79 /* CoreGraphics.framework in Frameworks */,
-				97B8E0101DF56364001EEC79 /* MobileCoreServices.framework in Frameworks */,
-				97B8E00C1DF56345001EEC79 /* CFNetwork.framework in Frameworks */,
-				97B8E00A1DF5632D001EEC79 /* AudioToolbox.framework in Frameworks */,
-				97B8E0071DF560AF001EEC79 /* Parse.framework in Frameworks */,
-				97B8E0061DF560AF001EEC79 /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +135,7 @@
 				971400EC1DF527D60099A8DB /* AppDelegate.swift */,
 				971400EE1DF527D60099A8DB /* ViewController.swift */,
 				971400F01DF527D60099A8DB /* Main.storyboard */,
+				97A072E21E324FA900D91130 /* ImmediateTutorRequestViewController.swift */,
 				971400F31DF527D60099A8DB /* Assets.xcassets */,
 				971400F51DF527D60099A8DB /* LaunchScreen.storyboard */,
 				971400F81DF527D60099A8DB /* Info.plist */,
@@ -216,19 +180,6 @@
 		97B8E0081DF5632D001EEC79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				97B8E0041DF560AE001EEC79 /* Bolts.framework */,
-				97B8E0051DF560AF001EEC79 /* Parse.framework */,
-				97B8E01D1DF563A9001EEC79 /* libz.tbd */,
-				97B8E01B1DF563A3001EEC79 /* libsqlite3.tbd */,
-				97B8E0191DF56398001EEC79 /* SystemConfiguration.framework */,
-				97B8E0171DF56391001EEC79 /* StoreKit.framework */,
-				97B8E0151DF56388001EEC79 /* Security.framework */,
-				97B8E0131DF5637F001EEC79 /* QuartzCore.framework */,
-				97B8E0111DF56376001EEC79 /* CoreLocation.framework */,
-				97B8E00F1DF56364001EEC79 /* MobileCoreServices.framework */,
-				97B8E00D1DF5634D001EEC79 /* CoreGraphics.framework */,
-				97B8E00B1DF56345001EEC79 /* CFNetwork.framework */,
-				97B8E0091DF5632D001EEC79 /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -381,6 +332,7 @@
 				97EEACCF1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */,
 				971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */,
+				97A072E31E324FA900D91130 /* ImmediateTutorRequestViewController.swift in Sources */,
 				97EEACC71DF8FDDC007F23B1 /* OfferTutorTableViewController.swift in Sources */,
 				97EEACCB1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift in Sources */,
 				97D6B3D41DF7EC9C0093479E /* ClassOptionsTableViewCell.swift in Sources */,
