@@ -231,6 +231,39 @@ namespace ToDoList
         public string course { get; set; }
     }
 
+    public class EndTutorSessionRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+    }
+
+    public class EndTutorSessionResponseItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string studentEmail { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string sessionStartTime { get; set; }
+
+        [DataMember]
+        public string sessionEndTime { get; set; }
+
+        [DataMember]
+        public double sessionCost { get; set; }
+    }
+
     public class CreateStudyHotspotRequestItem
     {
         [DataMember]

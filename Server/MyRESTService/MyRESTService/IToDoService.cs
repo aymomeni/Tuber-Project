@@ -115,6 +115,14 @@ namespace ToDoList
 
         [OperationContract]
         [WebInvoke(Method = "POST",
+            UriTemplate = "/endtutorsession",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        EndTutorSessionResponseItem EndTutorSession(EndTutorSessionRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
             UriTemplate = "/createstudyhotspot",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,

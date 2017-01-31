@@ -694,6 +694,106 @@ namespace ToDoList
             }
         }
 
+        public EndTutorSessionResponseItem EndTutorSession(EndTutorSessionRequestItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    // Get info from tutor_sessions_active table
+                    String returnedStudentEmail = "";
+                    String returnedTutorEmail = "";
+                    String returnedCourseName = "";
+                    DateTime returnedSessionStartTime = DateTime.Now;
+                    DateTime sessionEndTime = DateTime.Now;
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT * FROM tutor_sessions_active WHERE tutorEmail = ?tutorEmail";
+                            command.Parameters.AddWithValue("tutorEmail", item.userEmail);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedStudentEmail = reader.GetString("studentEmail");
+                                    returnedTutorEmail = reader.GetString("tutorEmail");
+                                    returnedCourseName = reader.GetString("course");
+                                    returnedSessionStartTime = reader.GetDateTime("session_start_time");
+                                }
+                            }
+
+                            if (returnedTutorEmail == item.userEmail)
+                            {
+                                // Remove tutor from tutor_sessions_active table
+                                command.CommandText = "DELETE FROM tutor_sessions_active WHERE tutorEmail = ?tutorEmail";
+
+                                if (command.ExecuteNonQuery() >= 0)
+                                {
+                                    // Calculate the total cost of the tutoring session
+                                    //TODO: discuss the billing rate with team
+                                    TimeSpan diff = sessionEndTime.Subtract(returnedSessionStartTime);
+                                    double cost = diff.TotalMinutes * 0.25;
+                                    cost = Math.Round(cost, 2);
+
+                                    // Insert student & tutor into the tutor_sesssions_complete table
+                                    command.CommandText = "INSERT INTO tutor_sessions_completed VALUES (?studentEmail, ?tutorEmail, ?course, ?session_start_time, ?session_end_time, ?session_cost)";
+                                    command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
+                                    command.Parameters.AddWithValue("course", returnedCourseName);
+                                    command.Parameters.AddWithValue("session_start_time", returnedSessionStartTime);
+                                    command.Parameters.AddWithValue("session_end_time", sessionEndTime);
+                                    command.Parameters.AddWithValue("session_cost", cost);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        EndTutorSessionResponseItem endresponse = new EndTutorSessionResponseItem();
+                                        endresponse.userEmail = returnedTutorEmail;
+                                        endresponse.studentEmail = returnedStudentEmail;
+                                        endresponse.course = returnedCourseName;
+                                        endresponse.sessionStartTime = returnedSessionStartTime.ToString();
+                                        endresponse.sessionEndTime = sessionEndTime.ToString();
+                                        endresponse.sessionCost = cost;
+                                        return endresponse;
+                                    }
+                                    else
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                        return new EndTutorSessionResponseItem();
+                                    }
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new EndTutorSessionResponseItem();
+                                }
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
+                                return new EndTutorSessionResponseItem();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new EndTutorSessionResponseItem();
+                }
+            }
+        }
+
         public void CreateStudyHotspot(CreateStudyHotspotRequestItem item)
         {
             lock (this)
@@ -1580,6 +1680,6 @@ namespace ToDoList
             }
         }
 
-       
+        
     }
 }
