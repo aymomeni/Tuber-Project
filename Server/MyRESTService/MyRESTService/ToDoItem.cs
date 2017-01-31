@@ -175,8 +175,8 @@ namespace ToDoList
         [DataMember]
         public string tutorLongitude { get; set; }
 
-        [DataMember]
-        public int session_status { get; set; }
+        //[DataMember]
+        //public int session_status { get; set; }
     }
 
     // Sent to server to see if the tutor has been paired with a student for immediate tutor case
@@ -215,8 +215,20 @@ namespace ToDoList
         [DataMember]
         public string tutorLongitude { get; set; }
 
+        //[DataMember]
+        //public int session_status { get; set; }
+    }
+
+    public class StartTutorSessionItem
+    {
         [DataMember]
-        public int session_status { get; set; }
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
     }
 
     public class CreateStudyHotspotRequestItem
@@ -405,9 +417,77 @@ namespace ToDoList
         public string duration { get; set; }
     }
 
+    public class AcceptStudentScheduleRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
 
+        [DataMember]
+        public string userToken { get; set; }
 
+        [DataMember]
+        public string studentEmail { get; set; }
 
+        [DataMember]
+        public string course { get; set; }
+    }
+
+    public class AcceptStudentScheduleRequestResponseItem
+    {
+        [DataMember]
+        public string student_email { get; set; }
+
+        [DataMember]
+        public string tutor_email { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string topic { get; set; }
+
+        [DataMember]
+        public string date { get; set; }
+
+        [DataMember]
+        public string time { get; set; }
+
+        [DataMember]
+        public string duration { get; set; }
+    }
+
+    public class PairedScheduledStatusItem
+    {
+        //[DataMember]
+        //public string userEmail { get; set; }
+
+        //[DataMember]
+        //public string userToken { get; set; }
+
+        [DataMember]
+        public string studentEmail { get; set; }
+
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string topic { get; set; }
+
+        [DataMember]
+        public string date { get; set; }
+
+        [DataMember]
+        public string time { get; set; }
+
+        [DataMember]
+        public string duration { get; set; }
+
+        [DataMember]
+        public Boolean isPaired { get; set; }
+    }
 
 
 

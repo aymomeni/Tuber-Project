@@ -7,6 +7,7 @@ using System.Text;
 using MySql.Data.MySqlClient;
 using System.Device.Location;
 using System.Security.Cryptography;
+using System.Globalization;
 
 
 namespace ToDoList
@@ -474,14 +475,13 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() >= 0)
                                 {
                                     // Insert student & tutor into the tutor_sesssion table with session status of 0 -> not started
-                                    command.CommandText = "INSERT INTO tutor_sessions (studentEmail, tutorEmail, course, studentLatitude, studentLongitude, tutorLatitude, tutorLongitude, session_status) VALUES (?studentEmail, ?tutorEmail, ?course, ?studentLatitude, ?studentLongitude, ?tutorLatitude, ?tutorLongitude, ?session_status)";
+                                    command.CommandText = "INSERT INTO tutor_sessions_pairing (studentEmail, tutorEmail, course, studentLatitude, studentLongitude, tutorLatitude, tutorLongitude) VALUES (?studentEmail, ?tutorEmail, ?course, ?studentLatitude, ?studentLongitude, ?tutorLatitude, ?tutorLongitude)";
                                     command.Parameters.AddWithValue("studentEmail", item.userEmail);
                                     command.Parameters.AddWithValue("course", returnedCourseName);
                                     command.Parameters.AddWithValue("studentLatitude", item.studentLatitude);
                                     command.Parameters.AddWithValue("studentLongitude", item.studentLongitude);
                                     command.Parameters.AddWithValue("tutorLatitude", returnedTutorLatitude);
                                     command.Parameters.AddWithValue("tutorLongitude", returnedTutorLongitude);
-                                    command.Parameters.AddWithValue("session_status", 0);
 
                                     if (command.ExecuteNonQuery() > 0)
                                     {
@@ -495,7 +495,6 @@ namespace ToDoList
                                         paired.studentLongitude = item.studentLongitude;
                                         paired.tutorLatitude = returnedTutorLatitude;
                                         paired.tutorLongitude = returnedTutorLongitude;
-                                        paired.session_status = 0;
 
                                         return paired;
                                     }
@@ -541,6 +540,12 @@ namespace ToDoList
                 {
                     // Check that the tutor is still available 
                     String returnedTutorEmail = "";
+                    String returnedStudentEmail = "";
+                    String returnedTutorCourse = "";
+                    String returnedStudentLatitude = "";
+                    String returnedStudentLongitude = "";
+                    String returnedTutorLatitude = "";
+                    String returnedTutorLongitude = "";
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
@@ -563,7 +568,7 @@ namespace ToDoList
                             if (returnedTutorEmail == "")
                             {
                                 // Remove tutor from available_tutor table
-                                command.CommandText = "SELECT * FROM tutor_sessions WHERE tutorEmail = ?userEmail";
+                                command.CommandText = "SELECT * FROM tutor_sessions_pairing WHERE tutorEmail = ?userEmail";
 
                                 PairedStatusItem pairedStatus = new PairedStatusItem();
 
@@ -578,11 +583,19 @@ namespace ToDoList
                                         pairedStatus.studentLongitude = reader.GetString("studentLongitude");
                                         pairedStatus.tutorLatitude = reader.GetString("tutorLatitude");
                                         pairedStatus.tutorLongitude = reader.GetString("tutorLongitude");
-                                        pairedStatus.session_status = reader.GetInt32("session_status");
+                                        //pairedStatus.session_status = reader.GetInt32("session_status");
                                     }
                                 }
 
-                                return pairedStatus;
+                                if (pairedStatus.userEmail == "" || pairedStatus.userEmail == null)
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                    return new PairedStatusItem();
+                                }
+                                else
+                                {
+                                    return pairedStatus;
+                                }
                             }
                             else
                             {
@@ -600,6 +613,83 @@ namespace ToDoList
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new PairedStatusItem();
+                }
+            }
+        }
+
+        public void StartTutorSession(StartTutorSessionItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    // Get info from tutor_sessions_pairing table
+                    String returnedStudentEmail = "";
+                    String returnedTutorEmail = "";
+                    String returnedCourseName = "";
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT studentEmail, tutorEmail, course FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
+                            command.Parameters.AddWithValue("tutorEmail", item.userEmail);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedStudentEmail = reader.GetString("studentEmail");
+                                    returnedTutorEmail = reader.GetString("tutorEmail");
+                                    returnedCourseName = reader.GetString("course");
+                                }
+                            }
+
+                            if (returnedTutorEmail == item.userEmail)
+                            {
+                                // Remove tutor from available_tutor table
+                                command.CommandText = "DELETE FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
+
+                                if (command.ExecuteNonQuery() >= 0)
+                                {
+                                    // Insert student & tutor into the tutor_sesssions_active table
+                                    command.CommandText = "INSERT INTO tutor_sessions_active VALUES (?studentEmail, ?tutorEmail, ?course, ?session_start_time)";
+                                    command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
+                                    command.Parameters.AddWithValue("course", returnedCourseName);
+                                    command.Parameters.AddWithValue("session_start_time", DateTime.Now);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    }
+                                    else
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                    }
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                }
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
         }
@@ -1176,6 +1266,190 @@ namespace ToDoList
             }
         }
 
+        public AcceptStudentScheduleRequestResponseItem AcceptStudentScheduledRequest(AcceptStudentScheduleRequestItem item)
+        {
+            lock (this)
+            {
+
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    // Check that the tutor is still available 
+                    String returnedStudentEmail = "";
+                    String returnedCourseName = "";
+                    String returnedTopic = "";
+                    String returnedDate = "";
+                    String returnedTime = "";
+                    String returnedDuration = "";
+
+                    //String tutorEmail = item.requestedTutorEmail;
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT * FROM tutor_requests WHERE student_email = ?studentEmail AND course = ?course";
+                            command.Parameters.AddWithValue("studentEmail", item.studentEmail);
+                            command.Parameters.AddWithValue("course", item.course);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedStudentEmail = reader.GetString("student_email");
+                                    returnedCourseName = reader.GetString("course");
+                                    returnedTopic = reader.GetString("topic");
+                                    returnedDate = reader.GetString("date");
+                                    //returnedDate = reader.GetDateTime("date").ToString();
+                                    returnedTime = reader.GetString("time");
+                                    returnedDuration = reader.GetString("duration");
+                                }
+                            }
+
+                            if (returnedStudentEmail == item.studentEmail && returnedCourseName == item.course)
+                            {
+                                // Fix date string to be in format yyyy-MM-dd
+                                returnedDate = returnedDate.Split(' ')[0];
+                                returnedDate = returnedDate.Replace(',', '-');
+                                DateTime date = DateTime.ParseExact(returnedDate, "MM-dd-yyyy", CultureInfo.InvariantCulture);
+                                returnedDate = date.ToString("yyyy-MM-dd");
+
+                                // Remove tutor from available_tutor table
+                                command.CommandText = "DELETE FROM tutor_requests WHERE student_email = ?studentEmail AND course = ?course";
+
+                                if (command.ExecuteNonQuery() >= 0)
+                                {
+                                    command.CommandText = "INSERT INTO tutor_requests_accepted VALUES (?student_email, ?tutor_email, ?course, ?topic, ?date, ?time, ?duration)";
+                                    command.Parameters.Clear();
+                                    command.Parameters.AddWithValue("student_email", item.studentEmail);
+                                    command.Parameters.AddWithValue("tutor_email", item.userEmail);
+                                    command.Parameters.AddWithValue("course", returnedCourseName);
+                                    command.Parameters.AddWithValue("topic", returnedTopic);
+                                    command.Parameters.AddWithValue("date", returnedDate);
+                                    command.Parameters.AddWithValue("time", returnedTime);
+                                    command.Parameters.AddWithValue("duration", returnedDuration);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        AcceptStudentScheduleRequestResponseItem paired = new AcceptStudentScheduleRequestResponseItem();
+                                        paired.student_email = item.studentEmail;
+                                        paired.tutor_email = item.userEmail;
+                                        paired.course = returnedCourseName;
+                                        paired.topic = returnedTopic;
+                                        paired.date = returnedDate;
+                                        paired.time = returnedTime;
+                                        paired.duration = returnedDuration;
+                              
+                                        return paired;
+                                    }
+                                    else
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                        return new AcceptStudentScheduleRequestResponseItem();
+                                    }
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new AcceptStudentScheduleRequestResponseItem();
+                                }
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
+                                return new AcceptStudentScheduleRequestResponseItem();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new AcceptStudentScheduleRequestResponseItem();
+                }
+            }
+        }
+
+        public List<PairedScheduledStatusItem> CheckScheduledPairedStatus(CheckPairedStatusItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    List<PairedScheduledStatusItem> listings = new List<PairedScheduledStatusItem>();
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            // Check tutor_requests table for pending requests
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT * FROM tutor_requests WHERE student_email = ?userEmail";
+                            command.Parameters.AddWithValue("userEmail", item.userEmail);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    PairedScheduledStatusItem statusItem = new PairedScheduledStatusItem();
+                                    statusItem.studentEmail = reader.GetString("student_email");
+                                    statusItem.course = reader.GetString("course");
+                                    statusItem.topic = reader.GetString("topic");
+                                    statusItem.date = reader.GetString("date").Split(' ')[0];
+                                    statusItem.time = reader.GetString("time");
+                                    statusItem.duration = reader.GetString("duration");
+                                    statusItem.isPaired = false;
+                                    listings.Add(statusItem);
+                                }
+                            }
+
+                            // Check tutor_requests_accepted table for accepted requests
+                            command.CommandText = "SELECT * FROM tutor_requests_accepted WHERE student_email = ?userEmail";
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    PairedScheduledStatusItem statusItem = new PairedScheduledStatusItem();
+                                    statusItem.studentEmail = reader.GetString("student_email");
+                                    statusItem.tutorEmail = reader.GetString("tutor_email");
+                                    statusItem.course = reader.GetString("course");
+                                    statusItem.topic = reader.GetString("topic");
+                                    statusItem.date = reader.GetString("date").Split(' ')[0];
+                                    statusItem.time = reader.GetString("time");
+                                    statusItem.duration = reader.GetString("duration");
+                                    statusItem.isPaired = true;
+                                    listings.Add(statusItem);
+                                }
+                            }
+
+                            return listings;
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new List<PairedScheduledStatusItem>();
+                }
+            }            
+        }
+
         ////////////////////
         // Helper Functions 
         ////////////////////
@@ -1305,5 +1579,7 @@ namespace ToDoList
                 }
             }
         }
+
+       
     }
 }

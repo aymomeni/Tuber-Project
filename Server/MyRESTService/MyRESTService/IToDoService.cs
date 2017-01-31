@@ -107,6 +107,14 @@ namespace ToDoList
 
         [OperationContract]
         [WebInvoke(Method = "POST",
+            UriTemplate = "/starttutorsession",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        void StartTutorSession(StartTutorSessionItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
             UriTemplate = "/createstudyhotspot",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
@@ -168,5 +176,21 @@ namespace ToDoList
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
         List<ScheduleTutorRequestItem> FindAllScheduleTutorRequests(FindAllScheduleTutorRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/acceptstudentscheduledrequest",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        AcceptStudentScheduleRequestResponseItem AcceptStudentScheduledRequest(AcceptStudentScheduleRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/checkscheduledpairedstatus",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        List<PairedScheduledStatusItem> CheckScheduledPairedStatus(CheckPairedStatusItem data);
     }
 }
