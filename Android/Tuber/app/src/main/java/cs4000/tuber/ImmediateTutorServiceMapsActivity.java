@@ -1,6 +1,5 @@
 package cs4000.tuber;
 
-
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -107,6 +106,33 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
    * @return
    */
   private boolean checkIfPaired() {
+
+	JSONObject jObject = null;
+	// checking if the tutor is already actively offering to tutor
+	try {
+	  jObject = getThisTutorJSONObjectForOfferToTutor();
+	} catch(JSONException e) {
+	  Log.i("Tutor Service:", "Issue parsing the JSON object");
+	  e.printStackTrace();
+	}
+
+	connectionTask = new ConnectionTask(new ConnectionTask.CallBack() {
+	  @Override
+	  public boolean Done(JSONObject result) {
+		if(result != null){
+
+		  // TODO: Can be wrong: tutor is not yet available
+		  return true;
+
+		} else {
+
+		  // tutor is already available
+		  return false;
+		}
+	  }
+	});
+	connectionTask.check_paired_status(jObject);
+
 	return false;
   }
 
@@ -230,7 +256,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
   /**
    * Cancels a request made prior by the tutor
    */
-  private void cancelTutorServiceRequest () {
+  private boolean cancelTutorServiceRequest () {
 
 	JSONObject jObject = null;
 	// if no active pairing is going on then cancel request
@@ -264,6 +290,8 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 	  connectionTask.delete_tutor_available(jObject);
 
 	}
+
+	return false;
   }
 
 
