@@ -63,44 +63,41 @@ class LoginViewController: UIViewController {
             
             let r = response as? HTTPURLResponse
             
-            print(r?.statusCode)
-            
-            
-//            print(response!)
-            
             //parsing the response
             
             if (r?.statusCode == 200)
             {
-            do {
-                //converting resonse to NSDictionary
-                let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
+                do {
+                    //converting resonse to NSDictionary
+                    let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
                 
-//                print(myJSON)
                 
-                //parsing the json
-                if let parseJSON = myJSON {
+                    //parsing the json
+                    if let parseJSON = myJSON {
                     
-                    let defaults = UserDefaults.standard
+                        let defaults = UserDefaults.standard
                     
-                    defaults.set(parseJSON["userEmail"] as! String?, forKey: "userEmail")
-                    defaults.set(parseJSON["userStudentCourses"] as! Array<String>?, forKey: "userStudentCourses")
-                    defaults.set(parseJSON["userToken"] as! String?, forKey: "userToken")
-                    defaults.set(parseJSON["userTutorCourses"] as! Array<String>?, forKey: "userTutorCourses")
-                    defaults.synchronize()
+                        defaults.set(parseJSON["userEmail"] as! String?, forKey: "userEmail")
+                        defaults.set(parseJSON["userStudentCourses"] as! Array<String>?, forKey: "userStudentCourses")
+                        defaults.set(parseJSON["userToken"] as! String?, forKey: "userToken")
+                        defaults.set(parseJSON["userTutorCourses"] as! Array<String>?, forKey: "userTutorCourses")
+                        defaults.synchronize()
                     
-                    print("Added to defaults")
+                        print("Added to defaults")
                     
-                    print(defaults.object(forKey: "userToken")!)
+                        print(defaults.object(forKey: "userToken")!)
 
-                    self.performSegue(withIdentifier: "loginSuccess", sender: nil)
-                    
-                    
+                        OperationQueue.main.addOperation{
+                            self.performSegue(withIdentifier: "loginSuccess", sender: nil)
+                        }
+                    }
                 }
-            } catch {
-                print(error)
+                catch {
+                    print(error)
+                }
             }
-            }
+            //rest of responses
+            self.errorLabel.text = "errormessage"
             
         }
         //executing the task
