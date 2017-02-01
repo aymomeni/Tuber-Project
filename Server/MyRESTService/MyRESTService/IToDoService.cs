@@ -216,5 +216,21 @@ namespace ToDoList
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
         List<PairedScheduledStatusItem> CheckScheduledPairedStatus(CheckPairedStatusItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/reporttutorgettutorlist",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        List<ReportTutorGetTutorListResponseItem> ReportTutorGetTutorList(ReportTutorGetTutorListRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/reporttutorgetsessionlist",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        List<ReportTutorGetSessionListResponseItem> ReportTutorGetSessionList(ReportTutorGetSessionListRequestItem data);
     }
 }

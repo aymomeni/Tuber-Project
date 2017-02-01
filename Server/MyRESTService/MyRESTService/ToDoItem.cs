@@ -530,12 +530,6 @@ namespace ToDoList
 
     public class PairedScheduledStatusItem
     {
-        //[DataMember]
-        //public string userEmail { get; set; }
-
-        //[DataMember]
-        //public string userToken { get; set; }
-
         [DataMember]
         public string studentEmail { get; set; }
 
@@ -561,10 +555,72 @@ namespace ToDoList
         public Boolean isPaired { get; set; }
     }
 
-    
 
+    public class ReportTutorGetTutorListRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
 
+        [DataMember]
+        public string userToken { get; set; }
+    }
 
+    public class ReportTutorGetTutorListResponseItem
+    {
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string tutorFirstName { get; set; }
+
+        [DataMember]
+        public string tutorLastName { get; set; }
+    }
+
+    public class ReportTutorGetSessionListRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string tutorFirstName { get; set; }
+
+        [DataMember]
+        public string tutorLastName { get; set; }
+    }
+
+    public class ReportTutorGetSessionListResponseItem
+    {
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string tutorFirstName { get; set; }
+
+        [DataMember]
+        public string tutorLastName { get; set; }
+
+        [DataMember]
+        public string tutorSessionID { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string sessionStartTime { get; set; }
+
+        [DataMember]
+        public string sessionEndTime { get; set; }
+
+        [DataMember]
+        public string sessionCost { get; set; }
+    }
 
 
 

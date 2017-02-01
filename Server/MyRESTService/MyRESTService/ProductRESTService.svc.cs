@@ -1738,6 +1738,144 @@ namespace ToDoList
             }            
         }
 
+        public List<ReportTutorGetTutorListResponseItem> ReportTutorGetTutorList(ReportTutorGetTutorListRequestItem item)
+        {
+            lock (this)
+            {
+
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    String returnedEmail = "";
+                    String returnedFirstName = "";
+                    String returnedLastName = "";
+
+                    List<String> tutorEmails = new List<String>();
+
+                    List<ReportTutorGetTutorListResponseItem> tutorResponseItems = new List<ReportTutorGetTutorListResponseItem>();
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT tutorEmail FROM tutor_sessions_completed WHERE studentEmail = ?studentEmail";
+                            command.Parameters.AddWithValue("studentEmail", item.userEmail);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedEmail = reader.GetString("tutorEmail");
+                                    if (tutorEmails.Contains(returnedEmail))
+                                    {
+                                        continue;
+                                    }
+                                    else
+                                    {
+                                        tutorEmails.Add(returnedEmail);
+                                    }
+                                }
+                            }
+
+                            for (int i = 0; i < tutorEmails.Count; i++)
+                            {
+                                command.CommandText = "SELECT first_name, last_name FROM users WHERE email = ?email";
+                                command.Parameters.Clear();
+                                command.Parameters.AddWithValue("email", tutorEmails[i]);
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        returnedFirstName = reader.GetString("first_name");
+                                        returnedLastName = reader.GetString("last_name");
+                                    }
+                                }
+
+                                ReportTutorGetTutorListResponseItem tutor = new ReportTutorGetTutorListResponseItem();
+                                tutor.tutorEmail = tutorEmails[i];
+                                tutor.tutorFirstName = returnedFirstName;
+                                tutor.tutorLastName = returnedLastName;
+
+                                tutorResponseItems.Add(tutor);
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                    }
+
+                    return tutorResponseItems;
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new List<ReportTutorGetTutorListResponseItem>();
+                }
+            }
+        }
+
+        public List<ReportTutorGetSessionListResponseItem> ReportTutorGetSessionList(ReportTutorGetSessionListRequestItem item)
+        {
+            lock (this)
+            {
+
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                   List<ReportTutorGetSessionListResponseItem> tutorResponseItems = new List<ReportTutorGetSessionListResponseItem>();
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "SELECT tutor_session_id, course, session_start_time, session_end_time, session_cost FROM tutor_sessions_completed WHERE studentEmail = ?studentEmail AND tutorEmail = ?tutorEmail";
+                            command.Parameters.AddWithValue("studentEmail", item.userEmail);
+                            command.Parameters.AddWithValue("tutorEmail", item.tutorEmail);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    ReportTutorGetSessionListResponseItem sessionItem = new ReportTutorGetSessionListResponseItem();
+                                    sessionItem.tutorEmail = item.tutorEmail;
+                                    sessionItem.tutorFirstName = item.tutorFirstName;
+                                    sessionItem.tutorLastName = item.tutorLastName;
+                                    sessionItem.tutorSessionID = reader.GetString("tutor_session_id");
+                                    sessionItem.course = reader.GetString("course");
+                                    sessionItem.sessionStartTime = reader.GetString("session_start_time");
+                                    sessionItem.sessionEndTime = reader.GetString("session_end_time");
+                                    sessionItem.sessionCost = reader.GetString("session_cost");
+
+                                    tutorResponseItems.Add(sessionItem);
+                                }
+                            }
+
+                            return tutorResponseItems;
+                        }
+                        catch (Exception e)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new List<ReportTutorGetSessionListResponseItem>();
+                }
+            }
+        }
+
 
         ////////////////////
         // Helper Functions 
