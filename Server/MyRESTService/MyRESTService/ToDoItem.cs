@@ -246,6 +246,9 @@ namespace ToDoList
     public class EndTutorSessionResponseItem
     {
         [DataMember]
+        public int tutorSessionID { get; set; }
+
+        [DataMember]
         public string userEmail { get; set; }
 
         [DataMember]
@@ -262,6 +265,42 @@ namespace ToDoList
 
         [DataMember]
         public double sessionCost { get; set; }
+    }
+
+    public class RateTutorItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string tutorSessionID { get; set; }
+
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string rating { get; set; }
+    }
+
+    public class RateStudentItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string tutorSessionID { get; set; }
+
+        [DataMember]
+        public string studentEmail { get; set; }
+
+        [DataMember]
+        public string rating { get; set; }
     }
 
     public class CreateStudyHotspotRequestItem
@@ -522,7 +561,7 @@ namespace ToDoList
         public Boolean isPaired { get; set; }
     }
 
-
+    
 
 
 

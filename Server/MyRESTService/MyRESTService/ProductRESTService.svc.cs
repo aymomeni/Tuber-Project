@@ -737,13 +737,12 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() >= 0)
                                 {
                                     // Calculate the total cost of the tutoring session
-                                    //TODO: discuss the billing rate with team
                                     TimeSpan diff = sessionEndTime.Subtract(returnedSessionStartTime);
                                     double cost = diff.TotalMinutes * 0.25;
                                     cost = Math.Round(cost, 2);
 
                                     // Insert student & tutor into the tutor_sesssions_complete table
-                                    command.CommandText = "INSERT INTO tutor_sessions_completed VALUES (?studentEmail, ?tutorEmail, ?course, ?session_start_time, ?session_end_time, ?session_cost)";
+                                    command.CommandText = "INSERT INTO tutor_sessions_completed (studentEmail, tutorEmail, course, session_start_time, session_end_time, session_cost) VALUES (?studentEmail, ?tutorEmail, ?course, ?session_start_time, ?session_end_time, ?session_cost)";
                                     command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
                                     command.Parameters.AddWithValue("course", returnedCourseName);
                                     command.Parameters.AddWithValue("session_start_time", returnedSessionStartTime);
@@ -752,15 +751,36 @@ namespace ToDoList
 
                                     if (command.ExecuteNonQuery() > 0)
                                     {
-                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                                        EndTutorSessionResponseItem endresponse = new EndTutorSessionResponseItem();
-                                        endresponse.userEmail = returnedTutorEmail;
-                                        endresponse.studentEmail = returnedStudentEmail;
-                                        endresponse.course = returnedCourseName;
-                                        endresponse.sessionStartTime = returnedSessionStartTime.ToString();
-                                        endresponse.sessionEndTime = sessionEndTime.ToString();
-                                        endresponse.sessionCost = cost;
-                                        return endresponse;
+                                        int returnedTutorSessionID = -1;
+
+                                        command.CommandText = "SELECT tutor_session_id FROM tutor_sessions_completed WHERE studentEmail = ?studentEmail AND tutorEmail = ?tutorEmail AND course = ?course AND session_start_time = ?session_start_time AND session_end_time = ?session_end_time AND session_cost = ?session_cost";
+
+                                        using (MySqlDataReader reader = command.ExecuteReader())
+                                        {
+                                            while (reader.Read())
+                                            {
+                                                returnedTutorSessionID = reader.GetInt32("tutor_session_id");
+                                            }
+                                        }
+
+                                        if (returnedTutorSessionID != -1)
+                                        {
+                                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                            EndTutorSessionResponseItem endresponse = new EndTutorSessionResponseItem();
+                                            endresponse.tutorSessionID = returnedTutorSessionID;
+                                            endresponse.userEmail = returnedTutorEmail;
+                                            endresponse.studentEmail = returnedStudentEmail;
+                                            endresponse.course = returnedCourseName;
+                                            endresponse.sessionStartTime = returnedSessionStartTime.ToString();
+                                            endresponse.sessionEndTime = sessionEndTime.ToString();
+                                            endresponse.sessionCost = cost;
+                                            return endresponse;
+                                        }
+                                        else
+                                        {
+                                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ExpectationFailed;
+                                            return new EndTutorSessionResponseItem();
+                                        }
                                     }
                                     else
                                     {
@@ -790,6 +810,174 @@ namespace ToDoList
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new EndTutorSessionResponseItem();
+                }
+            }
+        }
+
+        public void RateTutor(RateTutorItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    String returnedStudentEmail = "";
+                    String returnedTutorEmail = "";
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            // Check to see if student & tutor were involved in the specified session ID
+                            MySqlCommand command = conn.CreateCommand();
+
+                            command.CommandText = "SELECT tutorEmail FROM tutor_ratings WHERE tutor_session_id = ?tutorSessionID";
+                            command.Parameters.AddWithValue("tutorSessionID", item.tutorSessionID);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedTutorEmail = reader.GetString("tutorEmail");
+                                }
+                            }
+
+                            if (returnedTutorEmail == "" || returnedTutorEmail == null)
+                            {
+                                command.CommandText = "SELECT studentEmail, tutorEmail FROM tutor_sessions_completed WHERE tutor_session_id = ?tutorSessionID";
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        returnedStudentEmail = reader.GetString("studentEmail");
+                                        returnedTutorEmail = reader.GetString("tutorEmail");
+                                    }
+                                }
+
+                                if (returnedStudentEmail == item.userEmail && returnedTutorEmail == item.tutorEmail)
+                                {
+
+                                    command.CommandText = "INSERT INTO tutor_ratings VALUES (?tutorSessionID, ?tutorEmail, ?studentEmail, ?rating)";
+                                    command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
+                                    command.Parameters.AddWithValue("tutorEmail", returnedTutorEmail);
+                                    command.Parameters.AddWithValue("rating", item.rating);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    }
+                                    else
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ExpectationFailed;
+                                    }
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                }
+                            }
+                            else
+                            {
+                                // There is already a record in the tutor_ratings table for  this session ID
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotAcceptable;
+                            }  
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                }
+            }
+        }
+
+        public void RateStudent(RateStudentItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    String returnedStudentEmail = "";
+                    String returnedTutorEmail = "";
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            // Check to see if student & tutor were involved in the specified session ID
+                            MySqlCommand command = conn.CreateCommand();
+
+                            command.CommandText = "SELECT studentEmail FROM student_ratings WHERE tutor_session_id = ?tutorSessionID";
+                            command.Parameters.AddWithValue("tutorSessionID", item.tutorSessionID);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedStudentEmail = reader.GetString("studentEmail");
+                                }
+                            }
+
+                            if (returnedStudentEmail == "" || returnedStudentEmail == null)
+                            {
+                                command.CommandText = "SELECT studentEmail, tutorEmail FROM tutor_sessions_completed WHERE tutor_session_id = ?tutorSessionID";
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        returnedStudentEmail = reader.GetString("studentEmail");
+                                        returnedTutorEmail = reader.GetString("tutorEmail");
+                                    }
+                                }
+
+                                if (returnedStudentEmail == item.studentEmail && returnedTutorEmail == item.userEmail)
+                                {
+
+                                    command.CommandText = "INSERT INTO student_ratings VALUES (?tutorSessionID, ?tutorEmail, ?studentEmail, ?rating)";
+                                    command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
+                                    command.Parameters.AddWithValue("tutorEmail", returnedTutorEmail);
+                                    command.Parameters.AddWithValue("rating", item.rating);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    }
+                                    else
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ExpectationFailed;
+                                    }
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                }
+                            }
+                            else
+                            {
+                                // There is already a record in the tutor_ratings table for  this session ID
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotAcceptable;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
         }
@@ -1549,6 +1737,7 @@ namespace ToDoList
                 }
             }            
         }
+
 
         ////////////////////
         // Helper Functions 
