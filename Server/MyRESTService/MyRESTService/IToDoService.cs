@@ -13,11 +13,11 @@ namespace ToDoList
     [ServiceContract]
     public interface IToDoService
     {
-        [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml,
-                                   BodyStyle = WebMessageBodyStyle.Bare,
-                                   UriTemplate = "GetProductList/")]
-        List<Product> GetProductList();
+        //[OperationContract]
+        //[WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml,
+        //                           BodyStyle = WebMessageBodyStyle.Bare,
+        //                           UriTemplate = "GetProductList/")]
+        //List<Product> GetProductList();
 
         /// <summary>
         /// Accepts HTTP request to create new users in the databse.
@@ -120,6 +120,14 @@ namespace ToDoList
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
         EndTutorSessionResponseItem EndTutorSession(EndTutorSessionRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/updatestudentlocation",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        UpdateStudentLocationResponseItem UpdateStudentLocation(UpdateStudentLocationRequestItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -232,5 +240,13 @@ namespace ToDoList
            ResponseFormat = WebMessageFormat.Json,
            BodyStyle = WebMessageBodyStyle.Bare)]
         List<ReportTutorGetSessionListResponseItem> ReportTutorGetSessionList(ReportTutorGetSessionListRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/reporttutor",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        void ReportTutor(ReportTutorRequestItem data);
     }
 }

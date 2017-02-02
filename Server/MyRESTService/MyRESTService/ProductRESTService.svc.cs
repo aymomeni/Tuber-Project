@@ -25,10 +25,10 @@ namespace ToDoList
         // Old VM DB
         //public const string connectionString = "Server=23.99.55.197;Database=tuber;UID=tobin;Password=Redpack!99!!";
 
-        public List<Product> GetProductList()
-        {
-            return Products.Instance.ProductList;
-        }
+        //public List<Product> GetProductList()
+        //{
+        //    return Products.Instance.ProductList;
+        //}
 
         public MakeUserItem CreateUser(CreateUserItem item)
         {
@@ -80,47 +80,6 @@ namespace ToDoList
                 }
             }
         }
-
-        //public MakeUserItem MakeUser(UserItem item)
-        //{
-        //    lock (this)
-        //    {
-        //        String userEmail = item.userEmail;
-        //        String userPassword = item.userPassword;
-
-        //        using (MySqlConnection conn = new MySqlConnection(connectionString))
-        //        {
-        //            try
-        //            {
-        //                conn.Open();
-
-        //                MySqlCommand command = conn.CreateCommand();
-        //                command.CommandText = "insert into Users2 (userEmail, userPassword) values (?userEmail, ?userPassword)";
-        //                command.Parameters.AddWithValue("userEmail", userEmail);
-        //                command.Parameters.AddWithValue("userPassword", userPassword);
-
-        //                if (command.ExecuteNonQuery() > 0)
-        //                {
-        //                    MakeUserItem user = new MakeUserItem();
-        //                    user.userEmail = userEmail;
-        //                    user.userPassword = userPassword;
-
-        //                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-
-        //                    return user;
-        //                }
-        //                else
-        //                {
-        //                    return new MakeUserItem();
-        //                }
-        //            }
-        //            catch (Exception e)
-        //            {
-        //                throw e;
-        //            }
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Verify the user provided the correct credentials to login.
@@ -224,22 +183,22 @@ namespace ToDoList
             }
         }
 
-        public void MakeTutorAvailable(TutorUserItem data)
+        public void MakeTutorAvailable(TutorUserItem item)
         {
             lock (this)
             {
 
-                String userEmail = data.userEmail;
-                String userToken = data.userToken;
-                String tutorCourse = data.tutorCourse;
-                String latitude = data.latitude;
-                String longitude = data.longitude;
+                //String userEmail = data.userEmail;
+                //String userToken = data.userToken;
+                //String tutorCourse = data.tutorCourse;
+                //String latitude = data.latitude;
+                //String longitude = data.longitude;
 
                 String returnedUserEmail = "";
                 String returnedCourseName = "";
 
                 // Check that the user token is valid
-                if (checkUserToken(userEmail, userToken))
+                if (checkUserToken(item.userEmail, item.userToken))
                 {
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
@@ -248,11 +207,12 @@ namespace ToDoList
                             conn.Open();
 
                             // Verify the user is able to tutor the course specified 
+                            //TODO: NEED TO CHECK FOR TUTOR_ELIGIBLE FLAG SET TO 1
                             MySqlCommand command = conn.CreateCommand();
 
                             command.CommandText = "SELECT * FROM tutor_courses WHERE email = ?userEmail AND name = ?tutorCourse";
-                            command.Parameters.AddWithValue("userEmail", userEmail);
-                            command.Parameters.AddWithValue("tutorCourse", tutorCourse);
+                            command.Parameters.AddWithValue("userEmail", item.userEmail);
+                            command.Parameters.AddWithValue("tutorCourse", item.tutorCourse);
 
                             using (MySqlDataReader reader = command.ExecuteReader())
                             {
@@ -263,11 +223,11 @@ namespace ToDoList
                                 }
                             }
 
-                            if (userEmail == returnedUserEmail && tutorCourse == returnedCourseName)
+                            if (item.userEmail == returnedUserEmail && item.tutorCourse == returnedCourseName)
                             {
                                 command.CommandText = "INSERT INTO available_tutors VALUES (?userEmail, ?tutorCourse, ?latitude, ?longitude)";
-                                command.Parameters.AddWithValue("latitude", latitude);
-                                command.Parameters.AddWithValue("longitude", longitude);
+                                command.Parameters.AddWithValue("latitude", item.latitude);
+                                command.Parameters.AddWithValue("longitude", item.longitude);
 
                                 if (command.ExecuteNonQuery() > 0)
                                 {
@@ -814,6 +774,65 @@ namespace ToDoList
             }
         }
 
+        public UpdateStudentLocationResponseItem UpdateStudentLocation(UpdateStudentLocationRequestItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            // Verify the user is able to tutor the course specified 
+                            MySqlCommand command = conn.CreateCommand();
+
+                            command.CommandText = "UPDATE tutor_sessions_pairing SET studentLatitude = ?studentLatitude, studentLongitude = ?studentLongitude WHERE studentEmail = ?studentEmail";
+                            command.Parameters.AddWithValue("studentLatitude", item.latitude);
+                            command.Parameters.AddWithValue("studentLongitude", item.longitude);
+                            command.Parameters.AddWithValue("studentEmail", item.userEmail);
+
+                            if (command.ExecuteNonQuery() > 0)
+                            {
+                                command.CommandText = "SELECT tutorEmail, tutorLatitude, tutorLongitude FROM tutor_sessions_pairing WHERE studentEmail = ?studentEmail";
+
+                                UpdateStudentLocationResponseItem locationResponse = new UpdateStudentLocationResponseItem();
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        locationResponse.tutorEmail = reader.GetString("tutorEmail");
+                                        locationResponse.tutorLatitude = reader.GetString("tutorLatitude");
+                                        locationResponse.tutorLongitude = reader.GetString("tutorLongitude");
+                                    }
+                                }
+
+                                return locationResponse;
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                                return new UpdateStudentLocationResponseItem();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new UpdateStudentLocationResponseItem();
+                }
+            }
+        }
+
         public void RateTutor(RateTutorItem item)
         {
             lock (this)
@@ -883,7 +902,7 @@ namespace ToDoList
                             {
                                 // There is already a record in the tutor_ratings table for  this session ID
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotAcceptable;
-                            }  
+                            }
                         }
                         catch (Exception e)
                         {
@@ -1631,7 +1650,7 @@ namespace ToDoList
                                         paired.date = returnedDate;
                                         paired.time = returnedTime;
                                         paired.duration = returnedDuration;
-                              
+
                                         return paired;
                                     }
                                     else
@@ -1735,7 +1754,7 @@ namespace ToDoList
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new List<PairedScheduledStatusItem>();
                 }
-            }            
+            }
         }
 
         public List<ReportTutorGetTutorListResponseItem> ReportTutorGetTutorList(ReportTutorGetTutorListRequestItem item)
@@ -1828,7 +1847,7 @@ namespace ToDoList
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                   List<ReportTutorGetSessionListResponseItem> tutorResponseItems = new List<ReportTutorGetSessionListResponseItem>();
+                    List<ReportTutorGetSessionListResponseItem> tutorResponseItems = new List<ReportTutorGetSessionListResponseItem>();
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
@@ -1872,6 +1891,78 @@ namespace ToDoList
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new List<ReportTutorGetSessionListResponseItem>();
+                }
+            }
+        }
+
+        public void ReportTutor(ReportTutorRequestItem item)
+        {
+            // Insert report into reported_tutor table
+            lock (this)
+            {
+
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+
+                    // Store user information in DB
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.CommandText = "INSERT INTO reported_tutors VALUES (?tutorSessionID, ?studentEmail, ?tutorEmail, ?message, ?reportDate)";
+                            command.Parameters.AddWithValue("tutorSessionID", item.tutorSessionID);
+                            command.Parameters.AddWithValue("studentEmail", item.userEmail);
+                            command.Parameters.AddWithValue("tutorEmail", item.tutorEmail);
+                            command.Parameters.AddWithValue("message", item.message);
+                            command.Parameters.AddWithValue("reportDate", DateTime.Now);
+
+                            if (command.ExecuteNonQuery() > 0)
+                            {
+                                // See if tutor now has 5 reports, if so, deactivate tutor status
+                                int reportCount = -1;
+
+                                command.CommandText = "SELECT count(*) as count FROM reported_tutors WHERE tutorEmail = ?tutorEmail";
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        reportCount = reader.GetInt32("count");
+                                    }
+                                }
+
+                                if (reportCount >= 5)
+                                {
+                                    command.CommandText = "UPDATE users SET tutor_eligible = ?eligibleFlag WHERE email = ?tutorEmail";
+                                    command.Parameters.AddWithValue("eligibleFlag", 0);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    }
+                                    else
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotModified;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
         }
