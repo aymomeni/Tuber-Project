@@ -29,17 +29,26 @@ class ScheduleTutorViewController: UIViewController {
     
     @IBAction func confirmButtonPress(_ sender: Any) {
         let format = DateFormatter()
-        format.dateStyle = .short
-        format.timeStyle = .short
+        format.dateFormat = "yyyy-MM-dd HH:mm"
         
-        let date = format.string(from: dateDatePicker.date)
+        let userEmail = UserDefaults.standard.object(forKey: "userEmail") as! String
+        let userToken = UserDefaults.standard.object(forKey: "userToken") as! String
+        let course = UserDefaults.standard.object(forKey: "selectedCourse") as! String
+        
+        let datetime = format.string(from: dateDatePicker.date)
         let duration =  durationTextField.text
         let subject = subjectTextField.text
-        let toPass = "Date/Time: " + date + " \nDuration (Hours): " + duration! + " \nSubject: " + subject!
+        //let toPass = "Date/Time: " + date + " \nDuration (Hours): " + duration! + " \nSubject: " + subject!
+
+     
+        //creating the post parameter by concatenating the keys and values from text field
+        var postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"" + course + "\",\"topic\":\"" + subject!
         
-        print(toPass)
+        postParameters += "\",\"date\":\"" + "2017-02-15" + "\",\"time\":\"" + "13:45" + "\",\"duration\":\"" + duration! + "\"}"
         
-        performSegue(withIdentifier: "scheduleConfirmation", sender: toPass)
+        print(datetime)
+        
+        performSegue(withIdentifier: "scheduleConfirmation", sender: postParameters)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

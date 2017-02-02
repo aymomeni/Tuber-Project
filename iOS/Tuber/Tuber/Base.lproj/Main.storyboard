@@ -258,6 +258,7 @@
                         <outlet property="optionTableView" destination="HBy-xA-cTy" id="4GO-A5-f8W"/>
                         <segue destination="VN2-es-04H" kind="show" identifier="tutorServices" id="RHB-JV-TxL"/>
                         <segue destination="SkV-29-1mn" kind="show" identifier="offerToTutor" id="IiF-Ec-8AC"/>
+                        <segue destination="G8h-R2-j4Q" kind="show" identifier="studyHotspot" id="5ig-Um-xfQ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Cm-5j-3o3" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -815,6 +816,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ydr-FL-Ctc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2905" y="-758"/>
+        </scene>
+        <!--Hotspot Initial View Controller-->
+        <scene sceneID="ISa-Yj-ba1">
+            <objects>
+                <viewController id="G8h-R2-j4Q" customClass="HotspotInitialViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tdB-7C-4Gc"/>
+                        <viewControllerLayoutGuide type="bottom" id="gYT-UP-Frv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FaN-vg-XmU" customClass="hotspot">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gPJ-AW-Cc6">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="598"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ON-O9-gbL">
+                                <rect key="frame" x="117" y="616" width="140" height="31"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Create New Hotspot"/>
+                                <connections>
+                                    <action selector="createNewHotspot:" destination="G8h-R2-j4Q" eventType="touchUpInside" id="cI9-zQ-nSt"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="mapview" destination="gPJ-AW-Cc6" id="Efk-Dv-rke"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5v6-wp-js7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1479" y="-759"/>
         </scene>
     </scenes>
     <resources>
