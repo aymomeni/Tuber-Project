@@ -44,7 +44,7 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         let currentCell = tableView.cellForRow(at: indexPath!)! as! ClassTableViewCell
         UserDefaults.standard.set(currentCell.classNameLabel.text! as String?, forKey: "selectedClass")
         selectedClass.className = currentCell.classNameLabel.text!
-        performSegue(withIdentifier: "selectClass", sender: nil)
+        performSegue(withIdentifier: "selectCourse", sender: nil)
     }
     
     struct selectedClass {

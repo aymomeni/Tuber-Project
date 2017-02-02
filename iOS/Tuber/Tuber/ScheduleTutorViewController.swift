@@ -33,7 +33,7 @@ class ScheduleTutorViewController: UIViewController {
         
         let userEmail = UserDefaults.standard.object(forKey: "userEmail") as! String
         let userToken = UserDefaults.standard.object(forKey: "userToken") as! String
-        let course = UserDefaults.standard.object(forKey: "selectedClass") as! String
+        let course = UserDefaults.standard.object(forKey: "selectedCourse") as! String
         
         let datetime = format.string(from: dateDatePicker.date)
         let duration =  durationTextField.text
