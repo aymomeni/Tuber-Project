@@ -49,12 +49,12 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         
         if selectedOption == "Immediate Request"
         {
-            performSegue(withIdentifier: "scheduleTutor", sender: selectedOption)
+            performSegue(withIdentifier: "immediateRequest", sender: selectedOption)
             
         }
         else if selectedOption == "Schedule Tutor"
         {
-            performSegue(withIdentifier: "immediateRequest", sender: selectedOption)
+            performSegue(withIdentifier: "scheduleTutor", sender: selectedOption)
             
         }
         
