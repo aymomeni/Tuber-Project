@@ -17,10 +17,10 @@ namespace ToDoList
     public class ProductRESTService : IToDoService
     {
         // Active CADE DB
-        //public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
+        public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
 
         // Developmental DB
-        public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
+        //public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
 
         // Old VM DB
         //public const string connectionString = "Server=23.99.55.197;Database=tuber;UID=tobin;Password=Redpack!99!!";
@@ -833,6 +833,65 @@ namespace ToDoList
             }
         }
 
+        public UpdateTutorLocationResponseItem UpdateTutorLocation(UpdateTutorLocationRequestItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            // Verify the user is able to tutor the course specified 
+                            MySqlCommand command = conn.CreateCommand();
+
+                            command.CommandText = "UPDATE tutor_sessions_pairing SET tutorLatitude = ?tutorLatitude, tutorLongitude = ?tutorLongitude WHERE tutorEmail = ?tutorEmail";
+                            command.Parameters.AddWithValue("tutorLatitude", item.latitude);
+                            command.Parameters.AddWithValue("tutorLongitude", item.longitude);
+                            command.Parameters.AddWithValue("tutorEmail", item.userEmail);
+
+                            if (command.ExecuteNonQuery() > 0)
+                            {
+                                command.CommandText = "SELECT studentEmail, studentLatitude, studentLongitude FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
+
+                                UpdateTutorLocationResponseItem locationResponse = new UpdateTutorLocationResponseItem();
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        locationResponse.studentEmail = reader.GetString("studentEmail");
+                                        locationResponse.studentLatitude = reader.GetString("studentLatitude");
+                                        locationResponse.studentLongitude = reader.GetString("studentLongitude");
+                                    }
+                                }
+
+                                return locationResponse;
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                                return new UpdateTutorLocationResponseItem();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new UpdateTutorLocationResponseItem();
+                }
+            }
+        }
+
         public void RateTutor(RateTutorItem item)
         {
             lock (this)
@@ -1067,7 +1126,7 @@ namespace ToDoList
             }
         }
 
-        public List<AvailableStudyHotspotItem> FindStudyHotspots(StudyHotspotItem item)
+        public FindStudyHotspotReturnItem FindStudyHotspots(StudyHotspotItem item)
         {
             lock (this)
             {
@@ -1135,12 +1194,14 @@ namespace ToDoList
                         }
                     }
 
-                    return availableHotspots;
+                    FindStudyHotspotReturnItem studyHotspotsList = new FindStudyHotspotReturnItem();
+                    studyHotspotsList.studyHotspots = availableHotspots;
+                    return studyHotspotsList;
                 }
                 else
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
-                    return new List<AvailableStudyHotspotItem>();
+                    return new FindStudyHotspotReturnItem();
                 }
             }
         }
@@ -1476,12 +1537,11 @@ namespace ToDoList
                             conn.Open();
 
                             MySqlCommand command = conn.CreateCommand();
-                            command.CommandText = "INSERT INTO tutor_requests VALUES (?studentEmail, ?course, ?topic, ?date, ?time, ?duration)";
+                            command.CommandText = "INSERT INTO tutor_requests VALUES (?studentEmail, ?course, ?topic, ?dateTime, ?duration)";
                             command.Parameters.AddWithValue("studentEmail", item.userEmail);
                             command.Parameters.AddWithValue("course", item.course);
                             command.Parameters.AddWithValue("topic", item.topic);
-                            command.Parameters.AddWithValue("date", item.date);
-                            command.Parameters.AddWithValue("time", item.time);
+                            command.Parameters.AddWithValue("dateTime", item.dateTime);
                             command.Parameters.AddWithValue("duration", item.duration);
 
                             if (command.ExecuteNonQuery() > 0)
@@ -2097,7 +2157,5 @@ namespace ToDoList
                 }
             }
         }
-
-        
     }
 }

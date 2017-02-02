@@ -131,6 +131,14 @@ namespace ToDoList
 
         [OperationContract]
         [WebInvoke(Method = "POST",
+            UriTemplate = "/updatetutorlocation",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        UpdateTutorLocationResponseItem UpdateTutorLocation(UpdateTutorLocationRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
             UriTemplate = "/ratetutor",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
@@ -159,7 +167,7 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        List<AvailableStudyHotspotItem> FindStudyHotspots(StudyHotspotItem data);
+        FindStudyHotspotReturnItem FindStudyHotspots(StudyHotspotItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",

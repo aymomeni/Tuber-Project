@@ -246,6 +246,33 @@ namespace ToDoList
         public string tutorLongitude { get; set; }
     }
 
+    public class UpdateTutorLocationRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string latitude { get; set; }
+
+        [DataMember]
+        public string longitude { get; set; }
+    }
+
+    public class UpdateTutorLocationResponseItem
+    {
+        [DataMember]
+        public string studentEmail { get; set; }
+
+        [DataMember]
+        public string studentLatitude { get; set; }
+
+        [DataMember]
+        public string studentLongitude { get; set; }
+    }
+
     public class StartTutorSessionItem
     {
         [DataMember]
@@ -390,6 +417,12 @@ namespace ToDoList
         public double distanceToHotspot { get; set; }
     }
 
+    public class FindStudyHotspotReturnItem
+    {
+        [DataMember]
+        public List<AvailableStudyHotspotItem> studyHotspots { get; set; }
+    }
+
     public class StudyHotspotJoinItem
     {
         [DataMember]
@@ -462,10 +495,7 @@ namespace ToDoList
         public string topic { get; set; }
 
         [DataMember]
-        public string date { get; set; }
-
-        [DataMember]
-        public string time { get; set; }
+        public string dateTime { get; set; }
 
         [DataMember]
         public string duration { get; set; }
