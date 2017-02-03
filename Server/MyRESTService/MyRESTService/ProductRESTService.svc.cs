@@ -599,73 +599,83 @@ namespace ToDoList
             {
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    // Check that the tutor is still available 
-                    String returnedTutorEmail = "";
-
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    // Make sure tutor is eligible to tutor
+                    if (checkTutorEligibility(item.userEmail))
                     {
-                        try
+                        // Check that the tutor is still available 
+                        String returnedTutorEmail = "";
+
+                        using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
-                            conn.Open();
-
-                            MySqlCommand command = conn.CreateCommand();
-
-                            // Check to see if the tutor is still in the available_tutors table
-                            command.CommandText = "SELECT * FROM available_tutors WHERE email = ?userEmail";
-                            command.Parameters.AddWithValue("userEmail", item.userEmail);
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
+                            try
                             {
-                                while (reader.Read())
-                                {
-                                    returnedTutorEmail = reader.GetString("email");
-                                }
-                            }
+                                conn.Open();
 
-                            if (returnedTutorEmail == "")
-                            {
-                                // Check to see if the tutor is in the tutor_sessions_pairing table
-                                command.CommandText = "SELECT * FROM tutor_sessions_pairing WHERE tutorEmail = ?userEmail";
+                                MySqlCommand command = conn.CreateCommand();
 
-                                PairedStatusItem pairedStatus = new PairedStatusItem();
+                                // Check to see if the tutor is still in the available_tutors table
+                                command.CommandText = "SELECT * FROM available_tutors WHERE email = ?userEmail";
+                                command.Parameters.AddWithValue("userEmail", item.userEmail);
 
                                 using (MySqlDataReader reader = command.ExecuteReader())
                                 {
                                     while (reader.Read())
                                     {
-                                        pairedStatus.studentEmail = reader.GetString("studentEmail");
-                                        pairedStatus.userEmail = reader.GetString("tutorEmail");
-                                        pairedStatus.tutorCourse = reader.GetString("course");
-                                        pairedStatus.studentLatitude = reader.GetString("studentLatitude");
-                                        pairedStatus.studentLongitude = reader.GetString("studentLongitude");
-                                        pairedStatus.tutorLatitude = reader.GetString("tutorLatitude");
-                                        pairedStatus.tutorLongitude = reader.GetString("tutorLongitude");
+                                        returnedTutorEmail = reader.GetString("email");
                                     }
                                 }
 
-                                if (pairedStatus.userEmail == "" || pairedStatus.userEmail == null)
+                                if (returnedTutorEmail == "")
                                 {
-                                    // Tutor was not in the available_tutor or tutor_sessions_pairing table, the tutor shouldn't be calling this method
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
-                                    return new PairedStatusItem();
+                                    // Check to see if the tutor is in the tutor_sessions_pairing table
+                                    command.CommandText = "SELECT * FROM tutor_sessions_pairing WHERE tutorEmail = ?userEmail";
+
+                                    PairedStatusItem pairedStatus = new PairedStatusItem();
+
+                                    using (MySqlDataReader reader = command.ExecuteReader())
+                                    {
+                                        while (reader.Read())
+                                        {
+                                            pairedStatus.studentEmail = reader.GetString("studentEmail");
+                                            pairedStatus.userEmail = reader.GetString("tutorEmail");
+                                            pairedStatus.tutorCourse = reader.GetString("course");
+                                            pairedStatus.studentLatitude = reader.GetString("studentLatitude");
+                                            pairedStatus.studentLongitude = reader.GetString("studentLongitude");
+                                            pairedStatus.tutorLatitude = reader.GetString("tutorLatitude");
+                                            pairedStatus.tutorLongitude = reader.GetString("tutorLongitude");
+                                        }
+                                    }
+
+                                    if (pairedStatus.userEmail == "" || pairedStatus.userEmail == null)
+                                    {
+                                        // Tutor was not in the available_tutor or tutor_sessions_pairing table, the tutor shouldn't be calling this method
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                        return new PairedStatusItem();
+                                    }
+                                    else
+                                    {
+                                        // Found the tutor in the tutor_sessions_pairing table -- send back the paired student-tutor object for the tutor app to update
+                                        return pairedStatus;
+                                    }
                                 }
                                 else
                                 {
-                                    // Found the tutor in the tutor_sessions_pairing table -- send back the paired student-tutor object for the tutor app to update
-                                    return pairedStatus;
+                                    // Tutor is still waiting for a student to pair with them
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    return new PairedStatusItem();
                                 }
                             }
-                            else
+                            catch (Exception e)
                             {
-                                // Tutor is still waiting for a student to pair with them
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                                return new PairedStatusItem();
+                                throw e;
                             }
                         }
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
+                    }
+                    else
+                    {
+                        // User has tutor_eligible set to 0 -- not able to tutor any class
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new PairedStatusItem();
                     }
                 }
                 else
@@ -684,67 +694,80 @@ namespace ToDoList
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    // Get info from tutor_sessions_pairing table
-                    String returnedStudentEmail = "";
-                    String returnedTutorEmail = "";
-                    String returnedCourseName = "";
-
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    // Make sure tutor is eligible to tutor
+                    if (checkTutorEligibility(item.userEmail))
                     {
-                        try
+                        // Get info from tutor_sessions_pairing table
+                        String returnedStudentEmail = "";
+                        String returnedTutorEmail = "";
+                        String returnedCourseName = "";
+
+                        using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
-                            conn.Open();
-
-                            MySqlCommand command = conn.CreateCommand();
-                            command.CommandText = "SELECT studentEmail, tutorEmail, course FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
-                            command.Parameters.AddWithValue("tutorEmail", item.userEmail);
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
+                            try
                             {
-                                while (reader.Read())
+                                conn.Open();
+
+                                MySqlCommand command = conn.CreateCommand();
+                                command.CommandText = "SELECT studentEmail, tutorEmail, course FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
+                                command.Parameters.AddWithValue("tutorEmail", item.userEmail);
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
                                 {
-                                    returnedStudentEmail = reader.GetString("studentEmail");
-                                    returnedTutorEmail = reader.GetString("tutorEmail");
-                                    returnedCourseName = reader.GetString("course");
-                                }
-                            }
-
-                            if (returnedTutorEmail == item.userEmail)
-                            {
-                                // Remove tutor from available_tutor table
-                                command.CommandText = "DELETE FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
-
-                                if (command.ExecuteNonQuery() >= 0)
-                                {
-                                    // Insert student & tutor into the tutor_sesssions_active table
-                                    command.CommandText = "INSERT INTO tutor_sessions_active VALUES (?studentEmail, ?tutorEmail, ?course, ?session_start_time)";
-                                    command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
-                                    command.Parameters.AddWithValue("course", returnedCourseName);
-                                    command.Parameters.AddWithValue("session_start_time", DateTime.Now);
-
-                                    if (command.ExecuteNonQuery() > 0)
+                                    while (reader.Read())
                                     {
-                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        returnedStudentEmail = reader.GetString("studentEmail");
+                                        returnedTutorEmail = reader.GetString("tutorEmail");
+                                        returnedCourseName = reader.GetString("course");
+                                    }
+                                }
+
+                                if (returnedTutorEmail == item.userEmail)
+                                {
+                                    // Remove pairing from the tutor_sessions_pairing table
+                                    command.CommandText = "DELETE FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
+
+                                    if (command.ExecuteNonQuery() >= 0)
+                                    {
+                                        // Insert pairing into the tutor_sesssions_active table
+                                        command.CommandText = "INSERT INTO tutor_sessions_active VALUES (?studentEmail, ?tutorEmail, ?course, ?session_start_time)";
+                                        command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
+                                        command.Parameters.AddWithValue("course", returnedCourseName);
+                                        command.Parameters.AddWithValue("session_start_time", DateTime.Now);
+
+                                        if (command.ExecuteNonQuery() > 0)
+                                        {
+                                            // Everything went as planned
+                                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        }
+                                        else
+                                        {
+                                            // Inserting into tutor_sessions_active table failed
+                                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                        }
                                     }
                                     else
                                     {
-                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                        // Deleting from tutor_sessions_pairing failed
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     }
                                 }
                                 else
                                 {
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    // Pairing session the tutor is looking for is no longer available. 
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
                                 }
                             }
-                            else
+                            catch (Exception e)
                             {
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
+                                throw e;
                             }
                         }
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
+                    }
+                    else
+                    {
+                        // User has tutor_eligible set to 0 -- not able to tutor any class
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     }
                 }
                 else
