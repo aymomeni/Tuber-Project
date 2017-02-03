@@ -1594,7 +1594,6 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
@@ -1613,6 +1612,8 @@ namespace ToDoList
                             conn.Open();
 
                             MySqlCommand command = conn.CreateCommand();
+
+                            // Get emails of all the members in the study hotspot
                             command.CommandText = "SELECT email FROM study_hotspots_members WHERE hotspot_id = ?hotspotID";
                             command.Parameters.AddWithValue("hotspotID", item.hotspotID);
 
@@ -1627,6 +1628,7 @@ namespace ToDoList
 
                             for (int i = 0; i < memberEmails.Count; i++)
                             {
+                                // Get first and last name of all members in the hotspot
                                 command.CommandText = "SELECT first_name, last_name FROM users WHERE email = ?email";
                                 command.Parameters.Clear();
                                 command.Parameters.AddWithValue("email", memberEmails[i]);
@@ -1655,6 +1657,7 @@ namespace ToDoList
                         }
                     }
 
+                    // Return study hotspot members' names
                     StudyHotspotResponseItem members = new StudyHotspotResponseItem();
                     members.hotspotMembers = hotspotMembers;
                     return members;
