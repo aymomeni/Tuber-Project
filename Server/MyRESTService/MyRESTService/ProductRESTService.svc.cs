@@ -220,7 +220,7 @@ namespace ToDoList
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new VerifiedUserItem();
                                 }
-                            } 
+                            }
                         }
                     }
                     catch (Exception e)
@@ -510,7 +510,7 @@ namespace ToDoList
                             conn.Open();
 
                             MySqlCommand command = conn.CreateCommand();
-                            
+
                             // Check that the tutor is still available 
                             command.CommandText = "SELECT * FROM available_tutors WHERE email = ?tutorEmail";
                             command.Parameters.AddWithValue("tutorEmail", item.requestedTutorEmail);
@@ -902,7 +902,7 @@ namespace ToDoList
                     else
                     {
                         // User has tutor_eligible set to 0-- not able to tutor any class
-                       WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                         return new EndTutorSessionResponseItem();
                     }
                 }
@@ -928,9 +928,9 @@ namespace ToDoList
                         {
                             conn.Open();
 
-                            // Verify the user is able to tutor the course specified 
                             MySqlCommand command = conn.CreateCommand();
 
+                            // Insert student's new location into the tutor_sessions_pairing table
                             command.CommandText = "UPDATE tutor_sessions_pairing SET studentLatitude = ?studentLatitude, studentLongitude = ?studentLongitude WHERE studentEmail = ?studentEmail";
                             command.Parameters.AddWithValue("studentLatitude", item.latitude);
                             command.Parameters.AddWithValue("studentLongitude", item.longitude);
@@ -938,6 +938,7 @@ namespace ToDoList
 
                             if (command.ExecuteNonQuery() > 0)
                             {
+                                // Retrieve the tutor's location to send back to the student
                                 command.CommandText = "SELECT tutorEmail, tutorLatitude, tutorLongitude FROM tutor_sessions_pairing WHERE studentEmail = ?studentEmail";
 
                                 UpdateStudentLocationResponseItem locationResponse = new UpdateStudentLocationResponseItem();
@@ -956,6 +957,7 @@ namespace ToDoList
                             }
                             else
                             {
+                                // Updating the student's location in the tutor_sessions_pairing table failed
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                                 return new UpdateStudentLocationResponseItem();
                             }
@@ -965,6 +967,7 @@ namespace ToDoList
                             throw e;
                         }
                     }
+
                 }
                 else
                 {
@@ -982,48 +985,58 @@ namespace ToDoList
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    // Make sure tutor is eligible to tutor
+                    if (checkTutorEligibility(item.userEmail))
                     {
-                        try
+                        using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
-                            conn.Open();
-
-                            // Verify the user is able to tutor the course specified 
-                            MySqlCommand command = conn.CreateCommand();
-
-                            command.CommandText = "UPDATE tutor_sessions_pairing SET tutorLatitude = ?tutorLatitude, tutorLongitude = ?tutorLongitude WHERE tutorEmail = ?tutorEmail";
-                            command.Parameters.AddWithValue("tutorLatitude", item.latitude);
-                            command.Parameters.AddWithValue("tutorLongitude", item.longitude);
-                            command.Parameters.AddWithValue("tutorEmail", item.userEmail);
-
-                            if (command.ExecuteNonQuery() > 0)
+                            try
                             {
-                                command.CommandText = "SELECT studentEmail, studentLatitude, studentLongitude FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
+                                conn.Open();
 
-                                UpdateTutorLocationResponseItem locationResponse = new UpdateTutorLocationResponseItem();
+                                // Verify the user is able to tutor the course specified 
+                                MySqlCommand command = conn.CreateCommand();
 
-                                using (MySqlDataReader reader = command.ExecuteReader())
+                                command.CommandText = "UPDATE tutor_sessions_pairing SET tutorLatitude = ?tutorLatitude, tutorLongitude = ?tutorLongitude WHERE tutorEmail = ?tutorEmail";
+                                command.Parameters.AddWithValue("tutorLatitude", item.latitude);
+                                command.Parameters.AddWithValue("tutorLongitude", item.longitude);
+                                command.Parameters.AddWithValue("tutorEmail", item.userEmail);
+
+                                if (command.ExecuteNonQuery() > 0)
                                 {
-                                    while (reader.Read())
-                                    {
-                                        locationResponse.studentEmail = reader.GetString("studentEmail");
-                                        locationResponse.studentLatitude = reader.GetString("studentLatitude");
-                                        locationResponse.studentLongitude = reader.GetString("studentLongitude");
-                                    }
-                                }
+                                    command.CommandText = "SELECT studentEmail, studentLatitude, studentLongitude FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
 
-                                return locationResponse;
+                                    UpdateTutorLocationResponseItem locationResponse = new UpdateTutorLocationResponseItem();
+
+                                    using (MySqlDataReader reader = command.ExecuteReader())
+                                    {
+                                        while (reader.Read())
+                                        {
+                                            locationResponse.studentEmail = reader.GetString("studentEmail");
+                                            locationResponse.studentLatitude = reader.GetString("studentLatitude");
+                                            locationResponse.studentLongitude = reader.GetString("studentLongitude");
+                                        }
+                                    }
+
+                                    return locationResponse;
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                                    return new UpdateTutorLocationResponseItem();
+                                }
                             }
-                            else
+                            catch (Exception e)
                             {
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                                return new UpdateTutorLocationResponseItem();
+                                throw e;
                             }
                         }
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
+                    }
+                    else
+                    {
+                        // User has tutor_eligible set to 0 -- not able to tutor any class
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new UpdateTutorLocationResponseItem();
                     }
                 }
                 else
