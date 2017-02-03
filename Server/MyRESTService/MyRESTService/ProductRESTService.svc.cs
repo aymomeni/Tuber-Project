@@ -1130,6 +1130,7 @@ namespace ToDoList
                             throw e;
                         }
                     }
+
                 }
                 else
                 {
@@ -1146,74 +1147,87 @@ namespace ToDoList
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    String returnedStudentEmail = "";
-                    String returnedTutorEmail = "";
-
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    // Make sure tutor is eligible to tutor
+                    if (checkTutorEligibility(item.userEmail))
                     {
-                        try
+                        String returnedStudentEmail = "";
+                        String returnedTutorEmail = "";
+
+                        using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
-                            conn.Open();
-
-                            // Check to see if student & tutor were involved in the specified session ID
-                            MySqlCommand command = conn.CreateCommand();
-
-                            command.CommandText = "SELECT studentEmail FROM student_ratings WHERE tutor_session_id = ?tutorSessionID";
-                            command.Parameters.AddWithValue("tutorSessionID", item.tutorSessionID);
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
+                            try
                             {
-                                while (reader.Read())
-                                {
-                                    returnedStudentEmail = reader.GetString("studentEmail");
-                                }
-                            }
+                                conn.Open();
 
-                            if (returnedStudentEmail == "" || returnedStudentEmail == null)
-                            {
-                                command.CommandText = "SELECT studentEmail, tutorEmail FROM tutor_sessions_completed WHERE tutor_session_id = ?tutorSessionID";
+                                MySqlCommand command = conn.CreateCommand();
+
+                                // Check to make sure the tutor hasn't already rated the student
+                                command.CommandText = "SELECT studentEmail FROM student_ratings WHERE tutor_session_id = ?tutorSessionID";
+                                command.Parameters.AddWithValue("tutorSessionID", item.tutorSessionID);
 
                                 using (MySqlDataReader reader = command.ExecuteReader())
                                 {
                                     while (reader.Read())
                                     {
                                         returnedStudentEmail = reader.GetString("studentEmail");
-                                        returnedTutorEmail = reader.GetString("tutorEmail");
                                     }
                                 }
 
-                                if (returnedStudentEmail == item.studentEmail && returnedTutorEmail == item.userEmail)
+                                if (returnedStudentEmail == "" || returnedStudentEmail == null)
                                 {
+                                    // Check to see if student & tutor were involved in the specified session ID
+                                    command.CommandText = "SELECT studentEmail, tutorEmail FROM tutor_sessions_completed WHERE tutor_session_id = ?tutorSessionID";
 
-                                    command.CommandText = "INSERT INTO student_ratings VALUES (?tutorSessionID, ?tutorEmail, ?studentEmail, ?rating)";
-                                    command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
-                                    command.Parameters.AddWithValue("tutorEmail", returnedTutorEmail);
-                                    command.Parameters.AddWithValue("rating", item.rating);
-
-                                    if (command.ExecuteNonQuery() > 0)
+                                    using (MySqlDataReader reader = command.ExecuteReader())
                                     {
-                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        while (reader.Read())
+                                        {
+                                            returnedStudentEmail = reader.GetString("studentEmail");
+                                            returnedTutorEmail = reader.GetString("tutorEmail");
+                                        }
+                                    }
+
+                                    if (returnedStudentEmail == item.studentEmail && returnedTutorEmail == item.userEmail)
+                                    {
+                                        // Add the tutor's raiting of the student into the tutor_ratings table
+                                        command.CommandText = "INSERT INTO student_ratings VALUES (?tutorSessionID, ?tutorEmail, ?studentEmail, ?rating)";
+                                        command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
+                                        command.Parameters.AddWithValue("tutorEmail", returnedTutorEmail);
+                                        command.Parameters.AddWithValue("rating", item.rating);
+
+                                        if (command.ExecuteNonQuery() > 0)
+                                        {
+                                            // Rating added successfully
+                                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        }
+                                        else
+                                        {
+                                            // Insert rating into tutor_ratings table failed
+                                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ExpectationFailed;
+                                        }
                                     }
                                     else
                                     {
-                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ExpectationFailed;
+                                        // Student & tutor were not apart of the same tutor session
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     }
                                 }
                                 else
                                 {
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    // There is already a record in the tutor_ratings table for  this session ID
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotAcceptable;
                                 }
                             }
-                            else
+                            catch (Exception e)
                             {
-                                // There is already a record in the tutor_ratings table for  this session ID
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotAcceptable;
+                                throw e;
                             }
                         }
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
+                    }
+                    else
+                    {
+                        // User has tutor_eligible set to 0 -- not able to tutor any class
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     }
                 }
                 else
