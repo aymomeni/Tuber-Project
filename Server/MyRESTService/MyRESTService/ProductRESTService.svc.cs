@@ -2479,10 +2479,6 @@ namespace ToDoList
             // Convert base64-encoded hash value into byte array
             byte[] hashWithSaltBytes = Convert.FromBase64String(hashFromDB);
 
-            // Keeps track of hash size in bits and bytes
-            int hashSizeInBits = 256;
-            int hashSizeInBytes = 32;
-
             // Create array to hold origianl salt bytes from hash
             byte[] saltBytes = new byte[hashWithSaltBytes.Length - 32];
 
