@@ -1517,7 +1517,6 @@ namespace ToDoList
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-
                     String returnedHotspotID = "";
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
@@ -1539,6 +1538,7 @@ namespace ToDoList
                                 }
                             }
 
+                            // Delete user from the study hotspot
                             command.CommandText = "DELETE FROM study_hotspots_members WHERE hotspot_id = ?hotspotID AND email = ?email";
                             command.Parameters.AddWithValue("hotspotID", returnedHotspotID);
 
@@ -1561,12 +1561,19 @@ namespace ToDoList
 
                                 if (command.ExecuteNonQuery() > 0)
                                 {
+                                    // Deleting user from study hotspot successful
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                 }
                                 else
                                 {
+                                    // Updating study hotspot count failed
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                 }
+                            }
+                            else
+                            {
+                                // Deleting user from study_hotspots_members table failed
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
                             }
                         }
                         catch (Exception e)
