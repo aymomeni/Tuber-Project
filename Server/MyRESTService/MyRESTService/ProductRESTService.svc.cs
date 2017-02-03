@@ -1895,91 +1895,105 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    // Check that the tutor is still available 
-                    String returnedStudentEmail = "";
-                    String returnedCourseName = "";
-                    String returnedTopic = "";
-                    String returnedDateTime = "";
-                    String returnedDuration = "";
-
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    // Make sure tutor is eligible to tutor
+                    if (checkTutorEligibility(item.userEmail))
                     {
-                        try
+                        String returnedStudentEmail = "";
+                        String returnedCourseName = "";
+                        String returnedTopic = "";
+                        String returnedDateTime = "";
+                        String returnedDuration = "";
+
+                        using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
-                            conn.Open();
-
-                            MySqlCommand command = conn.CreateCommand();
-                            command.CommandText = "SELECT student_email, course, topic, DATE_FORMAT(date_time, '%Y-%m-%d %T') as date_time, duration FROM tutor_requests WHERE student_email = ?studentEmail AND course = ?course";
-                            command.Parameters.AddWithValue("studentEmail", item.studentEmail);
-                            command.Parameters.AddWithValue("course", item.course);
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
+                            try
                             {
-                                while (reader.Read())
+                                conn.Open();
+
+                                MySqlCommand command = conn.CreateCommand();
+                                // Get selected student request information 
+                                command.CommandText = "SELECT student_email, course, topic, DATE_FORMAT(date_time, '%Y-%m-%d %T') as date_time, duration FROM tutor_requests WHERE student_email = ?studentEmail AND course = ?course";
+                                command.Parameters.AddWithValue("studentEmail", item.studentEmail);
+                                command.Parameters.AddWithValue("course", item.course);
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
                                 {
-                                    returnedStudentEmail = reader.GetString("student_email");
-                                    returnedCourseName = reader.GetString("course");
-                                    returnedTopic = reader.GetString("topic");
-                                    returnedDateTime = reader.GetString("date_time");
-                                    returnedDuration = reader.GetString("duration");
-                                }
-                            }
-
-                            if (returnedStudentEmail == item.studentEmail && returnedCourseName == item.course)
-                            {
-                                // Remove tutor from available_tutor table
-                                command.CommandText = "DELETE FROM tutor_requests WHERE student_email = ?studentEmail AND course = ?course";
-
-                                if (command.ExecuteNonQuery() >= 0)
-                                {
-                                    command.CommandText = "INSERT INTO tutor_requests_accepted VALUES (?student_email, ?tutor_email, ?course, ?topic, ?dateTime, ?duration)";
-                                    command.Parameters.Clear();
-                                    command.Parameters.AddWithValue("student_email", item.studentEmail);
-                                    command.Parameters.AddWithValue("tutor_email", item.userEmail);
-                                    command.Parameters.AddWithValue("course", returnedCourseName);
-                                    command.Parameters.AddWithValue("topic", returnedTopic);
-                                    command.Parameters.AddWithValue("dateTime", returnedDateTime);
-                                    command.Parameters.AddWithValue("duration", returnedDuration);
-
-                                    if (command.ExecuteNonQuery() > 0)
+                                    while (reader.Read())
                                     {
-                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                                        AcceptStudentScheduleRequestResponseItem paired = new AcceptStudentScheduleRequestResponseItem();
-                                        paired.student_email = item.studentEmail;
-                                        paired.tutor_email = item.userEmail;
-                                        paired.course = returnedCourseName;
-                                        paired.topic = returnedTopic;
-                                        paired.dateTime = returnedDateTime;
-                                        paired.duration = returnedDuration;
+                                        returnedStudentEmail = reader.GetString("student_email");
+                                        returnedCourseName = reader.GetString("course");
+                                        returnedTopic = reader.GetString("topic");
+                                        returnedDateTime = reader.GetString("date_time");
+                                        returnedDuration = reader.GetString("duration");
+                                    }
+                                }
 
-                                        return paired;
+                                if (returnedStudentEmail == item.studentEmail && returnedCourseName == item.course)
+                                {
+                                    // Remove scheduled tutor request from the tutor_requests table
+                                    command.CommandText = "DELETE FROM tutor_requests WHERE student_email = ?studentEmail AND course = ?course";
+
+                                    if (command.ExecuteNonQuery() >= 0)
+                                    {
+                                        // Insert the pairing into the tutor_requests_accepted table
+                                        command.CommandText = "INSERT INTO tutor_requests_accepted VALUES (?student_email, ?tutor_email, ?course, ?topic, ?dateTime, ?duration)";
+                                        command.Parameters.Clear();
+                                        command.Parameters.AddWithValue("student_email", item.studentEmail);
+                                        command.Parameters.AddWithValue("tutor_email", item.userEmail);
+                                        command.Parameters.AddWithValue("course", returnedCourseName);
+                                        command.Parameters.AddWithValue("topic", returnedTopic);
+                                        command.Parameters.AddWithValue("dateTime", returnedDateTime);
+                                        command.Parameters.AddWithValue("duration", returnedDuration);
+
+                                        if (command.ExecuteNonQuery() > 0)
+                                        {
+                                            // Pairing of the student and tutor scheduled request was successful
+                                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                            AcceptStudentScheduleRequestResponseItem paired = new AcceptStudentScheduleRequestResponseItem();
+                                            paired.student_email = item.studentEmail;
+                                            paired.tutor_email = item.userEmail;
+                                            paired.course = returnedCourseName;
+                                            paired.topic = returnedTopic;
+                                            paired.dateTime = returnedDateTime;
+                                            paired.duration = returnedDuration;
+
+                                            return paired;
+                                        }
+                                        else
+                                        {
+                                            // Insert pairing into tutor_requests_accepted table failed
+                                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                            return new AcceptStudentScheduleRequestResponseItem();
+                                        }
                                     }
                                     else
                                     {
-                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                        // Deleting from tutor_requests table failed
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new AcceptStudentScheduleRequestResponseItem();
                                     }
                                 }
                                 else
                                 {
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    // Student schedule request no longer available
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
                                     return new AcceptStudentScheduleRequestResponseItem();
                                 }
                             }
-                            else
+                            catch (Exception e)
                             {
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
-                                return new AcceptStudentScheduleRequestResponseItem();
+                                throw e;
                             }
                         }
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
+                    }
+                    else
+                    {
+                        // User has tutor_eligible set to 0-- not able to tutor any class
+                       WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                       return new AcceptStudentScheduleRequestResponseItem();
                     }
                 }
                 else
