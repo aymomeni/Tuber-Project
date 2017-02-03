@@ -13,25 +13,6 @@ namespace ToDoList
     [ServiceContract]
     public interface IToDoService
     {
-        //[OperationContract]
-        //[WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml,
-        //                           BodyStyle = WebMessageBodyStyle.Bare,
-        //                           UriTemplate = "GetProductList/")]
-        //List<Product> GetProductList();
-
-        /// <summary>
-        /// Accepts HTTP request to create new users in the databse.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        //[OperationContract]
-        //[WebInvoke(Method = "POST",
-        //    UriTemplate = "/makeuser",
-        //    RequestFormat = WebMessageFormat.Json,
-        //    ResponseFormat = WebMessageFormat.Json,
-        //    BodyStyle = WebMessageBodyStyle.Bare)]
-        //MakeUserItem MakeUser(UserItem data);
-
         [OperationContract]
         [WebInvoke(Method = "POST",
             UriTemplate = "/createuser",
@@ -64,14 +45,6 @@ namespace ToDoList
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
         void MakeTutorAvailable(TutorUserItem data);
-
-        //[OperationContract]
-        //[WebInvoke(Method = "DELETE",
-        //    UriTemplate = "/deletetutoravailable/{userEmail}",
-        //    RequestFormat = WebMessageFormat.Json,
-        //    ResponseFormat = WebMessageFormat.Json,
-        //    BodyStyle = WebMessageBodyStyle.Bare)]
-        //void DeleteTutorAvailable(string userEmail);
 
         [OperationContract]
         [WebInvoke(Method = "POST",

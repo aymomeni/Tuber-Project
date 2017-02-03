@@ -17,12 +17,6 @@ namespace ToDoList
 
         [DataMember]
         public string userPassword { get; set; }
-
-        //[DataMember]
-        //public ArrayList userCourses { get; set; }
-
-        //[DataMember]
-        //public string UserToken { get; set; }
     }
 
     public class CreateUserItem
@@ -180,9 +174,6 @@ namespace ToDoList
 
         [DataMember]
         public string tutorLongitude { get; set; }
-
-        //[DataMember]
-        //public int session_status { get; set; }
     }
 
     // Sent to server to see if the tutor has been paired with a student for immediate tutor case
@@ -220,9 +211,6 @@ namespace ToDoList
 
         [DataMember]
         public string tutorLongitude { get; set; }
-
-        //[DataMember]
-        //public int session_status { get; set; }
     }
 
     public class UpdateStudentLocationRequestItem
@@ -526,18 +514,6 @@ namespace ToDoList
 
         [DataMember]
         public string course { get; set; }
-
-        //[DataMember]
-        //public string topic { get; set; }
-
-        //[DataMember]
-        //public string date { get; set; }
-
-        //[DataMember]
-        //public string time { get; set; }
-
-        //[DataMember]
-        //public string duration { get; set; }
     }
 
     public class ScheduleTutorRequestItem
@@ -553,9 +529,6 @@ namespace ToDoList
 
         [DataMember]
         public string dateTime { get; set; }
-
-        //[DataMember]
-        //public string time { get; set; }
 
         [DataMember]
         public string duration { get; set; }
@@ -599,9 +572,6 @@ namespace ToDoList
         [DataMember]
         public string dateTime { get; set; }
 
-        //[DataMember]
-        //public string time { get; set; }
-
         [DataMember]
         public string duration { get; set; }
     }
@@ -622,9 +592,6 @@ namespace ToDoList
 
         [DataMember]
         public string dateTime { get; set; }
-
-        //[DataMember]
-        //public string time { get; set; }
 
         [DataMember]
         public string duration { get; set; }
@@ -749,81 +716,5 @@ namespace ToDoList
         [DataMember]
         public string message { get; set; }
     }
-
-    //public class ReportTutorResponseItem
-    //{
-    //    [DataMember]
-    //    public string tutorEmail { get; set; }
-
-    //    [DataMember]
-    //    public string tutorFirstName { get; set; }
-
-    //    [DataMember]
-    //    public string tutorLastName { get; set; }
-
-    //    [DataMember]
-    //    public string tutorSessionID { get; set; }
-
-    //    [DataMember]
-    //    public string course { get; set; }
-
-    //    [DataMember]
-    //    public string sessionStartTime { get; set; }
-
-    //    [DataMember]
-    //    public string sessionEndTime { get; set; }
-
-    //    [DataMember]
-    //    public string sessionCost { get; set; }
-    //}
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //[DataContract]
-    //public class Product
-    //{
-    //    [DataMember]
-    //    public int ProductId { get; set; }
-    //    [DataMember]
-    //    public string Name { get; set; }
-    //    [DataMember]
-    //    public string CategoryName { get; set; }
-    //    [DataMember]
-    //    public int Price { get; set; }
-    //}
-
-
-    //public partial class Products
-    //{
-    //   private static readonly Products _instance = new Products();
-       
-    //   private Products() { } 
-       
-    //   public static Products Instance 
-    //   { 
-    //            get { return _instance; } 
-    //   } 
-    //    public List<Product> ProductList 
-    //    { 
-    //           get { return products; } 
-    //    } 
-    //    private List<Product> products = new List<Product>() 
-    //    { 
-    //            new Product() { ProductId = 1, Name = "Product 1", CategoryName = "Category 1", Price=10}, 
-    //            new Product() { ProductId = 1, Name = "Product 2", CategoryName = "Category 2", Price=5}, 
-    //            new Product() { ProductId = 1, Name = "Product 3", CategoryName = "Category 3", Price=15}, 
-    //            new Product() { ProductId = 1, Name = "Product 4", CategoryName = "Category 1", Price=9} 
-    //    }; 
-    //}
 }
 
