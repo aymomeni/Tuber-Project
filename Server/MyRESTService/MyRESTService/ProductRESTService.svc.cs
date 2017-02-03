@@ -2331,15 +2331,12 @@ namespace ToDoList
 
         public void ReportTutor(ReportTutorRequestItem item)
         {
-            // Insert report into reported_tutor table
             lock (this)
             {
-
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-
-                    // Store user information in DB
+                    // Insert report into reported_tutor table
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
                         try
@@ -2347,6 +2344,8 @@ namespace ToDoList
                             conn.Open();
 
                             MySqlCommand command = conn.CreateCommand();
+
+                            // Store user report in reported_tutors table
                             command.CommandText = "INSERT INTO reported_tutors VALUES (?tutorSessionID, ?studentEmail, ?tutorEmail, ?message, ?reportDate)";
                             command.Parameters.AddWithValue("tutorSessionID", item.tutorSessionID);
                             command.Parameters.AddWithValue("studentEmail", item.userEmail);
@@ -2375,16 +2374,19 @@ namespace ToDoList
 
                                     if (command.ExecuteNonQuery() > 0)
                                     {
+                                        // Reporting tutor & deactivating tutor succeeded
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     }
                                     else
                                     {
+                                        // Reporting tutor succeeded, but deactivating tutor failed
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotModified;
                                     }
                                 }
                             }
                             else
                             {
+                                // Inserting student's report for tutor failed
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                             }
                         }
