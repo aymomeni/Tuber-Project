@@ -1774,35 +1774,45 @@ namespace ToDoList
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-
-                    // Store student's tutor request in DB
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    // Check that the student is in the specified course
+                    if (verifyStudentInCourse(item.userEmail, item.course))
                     {
-                        try
+                        // Store student's tutor request in DB
+                        using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
-                            conn.Open();
-
-                            MySqlCommand command = conn.CreateCommand();
-                            command.CommandText = "INSERT INTO tutor_requests VALUES (?studentEmail, ?course, ?topic, ?dateTime, ?duration)";
-                            command.Parameters.AddWithValue("studentEmail", item.userEmail);
-                            command.Parameters.AddWithValue("course", item.course);
-                            command.Parameters.AddWithValue("topic", item.topic);
-                            command.Parameters.AddWithValue("dateTime", item.dateTime);
-                            command.Parameters.AddWithValue("duration", item.duration);
-
-                            if (command.ExecuteNonQuery() > 0)
+                            try
                             {
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                conn.Open();
+
+                                MySqlCommand command = conn.CreateCommand();
+                                command.CommandText = "INSERT INTO tutor_requests VALUES (?studentEmail, ?course, ?topic, ?dateTime, ?duration)";
+                                command.Parameters.AddWithValue("studentEmail", item.userEmail);
+                                command.Parameters.AddWithValue("course", item.course);
+                                command.Parameters.AddWithValue("topic", item.topic);
+                                command.Parameters.AddWithValue("dateTime", item.dateTime);
+                                command.Parameters.AddWithValue("duration", item.duration);
+
+                                if (command.ExecuteNonQuery() > 0)
+                                {
+                                    // Student's request stored successfully
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                }
+                                else
+                                {
+                                    // Student's request failed
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                }
                             }
-                            else
+                            catch (Exception e)
                             {
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                throw e;
                             }
                         }
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
+                    }
+                    else
+                    {
+                        // Student is not in the specified course
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     }
                 }
                 else
@@ -1821,43 +1831,56 @@ namespace ToDoList
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    List<ScheduleTutorRequestItem> studentRequests = new List<ScheduleTutorRequestItem>();
-
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    // Make sure tutor is eligible to tutor
+                    if (checkTutorEligibility(item.userEmail))
                     {
-                        try
+                        List<ScheduleTutorRequestItem> studentRequests = new List<ScheduleTutorRequestItem>();
+
+                        using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
-                            conn.Open();
-
-                            MySqlCommand command = conn.CreateCommand();
-                            command.CommandText = "SELECT * FROM tutor_requests WHERE course = ?courseName";
-                            command.Parameters.AddWithValue("courseName", item.course);
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
+                            try
                             {
-                                while (reader.Read())
-                                {
-                                    ScheduleTutorRequestItem request = new ScheduleTutorRequestItem();
-                                    request.studentEmail = reader.GetString("student_email");
-                                    request.course = reader.GetString("course");
-                                    request.topic = reader.GetString("topic");
-                                    request.dateTime = reader.GetString("date_time");
-                                    request.duration = reader.GetString("duration");
+                                conn.Open();
 
-                                    studentRequests.Add(request);
+                                MySqlCommand command = conn.CreateCommand();
+
+                                // Retrieve all tutor requests for the specified course
+                                command.CommandText = "SELECT * FROM tutor_requests WHERE course = ?courseName";
+                                command.Parameters.AddWithValue("courseName", item.course);
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        ScheduleTutorRequestItem request = new ScheduleTutorRequestItem();
+                                        request.studentEmail = reader.GetString("student_email");
+                                        request.course = reader.GetString("course");
+                                        request.topic = reader.GetString("topic");
+                                        request.dateTime = reader.GetString("date_time");
+                                        request.duration = reader.GetString("duration");
+
+                                        studentRequests.Add(request);
+                                    }
                                 }
                             }
+                            catch (Exception e)
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                                throw e;
+                            }
                         }
-                        catch (Exception e)
-                        {
-                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
-                            throw e;
-                        }
-                    }
 
-                    FindAllScheduleTutorResponseItem studentRequestItemList = new FindAllScheduleTutorResponseItem();
-                    studentRequestItemList.tutorRequestItems = studentRequests;
-                    return studentRequestItemList;
+                        // Return the requests to the  tutor
+                        FindAllScheduleTutorResponseItem studentRequestItemList = new FindAllScheduleTutorResponseItem();
+                        studentRequestItemList.tutorRequestItems = studentRequests;
+                        return studentRequestItemList;
+                    }
+                    else
+                    {
+                        // User has tutor_eligible set to 0 -- not able to tutor any class
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new FindAllScheduleTutorResponseItem();
+                    }
                 }
                 else
                 {
