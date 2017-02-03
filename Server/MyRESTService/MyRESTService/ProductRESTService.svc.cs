@@ -495,17 +495,13 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    // Check that the tutor is still available 
                     String returnedTutorEmail = "";
                     String returnedCourseName = "";
                     String returnedTutorLatitude = "";
                     String returnedTutorLongitude = "";
-
-                    String tutorEmail = item.requestedTutorEmail;
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
@@ -514,8 +510,10 @@ namespace ToDoList
                             conn.Open();
 
                             MySqlCommand command = conn.CreateCommand();
+                            
+                            // Check that the tutor is still available 
                             command.CommandText = "SELECT * FROM available_tutors WHERE email = ?tutorEmail";
-                            command.Parameters.AddWithValue("tutorEmail", tutorEmail);
+                            command.Parameters.AddWithValue("tutorEmail", item.requestedTutorEmail);
 
                             using (MySqlDataReader reader = command.ExecuteReader())
                             {
@@ -535,7 +533,7 @@ namespace ToDoList
 
                                 if (command.ExecuteNonQuery() >= 0)
                                 {
-                                    // Insert student & tutor into the tutor_sesssion table with session status of 0 -> not started
+                                    // Insert student & tutor into the tutor_sesssion_pairing table 
                                     command.CommandText = "INSERT INTO tutor_sessions_pairing (studentEmail, tutorEmail, course, studentLatitude, studentLongitude, tutorLatitude, tutorLongitude) VALUES (?studentEmail, ?tutorEmail, ?course, ?studentLatitude, ?studentLongitude, ?tutorLatitude, ?tutorLongitude)";
                                     command.Parameters.AddWithValue("studentEmail", item.userEmail);
                                     command.Parameters.AddWithValue("course", returnedCourseName);
@@ -546,6 +544,7 @@ namespace ToDoList
 
                                     if (command.ExecuteNonQuery() > 0)
                                     {
+                                        // Return the paired object
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         StudentTutorPairedItem paired = new StudentTutorPairedItem();
                                         paired.userEmail = item.userEmail;
@@ -556,23 +555,25 @@ namespace ToDoList
                                         paired.studentLongitude = item.studentLongitude;
                                         paired.tutorLatitude = returnedTutorLatitude;
                                         paired.tutorLongitude = returnedTutorLongitude;
-
                                         return paired;
                                     }
                                     else
                                     {
+                                        // Inserting into tutor_session_pairing table failed
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                         return new StudentTutorPairedItem();
                                     }
                                 }
                                 else
                                 {
+                                    // Deleting from the available_tutors table failed
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new StudentTutorPairedItem();
                                 }
                             }
                             else
                             {
+                                // Tutor is no longer available to pair
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
                                 return new StudentTutorPairedItem();
                             }
