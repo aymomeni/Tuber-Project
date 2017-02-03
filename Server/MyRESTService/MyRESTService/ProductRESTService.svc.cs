@@ -597,18 +597,10 @@ namespace ToDoList
         {
             lock (this)
             {
-
-                // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
                     // Check that the tutor is still available 
                     String returnedTutorEmail = "";
-                    String returnedStudentEmail = "";
-                    String returnedTutorCourse = "";
-                    String returnedStudentLatitude = "";
-                    String returnedStudentLongitude = "";
-                    String returnedTutorLatitude = "";
-                    String returnedTutorLongitude = "";
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
@@ -617,6 +609,8 @@ namespace ToDoList
                             conn.Open();
 
                             MySqlCommand command = conn.CreateCommand();
+
+                            // Check to see if the tutor is still in the available_tutors table
                             command.CommandText = "SELECT * FROM available_tutors WHERE email = ?userEmail";
                             command.Parameters.AddWithValue("userEmail", item.userEmail);
 
@@ -630,7 +624,7 @@ namespace ToDoList
 
                             if (returnedTutorEmail == "")
                             {
-                                // Remove tutor from available_tutor table
+                                // Check to see if the tutor is in the tutor_sessions_pairing table
                                 command.CommandText = "SELECT * FROM tutor_sessions_pairing WHERE tutorEmail = ?userEmail";
 
                                 PairedStatusItem pairedStatus = new PairedStatusItem();
@@ -646,22 +640,24 @@ namespace ToDoList
                                         pairedStatus.studentLongitude = reader.GetString("studentLongitude");
                                         pairedStatus.tutorLatitude = reader.GetString("tutorLatitude");
                                         pairedStatus.tutorLongitude = reader.GetString("tutorLongitude");
-                                        //pairedStatus.session_status = reader.GetInt32("session_status");
                                     }
                                 }
 
                                 if (pairedStatus.userEmail == "" || pairedStatus.userEmail == null)
                                 {
+                                    // Tutor was not in the available_tutor or tutor_sessions_pairing table, the tutor shouldn't be calling this method
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                     return new PairedStatusItem();
                                 }
                                 else
                                 {
+                                    // Found the tutor in the tutor_sessions_pairing table -- send back the paired student-tutor object for the tutor app to update
                                     return pairedStatus;
                                 }
                             }
                             else
                             {
+                                // Tutor is still waiting for a student to pair with them
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                 return new PairedStatusItem();
                             }
