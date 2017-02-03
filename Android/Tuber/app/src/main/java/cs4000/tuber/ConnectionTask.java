@@ -181,9 +181,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 		return isOfferingToTutor;
 	}
 
-    /************************************************************
-     *  USER ACCOUNT FUNCTIONS                                  *
-     ************************************************************/
+	/************************************************************
+	 *  USER ACCOUNT FUNCTIONS                                  *
+	 ************************************************************/
 	/**
 	 * @Send POST
 	 * {
@@ -231,9 +231,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 		this.execute("/verifyuser", obj.toString());
 	}
 
-    /************************************************************
-     *  IMMEDIATE TUTOR FUNCTIONS                               *
-     ************************************************************/
+	/************************************************************
+	 *  IMMEDIATE TUTOR FUNCTIONS                               *
+	 ************************************************************/
 	/**
 	 * @Send POST
 	 * {
@@ -289,25 +289,25 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 
 	/**
 	 * @Send POST
-     * {
-     * "userEmail" : "anne@cox.net",
-     * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
-     * "requestedTutorEmail" : "brandontobin@cox.net",
-     * "studentLatitude" : "40.735140",
-     * "studentLongitude" : "111.816439"
-     * }
-     * @Returns: 200 OK
-     * {
-     * "requestedTutorEmail": "brandontobin@cox.net",
-     * "session_status": 0,
-     * "studentLatitude": "40.735140",
-     * "studentLongitude": "111.816439",
-     * "tutorCourse": "CS 3500",
-     * "tutorLatitude": "40.867700",
-     * "tutorLongitude": "111.845200",
-     * "userEmail": "anne@cox.net",
-     * "userToken": "127ef466-2210-4b87-9f39-06cacd4b6cf5"
-     * }
+	 * {
+	 * "userEmail" : "anne@cox.net",
+	 * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
+	 * "requestedTutorEmail" : "brandontobin@cox.net",
+	 * "studentLatitude" : "40.735140",
+	 * "studentLongitude" : "111.816439"
+	 * }
+	 * @Returns: 200 OK
+	 * {
+	 * "requestedTutorEmail": "brandontobin@cox.net",
+	 * "session_status": 0,
+	 * "studentLatitude": "40.735140",
+	 * "studentLongitude": "111.816439",
+	 * "tutorCourse": "CS 3500",
+	 * "tutorLatitude": "40.867700",
+	 * "tutorLongitude": "111.845200",
+	 * "userEmail": "anne@cox.net",
+	 * "userToken": "127ef466-2210-4b87-9f39-06cacd4b6cf5"
+	 * }
 	 */
 	public void pair_student_tutor(JSONObject obj) {
 		this.execute("/pairstudenttutor", obj.toString());
@@ -345,83 +345,83 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	}
 
 
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "anne@cox.net",
-     * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
-     * "course" : "CS 3500"
-     * }
-     * @Returns 200 OK
-     * Nothing...
-     */
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "anne@cox.net",
+	 * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
+	 * "course" : "CS 3500"
+	 * }
+	 * @Returns 200 OK
+	 * Nothing...
+	 */
 	public void start_tutor_session(JSONObject obj) {
 		this.execute("/starttutorsession", obj.toString());
 	}
 
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "anne@cox.net",
-     * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
-     * "course" : "CS 3500"
-     * }
-     * @Returns 200 OK
-     * {
-     * "course": "CS 3500",
-     * "sessionCost": 16.11,
-     * "sessionEndTime": "01,31,2017 12:49:46 PM",
-     * "sessionStartTime": "01,31,2017 11:45:19 AM",
-     * "studentEmail": "brandontobin2@cox.net",
-     * "userEmail": "brandontobin@cox.net"
-     * }
-     */
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "anne@cox.net",
+	 * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
+	 * "course" : "CS 3500"
+	 * }
+	 * @Returns 200 OK
+	 * {
+	 * "course": "CS 3500",
+	 * "sessionCost": 16.11,
+	 * "sessionEndTime": "01,31,2017 12:49:46 PM",
+	 * "sessionStartTime": "01,31,2017 11:45:19 AM",
+	 * "studentEmail": "brandontobin2@cox.net",
+	 * "userEmail": "brandontobin@cox.net"
+	 * }
+	 */
 	public void end_tutor_session(JSONObject obj) {
 		this.execute("/endtutorsession", obj.toString());
 	}
 
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "brandontobin2@cox.net",
-     * "userToken" : "3762e8ed-9112-4964-99e6-0b1ce4da18e9",
-     * "latitude" : "41.867700",
-     * "longitude" : "111.845200"
-     * }
-     * @Returns 200 OK
-     * {
-     * "tutorEmail": "brandontobin@cox.net",
-     * "tutorLatitude": "40.867700",
-     * "tutorLongitude": "111.845200"
-     * }
-     */
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "brandontobin2@cox.net",
+	 * "userToken" : "3762e8ed-9112-4964-99e6-0b1ce4da18e9",
+	 * "latitude" : "41.867700",
+	 * "longitude" : "111.845200"
+	 * }
+	 * @Returns 200 OK
+	 * {
+	 * "tutorEmail": "brandontobin@cox.net",
+	 * "tutorLatitude": "40.867700",
+	 * "tutorLongitude": "111.845200"
+	 * }
+	 */
 	public void update_student_location(JSONObject obj) {
 		this.execute("/updatestudentlocation", obj.toString());
 	}
 
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "brandontobin2@cox.net",
-     * "userToken" : "3762e8ed-9112-4964-99e6-0b1ce4da18e9",
-     * "latitude" : "41.867700",
-     * "longitude" : "111.845200"
-     * }
-     * @Returns 200 OK
-     * {
-     * "studentEmail": "brandontobin@cox.net",
-     * "studentLatitude": "40.867700",
-     * "studentLongitude": "111.845200"
-     * }
-     */
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "brandontobin2@cox.net",
+	 * "userToken" : "3762e8ed-9112-4964-99e6-0b1ce4da18e9",
+	 * "latitude" : "41.867700",
+	 * "longitude" : "111.845200"
+	 * }
+	 * @Returns 200 OK
+	 * {
+	 * "studentEmail": "brandontobin@cox.net",
+	 * "studentLatitude": "40.867700",
+	 * "studentLongitude": "111.845200"
+	 * }
+	 */
 	public void update_tutor_location(JSONObject obj) {
 		this.execute("/updatetutorlocation", obj.toString());
 	}
 
-    /************************************************************
-     *  STUDY HOTSPOT FUNCTIONS                                 *
-     ************************************************************/
-    /**
+	/************************************************************
+	 *  STUDY HOTSPOT FUNCTIONS                                 *
+	 ************************************************************/
+	/**
 	 * @Send POST
 	 * {
 	 * "userEmail" : "anne@cox.net",
@@ -447,19 +447,19 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * "longitude" : "111.845200"
 	 * }
 	 * @Returns 200 OK
-     * {
-     * "studyHotspots": [
-     * {
-     * "course": "CS 4000",
-     * "distanceToHotspot": 0.00005229515916537725,
-     * "hotspotID": "11",
-     * "latitude": 40.867701,
-     * "longitude": 111.8452,
-     * "ownerEmail": "brandontobin@cox.net",
-     * "student_count": "1"
-     * },
-     * ],
-     * }
+	 * {
+	 * "studyHotspots": [
+	 * {
+	 * "course": "CS 4000",
+	 * "distanceToHotspot": 0.00005229515916537725,
+	 * "hotspotID": "11",
+	 * "latitude": 40.867701,
+	 * "longitude": 111.8452,
+	 * "ownerEmail": "brandontobin@cox.net",
+	 * "student_count": "1"
+	 * },
+	 * ],
+	 * }
 	 */
 	public void find_study_hotspots(JSONObject obj) {
 		this.execute("/findstudyhotspots", obj.toString());
@@ -531,9 +531,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 		this.execute("/deletestudyhotspot", obj.toString());
 	}
 
-    /************************************************************
-     *  SCHEDULE TUTOR FUNCTIONS                                *
-     ************************************************************/
+	/************************************************************
+	 *  SCHEDULE TUTOR FUNCTIONS                                *
+	 ************************************************************/
 	/**
 	 * @Send POST
 	 * {
@@ -553,219 +553,219 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 		this.execute("/scheduletutor", obj.toString());
 	}
 
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "anne@cox.net",
-     * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
-     * "course" : "CS 4000"
-     * }
-     * @Returns 200 OK
-     * {
-     * "tutorRequestItems": [
-     * {
-     * "course": "CS 4000",
-     * "dateTime": "02,15,2017 1:45:00 PM",
-     * "duration": "2",
-     * "studentEmail": "u0820304@utah.edu",
-     * "topic": "Malloc"
-     * }
-     * ],
-     * }
-     */
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "anne@cox.net",
+	 * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
+	 * "course" : "CS 4000"
+	 * }
+	 * @Returns 200 OK
+	 * {
+	 * "tutorRequestItems": [
+	 * {
+	 * "course": "CS 4000",
+	 * "dateTime": "02,15,2017 1:45:00 PM",
+	 * "duration": "2",
+	 * "studentEmail": "u0820304@utah.edu",
+	 * "topic": "Malloc"
+	 * }
+	 * ],
+	 * }
+	 */
 	public void find_all_scheduled_tutor_requests(JSONObject obj) {
 		this.execute("/findallscheduletutorrequests", obj.toString());
 	}
 
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "brandontobin2@cox.net",
-     * "userToken" : "289569ba-3022-44fe-b568-6dcfd88e0933",
-     * "studentEmail" : "anne@cox.net",
-     * "course" : "CS 4000"
-     * }
-     * @Returns 200 OK
-     * {
-     * "course": "CS 4000",
-     * "dateTime": "2017-02-15 15:45:00",
-     * "duration": "2.5",
-     * "student_email": "anne@cox.net",
-     * "topic": "Capstone Help",
-     * "tutor_email": "brandontobin@cox.net"
-     * }
-     */
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "brandontobin2@cox.net",
+	 * "userToken" : "289569ba-3022-44fe-b568-6dcfd88e0933",
+	 * "studentEmail" : "anne@cox.net",
+	 * "course" : "CS 4000"
+	 * }
+	 * @Returns 200 OK
+	 * {
+	 * "course": "CS 4000",
+	 * "dateTime": "2017-02-15 15:45:00",
+	 * "duration": "2.5",
+	 * "student_email": "anne@cox.net",
+	 * "topic": "Capstone Help",
+	 * "tutor_email": "brandontobin@cox.net"
+	 * }
+	 */
 	public void accept_student_scheduled_request(JSONObject obj) {
 		this.execute("/acceptstudentscheduledrequest", obj.toString());
 	}
 
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "anne@cox.net",
-     * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
-     * }
-     * @Returns 200 OK
-     * "requests": [
-     * {
-     * "course": "CS 3500",
-     * "dateTime": "2017-02-15 15:45:00",
-     * "duration": "2.5",
-     * "isPaired": false,
-     * "studentEmail": "anne@cox.net",
-     * "topic": "Capstone Help",
-     * "tutorEmail": null
-     * }
-     * ],
-     * }
-     */
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "anne@cox.net",
+	 * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
+	 * }
+	 * @Returns 200 OK
+	 * "requests": [
+	 * {
+	 * "course": "CS 3500",
+	 * "dateTime": "2017-02-15 15:45:00",
+	 * "duration": "2.5",
+	 * "isPaired": false,
+	 * "studentEmail": "anne@cox.net",
+	 * "topic": "Capstone Help",
+	 * "tutorEmail": null
+	 * }
+	 * ],
+	 * }
+	 */
 	public void check_scheduled_paired_status(JSONObject obj) {
 		this.execute("/checkscheduledpairedstatus", obj.toString());
 	}
 
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "anne@cox.net",
-     * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
-     * }
-     * @Returns 200 OK
-     * Nothing...
-     *
-     * @Note Use the same /endtutorsession in the Immediate tutor
-     * functions section to end the tutoring session.
-     */
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "anne@cox.net",
+	 * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
+	 * }
+	 * @Returns 200 OK
+	 * Nothing...
+	 *
+	 * @Note Use the same /endtutorsession in the Immediate tutor
+	 * functions section to end the tutoring session.
+	 */
 	public void start_scheduled_tutor_session(JSONObject obj) {
 		this.execute("/scheduletutor", obj.toString());
 	}
 
-    /************************************************************
-     *  POST TUTOR SESSION FUNCTIONS                            *
-     ************************************************************/
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "brandontobin2@cox.net",
-     * "userToken" : "3762e8ed-9112-4964-99e6-0b1ce4da18e9",
-     * "tutorSessionID" : "2",
-     * "tutorEmail" : "brandontobin@cox.net",
-     * "rating" : "0.5"
-     * }
-     * @Returns 200 OK
-     * Nothing...
-     *
-     * @Note Make sure the rating is in the form of 2.5 and the rating number is less than 5.
-     * If you receive response code "406 : Not Acceptable", then there is already an entry in
-     * the tutor_ratings table for the tutor session ID provided.
-     */
+	/************************************************************
+	 *  POST TUTOR SESSION FUNCTIONS                            *
+	 ************************************************************/
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "brandontobin2@cox.net",
+	 * "userToken" : "3762e8ed-9112-4964-99e6-0b1ce4da18e9",
+	 * "tutorSessionID" : "2",
+	 * "tutorEmail" : "brandontobin@cox.net",
+	 * "rating" : "0.5"
+	 * }
+	 * @Returns 200 OK
+	 * Nothing...
+	 *
+	 * @Note Make sure the rating is in the form of 2.5 and the rating number is less than 5.
+	 * If you receive response code "406 : Not Acceptable", then there is already an entry in
+	 * the tutor_ratings table for the tutor session ID provided.
+	 */
 	public void rate_tutor(JSONObject obj) {
 		this.execute("/ratetutor", obj.toString());
 	}
 
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "brandontobin@cox.net",
-     * "userToken" : "289569ba-3022-44fe-b568-6dcfd88e0933",
-     * "tutorSessionID" : "2",
-     * "studentEmail" : "brandontobin2@cox.net",
-     * "rating" : "4.7"
-     * }
-     * @Returns 200 OK
-     * Nothing...
-     *
-     * @Note Make sure the rating is in the form of 2.5 and the rating number is less than 5.
-     * If you receive response code "406 : Not Acceptable", then there is already an entry in
-     * the tutor_ratings table for the tutor session ID provided.
-     */
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "brandontobin@cox.net",
+	 * "userToken" : "289569ba-3022-44fe-b568-6dcfd88e0933",
+	 * "tutorSessionID" : "2",
+	 * "studentEmail" : "brandontobin2@cox.net",
+	 * "rating" : "4.7"
+	 * }
+	 * @Returns 200 OK
+	 * Nothing...
+	 *
+	 * @Note Make sure the rating is in the form of 2.5 and the rating number is less than 5.
+	 * If you receive response code "406 : Not Acceptable", then there is already an entry in
+	 * the tutor_ratings table for the tutor session ID provided.
+	 */
 	public void rate_student(JSONObject obj) {
 		this.execute("/ratestudent", obj.toString());
 	}
 
-    /************************************************************
-     *  REPORT TUTOR FUNCTIONS                                  *
-     ************************************************************/
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "anne@cox.net",
-     * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
-     * }
-     * @Returns 200 OK
-     * {
-     * "tutorList": [
-     * {
-     * "tutorEmail": "brandontobin@cox.net",
-     * "tutorFirstName": "Brandon",
-     * "tutorLastName": "Tobin"
-     * }
-     * ],
-     * }
-     *
-     * @Note Use this method to retrieve all tutors a student has met with, and then
-     * allow them to select the tutor to report.
-     */
+	/************************************************************
+	 *  REPORT TUTOR FUNCTIONS                                  *
+	 ************************************************************/
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "anne@cox.net",
+	 * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
+	 * }
+	 * @Returns 200 OK
+	 * {
+	 * "tutorList": [
+	 * {
+	 * "tutorEmail": "brandontobin@cox.net",
+	 * "tutorFirstName": "Brandon",
+	 * "tutorLastName": "Tobin"
+	 * }
+	 * ],
+	 * }
+	 *
+	 * @Note Use this method to retrieve all tutors a student has met with, and then
+	 * allow them to select the tutor to report.
+	 */
 	public void reportTutor_get_tutorList(JSONObject obj) {
 		this.execute("/reporttutorgettutorlist", obj.toString());
 	}
 
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "brandontobin2@cox.net",
-     * "userToken" : "3762e8ed-9112-4964-99e6-0b1ce4da18e9",
-     * "tutorEmail": "brandontobin@cox.net",
-     * "tutorFirstName": "Brandon",
-     * "tutorLastName": "Tobin"
-     * }
-     * @Returns 200 OK
-     * {
-     * "tutorList": [
-     * {
-     * "course": "CS 3500",
-     * "sessionCost": "332.90",
-     * "sessionEndTime": "02,01,2017 9:56:56 AM",
-     * "sessionStartTime": "01,31,2017 11:45:19 AM",
-     * "tutorEmail": "brandontobin@cox.net",
-     * "tutorFirstName": "Brandon",
-     * "tutorLastName": "Tobin",
-     * "tutorSessionID": "1"
-     * },
-     * {
-     * "course": "CS 3500",
-     * "sessionCost": "334.60",
-     * "sessionEndTime": "02,01,2017 10:03:43 AM",
-     * "sessionStartTime": "01,31,2017 11:45:19 AM",
-     * "tutorEmail": "brandontobin@cox.net",
-     * "tutorFirstName": "Brandon",
-     * "tutorLastName": "Tobin",
-     * "tutorSessionID": "2"
-     * }
-     * ],
-     * }
-     *
-     * @Note Use this method to retrieve all sessions the student and selected tutor have had,
-     * and then allow the student to select the session to report.
-     */
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "brandontobin2@cox.net",
+	 * "userToken" : "3762e8ed-9112-4964-99e6-0b1ce4da18e9",
+	 * "tutorEmail": "brandontobin@cox.net",
+	 * "tutorFirstName": "Brandon",
+	 * "tutorLastName": "Tobin"
+	 * }
+	 * @Returns 200 OK
+	 * {
+	 * "tutorList": [
+	 * {
+	 * "course": "CS 3500",
+	 * "sessionCost": "332.90",
+	 * "sessionEndTime": "02,01,2017 9:56:56 AM",
+	 * "sessionStartTime": "01,31,2017 11:45:19 AM",
+	 * "tutorEmail": "brandontobin@cox.net",
+	 * "tutorFirstName": "Brandon",
+	 * "tutorLastName": "Tobin",
+	 * "tutorSessionID": "1"
+	 * },
+	 * {
+	 * "course": "CS 3500",
+	 * "sessionCost": "334.60",
+	 * "sessionEndTime": "02,01,2017 10:03:43 AM",
+	 * "sessionStartTime": "01,31,2017 11:45:19 AM",
+	 * "tutorEmail": "brandontobin@cox.net",
+	 * "tutorFirstName": "Brandon",
+	 * "tutorLastName": "Tobin",
+	 * "tutorSessionID": "2"
+	 * }
+	 * ],
+	 * }
+	 *
+	 * @Note Use this method to retrieve all sessions the student and selected tutor have had,
+	 * and then allow the student to select the session to report.
+	 */
 	public void reportTutor_get_sessionList(JSONObject obj) {
 		this.execute("/reporttutorgetsessionlist", obj.toString());
 	}
 
-    /**
-     * @Send POST
-     * {
-     * "userEmail" : "brandontobin2@cox.net",
-     * "userToken" : "3762e8ed-9112-4964-99e6-0b1ce4da18e9",
-     * "tutorEmail": "brandontobin@cox.net",
-     * "tutorSessionID": "2",
-     * "message": "Tutor was not up to par with the topic and was not helpful in any way."
-     * }
-     * @Returns 200 OK
-     * Nothing...
-     *
-     * @Note If the tutor has 5 or more reports in the DB, then the tutor's eligibility will be set to
-     * 0 (can't tutor anymore)
-     */
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "brandontobin2@cox.net",
+	 * "userToken" : "3762e8ed-9112-4964-99e6-0b1ce4da18e9",
+	 * "tutorEmail": "brandontobin@cox.net",
+	 * "tutorSessionID": "2",
+	 * "message": "Tutor was not up to par with the topic and was not helpful in any way."
+	 * }
+	 * @Returns 200 OK
+	 * Nothing...
+	 *
+	 * @Note If the tutor has 5 or more reports in the DB, then the tutor's eligibility will be set to
+	 * 0 (can't tutor anymore)
+	 */
 	public void report_tutor(JSONObject obj) {
 		this.execute("/reporttutor", obj.toString());
 	}
