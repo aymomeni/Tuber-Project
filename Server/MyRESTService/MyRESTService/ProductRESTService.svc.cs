@@ -1066,9 +1066,9 @@ namespace ToDoList
                         {
                             conn.Open();
 
-                            // Check to see if student & tutor were involved in the specified session ID
                             MySqlCommand command = conn.CreateCommand();
 
+                            // Check to make sure the student hasn't already rated the tutor
                             command.CommandText = "SELECT tutorEmail FROM tutor_ratings WHERE tutor_session_id = ?tutorSessionID";
                             command.Parameters.AddWithValue("tutorSessionID", item.tutorSessionID);
 
@@ -1082,6 +1082,7 @@ namespace ToDoList
 
                             if (returnedTutorEmail == "" || returnedTutorEmail == null)
                             {
+                                // Check to see if student & tutor were involved in the specified session ID
                                 command.CommandText = "SELECT studentEmail, tutorEmail FROM tutor_sessions_completed WHERE tutor_session_id = ?tutorSessionID";
 
                                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -1095,7 +1096,7 @@ namespace ToDoList
 
                                 if (returnedStudentEmail == item.userEmail && returnedTutorEmail == item.tutorEmail)
                                 {
-
+                                    // Add the student's raiting of the stutor into the tutor_ratings table
                                     command.CommandText = "INSERT INTO tutor_ratings VALUES (?tutorSessionID, ?tutorEmail, ?studentEmail, ?rating)";
                                     command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
                                     command.Parameters.AddWithValue("tutorEmail", returnedTutorEmail);
@@ -1103,21 +1104,24 @@ namespace ToDoList
 
                                     if (command.ExecuteNonQuery() > 0)
                                     {
+                                        // Rating added successfully
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     }
                                     else
                                     {
+                                        // Insert rating into tutor_ratings table failed
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ExpectationFailed;
                                     }
                                 }
                                 else
                                 {
+                                    // Student & tutor were not apart of the same tutor session
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                 }
                             }
                             else
                             {
-                                // There is already a record in the tutor_ratings table for  this session ID
+                                // There is already a record in the tutor_ratings table for this session ID
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotAcceptable;
                             }
                         }
