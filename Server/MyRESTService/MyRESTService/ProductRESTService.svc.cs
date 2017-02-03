@@ -396,10 +396,10 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
+                    String returnedStudentEmail = "";
                     String returnedTutorEmail = "";
                     String returnedCourseName = "";
                     Double returnedTutorLatitude = 0;
@@ -409,7 +409,6 @@ namespace ToDoList
 
                     var studentCoord = new GeoCoordinate(Convert.ToDouble(item.latitude), Convert.ToDouble(item.longitude));
 
-
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
                         try
@@ -417,34 +416,58 @@ namespace ToDoList
                             conn.Open();
 
                             MySqlCommand command = conn.CreateCommand();
-                            command.CommandText = "SELECT * FROM available_tutors WHERE course = ?courseName";
+
+                            // Verify student is in the class provided
+                            command.CommandText = "SELECT email FROM student_courses WHERE name = ?courseName";
                             command.Parameters.AddWithValue("courseName", item.tutorCourse);
 
                             using (MySqlDataReader reader = command.ExecuteReader())
                             {
                                 while (reader.Read())
                                 {
-                                    returnedTutorEmail = reader.GetString("email");
-                                    returnedCourseName = reader.GetString("course");
-                                    returnedTutorLatitude = reader.GetDouble("latitude");
-                                    returnedTutorLongitude = reader.GetDouble("longitude");
+                                    returnedStudentEmail = reader.GetString("email");
+                                }
+                            }
 
-                                    var tutorCoord = new GeoCoordinate(returnedTutorLatitude, returnedTutorLongitude);
+                            // If student is in class provided, return list of available tutors
+                            if (returnedStudentEmail == item.userEmail)
+                            {
+                                command.CommandText = "SELECT * FROM available_tutors WHERE course = ?courseName";
 
-                                    double distanceToTutor = studentCoord.GetDistanceTo(tutorCoord);
-
-                                    if (distanceToTutor < 8046.72)
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
                                     {
-                                        AvailableTutorUserItem tutor = new AvailableTutorUserItem();
-                                        tutor.userEmail = returnedTutorEmail;
-                                        tutor.tutorCourse = returnedCourseName;
-                                        tutor.latitude = returnedTutorLatitude;
-                                        tutor.longitude = returnedTutorLongitude;
-                                        tutor.distanceFromStudent = distanceToTutor / 1609.34;
+                                        returnedTutorEmail = reader.GetString("email");
+                                        returnedCourseName = reader.GetString("course");
+                                        returnedTutorLatitude = reader.GetDouble("latitude");
+                                        returnedTutorLongitude = reader.GetDouble("longitude");
 
-                                        availableTutors.Add(tutor);
+                                        var tutorCoord = new GeoCoordinate(returnedTutorLatitude, returnedTutorLongitude);
+
+                                        // Calculate distance between tutor and student
+                                        double distanceToTutor = studentCoord.GetDistanceTo(tutorCoord);
+
+                                        // Only return tutors that are less than 5 miles from the student
+                                        if (distanceToTutor < 8046.72)
+                                        {
+                                            AvailableTutorUserItem tutor = new AvailableTutorUserItem();
+                                            tutor.userEmail = returnedTutorEmail;
+                                            tutor.tutorCourse = returnedCourseName;
+                                            tutor.latitude = returnedTutorLatitude;
+                                            tutor.longitude = returnedTutorLongitude;
+                                            tutor.distanceFromStudent = distanceToTutor / 1609.34;
+
+                                            availableTutors.Add(tutor);
+                                        }
                                     }
                                 }
+                            }
+                            else
+                            {
+                                // Student is not in the class provided
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                return new FindAvailableTutorResponseItem();
                             }
                         }
                         catch (Exception e)
@@ -454,6 +477,7 @@ namespace ToDoList
                         }
                     }
 
+                    // Return list of available tutors
                     FindAvailableTutorResponseItem tutorList = new FindAvailableTutorResponseItem();
                     tutorList.availableTutors = availableTutors;
                     return tutorList;
