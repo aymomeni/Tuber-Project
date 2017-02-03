@@ -93,7 +93,7 @@ namespace ToDoList
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public VerifiedUserItem VerifyUser(UserItem data)
+        public VerifiedUserItem VerifyUser(UserItem item)
         {
             lock (this)
             {
@@ -109,7 +109,7 @@ namespace ToDoList
 
                         MySqlCommand command = conn.CreateCommand();
                         command.CommandText = "select email, password from users where email = ?userEmail";
-                        command.Parameters.AddWithValue("userEmail", data.userEmail);
+                        command.Parameters.AddWithValue("userEmail", item.userEmail);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
                         {
@@ -120,7 +120,7 @@ namespace ToDoList
                             }
                         }
 
-                        if (!verifyHash(data.userPassword, returnedUserPassword))
+                        if (!verifyHash(item.userPassword, returnedUserPassword))
                         {
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                             return new VerifiedUserItem();
@@ -165,7 +165,7 @@ namespace ToDoList
                                 }
                             }
 
-                            if (existingSessionEmail == data.userEmail)
+                            if (existingSessionEmail == item.userEmail)
                             {
                                 command.CommandText = "DELETE FROM sessions WHERE email = ?userEmail";
 
@@ -318,60 +318,75 @@ namespace ToDoList
         /// Method called to remove tutor from the available_tutor table.
         /// </summary>
         /// <param name="userEmail"></param>
-        public void DeleteTutorAvailable(DeleteTutorUserItem data)
+        public void DeleteTutorAvailable(DeleteTutorUserItem item)
         {
             lock (this)
             {
                 // Check that the user token is valid
-                if (checkUserToken(data.userEmail, data.userToken))
+                if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    String returnedUserEmail = "";
-
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    // Make sure tutor is eligible to tutor
+                    if (checkTutorEligibility(item.userEmail))
                     {
-                        try
+                        String returnedUserEmail = "";
+
+                        using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
-                            conn.Open();
-
-                            MySqlCommand command = conn.CreateCommand();
-
-                            command.CommandText = "SELECT email FROM available_tutors WHERE email = ?userEmail";
-                            command.Parameters.AddWithValue("userEmail", data.userEmail);
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
+                            try
                             {
-                                while (reader.Read())
+                                conn.Open();
+
+                                MySqlCommand command = conn.CreateCommand();
+
+                                // Verify the user to be deleted is in the available_tutors table
+                                command.CommandText = "SELECT email FROM available_tutors WHERE email = ?userEmail";
+                                command.Parameters.AddWithValue("userEmail", item.userEmail);
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
                                 {
-                                    returnedUserEmail = reader.GetString("email");
+                                    while (reader.Read())
+                                    {
+                                        returnedUserEmail = reader.GetString("email");
+                                    }
                                 }
-                            }
 
-                            if (data.userEmail == returnedUserEmail)
-                            {
-                                command.CommandText = "DELETE FROM available_tutors WHERE email = ?userEmail";
-
-                                if (command.ExecuteNonQuery() >= 0)
+                                if (item.userEmail == returnedUserEmail)
                                 {
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    // If user is in the available_tutors table, delete them from it
+                                    command.CommandText = "DELETE FROM available_tutors WHERE email = ?userEmail";
+
+                                    if (command.ExecuteNonQuery() >= 0)
+                                    {
+                                        // Deletion happened as expected
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    }
+                                    else
+                                    {
+                                        // Something went wrong deleting user from available_tutors
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    }
                                 }
                                 else
                                 {
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    // User is not in the available_tutors table
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                                 }
                             }
-                            else
+                            catch (Exception e)
                             {
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                                throw e;
                             }
                         }
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
+                    }
+                    else
+                    {
+                        // User has tutor_eligible set to 0 -- not able to tutor any class
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     }
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
@@ -445,6 +460,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new FindAvailableTutorResponseItem();
                 }
@@ -545,6 +561,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new StudentTutorPairedItem();
                 }
@@ -632,6 +649,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new PairedStatusItem();
                 }
@@ -710,6 +728,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
@@ -829,6 +848,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new EndTutorSessionResponseItem();
                 }
@@ -888,6 +908,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new UpdateStudentLocationResponseItem();
                 }
@@ -947,6 +968,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new UpdateTutorLocationResponseItem();
                 }
@@ -1032,6 +1054,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
@@ -1116,6 +1139,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
@@ -1182,6 +1206,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
@@ -1261,6 +1286,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new FindStudyHotspotReturnItem();
                 }
@@ -1342,6 +1368,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
@@ -1414,6 +1441,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
@@ -1490,6 +1518,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new StudyHotspotResponseItem();
                 }
@@ -1579,6 +1608,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
@@ -1624,6 +1654,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
@@ -1677,6 +1708,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new FindAllScheduleTutorResponseItem();
                 }
@@ -1776,6 +1808,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new AcceptStudentScheduleRequestResponseItem();
                 }
@@ -1848,6 +1881,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new CheckPairedStatusResponseItem();
                 }
@@ -1934,6 +1968,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
@@ -2017,6 +2052,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new ReportTutorGetTutorListResponseItem();
                 }
@@ -2075,6 +2111,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new ReportTutorGetSessionListResponseItem();
                 }
@@ -2148,6 +2185,7 @@ namespace ToDoList
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
