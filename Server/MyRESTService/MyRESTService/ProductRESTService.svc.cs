@@ -17,10 +17,10 @@ namespace ToDoList
     public class ProductRESTService : IToDoService
     {
         // Active CADE DB
-        public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
+        //public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
 
         // Developmental DB
-        //public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
+        public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
 
         // Old VM DB
         //public const string connectionString = "Server=23.99.55.197;Database=tuber;UID=tobin;Password=Redpack!99!!";
@@ -75,6 +75,9 @@ namespace ToDoList
                     }
                     catch (Exception e)
                     {
+                        MakeUserItem user = new MakeUserItem();
+                        user.userEmail = e.ToString();
+                        return user;
                         throw e;
                     }
                 }
@@ -149,26 +152,75 @@ namespace ToDoList
 
                             String userToken = Guid.NewGuid().ToString();
 
-                            command.CommandText = "INSERT INTO sessions VALUES (?userEmail, ?userToken)";
-                            command.Parameters.AddWithValue("userToken", userToken);
+                            // Verify the user doesn't already have a session token, if they do, delete it and give new session token.
+                            String existingSessionEmail = "";
 
-                            if (command.ExecuteNonQuery() > 0)
+                            command.CommandText = "SELECT email FROM sessions WHERE email = ?email";
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
                             {
-                                VerifiedUserItem user = new VerifiedUserItem();
-                                user.userEmail = returnedUserEmail;
-                                user.userPassword = returnedUserPassword;
-                                user.userStudentCourses = studentCourses;
-                                user.userTutorCourses = tutorCourses;
-                                user.userToken = userToken;
+                                while (reader.Read())
+                                {
+                                    existingSessionEmail = reader.GetString("email");
+                                }
+                            }
 
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                                return user;
+                            if (existingSessionEmail == data.userEmail)
+                            {
+                                command.CommandText = "DELETE FROM sessions WHERE email = ?userEmail";
+
+                                if (command.ExecuteNonQuery() >= 0)
+                                {
+                                    command.CommandText = "INSERT INTO sessions VALUES (?userEmail, ?userToken)";
+                                    command.Parameters.AddWithValue("userToken", userToken);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        VerifiedUserItem user = new VerifiedUserItem();
+                                        user.userEmail = returnedUserEmail;
+                                        user.userPassword = returnedUserPassword;
+                                        user.userStudentCourses = studentCourses;
+                                        user.userTutorCourses = tutorCourses;
+                                        user.userToken = userToken;
+
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        return user;
+                                    }
+                                    else
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                        return new VerifiedUserItem();
+                                    }
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new VerifiedUserItem();
+                                }
                             }
                             else
                             {
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
-                                return new VerifiedUserItem();
-                            }
+                                command.CommandText = "INSERT INTO sessions VALUES (?userEmail, ?userToken)";
+                                command.Parameters.AddWithValue("userToken", userToken);
+
+                                if (command.ExecuteNonQuery() > 0)
+                                {
+                                    VerifiedUserItem user = new VerifiedUserItem();
+                                    user.userEmail = returnedUserEmail;
+                                    user.userPassword = returnedUserPassword;
+                                    user.userStudentCourses = studentCourses;
+                                    user.userTutorCourses = tutorCourses;
+                                    user.userToken = userToken;
+
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    return user;
+                                }
+                                else
+                                {
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new VerifiedUserItem();
+                                }
+                            } 
                         }
                     }
                     catch (Exception e)
@@ -187,70 +239,76 @@ namespace ToDoList
         {
             lock (this)
             {
-
-                //String userEmail = data.userEmail;
-                //String userToken = data.userToken;
-                //String tutorCourse = data.tutorCourse;
-                //String latitude = data.latitude;
-                //String longitude = data.longitude;
-
                 String returnedUserEmail = "";
                 String returnedCourseName = "";
 
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    // Make sure tutor is eligible to tutor
+                    if (checkTutorEligibility(item.userEmail))
                     {
-                        try
+                        using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
-                            conn.Open();
-
-                            // Verify the user is able to tutor the course specified 
-                            //TODO: NEED TO CHECK FOR TUTOR_ELIGIBLE FLAG SET TO 1
-                            MySqlCommand command = conn.CreateCommand();
-
-                            command.CommandText = "SELECT * FROM tutor_courses WHERE email = ?userEmail AND name = ?tutorCourse";
-                            command.Parameters.AddWithValue("userEmail", item.userEmail);
-                            command.Parameters.AddWithValue("tutorCourse", item.tutorCourse);
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
+                            try
                             {
-                                while (reader.Read())
+                                conn.Open();
+
+                                MySqlCommand command = conn.CreateCommand();
+
+                                // Verify the user is able to tutor the course specified 
+                                command.CommandText = "SELECT * FROM tutor_courses WHERE email = ?userEmail AND name = ?tutorCourse";
+                                command.Parameters.AddWithValue("userEmail", item.userEmail);
+                                command.Parameters.AddWithValue("tutorCourse", item.tutorCourse);
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
                                 {
-                                    returnedUserEmail = reader.GetString("email");
-                                    returnedCourseName = reader.GetString("name");
+                                    while (reader.Read())
+                                    {
+                                        returnedUserEmail = reader.GetString("email");
+                                        returnedCourseName = reader.GetString("name");
+                                    }
                                 }
-                            }
 
-                            if (item.userEmail == returnedUserEmail && item.tutorCourse == returnedCourseName)
-                            {
-                                command.CommandText = "INSERT INTO available_tutors VALUES (?userEmail, ?tutorCourse, ?latitude, ?longitude)";
-                                command.Parameters.AddWithValue("latitude", item.latitude);
-                                command.Parameters.AddWithValue("longitude", item.longitude);
-
-                                if (command.ExecuteNonQuery() > 0)
+                                if (item.userEmail == returnedUserEmail && item.tutorCourse == returnedCourseName)
                                 {
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    // Insert tutor into the available_tutors table
+                                    command.CommandText = "INSERT INTO available_tutors VALUES (?userEmail, ?tutorCourse, ?latitude, ?longitude)";
+                                    command.Parameters.AddWithValue("latitude", item.latitude);
+                                    command.Parameters.AddWithValue("longitude", item.longitude);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        // Insertion happend as expected
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    }
+                                    else
+                                    {
+                                        // Something went wrong inserting user into available_tutors
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                                    }
                                 }
                                 else
                                 {
+                                    // User does not have ability to tutor the class specified
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                                 }
                             }
-                            else
+                            catch (Exception e)
                             {
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                                throw e;
                             }
                         }
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
+                    }
+                    else
+                    {
+                        // User has tutor_eligible set to 0 -- not able to tutor any class
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     }
                 }
                 else
                 {
+                    // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                 }
             }
@@ -276,6 +334,7 @@ namespace ToDoList
                             conn.Open();
 
                             MySqlCommand command = conn.CreateCommand();
+
                             command.CommandText = "SELECT email FROM available_tutors WHERE email = ?userEmail";
                             command.Parameters.AddWithValue("userEmail", data.userEmail);
 
@@ -2217,6 +2276,44 @@ namespace ToDoList
                         return true;
                     else
                         return false;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        private Boolean checkTutorEligibility(String userEmail)
+        {
+            int returnedTutorEligible = -1;
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    MySqlCommand command = conn.CreateCommand();
+
+                    command.CommandText = "SELECT tutor_eligible FROM users WHERE email = ?userEmail";
+                    command.Parameters.AddWithValue("userEmail", userEmail);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            returnedTutorEligible = reader.GetInt32("tutor_eligible");
+                        }
+                    }
+
+                    if (returnedTutorEligible == 1)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 catch (Exception e)
                 {
