@@ -2272,7 +2272,6 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
@@ -2285,6 +2284,8 @@ namespace ToDoList
                             conn.Open();
 
                             MySqlCommand command = conn.CreateCommand();
+
+                            // Get all tutoring sessions the student had with the specified tutor
                             command.CommandText = "SELECT tutor_session_id, course, session_start_time, session_end_time, session_cost FROM tutor_sessions_completed WHERE studentEmail = ?studentEmail AND tutorEmail = ?tutorEmail";
                             command.Parameters.AddWithValue("studentEmail", item.userEmail);
                             command.Parameters.AddWithValue("tutorEmail", item.tutorEmail);
@@ -2307,6 +2308,7 @@ namespace ToDoList
                                 }
                             }
 
+                            // Return the list of tutoring sessions
                             ReportTutorGetSessionListResponseItem responseItem = new ReportTutorGetSessionListResponseItem();
                             responseItem.tutorList = tutorResponseItems;
                             return responseItem;
