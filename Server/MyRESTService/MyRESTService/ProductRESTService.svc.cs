@@ -1323,73 +1323,86 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    String returnedHotspotID = "";
-                    String returnedOwnerEmail = "";
-                    String returnedCourseName = "";
-                    Double returnedHotspotLatitude = 0;
-                    Double returnedHotspotLongitude = 0;
-                    String returnedStudentCount = "";
-
-                    List<AvailableStudyHotspotItem> availableHotspots = new List<AvailableStudyHotspotItem>();
-
-                    var studentCoord = new GeoCoordinate(Convert.ToDouble(item.latitude), Convert.ToDouble(item.longitude));
-
-
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    // Check that the student is in the specified course
+                    if (verifyStudentInCourse(item.userEmail, item.course))
                     {
-                        try
+                        String returnedHotspotID = "";
+                        String returnedOwnerEmail = "";
+                        String returnedCourseName = "";
+                        Double returnedHotspotLatitude = 0;
+                        Double returnedHotspotLongitude = 0;
+                        String returnedStudentCount = "";
+
+                        List<AvailableStudyHotspotItem> availableHotspots = new List<AvailableStudyHotspotItem>();
+
+                        var studentCoord = new GeoCoordinate(Convert.ToDouble(item.latitude), Convert.ToDouble(item.longitude));
+
+
+                        using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
-                            conn.Open();
-
-                            MySqlCommand command = conn.CreateCommand();
-                            command.CommandText = "SELECT * FROM study_hotspots WHERE course_name = ?courseName";
-                            command.Parameters.AddWithValue("courseName", item.course);
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
+                            try
                             {
-                                while (reader.Read())
+                                conn.Open();
+
+                                MySqlCommand command = conn.CreateCommand();
+
+                                // Find all the hotspots associated with the course name provided
+                                command.CommandText = "SELECT * FROM study_hotspots WHERE course_name = ?courseName";
+                                command.Parameters.AddWithValue("courseName", item.course);
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
                                 {
-                                    returnedHotspotID = reader.GetString("hotspot_id");
-                                    returnedOwnerEmail = reader.GetString("owner_email");
-                                    returnedCourseName = reader.GetString("course_name");
-                                    returnedHotspotLatitude = reader.GetDouble("latitude");
-                                    returnedHotspotLongitude = reader.GetDouble("longitude");
-                                    returnedStudentCount = reader.GetString("student_count");
-
-                                    var hotspotCoord = new GeoCoordinate(returnedHotspotLatitude, returnedHotspotLongitude);
-
-                                    double distanceToHotspot = studentCoord.GetDistanceTo(hotspotCoord);
-
-                                    if (distanceToHotspot < 8046.72)
+                                    while (reader.Read())
                                     {
-                                        AvailableStudyHotspotItem hotspot = new AvailableStudyHotspotItem();
-                                        hotspot.hotspotID = returnedHotspotID;
-                                        hotspot.ownerEmail = returnedOwnerEmail;
-                                        hotspot.course = returnedCourseName;
-                                        hotspot.latitude = returnedHotspotLatitude;
-                                        hotspot.longitude = returnedHotspotLongitude;
-                                        hotspot.student_count = returnedStudentCount;
-                                        hotspot.distanceToHotspot = distanceToHotspot / 1609.34;
+                                        returnedHotspotID = reader.GetString("hotspot_id");
+                                        returnedOwnerEmail = reader.GetString("owner_email");
+                                        returnedCourseName = reader.GetString("course_name");
+                                        returnedHotspotLatitude = reader.GetDouble("latitude");
+                                        returnedHotspotLongitude = reader.GetDouble("longitude");
+                                        returnedStudentCount = reader.GetString("student_count");
 
-                                        availableHotspots.Add(hotspot);
+                                        var hotspotCoord = new GeoCoordinate(returnedHotspotLatitude, returnedHotspotLongitude);
+
+                                        double distanceToHotspot = studentCoord.GetDistanceTo(hotspotCoord);
+
+                                        // Make sure student is less than 5 miles from the hotspot before adding it to the return list
+                                        if (distanceToHotspot < 8046.72)
+                                        {
+                                            AvailableStudyHotspotItem hotspot = new AvailableStudyHotspotItem();
+                                            hotspot.hotspotID = returnedHotspotID;
+                                            hotspot.ownerEmail = returnedOwnerEmail;
+                                            hotspot.course = returnedCourseName;
+                                            hotspot.latitude = returnedHotspotLatitude;
+                                            hotspot.longitude = returnedHotspotLongitude;
+                                            hotspot.student_count = returnedStudentCount;
+                                            hotspot.distanceToHotspot = distanceToHotspot / 1609.34;
+
+                                            availableHotspots.Add(hotspot);
+                                        }
                                     }
                                 }
                             }
+                            catch (Exception e)
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                                throw e;
+                            }
                         }
-                        catch (Exception e)
-                        {
-                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
-                            throw e;
-                        }
-                    }
 
-                    FindStudyHotspotReturnItem studyHotspotsList = new FindStudyHotspotReturnItem();
-                    studyHotspotsList.studyHotspots = availableHotspots;
-                    return studyHotspotsList;
+                        // Return study hotspots
+                        FindStudyHotspotReturnItem studyHotspotsList = new FindStudyHotspotReturnItem();
+                        studyHotspotsList.studyHotspots = availableHotspots;
+                        return studyHotspotsList;
+                    }
+                    else
+                    {
+                        // Student is not in the specified course
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new FindStudyHotspotReturnItem();
+                    }
                 }
                 else
                 {
