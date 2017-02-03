@@ -438,6 +438,9 @@ namespace ToDoList
         public string userToken { get; set; }
 
         [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
         public string hotspotID { get; set; }
     }
 
