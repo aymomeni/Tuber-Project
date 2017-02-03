@@ -1242,59 +1242,73 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-
-                    String returnedHotspotID = "";
-
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    // Check that the student is in the specified course
+                    if (verifyStudentInCourse(item.userEmail, item.course))
                     {
-                        try
+                        String returnedHotspotID = "";
+
+                        using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
-                            conn.Open();
-
-                            MySqlCommand command = conn.CreateCommand();
-                            command.CommandText = "INSERT INTO study_hotspots (owner_email, course_name, latitude, longitude, student_count) VALUES (?owner_email, ?course_name, ?latitude, ?longitude, 1)";
-                            command.Parameters.AddWithValue("owner_email", item.userEmail);
-                            command.Parameters.AddWithValue("course_name", item.course);
-                            command.Parameters.AddWithValue("latitude", item.latitude);
-                            command.Parameters.AddWithValue("longitude", item.longitude);
-
-                            if (command.ExecuteNonQuery() > 0)
+                            try
                             {
-                                command.CommandText = "SELECT hotspot_id FROM study_hotspots WHERE owner_email = ?owner_email";
-                                using (MySqlDataReader reader = command.ExecuteReader())
-                                {
-                                    while (reader.Read())
-                                    {
-                                        returnedHotspotID = reader.GetString("hotspot_id");
-                                    }
-                                }
+                                conn.Open();
 
-                                command.CommandText = "INSERT INTO study_hotspots_members (hotspot_id, email) VALUES (?hotspot_id, ?email)";
-                                command.Parameters.AddWithValue("email", item.userEmail);
-                                command.Parameters.AddWithValue("hotspot_id", returnedHotspotID);
+                                MySqlCommand command = conn.CreateCommand();
+                                
+                                // Insert the hotspot into the study_hotspots table
+                                command.CommandText = "INSERT INTO study_hotspots (owner_email, course_name, latitude, longitude, student_count) VALUES (?owner_email, ?course_name, ?latitude, ?longitude, 1)";
+                                command.Parameters.AddWithValue("owner_email", item.userEmail);
+                                command.Parameters.AddWithValue("course_name", item.course);
+                                command.Parameters.AddWithValue("latitude", item.latitude);
+                                command.Parameters.AddWithValue("longitude", item.longitude);
 
                                 if (command.ExecuteNonQuery() > 0)
                                 {
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    // Retreive the new hotspot_id
+                                    command.CommandText = "SELECT hotspot_id FROM study_hotspots WHERE owner_email = ?owner_email";
+                                    using (MySqlDataReader reader = command.ExecuteReader())
+                                    {
+                                        while (reader.Read())
+                                        {
+                                            returnedHotspotID = reader.GetString("hotspot_id");
+                                        }
+                                    }
+
+                                    // Insert creator of hotspot into the hotspots_members table
+                                    command.CommandText = "INSERT INTO study_hotspots_members (hotspot_id, email) VALUES (?hotspot_id, ?email)";
+                                    command.Parameters.AddWithValue("email", item.userEmail);
+                                    command.Parameters.AddWithValue("hotspot_id", returnedHotspotID);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        // Hotspot created successfully
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    }
+                                    else
+                                    {
+                                        // Creator assigned to hotspot in hotspots_members table failed
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    }
                                 }
                                 else
                                 {
+                                    // Insertion of hotspot into study_hotspots table failed
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                 }
                             }
-                            else
+                            catch (Exception e)
                             {
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                throw e;
                             }
                         }
-                        catch (Exception e)
-                        {
-                            throw e;
-                        }
+                    }
+                    else
+                    {
+                        // Student is not in the specified course
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     }
                 }
                 else
@@ -2438,6 +2452,48 @@ namespace ToDoList
                     }
 
                     if (returnedTutorEligible == 1)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+            }
+        }
+
+        private Boolean verifyStudentInCourse(String userEmail, String courseName)
+        {
+            String returnedStudentEmail = "";
+            String returnedCourseName = "";
+
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+
+                    MySqlCommand command = conn.CreateCommand();
+
+                    command.CommandText = "SELECT email, name FROM student_courses WHERE email = ?userEmail and name = ?courseName";
+                    command.Parameters.AddWithValue("userEmail", userEmail);
+                    command.Parameters.AddWithValue("courseName", courseName);
+
+                    using (MySqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            returnedStudentEmail = reader.GetString("email");
+                            returnedCourseName = reader.GetString("name");
+                        }
+                    }
+
+                    if (returnedStudentEmail == userEmail && returnedCourseName == courseName)
                     {
                         return true;
                     }
