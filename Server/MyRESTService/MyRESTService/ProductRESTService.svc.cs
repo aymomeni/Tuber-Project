@@ -994,9 +994,9 @@ namespace ToDoList
                             {
                                 conn.Open();
 
-                                // Verify the user is able to tutor the course specified 
                                 MySqlCommand command = conn.CreateCommand();
 
+                                // Insert tutors's new location into the tutor_sessions_pairing table
                                 command.CommandText = "UPDATE tutor_sessions_pairing SET tutorLatitude = ?tutorLatitude, tutorLongitude = ?tutorLongitude WHERE tutorEmail = ?tutorEmail";
                                 command.Parameters.AddWithValue("tutorLatitude", item.latitude);
                                 command.Parameters.AddWithValue("tutorLongitude", item.longitude);
@@ -1004,6 +1004,7 @@ namespace ToDoList
 
                                 if (command.ExecuteNonQuery() > 0)
                                 {
+                                    // Retrieve the student's location to send back to the tutor
                                     command.CommandText = "SELECT studentEmail, studentLatitude, studentLongitude FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
 
                                     UpdateTutorLocationResponseItem locationResponse = new UpdateTutorLocationResponseItem();
@@ -1022,6 +1023,7 @@ namespace ToDoList
                                 }
                                 else
                                 {
+                                    // Updating the tutor's location in the tutor_sessions_pairing table failed
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                                     return new UpdateTutorLocationResponseItem();
                                 }
