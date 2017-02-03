@@ -2183,7 +2183,6 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
@@ -2202,6 +2201,8 @@ namespace ToDoList
                             conn.Open();
 
                             MySqlCommand command = conn.CreateCommand();
+
+                            // Get all tutor's that the student has met with
                             command.CommandText = "SELECT tutorEmail FROM tutor_sessions_completed WHERE studentEmail = ?studentEmail";
                             command.Parameters.AddWithValue("studentEmail", item.userEmail);
 
@@ -2223,6 +2224,7 @@ namespace ToDoList
 
                             for (int i = 0; i < tutorEmails.Count; i++)
                             {
+                                // Get the tutors' first and last names
                                 command.CommandText = "SELECT first_name, last_name FROM users WHERE email = ?email";
                                 command.Parameters.Clear();
                                 command.Parameters.AddWithValue("email", tutorEmails[i]);
@@ -2251,6 +2253,8 @@ namespace ToDoList
                         }
                     }
 
+
+                    // Return the list of tutors that the student met with
                     ReportTutorGetTutorListResponseItem responseList = new ReportTutorGetTutorListResponseItem();
                     responseList.tutorList = tutorResponseItems;
                     return responseList;
