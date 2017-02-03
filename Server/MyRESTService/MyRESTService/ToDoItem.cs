@@ -122,6 +122,12 @@ namespace ToDoList
         public double distanceFromStudent { get; set; }
     }
 
+    public class FindAvailableTutorResponseItem
+    {
+        [DataMember]
+        public List<AvailableTutorUserItem> availableTutors { get; set; }
+    }
+
     public class DeleteTutorUserItem
     {
         [DataMember]
@@ -468,6 +474,12 @@ namespace ToDoList
         public string lastName { get; set; }
     }
 
+    public class StudyHotspotResponseItem
+    {
+        [DataMember]
+        public List<StudyHotspotMemberItem> hotspotMembers { get; set; }
+    }
+
     public class StudyHotspotDeleteItem
     {
         [DataMember]
@@ -537,16 +549,22 @@ namespace ToDoList
         public string topic { get; set; }
 
         [DataMember]
-        public string date { get; set; }
+        public string dateTime { get; set; }
 
-        [DataMember]
-        public string time { get; set; }
+        //[DataMember]
+        //public string time { get; set; }
 
         [DataMember]
         public string duration { get; set; }
     }
 
-    public class AcceptStudentScheduleRequestItem
+    public class FindAllScheduleTutorResponseItem
+    {
+        [DataMember]
+        public List<ScheduleTutorRequestItem> tutorRequestItems { get; set; }
+    }
+
+        public class AcceptStudentScheduleRequestItem
     {
         [DataMember]
         public string userEmail { get; set; }
@@ -576,10 +594,10 @@ namespace ToDoList
         public string topic { get; set; }
 
         [DataMember]
-        public string date { get; set; }
+        public string dateTime { get; set; }
 
-        [DataMember]
-        public string time { get; set; }
+        //[DataMember]
+        //public string time { get; set; }
 
         [DataMember]
         public string duration { get; set; }
@@ -600,10 +618,10 @@ namespace ToDoList
         public string topic { get; set; }
 
         [DataMember]
-        public string date { get; set; }
+        public string dateTime { get; set; }
 
-        [DataMember]
-        public string time { get; set; }
+        //[DataMember]
+        //public string time { get; set; }
 
         [DataMember]
         public string duration { get; set; }
@@ -612,6 +630,26 @@ namespace ToDoList
         public Boolean isPaired { get; set; }
     }
 
+    public class CheckPairedStatusResponseItem
+    {
+        [DataMember]
+        public List<PairedScheduledStatusItem> requests { get; set; }
+    }
+
+    public class StartScheduledTutorSessionItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string dateTime { get; set; }
+    }
 
     public class ReportTutorGetTutorListRequestItem
     {
@@ -622,7 +660,7 @@ namespace ToDoList
         public string userToken { get; set; }
     }
 
-    public class ReportTutorGetTutorListResponseItem
+    public class ReportTutorGetTutorListItem
     {
         [DataMember]
         public string tutorEmail { get; set; }
@@ -632,6 +670,12 @@ namespace ToDoList
 
         [DataMember]
         public string tutorLastName { get; set; }
+    }
+
+    public class ReportTutorGetTutorListResponseItem
+    {
+        [DataMember]
+        public List<ReportTutorGetTutorListItem> tutorList { get; set; }
     }
 
     public class ReportTutorGetSessionListRequestItem
@@ -652,7 +696,7 @@ namespace ToDoList
         public string tutorLastName { get; set; }
     }
 
-    public class ReportTutorGetSessionListResponseItem
+    public class ReportTutorGetSessionListItem
     {
         [DataMember]
         public string tutorEmail { get; set; }
@@ -677,6 +721,12 @@ namespace ToDoList
 
         [DataMember]
         public string sessionCost { get; set; }
+    }
+
+    public class ReportTutorGetSessionListResponseItem
+    {
+        [DataMember]
+        public List<ReportTutorGetSessionListItem> tutorList { get; set; }
     }
 
     public class ReportTutorRequestItem
