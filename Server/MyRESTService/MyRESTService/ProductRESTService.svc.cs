@@ -1737,12 +1737,19 @@ namespace ToDoList
                                 command.CommandText = "DELETE FROM study_hotspots WHERE hotspot_id = ?hotspotID";
                                 if (command.ExecuteNonQuery() > 0)
                                 {
+                                    // Deleting the study hotspot was successful
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                 }
                                 else
                                 {
+                                    // Deleting the study hotspot failed
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                 }
+                            }
+                            else
+                            {
+                                // User trying to delete the study hotspot does not own the study hotspot
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                             }
                         }
                         catch (Exception e)
