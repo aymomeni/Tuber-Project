@@ -336,8 +336,8 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * "userToken": null
 	 * }
 	 *
-	 * RETURNS 400 BAD request/empty JSON if tutor has not been offering to tutor
-	 * RETURNS 200 OK/empty JSON if tutor has been offering but is not paired yet
+	 * RETURNS 400 BAD request/null JSON if tutor has not been offering to tutor TODO: Could change Feb 3
+	 * RETURNS 200 OK/null JSON if tutor has been offering but is not paired yet
 	 * RETURNS 200 OK/non-empty JSON if tutor has been paired
 	 */
 	public void check_paired_status(JSONObject obj) {
