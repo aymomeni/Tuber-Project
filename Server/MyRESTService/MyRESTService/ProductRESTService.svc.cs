@@ -670,9 +670,23 @@ namespace ToDoList
                                 }
                                 else
                                 {
-                                    // Tutor is still waiting for a student to pair with them
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                                    return new PairedStatusItem();
+                                    // Tutor is still waiting for a student to pair with them so update the tutor's location
+                                    command.CommandText = "UPDATE available_tutors SET latitude = ?latitude, longitude = ?longitude WHERE email = ?userEmail";
+                                    command.Parameters.AddWithValue("latitude", item.latitude);
+                                    command.Parameters.AddWithValue("longitude", item.longitude);
+                                    //command.Parameters.AddWithValue("studentEmail", item.userEmail);
+
+                                    if (command.ExecuteNonQuery() > 0)
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        return new PairedStatusItem();
+                                    }
+                                    else
+                                    {
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                        return new PairedStatusItem();
+                                    }
+                                    
                                 }
                             }
                             catch (Exception e)

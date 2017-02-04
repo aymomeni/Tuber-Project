@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MyRESTService.Azure1" generation="1" functional="0" release="0" Id="3a6661d2-d15f-4302-a435-de073dd6bb9e" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MyRESTService.Azure1" generation="1" functional="0" release="0" Id="fde75f68-69be-4ee6-a6c8-1e5ddf934c57" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="MyRESTService.Azure1Group" generation="1" functional="0" release="0">
       <componentports>
@@ -81,9 +81,9 @@
     </group>
   </groups>
   <implements>
-    <implementation Id="b8481722-3ac2-4660-90ec-33352b633a3d" ref="Microsoft.RedDog.Contract\ServiceContract\MyRESTService.Azure1Contract@ServiceDefinition">
+    <implementation Id="47196077-e735-466d-bbaf-5cd034314971" ref="Microsoft.RedDog.Contract\ServiceContract\MyRESTService.Azure1Contract@ServiceDefinition">
       <interfacereferences>
-        <interfaceReference Id="cd99d606-9ab3-4dc6-9654-d3ae3e56d9cd" ref="Microsoft.RedDog.Contract\Interface\MyRESTService:Endpoint1@ServiceDefinition">
+        <interfaceReference Id="82f75f4d-89e6-44a6-867b-4874fc2b89c1" ref="Microsoft.RedDog.Contract\Interface\MyRESTService:Endpoint1@ServiceDefinition">
           <inPort>
             <inPortMoniker name="/MyRESTService.Azure1/MyRESTService.Azure1Group/MyRESTService:Endpoint1" />
           </inPort>

@@ -194,6 +194,12 @@ namespace ToDoList
 
         [DataMember]
         public string userToken { get; set; }
+
+        [DataMember]
+        public string latitude { get; set; }
+
+        [DataMember]
+        public string longitude { get; set; }
     }
 
     public class PairedStatusItem
