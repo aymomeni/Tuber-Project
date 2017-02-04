@@ -42,9 +42,9 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
         let currentCell = tableView.cellForRow(at: indexPath!)! as! ClassTableViewCell
-        UserDefaults.standard.set(currentCell.classNameLabel.text! as String?, forKey: "selectedClass")
+        UserDefaults.standard.set(currentCell.classNameLabel.text! as String?, forKey: "selectedCourse")
         selectedClass.className = currentCell.classNameLabel.text!
-        performSegue(withIdentifier: "selectCourse", sender: nil)
+        performSegue(withIdentifier: "selectClass", sender: nil)
     }
     
     struct selectedClass {

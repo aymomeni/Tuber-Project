@@ -82,10 +82,6 @@ class LoginViewController: UIViewController {
                         defaults.set(parseJSON["userToken"] as! String?, forKey: "userToken")
                         defaults.set(parseJSON["userTutorCourses"] as! Array<String>?, forKey: "userTutorCourses")
                         defaults.synchronize()
-                    
-                        print("Added to defaults")
-                    
-                        print(defaults.object(forKey: "userToken")!)
 
                         OperationQueue.main.addOperation{
                             self.performSegue(withIdentifier: "loginSuccess", sender: nil)
@@ -102,18 +98,6 @@ class LoginViewController: UIViewController {
         }
         //executing the task
         task.resume()
-
-        
-        //TODO: check w/ database
-        
-//        if (emailTextField.text == "test" && passwordTextField.text == "test")
-//        {
-//            performSegue(withIdentifier: "loginSuccess", sender: nil)
-//        }
-//        else
-//        {
-//            errorLabel.text = "Invalid Login Credentials"
-//        }
     }
 
 }

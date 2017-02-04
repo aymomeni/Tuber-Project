@@ -9,11 +9,18 @@
 import UIKit
 
 class TutorViewScheduleTableViewController: UITableViewController {
+    
+    let sections = ["Scheduled Appointments", "Appointment Requests"]
+    
+    var students: [[String]] = []
+    var dates: [[String]] = []
+    var duration: [[String]] = []
+    var subjects: [[String]] = []
 
-    var students = ["Sally Hart", "Michael Fitz", "James Clark"]
-    var dates = ["12/10/2016 4:30PM", "12/12/2016 10:45AM", "12/12/2016 2:00PM"]
-    var duration = ["1.5", "1", "2"]
-    var subjects = ["Malloc", "Proxy Server", "Concurrency"]
+//    var students = [["Sally Hart", "Michael Fitz", "James Clark"], ["Anne Aoki"]]
+//    var dates = [["12/10/2016 4:30PM", "12/12/2016 10:45AM", "12/12/2016 2:00PM"],["2/12/2016 2:00PM"]]
+//    var duration = [["1.5", "1", "2"], ["1"]]
+//    var subjects = [["Malloc", "Proxy Server", "Concurrency"], ["Tiling"]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,22 +46,26 @@ class TutorViewScheduleTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        //Will be two, confirmed and unconfirmed
-        return 1
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // TODO: DB query for appointments
-        return 3
+        return students[section].count
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section]
+    }
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "studentAppointments", for: indexPath) as! TutorViewScheduleTableViewCell
         
-        cell.studentNameLabel.text = students[indexPath.row]
-        cell.dateLabel.text = dates[indexPath.row]
-        cell.durationLabel.text = duration[indexPath.row]
-        cell.subjectLabel.text = subjects[indexPath.row]
+        cell.studentNameLabel.text = students[indexPath.section][indexPath.row]
+        cell.dateLabel.text = dates[indexPath.section][indexPath.row]
+        cell.durationLabel.text = duration[indexPath.section][indexPath.row]
+        cell.subjectLabel.text = subjects[indexPath.section][indexPath.row]
         
         return cell
     }
@@ -70,9 +81,7 @@ class TutorViewScheduleTableViewController: UITableViewController {
         selectedAppointment.subject = currentCell.subjectLabel.text!
         
         performSegue(withIdentifier: "selectAppointment", sender: nil)
-        
-        
-        
+                
     }
     
     struct selectedAppointment {

@@ -384,7 +384,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="j4P-R3-Heg" kind="show" id="Biy-uC-Rhh"/>
+                                            <segue destination="j4P-R3-Heg" kind="show" identifier="tutorViewSchedule" id="Biy-uC-Rhh"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>

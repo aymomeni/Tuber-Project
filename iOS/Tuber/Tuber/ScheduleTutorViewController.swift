@@ -44,7 +44,7 @@ class ScheduleTutorViewController: UIViewController {
         //creating the post parameter by concatenating the keys and values from text field
         var postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"" + course + "\",\"topic\":\"" + subject!
         
-        postParameters += "\",\"date\":\"" + "2017-02-15" + "\",\"time\":\"" + "13:45" + "\",\"duration\":\"" + duration! + "\"}"
+        postParameters += "\",\"dateTime\":\"" + datetime + "\",\"duration\":\"" + duration! + "\"}"
         
         print(datetime)
         
