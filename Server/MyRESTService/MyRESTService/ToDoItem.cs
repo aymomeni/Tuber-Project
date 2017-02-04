@@ -98,6 +98,11 @@ namespace ToDoList
         public string longitude { get; set; }
     }
 
+    public class MakeTutorAvailableResponseItem
+    {
+
+    }
+
     public class AvailableTutorUserItem
     {
         [DataMember]
@@ -129,6 +134,11 @@ namespace ToDoList
 
         [DataMember]
         public string userToken { get; set; }
+    }
+
+    public class DeleteTutorResponseItem
+    {
+       
     }
 
     public class StudentTutorRequestItem
@@ -279,6 +289,11 @@ namespace ToDoList
         public string course { get; set; }
     }
 
+    public class StartTutorSessionResponseItem
+    {
+        
+    }
+
     public class EndTutorSessionRequestItem
     {
         [DataMember]
@@ -333,6 +348,11 @@ namespace ToDoList
         public string rating { get; set; }
     }
 
+    public class RateTutorResponseItem
+    {
+        
+    }
+
     public class RateStudentItem
     {
         [DataMember]
@@ -351,6 +371,11 @@ namespace ToDoList
         public string rating { get; set; }
     }
 
+    public class RateStudentResponseItem
+    {
+        
+    }
+
     public class CreateStudyHotspotRequestItem
     {
         [DataMember]
@@ -367,6 +392,11 @@ namespace ToDoList
 
         [DataMember]
         public string longitude { get; set; }
+    }
+
+    public class CreateStudyHotspotResponseItem
+    {
+        
     }
 
     public class StudyHotspotItem
@@ -432,6 +462,11 @@ namespace ToDoList
         public string hotspotID { get; set; }
     }
 
+    public class StudyHotspotJoinResponseItem
+    {
+        
+    }
+
     public class StudyHotspotLeaveItem
     {
         [DataMember]
@@ -439,6 +474,11 @@ namespace ToDoList
 
         [DataMember]
         public string userToken { get; set; }
+    }
+
+    public class StudyHotspotLeaveRequestItem
+    {
+        
     }
 
     public class StudyHotspotGetMemberItem
@@ -483,6 +523,11 @@ namespace ToDoList
         public string hotspotID { get; set; }
     }
 
+    public class StudyHotspotDeleteResponseItem
+    {
+        
+    }
+
     public class ScheduleTutorItem
     {
         [DataMember]
@@ -502,6 +547,11 @@ namespace ToDoList
 
         [DataMember]
         public string duration { get; set; }
+    }
+
+    public class ScheduleTutorResponseItem
+    {
+        
     }
 
     public class FindAllScheduleTutorRequestItem
@@ -606,6 +656,42 @@ namespace ToDoList
         public List<PairedScheduledStatusItem> requests { get; set; }
     }
 
+    public class FindAllScheduleTutorAcceptedRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+    }
+
+    public class FindAllScheduleTutorAcceptedItem
+    {
+        [DataMember]
+        public string studentEmail { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string topic { get; set; }
+
+        [DataMember]
+        public string dateTime { get; set; }
+
+        [DataMember]
+        public string duration { get; set; }
+    }
+
+    public class FindAllScheduleTutorAcceptedResponsetItem
+    {
+        [DataMember]
+        public List<FindAllScheduleTutorAcceptedItem> tutorRequestItems { get; set; }
+    }
+
     public class StartScheduledTutorSessionItem
     {
         [DataMember]
@@ -619,6 +705,11 @@ namespace ToDoList
 
         [DataMember]
         public string dateTime { get; set; }
+    }
+
+    public class StartScheduledTutorSessionResponseItem
+    {
+        
     }
 
     public class ReportTutorGetTutorListRequestItem
@@ -715,6 +806,11 @@ namespace ToDoList
 
         [DataMember]
         public string message { get; set; }
+    }
+
+    public class ReportTutorResponseItem
+    {
+        
     }
 }
 

@@ -44,7 +44,7 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        void MakeTutorAvailable(TutorUserItem data);
+        MakeTutorAvailableResponseItem MakeTutorAvailable(TutorUserItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -52,7 +52,7 @@ namespace ToDoList
         RequestFormat = WebMessageFormat.Json,
         ResponseFormat = WebMessageFormat.Json,
         BodyStyle = WebMessageBodyStyle.Bare)]
-        void DeleteTutorAvailable(DeleteTutorUserItem data);
+        DeleteTutorResponseItem DeleteTutorAvailable(DeleteTutorUserItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -84,7 +84,7 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        void StartTutorSession(StartTutorSessionItem data);
+        StartTutorSessionResponseItem StartTutorSession(StartTutorSessionItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -116,7 +116,7 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        void RateTutor(RateTutorItem data);
+        RateTutorResponseItem RateTutor(RateTutorItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -124,7 +124,7 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        void RateStudent(RateStudentItem data);
+        RateStudentResponseItem RateStudent(RateStudentItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -132,7 +132,7 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        void CreateStudyHotspot(CreateStudyHotspotRequestItem data);
+        CreateStudyHotspotResponseItem CreateStudyHotspot(CreateStudyHotspotRequestItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -148,7 +148,7 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        void JoinStudyHotspot(StudyHotspotJoinItem data);
+        StudyHotspotJoinResponseItem JoinStudyHotspot(StudyHotspotJoinItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -156,7 +156,7 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        void LeaveStudyHotspot(StudyHotspotLeaveItem data);
+        StudyHotspotLeaveRequestItem LeaveStudyHotspot(StudyHotspotLeaveItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -172,7 +172,7 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        void DeleteStudyHotspot(StudyHotspotDeleteItem data);
+        StudyHotspotDeleteResponseItem DeleteStudyHotspot(StudyHotspotDeleteItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -180,7 +180,7 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        void ScheduleTutor(ScheduleTutorItem data);
+        ScheduleTutorResponseItem ScheduleTutor(ScheduleTutorItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -208,11 +208,19 @@ namespace ToDoList
 
         [OperationContract]
         [WebInvoke(Method = "POST",
+            UriTemplate = "/findallscheduletutoracceptedrequests",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        FindAllScheduleTutorAcceptedResponsetItem FindAllScheduleTutorAcceptedRequests(FindAllScheduleTutorAcceptedRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
             UriTemplate = "/startscheduledtutorsession",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        void StartScheduledTutorSession(StartScheduledTutorSessionItem data);
+        StartScheduledTutorSessionResponseItem StartScheduledTutorSession(StartScheduledTutorSessionItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -236,6 +244,6 @@ namespace ToDoList
            RequestFormat = WebMessageFormat.Json,
            ResponseFormat = WebMessageFormat.Json,
            BodyStyle = WebMessageBodyStyle.Bare)]
-        void ReportTutor(ReportTutorRequestItem data);
+        ReportTutorResponseItem ReportTutor(ReportTutorRequestItem data);
     }
 }

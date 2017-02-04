@@ -235,7 +235,7 @@ namespace ToDoList
             }
         }
 
-        public void MakeTutorAvailable(TutorUserItem item)
+        public MakeTutorAvailableResponseItem MakeTutorAvailable(TutorUserItem item)
         {
             lock (this)
             {
@@ -281,17 +281,20 @@ namespace ToDoList
                                     {
                                         // Insertion happend as expected
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        return new MakeTutorAvailableResponseItem();
                                     }
                                     else
                                     {
                                         // Something went wrong inserting user into available_tutors
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                                        return new MakeTutorAvailableResponseItem();
                                     }
                                 }
                                 else
                                 {
                                     // User does not have ability to tutor the class specified
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                                    return new MakeTutorAvailableResponseItem();
                                 }
                             }
                             catch (Exception e)
@@ -304,12 +307,14 @@ namespace ToDoList
                     {
                         // User has tutor_eligible set to 0 -- not able to tutor any class
                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new MakeTutorAvailableResponseItem();
                     }
                 }
                 else
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new MakeTutorAvailableResponseItem();
                 }
             }
         }
@@ -318,7 +323,7 @@ namespace ToDoList
         /// Method called to remove tutor from the available_tutor table.
         /// </summary>
         /// <param name="userEmail"></param>
-        public void DeleteTutorAvailable(DeleteTutorUserItem item)
+        public DeleteTutorResponseItem DeleteTutorAvailable(DeleteTutorUserItem item)
         {
             lock (this)
             {
@@ -359,17 +364,20 @@ namespace ToDoList
                                     {
                                         // Deletion happened as expected
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        return new DeleteTutorResponseItem();
                                     }
                                     else
                                     {
                                         // Something went wrong deleting user from available_tutors
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                        return new DeleteTutorResponseItem();
                                     }
                                 }
                                 else
                                 {
                                     // User is not in the available_tutors table
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                                    return new DeleteTutorResponseItem();
                                 }
                             }
                             catch (Exception e)
@@ -382,12 +390,14 @@ namespace ToDoList
                     {
                         // User has tutor_eligible set to 0 -- not able to tutor any class
                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new DeleteTutorResponseItem();
                     }
                 }
                 else
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new DeleteTutorResponseItem();
                 }
             }
         }
@@ -687,7 +697,7 @@ namespace ToDoList
             }
         }
 
-        public void StartTutorSession(StartTutorSessionItem item)
+        public StartTutorSessionResponseItem StartTutorSession(StartTutorSessionItem item)
         {
             lock (this)
             {
@@ -739,23 +749,27 @@ namespace ToDoList
                                         {
                                             // Everything went as planned
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                            return new StartTutorSessionResponseItem();
                                         }
                                         else
                                         {
                                             // Inserting into tutor_sessions_active table failed
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                            return new StartTutorSessionResponseItem();
                                         }
                                     }
                                     else
                                     {
                                         // Deleting from tutor_sessions_pairing failed
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                        return new StartTutorSessionResponseItem();
                                     }
                                 }
                                 else
                                 {
                                     // Pairing session the tutor is looking for is no longer available. 
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
+                                    return new StartTutorSessionResponseItem();
                                 }
                             }
                             catch (Exception e)
@@ -768,12 +782,14 @@ namespace ToDoList
                     {
                         // User has tutor_eligible set to 0 -- not able to tutor any class
                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new StartTutorSessionResponseItem();
                     }
                 }
                 else
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new StartTutorSessionResponseItem();
                 }
             }
         }
@@ -1050,7 +1066,7 @@ namespace ToDoList
             }
         }
 
-        public void RateTutor(RateTutorItem item)
+        public RateTutorResponseItem RateTutor(RateTutorItem item)
         {
             lock (this)
             {
@@ -1106,23 +1122,27 @@ namespace ToDoList
                                     {
                                         // Rating added successfully
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        return new RateTutorResponseItem();
                                     }
                                     else
                                     {
                                         // Insert rating into tutor_ratings table failed
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ExpectationFailed;
+                                        return new RateTutorResponseItem();
                                     }
                                 }
                                 else
                                 {
                                     // Student & tutor were not apart of the same tutor session
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new RateTutorResponseItem();
                                 }
                             }
                             else
                             {
                                 // There is already a record in the tutor_ratings table for this session ID
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotAcceptable;
+                                return new RateTutorResponseItem();
                             }
                         }
                         catch (Exception e)
@@ -1136,11 +1156,12 @@ namespace ToDoList
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new RateTutorResponseItem();
                 }
             }
         }
 
-        public void RateStudent(RateStudentItem item)
+        public RateStudentResponseItem RateStudent(RateStudentItem item)
         {
             lock (this)
             {
@@ -1199,23 +1220,27 @@ namespace ToDoList
                                         {
                                             // Rating added successfully
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                            return new RateStudentResponseItem();
                                         }
                                         else
                                         {
                                             // Insert rating into tutor_ratings table failed
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ExpectationFailed;
+                                            return new RateStudentResponseItem();
                                         }
                                     }
                                     else
                                     {
                                         // Student & tutor were not apart of the same tutor session
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                        return new RateStudentResponseItem();
                                     }
                                 }
                                 else
                                 {
                                     // There is already a record in the tutor_ratings table for  this session ID
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotAcceptable;
+                                    return new RateStudentResponseItem();
                                 }
                             }
                             catch (Exception e)
@@ -1228,17 +1253,19 @@ namespace ToDoList
                     {
                         // User has tutor_eligible set to 0 -- not able to tutor any class
                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new RateStudentResponseItem();
                     }
                 }
                 else
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new RateStudentResponseItem();
                 }
             }
         }
 
-        public void CreateStudyHotspot(CreateStudyHotspotRequestItem item)
+        public CreateStudyHotspotResponseItem CreateStudyHotspot(CreateStudyHotspotRequestItem item)
         {
             lock (this)
             {
@@ -1286,17 +1313,20 @@ namespace ToDoList
                                     {
                                         // Hotspot created successfully
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        return new CreateStudyHotspotResponseItem();
                                     }
                                     else
                                     {
                                         // Creator assigned to hotspot in hotspots_members table failed
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                        return new CreateStudyHotspotResponseItem();
                                     }
                                 }
                                 else
                                 {
                                     // Insertion of hotspot into study_hotspots table failed
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new CreateStudyHotspotResponseItem();
                                 }
                             }
                             catch (Exception e)
@@ -1309,12 +1339,14 @@ namespace ToDoList
                     {
                         // Student is not in the specified course
                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new CreateStudyHotspotResponseItem();
                     }
                 }
                 else
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new CreateStudyHotspotResponseItem();
                 }
             }
         }
@@ -1413,7 +1445,7 @@ namespace ToDoList
             }
         }
 
-        public void JoinStudyHotspot(StudyHotspotJoinItem item)
+        public StudyHotspotJoinResponseItem JoinStudyHotspot(StudyHotspotJoinItem item)
         {
             lock (this)
             {
@@ -1471,23 +1503,27 @@ namespace ToDoList
                                         {
                                             // Adding user to study hotspot successful 
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                            return new StudyHotspotJoinResponseItem();
                                         }
                                         else
                                         {
                                             // Updating student count failed
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                            return new StudyHotspotJoinResponseItem();
                                         }
                                     }
                                     else
                                     {
                                         // Inserting user into study_hotspots_members table failed
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                        return new StudyHotspotJoinResponseItem();
                                     }
                                 }
                                 else
                                 {
                                     // Study hotspot no longer exists
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
+                                    return new StudyHotspotJoinResponseItem();
                                 }
                             }
                             catch (Exception e)
@@ -1500,17 +1536,19 @@ namespace ToDoList
                     {
                         // Student is not in the specified course
                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new StudyHotspotJoinResponseItem();
                     }
                 }
                 else
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new StudyHotspotJoinResponseItem();
                 }
             }
         }
 
-        public void LeaveStudyHotspot(StudyHotspotLeaveItem item)
+        public StudyHotspotLeaveRequestItem LeaveStudyHotspot(StudyHotspotLeaveItem item)
         {
             lock (this)
             {
@@ -1563,17 +1601,20 @@ namespace ToDoList
                                 {
                                     // Deleting user from study hotspot successful
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    return new StudyHotspotLeaveRequestItem();
                                 }
                                 else
                                 {
                                     // Updating study hotspot count failed
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new StudyHotspotLeaveRequestItem();
                                 }
                             }
                             else
                             {
                                 // Deleting user from study_hotspots_members table failed
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
+                                return new StudyHotspotLeaveRequestItem();
                             }
                         }
                         catch (Exception e)
@@ -1586,6 +1627,7 @@ namespace ToDoList
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new StudyHotspotLeaveRequestItem();
                 }
             }
         }
@@ -1671,7 +1713,7 @@ namespace ToDoList
             }
         }
 
-        public void DeleteStudyHotspot(StudyHotspotDeleteItem item)
+        public StudyHotspotDeleteResponseItem DeleteStudyHotspot(StudyHotspotDeleteItem item)
         {
             lock (this)
             {
@@ -1739,17 +1781,20 @@ namespace ToDoList
                                 {
                                     // Deleting the study hotspot was successful
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    return new StudyHotspotDeleteResponseItem();
                                 }
                                 else
                                 {
                                     // Deleting the study hotspot failed
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new StudyHotspotDeleteResponseItem();
                                 }
                             }
                             else
                             {
                                 // User trying to delete the study hotspot does not own the study hotspot
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                                return new StudyHotspotDeleteResponseItem();
                             }
                         }
                         catch (Exception e)
@@ -1763,11 +1808,12 @@ namespace ToDoList
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new StudyHotspotDeleteResponseItem();
                 }
             }
         }
 
-        public void ScheduleTutor(ScheduleTutorItem item)
+        public ScheduleTutorResponseItem ScheduleTutor(ScheduleTutorItem item)
         {
             lock (this)
             {
@@ -1796,11 +1842,13 @@ namespace ToDoList
                                 {
                                     // Student's request stored successfully
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    return new ScheduleTutorResponseItem();
                                 }
                                 else
                                 {
                                     // Student's request failed
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                    return new ScheduleTutorResponseItem();
                                 }
                             }
                             catch (Exception e)
@@ -1813,12 +1861,14 @@ namespace ToDoList
                     {
                         // Student is not in the specified course
                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new ScheduleTutorResponseItem();
                     }
                 }
                 else
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new ScheduleTutorResponseItem();
                 }
             }
         }
@@ -1887,6 +1937,74 @@ namespace ToDoList
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new FindAllScheduleTutorResponseItem();
+                }
+            }
+        }
+
+        public FindAllScheduleTutorAcceptedResponsetItem FindAllScheduleTutorAcceptedRequests(FindAllScheduleTutorAcceptedRequestItem item)
+        {
+            lock (this)
+            {
+
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    // Make sure tutor is eligible to tutor
+                    if (checkTutorEligibility(item.userEmail))
+                    {
+                        List<FindAllScheduleTutorAcceptedItem> studentRequests = new List<FindAllScheduleTutorAcceptedItem>();
+
+                        using (MySqlConnection conn = new MySqlConnection(connectionString))
+                        {
+                            try
+                            {
+                                conn.Open();
+
+                                MySqlCommand command = conn.CreateCommand();
+
+                                // Retrieve all tutor requests for the specified course
+                                command.CommandText = "SELECT * FROM tutor_requests_accepted WHERE course = ?courseName";
+                                command.Parameters.AddWithValue("courseName", item.course);
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        FindAllScheduleTutorAcceptedItem request = new FindAllScheduleTutorAcceptedItem();
+                                        request.studentEmail = reader.GetString("student_email");
+                                        request.course = reader.GetString("course");
+                                        request.topic = reader.GetString("topic");
+                                        request.dateTime = reader.GetString("date_time");
+                                        request.duration = reader.GetString("duration");
+
+                                        studentRequests.Add(request);
+                                    }
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                                throw e;
+                            }
+                        }
+
+                        // Return the requests to the  tutor
+                        FindAllScheduleTutorAcceptedResponsetItem studentRequestItemList = new FindAllScheduleTutorAcceptedResponsetItem();
+                        studentRequestItemList.tutorRequestItems = studentRequests;
+                        return studentRequestItemList;
+                    }
+                    else
+                    {
+                        // User has tutor_eligible set to 0 -- not able to tutor any class
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new FindAllScheduleTutorAcceptedResponsetItem();
+                    }
+                }
+                else
+                {
+                    // User's email & token combo is not valid
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new FindAllScheduleTutorAcceptedResponsetItem();
                 }
             }
         }
@@ -2079,7 +2197,7 @@ namespace ToDoList
             }
         }
 
-        public void StartScheduledTutorSession(StartScheduledTutorSessionItem item)
+        public StartScheduledTutorSessionResponseItem StartScheduledTutorSession(StartScheduledTutorSessionItem item)
         {
             lock (this)
             {
@@ -2140,23 +2258,27 @@ namespace ToDoList
                                         {
                                             // Tutor session started successfully
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                            return new StartScheduledTutorSessionResponseItem();
                                         }
                                         else
                                         {
                                             // Insert into tutor_sessions_active table failed
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                            return new StartScheduledTutorSessionResponseItem();
                                         }
                                     }
                                     else
                                     {
                                         // Deleting from tutor_requests_accepted table failed
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                        return new StartScheduledTutorSessionResponseItem();
                                     }
                                 }
                                 else
                                 {
                                     // Pairing is no longer active
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
+                                    return new StartScheduledTutorSessionResponseItem();
                                 }
                             }
                             catch (Exception e)
@@ -2169,12 +2291,14 @@ namespace ToDoList
                     {
                         // User has tutor_eligible set to 0-- not able to tutor any class
                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                        return new StartScheduledTutorSessionResponseItem();
                     }
                 }
                 else
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new StartScheduledTutorSessionResponseItem();
                 }
             }
         }
@@ -2329,7 +2453,7 @@ namespace ToDoList
             }
         }
 
-        public void ReportTutor(ReportTutorRequestItem item)
+        public ReportTutorResponseItem ReportTutor(ReportTutorRequestItem item)
         {
             lock (this)
             {
@@ -2376,18 +2500,27 @@ namespace ToDoList
                                     {
                                         // Reporting tutor & deactivating tutor succeeded
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                        return new ReportTutorResponseItem();
                                     }
                                     else
                                     {
                                         // Reporting tutor succeeded, but deactivating tutor failed
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotModified;
+                                        return new ReportTutorResponseItem();
                                     }
+                                }
+                                else
+                                {
+                                    // Reporting tutor & no deactivating tutor succeeded
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    return new ReportTutorResponseItem();
                                 }
                             }
                             else
                             {
                                 // Inserting student's report for tutor failed
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                return new ReportTutorResponseItem();
                             }
                         }
                         catch (Exception e)
@@ -2400,6 +2533,7 @@ namespace ToDoList
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new ReportTutorResponseItem();
                 }
             }
         }
@@ -2610,5 +2744,7 @@ namespace ToDoList
                 }
             }
         }
+
+      
     }
 }
