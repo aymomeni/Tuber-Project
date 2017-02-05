@@ -6,7 +6,7 @@
     android:id="@+id/activity_menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary_White"
+    android:background="@color/colorAccent_Blue"
     tools:context="cs4000.tuber.MenuActivity"
     >
 
@@ -15,7 +15,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary_White"
         android:weightSum="1"
         >
 

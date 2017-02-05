@@ -2,7 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_tutor_services"
+    android:id="@+id/activity_tutor_immediate_tutor_service_maps"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="cs4000.tuber.ImmediateTutorServiceMapsActivity">
@@ -10,11 +10,11 @@
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:map="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/map"
+              android:id="@+id/activity_immediate_tutor_service_map"
               android:name="com.google.android.gms.maps.SupportMapFragment"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              tools:context="cs4000.tuber.ImmediateTutorServiceActivity"/>
+              tools:context="cs4000.tuber.ImmediateTutorServiceMapsActivity"/>
 
     <Button
         android:text="Offer to Tutor"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:id="@+id/offerToTutorButton"
-        android:onClick="offerToTutor"
+        android:onClick="onOfferToTutorOrCancelToTutorClicked"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/logoutButton"
         android:layout_toStartOf="@+id/logoutButton"

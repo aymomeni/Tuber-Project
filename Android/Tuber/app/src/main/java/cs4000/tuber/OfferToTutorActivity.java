@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 /*
- * Inbetween view where tutors can select options in the tutoring context
+ * In between view where tutors can select options in the tutoring context
  */
 public class OfferToTutorActivity extends Activity {
 
@@ -19,7 +19,7 @@ public class OfferToTutorActivity extends Activity {
 
   public void tutor_services_immediate_service(View view) {
 	Log.i("Immediate Tutor Service", "clicked!");
-	startActivity(new Intent(OfferToTutorActivity.this, ImmediateTutorServiceActivity.class));
+	startActivity(new Intent(OfferToTutorActivity.this, ImmediateTutorServiceMapsActivity.class));
   }
 
 

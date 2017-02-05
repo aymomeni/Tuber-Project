@@ -77,7 +77,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 
 	// This is the reference to the associated listener
 	private final ConnectionTask.CallBack taskListener;
-	private boolean isOfferingToTutor = false; // EDIT: ALI - Needed for offering to tutor
+	//private boolean isOfferingToTutor = false; // EDIT: ALI - Needed for offering to tutor
 	private final String server_url = "http://tuber-test.cloudapp.net/ProductRESTService.svc";
 	private JSONObject jsonParam = null;
 
@@ -96,54 +96,55 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 		String newURL = server_url + params[0];
 
 		try {
-			jsonParam = new JSONObject(params[1]);
 
-			//Set-up connection
-			url = new URL(newURL);
-			urlConnection = (HttpURLConnection) url.openConnection();
-			urlConnection.setDoInput(true);
-			urlConnection.setDoOutput(true);
-			urlConnection.setUseCaches(false);
-			urlConnection.setRequestProperty("Content-Type", "application/json");
-			urlConnection.connect();
+                jsonParam = new JSONObject(params[1]);
 
-			// Send POST output.
-			printout = new DataOutputStream(urlConnection.getOutputStream());
-			printout.writeBytes(jsonParam.toString());
-			printout.flush();
-			printout.close();
+                //Set-up connection
+                url = new URL(newURL);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setDoInput(true);
+                urlConnection.setDoOutput(true);
+                urlConnection.setUseCaches(false);
+                urlConnection.setRequestProperty("Content-Type", "application/json");
+                urlConnection.connect();
 
-			// Receive response
-			int HttpResult = urlConnection.getResponseCode();
+                // Send POST output.
+                printout = new DataOutputStream(urlConnection.getOutputStream());
+                printout.writeBytes(jsonParam.toString());
+                printout.flush();
+                printout.close();
 
-			// EDIT: ALI - If bad request and /checkpai
-			if(HttpResult == HttpURLConnection.HTTP_BAD_REQUEST && params[0].equals("/checkpairedstatus")) {
-				isOfferingToTutor = false;
-				return null;
-			}
+                // Receive response
+                int HttpResult = urlConnection.getResponseCode();
 
-			if (HttpResult == HttpURLConnection.HTTP_OK) {
-				// Receiving JSON response
-				InputStream in = urlConnection.getInputStream();
-				InputStreamReader reader = new InputStreamReader(in);
-				int data = reader.read();
+//			// EDIT: ALI - If bad request and /checkpai
+//			if(HttpResult == HttpURLConnection.HTTP_BAD_REQUEST && params[0].equals("/checkpairedstatus")) {
+//				isOfferingToTutor = false;
+//				return null;
+//			}
 
-				while (data != -1) {
-					char current = (char) data;
-					result += current;
-					data = reader.read();
-				}
-			}
+                if (HttpResult == HttpURLConnection.HTTP_OK) {
+                    // Receiving JSON response
+                    InputStream in = urlConnection.getInputStream();
+                    InputStreamReader reader = new InputStreamReader(in);
+                    int data = reader.read();
 
-			// EDIT: ALI - If ok is returned for /checkpairedstatus and json is null the tutor is currently offering to tutor (but isn't paired yet)
-			if(HttpResult == HttpURLConnection.HTTP_OK && params[0].equals("/checkpairedstatus")) {
-				if(result == null){
-					isOfferingToTutor = true;
-					return null;
-				} else {
-					isOfferingToTutor = false;
-				}
-			}
+                    while (data != -1) {
+                        char current = (char) data;
+                        result += current;
+                        data = reader.read();
+                    }
+                }
+
+//			// EDIT: ALI - If ok is returned for /checkpairedstatus and json is null the tutor is currently offering to tutor (but isn't paired yet)
+//			if(HttpResult == HttpURLConnection.HTTP_OK && params[0].equals("/checkpairedstatus")) {
+//				if(result == null){
+//					isOfferingToTutor = true;
+//					return null;
+//				} else {
+//					isOfferingToTutor = false;
+//				}
+//			}
 
 			Log.i("ServerResponse", urlConnection.getResponseMessage());
 			return new JSONObject(result);
@@ -171,15 +172,15 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	}
 
 
-	/**
-	 * EDIT: ALI
-	 * Returns true if a tutor is currently offering to tutor
-	 *
-	 * @return isOfferingToTutor
-	 */
-	public boolean getIsOfferingToTutor() {
-		return isOfferingToTutor;
-	}
+//	/**
+//	 * EDIT: ALI
+//	 * Returns true if a tutor is currently offering to tutor
+//	 *
+//	 * @return isOfferingToTutor
+//	 */
+//	public boolean getIsOfferingToTutor() {
+//		return isOfferingToTutor;
+//	}
 
 	/************************************************************
 	 *  USER ACCOUNT FUNCTIONS                                  *
@@ -318,11 +319,13 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * {
 	 * "userEmail" : "brandontobin@cox.net",
 	 * "userToken" : "be809b50-dbbb-4e41-ac83-d2f817d9f957"
+	 * "latitude" : "40.867701",
+	 * "longitude" : "111.845201"
 	 * }
 	 *
 	 * @Returns: 200 OK
 	 * IF student has not been paired with tutor
-	 * empty JSON OBJECT
+     * empty JSON OBJECT and updates the tutor's location
 	 * ELSE
 	 * {
 	 * "session_status": 0,
@@ -337,11 +340,11 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * }
 	 *
 	 * RETURNS 400 BAD request/null JSON if tutor has not been offering to tutor TODO: Could change Feb 3
-	 * RETURNS 200 OK/null JSON if tutor has been offering but is not paired yet
+	 * RETURNS 200 OK/empty JSON if tutor has been offering but is not paired yet
 	 * RETURNS 200 OK/non-empty JSON if tutor has been paired
 	 */
 	public void check_paired_status(JSONObject obj) {
-		this.execute("/checkpairedstatus");
+		this.execute("/checkpairedstatus", obj.toString());
 	}
 
 
