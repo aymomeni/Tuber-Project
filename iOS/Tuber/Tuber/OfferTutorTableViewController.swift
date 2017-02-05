@@ -9,6 +9,13 @@
 import UIKit
 
 class OfferTutorTableViewController: UITableViewController {
+    
+    let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/"
+    
+    var studentNames: [[String]] = [[],[]]
+    var dates: [[String]] = [[],[]]
+    var durations: [[String]] = [[],[]]
+    var topics: [[String]] = [[],[]]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,5 +98,212 @@ class OfferTutorTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+            if segue.identifier == "tutorViewSchedule"
+            {
+                print("first list")
+                print(studentNames)
+                
+                scheduledAppointments()
+                
+                print("second list")
+                print(studentNames)
+                
+                appointmentRequests()
+                
+                print("third list")
+                print(studentNames)
+    
+                if let destination = segue.destination as? TutorViewScheduleTableViewController
+                {
+                    destination.students = studentNames
+                    destination.dates = dates
+                    destination.duration = durations
+                    destination.subjects = topics
+                    //destination.passed = sender as? String
+                }
+            }
+        }
+    
+    func scheduledAppointments()
+    {
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        //created NSURL
+        let requestURL = NSURL(string: server + "findallscheduletutoracceptedrequests")
+        
+        //creating NSMutableURLRequest
+        let request = NSMutableURLRequest(url: requestURL! as URL)
+        
+        //setting the method to post
+        request.httpMethod = "POST"
+        
+        let userEmail = UserDefaults.standard.object(forKey: "userEmail") as! String
+        let userToken = UserDefaults.standard.object(forKey: "userToken") as! String
+        let course = UserDefaults.standard.object(forKey: "selectedCourse") as! String
+        
+        //creating the post parameter by concatenating the keys and values from text field
+        let postParameters = "{\"userEmail\":\"" + userEmail + "\",\"userToken\":\"" + userToken + "\",\"course\":\"" + course + "\"}"
+        
+        //adding the parameters to request body
+        request.httpBody = postParameters.data(using: String.Encoding.utf8)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        
+        //creating a task to send the post request
+        let task = URLSession.shared.dataTask(with: request as URLRequest){
+            data, response, error in
+            
+            if error != nil{
+                print("error is \(error)")
+                return;
+            }
+            
+            semaphore.signal();
+            
+//            let r = response as? HTTPURLResponse
+            
+            //parsing the response
+            do {
+                //print(response)
+                let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                
+                //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
+                if let arrJSON = hotspots["tutorRequestItems"] {
+                    print(arrJSON.count)
+                    if (arrJSON.count > 0)
+                    {
+                    for index in 0...arrJSON.count-1 {
+                        
+                        let aObject = arrJSON[index] as! [String : AnyObject]
+                        
+                        self.dates[0].append(aObject["dateTime"] as! String)
+                        self.durations[0].append(aObject["duration"] as! String)
+                        self.studentNames[0].append(aObject["studentEmail"] as! String)
+                        self.topics[0].append(aObject["topic"] as! String)
+                        
+                        //                        print(aObject["hotspotID"] as! String)
+                        //                        print(aObject["student_count"] as! String)
+                    }
+                    }
+                }
+                
+            } catch {
+                print(error)
+            }            
+        }
+        //executing the task
+        task.resume()
+        semaphore.wait(timeout: .distantFuture);
+    }
+    
+    func appointmentRequests()
+    {
+        let semaphore = DispatchSemaphore(value: 0)
+        
+        
+        //created NSURL
+        let requestURL = NSURL(string: server + "findallscheduletutorrequests")
+        
+        //creating NSMutableURLRequest
+        let request = NSMutableURLRequest(url: requestURL! as URL)
+        
+        //setting the method to post
+        request.httpMethod = "POST"
+        
+        let userEmail = UserDefaults.standard.object(forKey: "userEmail") as! String
+        let userToken = UserDefaults.standard.object(forKey: "userToken") as! String
+        let course = UserDefaults.standard.object(forKey: "selectedCourse") as! String
+        
+        //creating the post parameter by concatenating the keys and values from text field
+        let postParameters = "{\"userEmail\":\"" + userEmail + "\",\"userToken\":\"" + userToken + "\",\"course\":\"" + course + "\"}"
+        
+        //adding the parameters to request body
+        request.httpBody = postParameters.data(using: String.Encoding.utf8)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        print(postParameters)
+        
+        //creating a task to send the post request
+        let task = URLSession.shared.dataTask(with: request as URLRequest){
+            data, response, error in
+            
+            if error != nil{
+                print("error is \(error)")
+                return;
+            }
+            
+            semaphore.signal();
+            
+            let r = response as? HTTPURLResponse
+            
+            //parsing the response
+            do {
+                //print(response)
+                let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                
+                //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
+                if let arrJSON = hotspots["tutorRequestItems"] {
+                    print(arrJSON.count)
+                    if (arrJSON.count > 0)
+                    {
+                    for index in 0...arrJSON.count-1 {
+                        
+                        let aObject = arrJSON[index] as! [String : AnyObject]
+                        
+                        //print(aObject)
+                        
+                        
+                        self.dates[1].append(aObject["dateTime"] as! String)
+                        self.durations[1].append(aObject["duration"] as! String)
+                        self.studentNames[1].append(aObject["studentEmail"] as! String)
+                        self.topics[1].append(aObject["topic"] as! String)
+                        
+                    }
+                    }
+                }
+                
+                
+                
+                //self.tableView.reloadData()
+                //                //converting resonse to NSDictionary
+                //                let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
+                //
+                //                //parsing the json
+                //                if let parseJSON = myJSON {
+                //
+                //                    //creating a string
+                //                    var msg : String!
+                //
+                //                    //getting the json response
+                //                    msg = parseJSON["message"] as! String?
+                //
+                //                    //printing the response
+                //                    print(msg)
+                //
+                //                }
+            } catch {
+                print(error)
+            }
+            
+            //            if (r?.statusCode == 200)
+            //            {
+            //                OperationQueue.main.addOperation{
+            //                    self.performSegue(withIdentifier: "scheduleConfirmed", sender: "Success")
+            //                }
+            //            }
+            //            else{
+            //                print(r?.statusCode as Any)
+            //            }
+            
+        }
+        //executing the task
+        task.resume()
+        semaphore.wait(timeout: .distantFuture);
+    }
+
 
 }
