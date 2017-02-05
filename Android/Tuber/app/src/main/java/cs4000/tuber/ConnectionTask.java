@@ -147,7 +147,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 //			}
 
 			Log.i("ServerResponse", urlConnection.getResponseMessage());
-			return new JSONObject(result);
+            if(!result.equals("")) {
+                return new JSONObject(result);
+            }
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
