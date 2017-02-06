@@ -15,6 +15,10 @@
     <string name="title_activity_tutor_location">Map</string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="title_activity_immediate_tutor_service_maps">TutorServiceMap</string>
-    <string name="title_activity_immediate_student_request_maps">ImmediateStudentRequestMaps
-    </string>
+    <string name="title_activity_immediate_student_request_maps">ImmediateStudentRequestMaps</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="search">Search</string>
+    <string name="products">Products</string>
+    <string name="contactus">Contact Us</string>
+    <string name="about">About</string>
 </resources>

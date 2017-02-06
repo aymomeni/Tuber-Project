@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_course_view"
+    android:background="@color/primary"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cs4000.tuber.CourseViewActivity">
+
+    <ImageView
+        android:id="@+id/tutor_services_view"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_menubar"
+        />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/coursesListViewStudent"
+        android:background="@color/colorAccent_Red"
+        android:cacheColorHint="@color/colorAccent_Green"
+        android:divider="@color/primary"
+        android:dividerHeight="20.0sp"
+
+        android:layout_below="@+id/coursesTextView"
+        android:headerDividersEnabled="false"
+        android:footerDividersEnabled="false"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="40dp"/>
+
+    <Button
+        android:text="Add Course"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addCourseButton"
+        android:minHeight="39dp"
+        android:layout_alignBottom="@+id/coursesTextView"
+        android:layout_alignEnd="@+id/coursesListViewStudent"/>
+
+    <TextView
+        android:text=" Courses"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/coursesTextView"
+        android:textAppearance="@android:style/TextAppearance.DeviceDefault.SearchResult.Title"
+        android:padding="5dp"
+        android:layout_marginTop="35dp"
+        android:layout_below="@+id/tutor_services_view"
+        android:layout_alignStart="@+id/coursesListViewStudent"/>
+
+
+</RelativeLayout>

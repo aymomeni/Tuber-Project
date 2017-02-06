@@ -98,7 +98,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
         // user course should come from a message delivered by the prior activity
         _userEmail = sharedPreferences.getString("userEmail", "");
         _userToken = sharedPreferences.getString("userToken", "");
-        _userCourse = "CS 4400"; // TODO: must come from the message supplied by the intent driver
+        _userCourse = "CS 2420"; // TODO: must come from the message supplied by the intent driver
 
         // initializing buttons and text view
         _offerToTutorButton = (Button) findViewById(offerToTutorButton);
@@ -107,6 +107,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
         // checking if there is already a tutor service offer existing
         checkStatus();
+
     }
 
 
