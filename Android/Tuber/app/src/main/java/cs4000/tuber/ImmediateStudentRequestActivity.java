@@ -3,6 +3,7 @@ package cs4000.tuber;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -12,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -25,12 +27,16 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
+//import com.parse.FindCallback;
+//import com.parse.ParseException;
+//import com.parse.ParseGeoPoint;
+//import com.parse.ParseObject;
+//import com.parse.ParseQuery;
+//import com.parse.ParseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +46,16 @@ import java.util.List;
  * In list form where each element can be clicked
  */
 public class ImmediateStudentRequestActivity extends Activity {
+
+
+    private String _userEmail;
+    private String _userToken;
+    private String _userLatitude;
+    private String _userLongitude;
+
+
+    private ConnectionTask connectionTask;
+    private SharedPreferences sharedPreferences;
 
 
     //ListView
@@ -65,6 +81,13 @@ public class ImmediateStudentRequestActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_immediate_student_request);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        _userEmail = sharedPreferences.getString("userEmail", "");
+        _userToken = sharedPreferences.getString("userToken", "");
+        //_studentLatitude = lastKnownLocation.getLatitude();
+        //_studentLongitude = lastKnownLocation.getLongitude();
+
 
         setTitle("Nearby Tutors");
 
@@ -114,9 +137,36 @@ public class ImmediateStudentRequestActivity extends Activity {
 
                 updateListView(location);
 
-                ParseUser.getCurrentUser().put("location", new ParseGeoPoint(location.getLatitude(), location.getLongitude()));
+                _userLatitude = Double.toString(location.getLatitude());
+                _userLongitude = Double.toString(location.getLongitude());
 
-                ParseUser.getCurrentUser().saveInBackground();
+                JSONObject jO = new JSONObject();
+                try{
+                    jO.put("userEmail", _userEmail);
+                    jO.put("userToken", _userToken);
+                    jO.put("latitude", _userLatitude);
+                    jO.put("longitude", _userLongitude);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                ConnectionTask UpdateLocation = new ConnectionTask(new ConnectionTask.CallBack() {
+                    @Override
+                    public boolean Done(JSONObject result) {
+                        if(result != null){
+                            Log.i("@onLocationChanged","Location updated successfully");
+                            return true;
+                        }
+                        else {
+                            Log.i("@onLocationChanged","Location update failed");
+                            return false;
+                        }
+                    }
+                });
+                UpdateLocation.update_student_location(jO);
+
+                //ParseUser.getCurrentUser().put("location", new ParseGeoPoint(location.getLatitude(), location.getLongitude()));
+                //ParseUser.getCurrentUser().saveInBackground();
             }
 
             @Override
@@ -172,63 +222,150 @@ public class ImmediateStudentRequestActivity extends Activity {
 
         if (location != null) {
 
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
 
-            final ParseGeoPoint studentLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
-            query.whereNear("tutorLocation", studentLocation);
-            query.setLimit(11); // usually driver selects one out of the 10 closest locations
-            query.whereDoesNotExist("studentUsername");
-            query.findInBackground(new FindCallback<ParseObject>() {
+            JSONObject jsonParam3 = new JSONObject();
+            try {
+                jsonParam3.put("userEmail", _userEmail);
+                jsonParam3.put("userToken", _userToken);
+                jsonParam3.put("tutorCourse", "CS 2420");
+                jsonParam3.put("latitude", Double.toString(location.getLatitude()));
+                jsonParam3.put("longitude", Double.toString(location.getLongitude()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            ConnectionTask task = new ConnectionTask(new ConnectionTask.CallBack() {
                 @Override
-                public void done(List<ParseObject> objects, ParseException e) {
+                public boolean Done(JSONObject response) {
+                    // Do Something after the task has finished
 
-                    if (e == null) {
+                    if(response != null) {
 
                         requests.clear();
                         requestLatitudes.clear();
                         requestLongitudes.clear();
 
-                        if (objects.size() > 0) {
 
-                            Log.i("Debug Adapter", "" + objects.size());
+                        try {
 
-                            for (ParseObject object : objects) {
 
-                                ParseGeoPoint tutorLocation = (ParseGeoPoint)object.get("tutorLocation");
+                            JSONArray array = response.getJSONArray("availableTutors");
 
-                                if(tutorLocation != null ){
+                            Log.i("Length", String.valueOf(array.length()));
+                            //Log.i("Lat", String.valueOf(array.length()));
+                            //Log.i("Log", String.valueOf(array.length()));
 
-                                    Double distanceInMiles = studentLocation.distanceInMilesTo((ParseGeoPoint) object.get("tutorLocation"));
-                                    Double distanceOneDP = (double) Math.round(distanceInMiles * 10) / 10;
-                                    requests.add(object.get("username").toString() + "        " + distanceOneDP.toString() + " miles");
+                            if (array.length() > 0) {
+                                for(int i = 0; i < array.length(); i++) {
+                                    JSONObject temp = array.getJSONObject(i);
+                                    String distanceFromStudent = temp.getString("distanceFromStudent");
+                                    String latitude = temp.getString("latitude");
+                                    String longitude = temp.getString("longitude");
+                                    String tutorCourse = temp.getString("tutorCourse");
+                                    String userEmail = temp.getString("userEmail");
 
-                                    requestLatitudes.add(tutorLocation.getLatitude());
-                                    requestLongitudes.add(tutorLocation.getLongitude());
-                                    usernames.add(object.getString("username"));
+                                    Log.i("username", userEmail);
+                                    Log.i("dist", distanceFromStudent);
+
+                                    Double distanceOneDP = (double) Math.round(Double.parseDouble(distanceFromStudent) * 10) / 10;
+
+                                    requests.add(userEmail + "        " + distanceOneDP + " miles");
+
+                                    requestLatitudes.add(Double.parseDouble(latitude));
+                                    requestLongitudes.add(Double.parseDouble(longitude));
+                                    usernames.add(userEmail);
+
 
                                 }
 
+                                Log.i("Second Thread", "Pulled tutors");
+
+                                //switchToMenu();
+                                //view1.setText("Second Thread is Done!2");
+                            }
+                            else {
+
+                                Log.i("Second Thread", "No tutors");
+
+                                requests.add("no active tutors nearby");
+                                handler.postDelayed(new Runnable() {
+
+                                    @Override
+
+                                    public void run() {
+
+                                        updateListView(location);
+
+                                    }
+                                }, 2000);
                             }
 
-                        } else {
+                            arrayAdapter.notifyDataSetChanged();
 
-                            requests.add("no active tutors nearby");
-                            handler.postDelayed(new Runnable() {
-
-                                @Override
-
-                                public void run() {
-
-                                    updateListView(location);
-
-                                }
-                            }, 2000);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-
-                        arrayAdapter.notifyDataSetChanged();
                     }
+                    return true;
                 }
             });
+            task.find_available_tutors(jsonParam3);
+//            ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
+//
+//            final ParseGeoPoint studentLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
+//            query.whereNear("tutorLocation", studentLocation);
+//            query.setLimit(11); // usually driver selects one out of the 10 closest locations
+//            query.whereDoesNotExist("studentUsername");
+//            query.findInBackground(new FindCallback<ParseObject>() {
+//                @Override
+//                public void done(List<ParseObject> objects, ParseException e) {
+//
+//                    if (e == null) {
+//
+//                        requests.clear();
+//                        requestLatitudes.clear();
+//                        requestLongitudes.clear();
+//
+//                        if (objects.size() > 0) {
+//
+//                            Log.i("Debug Adapter", "" + objects.size());
+//
+//                            for (ParseObject object : objects) {
+//
+//                                ParseGeoPoint tutorLocation = (ParseGeoPoint)object.get("tutorLocation");
+//
+//                                if(tutorLocation != null ){
+//
+//                                    Double distanceInMiles = studentLocation.distanceInMilesTo((ParseGeoPoint) object.get("tutorLocation"));
+//                                    Double distanceOneDP = (double) Math.round(distanceInMiles * 10) / 10;
+//                                    requests.add(object.get("username").toString() + "        " + distanceOneDP.toString() + " miles");
+//
+//                                    requestLatitudes.add(tutorLocation.getLatitude());
+//                                    requestLongitudes.add(tutorLocation.getLongitude());
+//                                    usernames.add(object.getString("username"));
+//
+//                                }
+//
+//                            }
+//
+//                        } else {
+//
+//                            requests.add("no active tutors nearby");
+//                            handler.postDelayed(new Runnable() {
+//
+//                                @Override
+//
+//                                public void run() {
+//
+//                                    updateListView(location);
+//
+//                                }
+//                            }, 2000);
+//                        }
+//
+//                        arrayAdapter.notifyDataSetChanged();
+//                    }
+//                }
+//            });
 
         }
     }
@@ -291,4 +428,61 @@ public class ImmediateStudentRequestActivity extends Activity {
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
+
+//    private JSONObject getJsonForCheckPairedStatusTutorRequest() throws JSONException {
+//
+//        JSONObject jO = new JSONObject();
+//        jO.put("userEmail", _userEmail);
+//        jO.put("userToken", _userToken);
+//
+//        try {
+//            _userLatitude = Double.toString(getMyLocation().getLatitude());
+//            _userLongitude = Double.toString(getMyLocation().getLongitude());
+//        } catch (Exception e) {
+//            _userLatitude = "0.0";
+//            _userLongitude = "0.0";
+//            Log.i("Tutor Service Request:", "Error in loading tutor location");
+//            e.printStackTrace();
+//        }
+//
+//        jO.put("latitude", _userLatitude);
+//        jO.put("longitude", _userLongitude);
+//
+//
+//        return jO;
+//    }
+
+
+//    /**
+//     * Returns the location of the user in the context of this class
+//     * returns null if there is no access to current location (Android system Preferences)
+//     * @return
+//     */
+//    private Location getMyLocation() {
+//
+//        // Checking for GPS permissions
+//        if (Build.VERSION.SDK_INT < 23 || ContextCompat.checkSelfPermission(ImmediateStudentRequestActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//
+//            _myLastKnownLocation = _locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//
+//
+//        } else {
+//
+//            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//
+//            } else {
+//
+//                // else we have permission
+//                _locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (android.location.LocationListener) _locationListener);
+//
+//                // gets last knwon location else it'll update the location based on the current location
+//                _myLastKnownLocation = _locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//            }
+//        }
+//
+//        return _myLastKnownLocation;
+//    }
+
+
 }

@@ -107,6 +107,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
         // checking if there is already a tutor service offer existing
         checkStatus();
+
     }
 
 
