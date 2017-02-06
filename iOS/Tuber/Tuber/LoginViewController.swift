@@ -30,6 +30,8 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButtonPress(_ sender: Any) {
         
+        print("pressed login")
+        
         //created NSURL
         let requestURL = NSURL(string: server)
         
@@ -93,7 +95,7 @@ class LoginViewController: UIViewController {
                 }
             }
             //rest of responses
-            self.errorLabel.text = "errormessage"
+            self.errorLabel.text = "\(r?.statusCode)"
             
         }
         //executing the task

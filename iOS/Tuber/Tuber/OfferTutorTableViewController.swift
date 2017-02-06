@@ -43,6 +43,63 @@ class OfferTutorTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return 2
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
+        
+        print("row is \(indexPath?.row)")
+        
+        if (indexPath?.row == 1)
+        {
+            scheduledAppointments()
+        }
+//        if (indexPath?.row == 1){
+//            print("first list")
+//            print(studentNames)
+//            
+//            scheduledAppointments(){ status, error in
+//                if status != nil {
+//                    print("second list")
+//                    print(self.studentNames)
+//                    
+//                    self.appointmentRequests() {status2, error2 in
+//                        if status2 != nil {
+//                            print("third list")
+//                            print(self.studentNames)
+//                            
+//                            if let destination = segue.destination as? TutorViewScheduleTableViewController
+//                            {
+//                                destination.students = self.studentNames
+//                                destination.dates = self.dates
+//                                destination.duration = self.durations
+//                                destination.subjects = self.topics
+//                                //destination.passed = sender as? String
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        
+//            performSegue(withIdentifier: "tutorViewSchedule", sender: selectedOption)
+//        }
+    
+//        let currentCell = tableView.cellForRow(at: indexPath!)! as! TutorServicesTableViewCell
+//        
+//        
+//        let selectedOption = currentCell.optionNameLabel.text
+//        
+//        if selectedOption == "Immediate Request"
+//        {
+//            performSegue(withIdentifier: "immediateRequest", sender: selectedOption)
+//            
+//        }
+//        else if selectedOption == "Schedule Tutor"
+//        {
+//            performSegue(withIdentifier: "scheduleTutor", sender: selectedOption)
+//            
+//        }
+//        
+    }
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -102,34 +159,41 @@ class OfferTutorTableViewController: UITableViewController {
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if segue.identifier == "tutorViewSchedule"
             {
-                print("first list")
-                print(studentNames)
+                print("prep for segue")
+//                print("first list")
+//                print(studentNames)
+//                
+//                scheduledAppointments(){ status, error in
+//                    if status != nil {
+//                        print("second list")
+//                        print(self.studentNames)
+//                        
+//                        self.appointmentRequests() {status2, error2 in
+//                            if status2 != nil {
+//                                print("third list")
+//                                print(self.studentNames)
                 
-                scheduledAppointments()
-                
-                print("second list")
-                print(studentNames)
-                
-                appointmentRequests()
-                
-                print("third list")
-                print(studentNames)
-    
-                if let destination = segue.destination as? TutorViewScheduleTableViewController
-                {
-                    destination.students = studentNames
-                    destination.dates = dates
-                    destination.duration = durations
-                    destination.subjects = topics
-                    //destination.passed = sender as? String
-                }
+                                if let destination = segue.destination as? TutorViewScheduleTableViewController
+                                {
+                                    destination.students = self.studentNames
+                                    destination.dates = self.dates
+                                    destination.duration = self.durations
+                                    destination.subjects = self.topics
+                                    //destination.passed = sender as? String
+                                    print("destinations set")
+                                }
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
-    
+
+//    func scheduledAppointments(completionHandler: @escaping (String?, NSError?) -> Void)
     func scheduledAppointments()
     {
         
-        let semaphore = DispatchSemaphore(value: 0)
+//        let semaphore = DispatchSemaphore(value: 0)
         //created NSURL
         let requestURL = NSURL(string: server + "findallscheduletutoracceptedrequests")
         
@@ -157,11 +221,11 @@ class OfferTutorTableViewController: UITableViewController {
             data, response, error in
             
             if error != nil{
-                print("error is \(error)")
+//                completionHandler(nil, error as NSError?)
                 return;
             }
             
-            semaphore.signal();
+//            semaphore.signal();
             
 //            let r = response as? HTTPURLResponse
             
@@ -183,25 +247,32 @@ class OfferTutorTableViewController: UITableViewController {
                         self.durations[0].append(aObject["duration"] as! String)
                         self.studentNames[0].append(aObject["studentEmail"] as! String)
                         self.topics[0].append(aObject["topic"] as! String)
-                        
-                        //                        print(aObject["hotspotID"] as! String)
-                        //                        print(aObject["student_count"] as! String)
                     }
+                        
                     }
                 }
+//                completionHandler("complete", nil)
+                OperationQueue.main.addOperation{
+                    
+                    print(self.studentNames)
+                    self.appointmentRequests()
+                }
+                
+                return;
                 
             } catch {
                 print(error)
-            }            
+            }
         }
         //executing the task
         task.resume()
-        semaphore.wait(timeout: .distantFuture);
+//        semaphore.wait(timeout: .distantFuture);
     }
     
+//    func appointmentRequests(completionHandler: @escaping (String?, NSError?) -> Void)
     func appointmentRequests()
     {
-        let semaphore = DispatchSemaphore(value: 0)
+//        let semaphore = DispatchSemaphore(value: 0)
         
         
         //created NSURL
@@ -232,11 +303,11 @@ class OfferTutorTableViewController: UITableViewController {
             data, response, error in
             
             if error != nil{
-                print("error is \(error)")
+//                completionHandler(nil, error as NSError?)
                 return;
             }
             
-            semaphore.signal();
+//            semaphore.signal();
             
             let r = response as? HTTPURLResponse
             
@@ -265,44 +336,24 @@ class OfferTutorTableViewController: UITableViewController {
                     }
                     }
                 }
+//                completionHandler("complete", nil)
+                OperationQueue.main.addOperation{
+                    
+                    print(self.studentNames)
+                    self.performSegue(withIdentifier: "tutorViewSchedule", sender: nil)
+                }
                 
+                return;
                 
-                
-                //self.tableView.reloadData()
-                //                //converting resonse to NSDictionary
-                //                let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-                //
-                //                //parsing the json
-                //                if let parseJSON = myJSON {
-                //
-                //                    //creating a string
-                //                    var msg : String!
-                //
-                //                    //getting the json response
-                //                    msg = parseJSON["message"] as! String?
-                //
-                //                    //printing the response
-                //                    print(msg)
-                //
-                //                }
             } catch {
                 print(error)
             }
             
-            //            if (r?.statusCode == 200)
-            //            {
-            //                OperationQueue.main.addOperation{
-            //                    self.performSegue(withIdentifier: "scheduleConfirmed", sender: "Success")
-            //                }
-            //            }
-            //            else{
-            //                print(r?.statusCode as Any)
-            //            }
             
         }
         //executing the task
         task.resume()
-        semaphore.wait(timeout: .distantFuture);
+//        semaphore.wait(timeout: .distantFuture);
     }
 
 

@@ -383,9 +383,6 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
-                                        <connections>
-                                            <segue destination="j4P-R3-Heg" kind="show" identifier="tutorViewSchedule" id="Biy-uC-Rhh"/>
-                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -395,6 +392,9 @@
                             <outlet property="delegate" destination="SkV-29-1mn" id="EL7-mo-zCk"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="j4P-R3-Heg" kind="show" identifier="tutorViewSchedule" id="wou-aW-Ckx"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T5F-Aa-kkp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -860,6 +860,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="w3u-QR-4nb"/>
-        <segue reference="Biy-uC-Rhh"/>
+        <segue reference="wou-aW-Ckx"/>
     </inferredMetricsTieBreakers>
 </document>
