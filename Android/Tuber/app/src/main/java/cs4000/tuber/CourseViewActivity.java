@@ -1,6 +1,7 @@
 package cs4000.tuber;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -42,8 +43,16 @@ public class CourseViewActivity extends AppCompatActivity {
             }
         });
 
-//        ActionBar actionBar = getActionBar();
-//        actionBar.show();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
+        //hiding default app icon
+        View mActionBarView = getLayoutInflater().inflate(R.layout.actionbar_logo, null);
+        getSupportActionBar().setCustomView(mActionBarView);
+        getSupportActionBar().setDisplayOptions(getSupportActionBar().DISPLAY_SHOW_CUSTOM);
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_darker)));
     }
 
 
