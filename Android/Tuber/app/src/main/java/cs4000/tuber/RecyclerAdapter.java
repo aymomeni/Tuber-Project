@@ -1,5 +1,6 @@
 package cs4000.tuber;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +14,11 @@ import java.util.ArrayList;
  */
 
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
 
     private ArrayList<RecyclerCourseObject> dataList;
 
+    private Context mContext;
 
     @Override
     public int getItemCount() {
@@ -38,9 +40,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
         else
         {
-            DataViewHolder2 dataViewHolder2=(DataViewHolder2) viewHolder;
-            dataViewHolder2.title.setText(ru.course);
-            dataViewHolder2.subTitle.setText(ru.subTitle);
+            DataViewHolder dataViewHolder=(DataViewHolder) viewHolder;
+            dataViewHolder.title.setText(ru.course);
+            dataViewHolder.subTitle.setText(ru.subTitle);
         }
 
     }
@@ -49,6 +51,33 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     {
         this.dataList = dataList;
     }
+
+//    @Override
+//    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+//
+//        View itemView;
+//        RecyclerView.ViewHolder viewHold;
+//        switch(viewType)
+//        {
+//            case 0:
+//                itemView = LayoutInflater.
+//                        from(viewGroup.getContext()).
+//                        inflate(R.layout.course_layout_linear, viewGroup, false);
+//                //itemView.setOnClickListener(mOnClickListener);
+//                viewHold= new DataViewHolder(itemView);
+//                break;
+//
+//            default:
+//                itemView = LayoutInflater.
+//                        from(viewGroup.getContext()).
+//                        inflate(R.layout.course_layout_grid, viewGroup, false);
+//                viewHold= new DataViewHolder2(itemView);
+//                break;
+//        }
+//
+//        return viewHold;
+//    }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -61,6 +90,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 itemView = LayoutInflater.
                         from(viewGroup.getContext()).
                         inflate(R.layout.course_layout_linear, viewGroup, false);
+                //itemView.setOnClickListener(mOnClickListener);
                 viewHold= new DataViewHolder(itemView);
                 break;
 
@@ -68,7 +98,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 itemView = LayoutInflater.
                         from(viewGroup.getContext()).
                         inflate(R.layout.course_layout_grid, viewGroup, false);
-                viewHold= new DataViewHolder2(itemView);
+                viewHold= new DataViewHolder(itemView);
                 break;
         }
 
@@ -112,5 +142,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             title =  (TextView) v.findViewById(R.id.uTitle);
             subTitle = (TextView)  v.findViewById(R.id.uSubTitle);
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }

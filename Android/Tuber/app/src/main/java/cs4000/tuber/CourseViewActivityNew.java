@@ -32,10 +32,34 @@ public class CourseViewActivityNew extends AppCompatActivity {
         //StaggeredGridLayoutManager sgl= new StaggeredGridLayoutManager(6, StaggeredGridLayoutManager.HORIZONTAL);
 
         recList.setLayoutManager(llm);
+        recList.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
+
 
         myDataset = new ArrayList<RecyclerCourseObject>();
 
-        for (int i = 0; i < 6; i++) {
+//        for (int i = 0; i < 6; i++) {
+//            RecyclerCourseObject newoffer = new RecyclerCourseObject();
+//            switch (i%2) {
+//                case 0:
+//
+//                    newoffer.course = "CS 4400";
+//                    newoffer.subTitle = "Computer Systems";
+//                    newoffer.type = "one";
+//                    break;
+//                case 1:
+//                    newoffer = new RecyclerCourseObject();
+//                    newoffer.course = "CS 3500";
+//                    newoffer.subTitle = "Software Practice 1";
+//                    newoffer.type = "two"; // two
+//
+//                    break;
+//            }
+//
+//
+//            myDataset.add(newoffer);
+//        }
+
+        for (int i = 0; i < 2; i++) {
             RecyclerCourseObject newoffer = new RecyclerCourseObject();
             switch (i%2) {
                 case 0:
@@ -48,13 +72,11 @@ public class CourseViewActivityNew extends AppCompatActivity {
                     newoffer = new RecyclerCourseObject();
                     newoffer.course = "CS 3500";
                     newoffer.subTitle = "Software Practice 1";
-                    newoffer.type = "two"; // two
+                    newoffer.type = "one"; // two
 
                     break;
             }
-//            newoffer.course = "CS 4400"; // +
-//            newoffer.subTitle = "Computer Systems"; // +
-//            newoffer.type = "one"; // +
+
 
             myDataset.add(newoffer);
         }
