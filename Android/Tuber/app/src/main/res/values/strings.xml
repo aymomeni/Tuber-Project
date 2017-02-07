@@ -26,4 +26,5 @@
     <string name="myProfile">My Account</string>
     <string name="help">Help</string>
     <string name="about">About</string>
+    <string name="title_activity_course_view4">CourseViewActivity4</string>
 </resources>

@@ -90,6 +90,10 @@
         </activity>
         <activity android:name=".CourseViewActivity">
         </activity>
+        <activity
+            android:name=".CourseViewActivityNew"
+            android:label="@string/title_activity_course_view4">
+        </activity>
     </application>
 
 </manifest>
