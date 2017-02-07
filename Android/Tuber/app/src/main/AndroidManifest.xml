@@ -15,6 +15,7 @@
     <application
         android:name=".StarterApplication"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/ic_tuber_logo_medium"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -63,10 +64,6 @@
             android:value="@string/google_maps_key"/>
 
         <activity
-            android:name=".ImmediateTutorServiceActivity"
-            android:label="@string/title_activity_student_immediate_request">
-        </activity>
-        <activity
             android:name=".StudentMapActivity"
             android:label="@string/title_activity_tutor_location">
         </activity>
@@ -90,6 +87,8 @@
         <activity
             android:name=".ImmediateStudentRequestMapsActivity"
             android:label="@string/title_activity_immediate_student_request_maps">
+        </activity>
+        <activity android:name=".CourseViewActivity">
         </activity>
     </application>
 

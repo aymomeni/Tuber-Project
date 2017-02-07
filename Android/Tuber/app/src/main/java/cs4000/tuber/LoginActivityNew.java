@@ -200,7 +200,7 @@ public class LoginActivityNew extends AppCompatActivity {
 	  Log.i(TAG, "lastLoginSuccess: " + _lastLoginSuccess);
 
 	  Toast.makeText(getBaseContext(), "login successful", Toast.LENGTH_LONG).show();
-	  Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
+	  Intent intent = new Intent(getApplicationContext(), CourseViewActivity.class);
 	  startActivityForResult(intent, REQUEST_SIGNUP);
 	  //finish();
 

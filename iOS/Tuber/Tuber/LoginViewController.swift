@@ -30,6 +30,8 @@ class LoginViewController: UIViewController {
     
     @IBAction func loginButtonPress(_ sender: Any) {
         
+        print("pressed login")
+        
         //created NSURL
         let requestURL = NSURL(string: server)
         
@@ -45,7 +47,7 @@ class LoginViewController: UIViewController {
         
         //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"" + userEmail! + "\",\"userPassword\":\"" + userPassword! + "\"}"
-        
+                
         //adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -82,10 +84,6 @@ class LoginViewController: UIViewController {
                         defaults.set(parseJSON["userToken"] as! String?, forKey: "userToken")
                         defaults.set(parseJSON["userTutorCourses"] as! Array<String>?, forKey: "userTutorCourses")
                         defaults.synchronize()
-                    
-                        print("Added to defaults")
-                    
-                        print(defaults.object(forKey: "userToken")!)
 
                         OperationQueue.main.addOperation{
                             self.performSegue(withIdentifier: "loginSuccess", sender: nil)
@@ -97,23 +95,11 @@ class LoginViewController: UIViewController {
                 }
             }
             //rest of responses
-            self.errorLabel.text = "errormessage"
+            self.errorLabel.text = "\(r?.statusCode)"
             
         }
         //executing the task
         task.resume()
-
-        
-        //TODO: check w/ database
-        
-//        if (emailTextField.text == "test" && passwordTextField.text == "test")
-//        {
-//            performSegue(withIdentifier: "loginSuccess", sender: nil)
-//        }
-//        else
-//        {
-//            errorLabel.text = "Invalid Login Credentials"
-//        }
     }
 
 }

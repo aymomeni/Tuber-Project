@@ -18,7 +18,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = ClassListViewController.selectedClass.className
+        self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
     }
 
     override func didReceiveMemoryWarning() {
@@ -59,5 +59,26 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         }
         
     }
-
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "tutorViewSchedule"
+//        {
+//            print(studentNames)
+//            scheduledAppointments()
+//            print(studentNames)
+//            appointmentRequests()
+//            print(studentNames)
+//            
+//            if let destination = segue.destination as? TutorViewScheduleTableViewController
+//            {
+//                destination.students = studentNames
+//                destination.dates = dates
+//                destination.duration = durations
+//                destination.subjects = topics
+//                //destination.passed = sender as? String
+//            }
+//        }
+//    }
+    
+    
 }
