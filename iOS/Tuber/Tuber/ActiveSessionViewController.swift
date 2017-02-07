@@ -46,6 +46,7 @@ class ActiveSessionViewController: UIViewController {
 
                 destination.labelContents = "Completed Scheduled Tutor Session"
                 //destination.passed = sender as? String
+                print(destination.labelContents)
                 print("destinations set")
             }
             
