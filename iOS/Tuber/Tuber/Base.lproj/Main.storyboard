@@ -605,17 +605,19 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Accept Request"/>
                                 <connections>
-                                    <segue destination="Kpc-GY-ED4" kind="show" id="goH-hb-bAZ"/>
+                                    <action selector="buttonPressed:" destination="oij-Ap-hu0" eventType="touchUpInside" id="Qa5-uB-Ew3"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="acceptStartButton" destination="zZq-NB-18G" id="Lbz-4T-OFs"/>
                         <outlet property="dateLabel" destination="MFE-34-s1a" id="LeY-pN-bWy"/>
                         <outlet property="durationLabel" destination="D9I-lg-eL0" id="cNP-rY-jhX"/>
                         <outlet property="studentNameLabel" destination="Q0H-CX-IFj" id="st8-7l-Tny"/>
                         <outlet property="subjectLabel" destination="sbd-QG-eUQ" id="hWZ-oB-13g"/>
+                        <segue destination="Kpc-GY-ED4" kind="show" identifier="acceptRequest" id="zIX-hI-hVI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9E5-MS-23U" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -860,6 +862,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="w3u-QR-4nb"/>
-        <segue reference="wou-aW-Ckx"/>
+        <segue reference="MEB-5A-FEm"/>
     </inferredMetricsTieBreakers>
 </document>

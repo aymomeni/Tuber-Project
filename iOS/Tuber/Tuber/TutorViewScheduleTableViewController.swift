@@ -72,7 +72,7 @@ class TutorViewScheduleTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
-        
+                
         let currentCell = tableView.cellForRow(at: indexPath!)! as! TutorViewScheduleTableViewCell
         
         selectedAppointment.studentName = currentCell.studentNameLabel.text!
@@ -80,15 +80,48 @@ class TutorViewScheduleTableViewController: UITableViewController {
         selectedAppointment.duration = currentCell.durationLabel.text!
         selectedAppointment.subject = currentCell.subjectLabel.text!
         
+        if (indexPath?.section == 0)
+        {
+            selectedAppointment.buttonLabel = "Start Session"
+        }
+        else
+        {
+            selectedAppointment.buttonLabel = "Accept Request"
+        }
+        
         performSegue(withIdentifier: "selectAppointment", sender: nil)
                 
     }
+    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "selectAppointment"
+//        {
+//            print("prep for segue")
+//            
+//            if let destination = segue.destination as? UnconfirmedAppointmentTutorViewController
+//            {
+//                if (sender as! Int == 0)
+//                {
+//                    selectedAppointment.buttonLabel = "Start Session"
+//                }
+//                            
+//                destination.students = self.studentNames
+//                destination.dates = self.dates
+//                destination.duration = self.durations
+//                destination.subjects = self.topics
+//                destination.passed = sender as? String
+//                print("destinations set")
+//            }
+//            
+//        }
+//    }
     
     struct selectedAppointment {
         static var studentName = String()
         static var date = String()
         static var duration = String()
         static var subject = String()
+        static var buttonLabel = String()
     }
 
     /*

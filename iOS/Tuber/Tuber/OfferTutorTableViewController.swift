@@ -53,52 +53,6 @@ class OfferTutorTableViewController: UITableViewController {
         {
             scheduledAppointments()
         }
-//        if (indexPath?.row == 1){
-//            print("first list")
-//            print(studentNames)
-//            
-//            scheduledAppointments(){ status, error in
-//                if status != nil {
-//                    print("second list")
-//                    print(self.studentNames)
-//                    
-//                    self.appointmentRequests() {status2, error2 in
-//                        if status2 != nil {
-//                            print("third list")
-//                            print(self.studentNames)
-//                            
-//                            if let destination = segue.destination as? TutorViewScheduleTableViewController
-//                            {
-//                                destination.students = self.studentNames
-//                                destination.dates = self.dates
-//                                destination.duration = self.durations
-//                                destination.subjects = self.topics
-//                                //destination.passed = sender as? String
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        
-//            performSegue(withIdentifier: "tutorViewSchedule", sender: selectedOption)
-//        }
-    
-//        let currentCell = tableView.cellForRow(at: indexPath!)! as! TutorServicesTableViewCell
-//        
-//        
-//        let selectedOption = currentCell.optionNameLabel.text
-//        
-//        if selectedOption == "Immediate Request"
-//        {
-//            performSegue(withIdentifier: "immediateRequest", sender: selectedOption)
-//            
-//        }
-//        else if selectedOption == "Schedule Tutor"
-//        {
-//            performSegue(withIdentifier: "scheduleTutor", sender: selectedOption)
-//            
-//        }
-//        
     }
 
     /*
@@ -160,18 +114,6 @@ class OfferTutorTableViewController: UITableViewController {
             if segue.identifier == "tutorViewSchedule"
             {
                 print("prep for segue")
-//                print("first list")
-//                print(studentNames)
-//                
-//                scheduledAppointments(){ status, error in
-//                    if status != nil {
-//                        print("second list")
-//                        print(self.studentNames)
-//                        
-//                        self.appointmentRequests() {status2, error2 in
-//                            if status2 != nil {
-//                                print("third list")
-//                                print(self.studentNames)
                 
                                 if let destination = segue.destination as? TutorViewScheduleTableViewController
                                 {
@@ -182,10 +124,7 @@ class OfferTutorTableViewController: UITableViewController {
                                     //destination.passed = sender as? String
                                     print("destinations set")
                                 }
-//                            }
-//                        }
-//                    }
-//                }
+
             }
         }
 
