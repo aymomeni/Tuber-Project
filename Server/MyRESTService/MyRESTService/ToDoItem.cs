@@ -217,16 +217,19 @@ namespace ToDoList
         public string tutorCourse { get; set; }
 
         [DataMember]
-        public string studentLatitude { get; set; }
+        public double studentLatitude { get; set; }
 
         [DataMember]
-        public string studentLongitude { get; set; }
+        public double studentLongitude { get; set; }
 
         [DataMember]
-        public string tutorLatitude { get; set; }
+        public double tutorLatitude { get; set; }
 
         [DataMember]
-        public string tutorLongitude { get; set; }
+        public double tutorLongitude { get; set; }
+
+        [DataMember]
+        public double distanceFromStudent { get; set; }
     }
 
     public class UpdateStudentLocationRequestItem

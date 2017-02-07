@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyRESTService", "MyRESTService\MyRESTService.csproj", "{C3E71871-2224-4D67-96AF-12DB8D757155}"
 EndProject
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "MyRESTService.Azure1", "MyRESTService.Azure1\MyRESTService.Azure1.ccproj", "{FEB3E6A1-9627-4773-BD7E-BB26207EDF0F}"
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "MyRESTService.Azure2", "MyRESTService.Azure2\MyRESTService.Azure2.ccproj", "{79DDBC99-1804-489F-BD1C-9727B46688B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{C3E71871-2224-4D67-96AF-12DB8D757155}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3E71871-2224-4D67-96AF-12DB8D757155}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3E71871-2224-4D67-96AF-12DB8D757155}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FEB3E6A1-9627-4773-BD7E-BB26207EDF0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEB3E6A1-9627-4773-BD7E-BB26207EDF0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEB3E6A1-9627-4773-BD7E-BB26207EDF0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEB3E6A1-9627-4773-BD7E-BB26207EDF0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79DDBC99-1804-489F-BD1C-9727B46688B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79DDBC99-1804-489F-BD1C-9727B46688B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79DDBC99-1804-489F-BD1C-9727B46688B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79DDBC99-1804-489F-BD1C-9727B46688B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -459,8 +459,8 @@ namespace ToDoList
                                         double distanceToTutor = studentCoord.GetDistanceTo(tutorCoord);
 
                                         // Only return tutors that are less than 5 miles from the student
-                                        if (distanceToTutor < 8046.72)
-                                        {
+                                        //if (distanceToTutor < 8046.72)
+                                        //{
                                             AvailableTutorUserItem tutor = new AvailableTutorUserItem();
                                             tutor.userEmail = returnedTutorEmail;
                                             tutor.tutorCourse = returnedCourseName;
@@ -469,7 +469,7 @@ namespace ToDoList
                                             tutor.distanceFromStudent = distanceToTutor / 1609.34;
 
                                             availableTutors.Add(tutor);
-                                        }
+                                        //}
                                     }
                                 }
                             }
@@ -649,10 +649,10 @@ namespace ToDoList
                                             pairedStatus.studentEmail = reader.GetString("studentEmail");
                                             pairedStatus.userEmail = reader.GetString("tutorEmail");
                                             pairedStatus.tutorCourse = reader.GetString("course");
-                                            pairedStatus.studentLatitude = reader.GetString("studentLatitude");
-                                            pairedStatus.studentLongitude = reader.GetString("studentLongitude");
-                                            pairedStatus.tutorLatitude = reader.GetString("tutorLatitude");
-                                            pairedStatus.tutorLongitude = reader.GetString("tutorLongitude");
+                                            pairedStatus.studentLatitude = reader.GetDouble("studentLatitude");
+                                            pairedStatus.studentLongitude = reader.GetDouble("studentLongitude");
+                                            pairedStatus.tutorLatitude = reader.GetDouble("tutorLatitude");
+                                            pairedStatus.tutorLongitude = reader.GetDouble("tutorLongitude");
                                         }
                                     }
 
@@ -664,6 +664,14 @@ namespace ToDoList
                                     }
                                     else
                                     {
+                                        var tutorCoord = new GeoCoordinate(pairedStatus.tutorLatitude, pairedStatus.tutorLongitude);
+                                        var studentCoord = new GeoCoordinate(pairedStatus.studentLatitude, pairedStatus.studentLongitude);
+
+                                        // Calculate distance between tutor and student
+                                        //double distanceToTutor = studentCoord.GetDistanceTo(tutorCoord);
+
+                                        pairedStatus.distanceFromStudent = studentCoord.GetDistanceTo(tutorCoord) / 1609.34;
+
                                         // Found the tutor in the tutor_sessions_pairing table -- send back the paired student-tutor object for the tutor app to update
                                         return pairedStatus;
                                     }

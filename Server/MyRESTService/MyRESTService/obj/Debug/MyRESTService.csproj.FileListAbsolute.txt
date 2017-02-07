@@ -122,4 +122,3 @@ C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\zh-Hans\Syst
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\zh-Hant\System.Spatial.resources.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.pdb
-C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.csprojResolveAssemblyReference.cache
