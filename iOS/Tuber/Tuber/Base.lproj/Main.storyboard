@@ -911,15 +911,15 @@
             </objects>
             <point key="canvasLocation" x="1479" y="-759"/>
         </scene>
-        <!--View Controller-->
+        <!--Active Hotspot View Controller-->
         <scene sceneID="Bqm-Gp-oit">
             <objects>
-                <viewController id="Hk3-0u-4b7" sceneMemberID="viewController">
+                <viewController id="Hk3-0u-4b7" customClass="ActiveHotspotViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="MOt-vV-Xov"/>
                         <viewControllerLayoutGuide type="bottom" id="9rm-iW-7pV"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="oB2-5x-mAg">
+                    <view key="view" contentMode="scaleToFill" id="oB2-5x-mAg" customClass="Acti">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -931,13 +931,19 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7dp-OD-3im">
-                                <rect key="frame" x="164" y="318" width="46" height="30"/>
+                                <rect key="frame" x="135" y="318" width="104" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="Delete Hotspot"/>
+                                <connections>
+                                    <action selector="deleteLeaveButton:" destination="Hk3-0u-4b7" eventType="touchUpInside" id="a6o-mw-095"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <segue destination="G8h-R2-j4Q" kind="show" identifier="reloadMap" id="D0B-Yk-HHt"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8H1-bJ-m4R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -953,5 +959,6 @@
         <segue reference="w3u-QR-4nb"/>
         <segue reference="U4Z-ty-pm8"/>
         <segue reference="bTA-8i-ZD6"/>
+        <segue reference="D0B-Yk-HHt"/>
     </inferredMetricsTieBreakers>
 </document>
