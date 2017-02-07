@@ -58,6 +58,10 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 	private SharedPreferences sharedPreferences;
 	private String _userEmail;
 	private String _userToken;
+	private String _studentLat;
+	private String _studentLong;
+
+	private String _tutorUsername;
 
 	private GoogleMap mMap;
 	Intent intent;
@@ -80,9 +84,14 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 		try {
 			jsonParam3.put("userEmail", _userEmail);
 			jsonParam3.put("userToken", _userToken);
-			jsonParam3.put("requestedTutorEmail", "u0665302@utah.edu");
-			jsonParam3.put("studentLatitude", Double.toString(40.7676));
-			jsonParam3.put("studentLongitude", Double.toString(-112.845));
+			jsonParam3.put("requestedTutorEmail", _tutorUsername);
+			jsonParam3.put("studentLatitude", _studentLat);
+			jsonParam3.put("studentLongitude", _studentLong);
+			Log.i("@userEmail",_userEmail);
+			Log.i("@userToken",_userToken);
+			Log.i("@requestedTutorEmail",_tutorUsername);
+			Log.i("@studentLatitude",_studentLat);
+			Log.i("@studentLongitude",_studentLong);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -203,6 +212,12 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 		_userToken = sharedPreferences.getString("userToken", "");
 
 		intent = getIntent();
+
+		_studentLat = String.valueOf(intent.getDoubleExtra("studentLatitude", 0));
+		_studentLong = String.valueOf(intent.getDoubleExtra("studentLongitude", 0));
+
+		_tutorUsername = intent.getStringExtra("username");
+
 
 		// Obtain the SupportMapFragment and get notified when the map is ready to be used.
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()

@@ -67,6 +67,8 @@ public class ImmediateStudentRequestActivity extends Activity {
     ArrayList<Double> requestLongitudes = new ArrayList<Double>();
 
     ArrayList<String> usernames = new ArrayList<String>();
+    ArrayList<String> courses = new ArrayList<String>();
+
     LocationManager locationManager;
     LocationListener locationListener;
 
@@ -109,7 +111,8 @@ public class ImmediateStudentRequestActivity extends Activity {
 
                     Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                    if(requestLatitudes.size() > i && requestLongitudes.size() > i && usernames.size() > i && lastKnownLocation != null) {
+                    if(requestLatitudes.size() > i && requestLongitudes.size() > i && usernames.size() > i
+                            && courses.size() > i && lastKnownLocation != null) {
 
                         Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
 
@@ -117,6 +120,7 @@ public class ImmediateStudentRequestActivity extends Activity {
                         intent.putExtra("tutorLongitude", requestLongitudes.get(i));
                         intent.putExtra("studentLatitude", lastKnownLocation.getLatitude());
                         intent.putExtra("studentLongitude", lastKnownLocation.getLongitude());
+                        intent.putExtra("studentCourse", courses.get(i));
                         intent.putExtra("username", usernames.get(i));
 
                         startActivity(intent);
@@ -273,7 +277,7 @@ public class ImmediateStudentRequestActivity extends Activity {
                                     requestLatitudes.add(Double.parseDouble(latitude));
                                     requestLongitudes.add(Double.parseDouble(longitude));
                                     usernames.add(userEmail);
-
+                                    courses.add(tutorCourse);
 
                                 }
 
