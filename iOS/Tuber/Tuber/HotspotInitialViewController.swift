@@ -88,6 +88,63 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
     
 
     @IBAction func createNewHotspot(_ sender: Any) {
+        
+        let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/createstudyhotspot"
+        
+        //created NSURL
+        let requestURL = NSURL(string: server)
+        
+        //creating NSMutableURLRequest
+        let request = NSMutableURLRequest(url: requestURL! as URL)
+        
+        //setting the method to post
+        request.httpMethod = "POST"
+        
+        let defaults = UserDefaults.standard
+        
+        //getting values from text fields
+        let userEmail = defaults.object(forKey: "userEmail") as! String
+        let userToken = defaults.object(forKey: "userToken") as! String
+        let course = defaults.object(forKey: "selectedCourse") as! String
+        //        let latitude = String(describing: location?.coordinate.latitude)
+        //        let longitude = String(describing: location?.coordinate.longitude)
+        
+        //creating the post parameter by concatenating the keys and values from text field
+        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"latitude\":\"\(self.location!.coordinate.latitude)\",\"longitude\":\"\(self.location!.coordinate.longitude)\"}"
+        
+        print(postParameters)
+        
+        //adding the parameters to request body
+        request.httpBody = postParameters.data(using: String.Encoding.utf8)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        print(postParameters)
+        
+        //creating a task to send the post request
+        let task = URLSession.shared.dataTask(with: request as URLRequest){
+            data, response, error in
+            
+            if error != nil{
+                print("error is \(error)")
+                return;
+            }
+            
+            let r = response as? HTTPURLResponse
+
+            if (r?.statusCode == 200)
+            {
+                OperationQueue.main.addOperation{
+                    self.performSegue(withIdentifier: "createHotspot", sender: nil)
+                }
+            }
+            else{
+                print(r?.statusCode as Any)
+            }
+            
+        }
+        //executing the task
+        task.resume()
     }
     
     
@@ -155,6 +212,11 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
                 print(self.names)
                 print(self.contacts)
                 
+                OperationQueue.main.addOperation{
+                    self.createAnnotations()
+                    //                    self.performSegue(withIdentifier: "loginSuccess", sender: nil)
+                }
+                
                 //self.tableView.reloadData()
                 //                //converting resonse to NSDictionary
                 //                let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
@@ -170,7 +232,7 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
                 //
                 //                    //printing the response
                 //                    print(msg)
-                //                    
+                //
                 //                }
             } catch {
                 print(error)
@@ -179,32 +241,71 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
         }
         //executing the task
         task.resume()
+    }
+    
+    // When user taps on the disclosure button you can perform a segue to navigate to another view controller
+    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+        if control == view.rightCalloutAccessoryView{
+            print(view.annotation?.title) // annotation's title
+            print(view.annotation?.subtitle) // annotation's subttitle
+            
+            //Perform a segue here to navigate to another viewcontroller
+            // On tapping the disclosure button you will get here
+        }
+    }
+    
+    // Here we add disclosure button inside annotation window
+    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
         
-        while(self.names.isEmpty)
-        {
-            continue
+        print("viewForannotation")
+        if annotation is MKUserLocation {
+            //return nil
+            return nil
         }
         
-        print(self.names.count)
-        print(self.contacts.count)
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         
-                var annotations = [MKPointAnnotation]()
+        if pinView == nil {
+            //println("Pinview was nil")
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.animatesDrop = true
+        }
         
-                let annotation1 = MKPointAnnotation()
-                annotation1.coordinate = CLLocationCoordinate2DMake(37.8, -122.406417)
-                annotation1.title = names[0]
-                annotation1.subtitle = contacts[0]
+        let button = UIButton(type: UIButtonType.detailDisclosure) as UIButton // button with info sign in it
         
-                let annotation2 = MKPointAnnotation()
-                annotation2.coordinate = CLLocationCoordinate2DMake(37.77, -122.406417)
-                annotation1.title = names[1]
-                annotation1.subtitle = contacts[1]
+        pinView?.rightCalloutAccessoryView = button
         
-                annotations.append(annotation1)
-                annotations.append(annotation2)
-                
-                mapview.addAnnotations(annotations)
         
+        return pinView
     }
+    
+    func createAnnotations()
+    {
+        
+        let annotationView = MKAnnotationView()
+        let detailButton: UIButton = UIButton(type: UIButtonType.detailDisclosure) as UIButton
+        annotationView.rightCalloutAccessoryView = detailButton
+        
+        var annotations = [MKPointAnnotation]()
+        
+        let annotation1 = MKPointAnnotation()
+        annotation1.coordinate = CLLocationCoordinate2DMake(37.8, -122.406417)
+        annotation1.title = names[0]
+        annotation1.subtitle = contacts[0]
+        
+        let annotation2 = MKPointAnnotation()
+        annotation2.coordinate = CLLocationCoordinate2DMake(37.77, -122.406417)
+        annotation1.title = names[1]
+        annotation1.subtitle = contacts[1]
+        
+        annotations.append(annotation1)
+        annotations.append(annotation2)
+        
+        mapview.addAnnotations(annotations)
+    }
+    
+    
 
 }

@@ -113,16 +113,21 @@ class OfferTutorTableViewController: UITableViewController {
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             if segue.identifier == "tutorViewSchedule"
             {
-                print("prep for segue")
+//                print("prep for segue")
                 
                                 if let destination = segue.destination as? TutorViewScheduleTableViewController
                                 {
+                                    destination.students.removeAll()
+                                    destination.dates.removeAll()
+                                    destination.duration.removeAll()
+                                    destination.subjects.removeAll()
+                                    
                                     destination.students = self.studentNames
                                     destination.dates = self.dates
                                     destination.duration = self.durations
                                     destination.subjects = self.topics
                                     //destination.passed = sender as? String
-                                    print("destinations set")
+//                                    print("destinations set")
                                 }
 
             }
@@ -172,6 +177,11 @@ class OfferTutorTableViewController: UITableViewController {
             do {
                 //print(response)
                 let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                
+                self.studentNames = [[],[]]
+                self.dates = [[],[]]
+                self.durations = [[],[]]
+                self.topics = [[],[]]
                 
                 //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
                 if let arrJSON = hotspots["tutorRequestItems"] {

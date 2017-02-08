@@ -47,7 +47,9 @@ class LoginViewController: UIViewController {
         
         //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"" + userEmail! + "\",\"userPassword\":\"" + userPassword! + "\"}"
-                
+        
+        print(postParameters)
+        
         //adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
