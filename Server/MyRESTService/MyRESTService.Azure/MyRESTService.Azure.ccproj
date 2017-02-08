@@ -46,13 +46,23 @@
       <RoleName>MyRESTService</RoleName>
       <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
     </ProjectReference>
+    <ProjectReference Include="..\WebRole1\WebRole1.csproj">
+      <Name>WebRole1</Name>
+      <Project>{deb91033-5e45-4a86-9587-5e4dbe373807}</Project>
+      <Private>True</Private>
+      <RoleType>Web</RoleType>
+      <RoleName>WebRole1</RoleName>
+      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MyRESTServiceContent\" />
     <Folder Include="Profiles" />
+    <Folder Include="WebRole1Content\" />
   </ItemGroup>
   <ItemGroup>
     <DiagnosticsConfiguration Include="MyRESTServiceContent\diagnostics.wadcfgx" />
+    <DiagnosticsConfiguration Include="WebRole1Content\diagnostics.wadcfgx" />
   </ItemGroup>
   <ItemGroup>
     <PublishProfile Include="Profiles\tuber-testProduction.azurePubxml" />
