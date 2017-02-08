@@ -153,21 +153,18 @@ public class ImmediateStudentRequestActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                ConnectionTask UpdateLocation = new ConnectionTask(new ConnectionTask.CallBack() {
+                ConnectionTask UpdateLocation = new ConnectionTask(jO);
+                UpdateLocation.update_student_location(new ConnectionTask.CallBack() {
                     @Override
-                    public boolean Done(JSONObject result) {
+                    public void Done(JSONObject result) {
                         if(result != null){
                             Log.i("@onLocationChanged","Location updated successfully");
-                            return true;
                         }
                         else {
                             Log.i("@onLocationChanged","Location update failed");
-                            return false;
                         }
                     }
                 });
-                UpdateLocation.update_student_location(jO);
 
                 //ParseUser.getCurrentUser().put("location", new ParseGeoPoint(location.getLatitude(), location.getLongitude()));
                 //ParseUser.getCurrentUser().saveInBackground();
@@ -237,12 +234,14 @@ public class ImmediateStudentRequestActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            ConnectionTask task = new ConnectionTask(new ConnectionTask.CallBack() {
-                @Override
-                public boolean Done(JSONObject response) {
-                    // Do Something after the task has finished
 
-                    if(response != null) {
+            ConnectionTask task = new ConnectionTask(jsonParam3);
+            task.find_available_tutors(new ConnectionTask.CallBack() {
+                @Override
+                public void Done(JSONObject result) {
+
+                    // Do Something after the task has finished
+                    if(result != null) {
 
                         requests.clear();
                         requestLatitudes.clear();
@@ -252,7 +251,7 @@ public class ImmediateStudentRequestActivity extends Activity {
                         try {
 
 
-                            JSONArray array = response.getJSONArray("availableTutors");
+                            JSONArray array = result.getJSONArray("availableTutors");
 
                             Log.i("Length", String.valueOf(array.length()));
                             //Log.i("Lat", String.valueOf(array.length()));
@@ -309,10 +308,9 @@ public class ImmediateStudentRequestActivity extends Activity {
                             e.printStackTrace();
                         }
                     }
-                    return true;
                 }
             });
-            task.find_available_tutors(jsonParam3);
+
 //            ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
 //
 //            final ParseGeoPoint studentLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());

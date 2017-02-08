@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cs4000.tuber">
+    package="cs4000.tuber">
     //ParseSDK-Permission
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".StarterApplication"
@@ -24,33 +24,30 @@
             android:name=".LoginActivity"
             android:label="@string/app_name"
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <meta-data
             android:name="com.parse.APPLICATION_ID"
-            android:value="@string/parse_app_id"/>
+            android:value="@string/parse_app_id" />
         <meta-data
             android:name="com.parse.CLIENT_KEY"
-            android:value="@string/parse_client_key"/>
+            android:value="@string/parse_client_key" />
 
-        <activity android:name=".MenuActivity"/>
-        <activity android:name=".ClassActivity"/>
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".ClassActivity" />
         <activity
             android:name=".TutorServicesActivity"
-            android:label="@string/title_activity_tutor_services">
-        </activity>
+            android:label="@string/title_activity_tutor_services"></activity>
         <activity
             android:name=".OfferToTutorActivity"
-            android:label="@string/title_activity_offer_to_tutor">
-        </activity>
+            android:label="@string/title_activity_offer_to_tutor"></activity>
         <activity
             android:name=".ImmediateStudentRequestActivity"
-            android:label="@string/title_activity_immediate_tutor_service">
-        </activity>
+            android:label="@string/title_activity_immediate_tutor_service"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -61,39 +58,36 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"/>
+            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".StudentMapActivity"
-            android:label="@string/title_activity_tutor_location">
-        </activity>
+            android:label="@string/title_activity_tutor_location"></activity>
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
         -->
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version"/>
+            android:value="@integer/google_play_services_version" />
 
         <activity
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration"
-            android:theme="@style/AppTheme.Blue">
-        </activity>
+            android:theme="@style/AppTheme.Blue"></activity>
         <activity
             android:name=".ImmediateTutorServiceMapsActivity"
-            android:label="@string/title_activity_immediate_tutor_service_maps">
-        </activity>
+            android:label="@string/title_activity_immediate_tutor_service_maps"></activity>
         <activity
             android:name=".ImmediateStudentRequestMapsActivity"
-            android:label="@string/title_activity_immediate_student_request_maps">
-        </activity>
-        <activity android:name=".CourseViewActivity">
-        </activity>
+            android:label="@string/title_activity_immediate_student_request_maps"></activity>
+        <activity android:name=".CourseViewActivity"></activity>
         <activity
             android:name=".CourseViewActivityNew"
-            android:label="@string/title_activity_course_view4">
-        </activity>
+            android:label="@string/title_activity_course_view4"></activity>
+        <activity
+            android:name=".Studysession"
+            android:label="@string/title_activity_studysession"></activity>
     </application>
 
 </manifest>

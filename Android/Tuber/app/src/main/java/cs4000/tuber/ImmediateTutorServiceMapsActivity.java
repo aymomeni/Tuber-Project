@@ -96,9 +96,10 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
             e.printStackTrace();
         }
         // cheching if already offered to tutor
-        ConnectionTask checkstatust = new ConnectionTask(new ConnectionTask.CallBack() {
+        ConnectionTask checkstatust = new ConnectionTask(obj);
+        checkstatust.check_paired_status(new ConnectionTask.CallBack() {
             @Override
-            public boolean Done(JSONObject result) {
+            public void Done(JSONObject result) {
                 try {
                     if(result != null && !result.get("studentEmail").equals(null)){
                         Log.i("@checkstatust2", "check status successful w/non-EmptyJson");
@@ -201,7 +202,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
                         }
 
-                        return true;
                     } else {
                         Log.i("@checkstatust2", "check status failed!");
 
@@ -217,15 +217,12 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                                 }
                             }, 2000);
                         }
-                        return false;
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    return false;
                 }
             }
         });
-        checkstatust.check_paired_status(obj);
     }
 
 
@@ -278,54 +275,45 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             // cheching if already offered to tutor
-            ConnectionTask checkstatust = new ConnectionTask(new ConnectionTask.CallBack() {
+            ConnectionTask checkstatust = new ConnectionTask(obj);
+            checkstatust.check_paired_status(new ConnectionTask.CallBack() {
                 @Override
-                public boolean Done(JSONObject result) {
+                public void Done(JSONObject result) {
                     try {
                         if(result != null && result.get("studentEmail").equals(null)){ // offered but hasn't been paired yet - delete from list
                             Log.i("@checkstatust3", "check status successful w/EmptyJson");
 
 
                             JSONObject obj2 = new JSONObject();
-
                             obj2.put("userEmail", _userEmail);
                             obj2.put("userToken", _userToken);
 
-
                             // deleting existing request
-                            ConnectionTask deleteTutor = new ConnectionTask(new ConnectionTask.CallBack() {
+                            ConnectionTask deleteTutor = new ConnectionTask(obj2);
+                            deleteTutor.delete_tutor_available(new ConnectionTask.CallBack() {
                                 @Override
-                                public boolean Done(JSONObject result) {
+                                public void Done(JSONObject result) {
                                     if(result != null){
                                         Log.i("@deleteTutor", "delete Tutor successful");
-                                        return true;
                                     } else {
                                         Log.i("@deleteTutor", "delete Tutor failed!");
-                                        return false;
                                     }
                                 }
                             });
-                            deleteTutor.delete_tutor_available(obj2);
 
                             requestActive = false;
                             offerToTutorButton.setText("Offer to Tutor");
 
-
-                            return true;
                         } else {
                             Log.i("@checkstatust3", "check status failed");
-                            return false;
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        return false;
                     }
                 }
             });
-            checkstatust.check_paired_status(obj);
-
-
 
         } else {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -347,9 +335,11 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    ConnectionTask offerToTutorTask = new ConnectionTask(new ConnectionTask.CallBack() {
+
+                    ConnectionTask offerToTutorTask = new ConnectionTask(obj3);
+                    offerToTutorTask.make_tutor_available(new ConnectionTask.CallBack() {
                         @Override
-                        public boolean Done(JSONObject result) {
+                        public void Done(JSONObject result) {
                             if(result != null){
                                 Log.i("@OfferToTutor", "Offer to tutor successful");
                                 Log.i("userEmail", _userEmail);
@@ -362,25 +352,20 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
                                 checkForUpdate();
 
-                                return true;
                             } else {
                                 Log.i("@OfferToTutor", "Offer to tutor failed!");
                                 Log.i("userEmail", _userEmail);
                                 Log.i("userToken", _userToken);
                                 Log.i("tutorCourse", _userCourse);
-                                return false;
                             }
                         }
                     });
-                    offerToTutorTask.make_tutor_available(obj3);
-
 
                 } else {
                     Toast.makeText(this, "Could not find your location. Please try again later.", Toast.LENGTH_SHORT).show();
                 }
             }
         }
-
     }
 
 
@@ -423,11 +408,12 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        // cheching if already offered to tutor
-        ConnectionTask checkstatust = new ConnectionTask(new ConnectionTask.CallBack() {
-            @Override
-            public boolean Done(JSONObject result) {
 
+        // cheching if already offered to tutor
+        ConnectionTask checkstatust = new ConnectionTask(obj);
+        checkstatust.check_paired_status(new ConnectionTask.CallBack() {
+            @Override
+            public void Done(JSONObject result) {
                 if(result != null){ // offered but hasn't been paired yet - delete from list
                     Log.i("@checkstatust1", "check status successful");
                     try {
@@ -442,15 +428,11 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    return true;
                 } else {
                     Log.i("@checkstatust1", "check status failed!");
-                    return false;
                 }
             }
         });
-        checkstatust.check_paired_status(obj);
-
     }
 
 
@@ -485,21 +467,18 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                     e.printStackTrace();
                 }
 
-                ConnectionTask UpdateLocation = new ConnectionTask(new ConnectionTask.CallBack() {
+                ConnectionTask UpdateLocation = new ConnectionTask(jO);
+                UpdateLocation.update_tutor_location(new ConnectionTask.CallBack() {
                     @Override
-                    public boolean Done(JSONObject result) {
+                    public void Done(JSONObject result) {
                         if(result != null){
                             Log.i("@onLocationChanged","Location updated successfully");
-                            return true;
                         }
                         else {
                             Log.i("@onLocationChanged","Location update failed");
-                            return false;
                         }
                     }
                 });
-                UpdateLocation.update_tutor_location(jO);
-
             }
 
             @Override

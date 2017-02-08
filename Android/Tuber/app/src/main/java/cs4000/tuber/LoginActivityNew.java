@@ -120,19 +120,18 @@ public class LoginActivityNew extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        ConnectionTask userVerification = new ConnectionTask(new ConnectionTask.CallBack() {
+        ConnectionTask userVerification = new ConnectionTask(userLoginJSON);
+        userVerification.verify_user(new ConnectionTask.CallBack() {
             @Override
-            public boolean Done(JSONObject result) {
-
+            public void Done(JSONObject result) {
                 if(result != null) {
-
                     try {
                         // for some reason the password is messed up when it comes from the server
 //			_userEmail = result.getString("userToken").toString();
 //			_userPassword = result.getString("userPassword").toString();
-                        _userToken = result.getString("userToken").toString();
-                        _userStudentCourses =  result.getString("userStudentCourses").toString();
-                        _userTutorCourses = result.getString("userTutorCourses").toString();
+                        _userToken = result.getString("userToken");
+                        _userStudentCourses =  result.getString("userStudentCourses");
+                        _userTutorCourses = result.getString("userTutorCourses");
                         _lastLoginSuccess = true;
 
                     } catch (JSONException e) {
@@ -143,11 +142,9 @@ public class LoginActivityNew extends AppCompatActivity {
                     Log.i(TAG, "JSON result object null");
 
                 }
-                return false;
             }
         });
 
-        userVerification.verify_user(userLoginJSON);
 
 
         new android.os.Handler().postDelayed(
@@ -201,7 +198,7 @@ public class LoginActivityNew extends AppCompatActivity {
             Log.i(TAG, "lastLoginSuccess: " + _lastLoginSuccess);
 
             Toast.makeText(getBaseContext(), "login successful", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getApplicationContext(), CourseViewActivityNew.class);
+            Intent intent = new Intent(getApplicationContext(), CourseViewActivity.class);
             startActivityForResult(intent, REQUEST_SIGNUP);
             //finish();
 

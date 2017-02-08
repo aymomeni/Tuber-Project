@@ -95,12 +95,14 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		ConnectionTask task = new ConnectionTask(new ConnectionTask.CallBack() {
+
+		ConnectionTask task = new ConnectionTask(jsonParam3);
+		task.pair_student_tutor(new ConnectionTask.CallBack() {
 			@Override
-			public boolean Done(JSONObject response) {
+			public void Done(JSONObject result) {
 				// Do Something after the task has finished
 
-				if(response != null) {
+				if(result != null) {
 					// pairing complete
 					new AlertDialog.Builder(StudentMapActivity.this)
 							.setTitle("Paired")
@@ -124,10 +126,9 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 				else {
 					Log.i("@acceptTutorService","Pairing failed!");
 				}
-				return true;
 			}
 		});
-		task.pair_student_tutor(jsonParam3);
+
 
 //	ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
 //

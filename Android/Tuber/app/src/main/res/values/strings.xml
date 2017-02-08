@@ -27,4 +27,5 @@
     <string name="help">Help</string>
     <string name="about">About</string>
     <string name="title_activity_course_view4">CourseViewActivity4</string>
+    <string name="title_activity_studysession">Studysession</string>
 </resources>

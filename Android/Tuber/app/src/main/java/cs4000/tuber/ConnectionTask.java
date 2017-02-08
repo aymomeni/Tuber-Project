@@ -20,70 +20,69 @@ import java.net.URL;
 
 /**
  * README:
- * <p>
- * This is a connector class that works as the middleman between the app and the server.
- * <p>
- * It connects the app to the server using methods that each represents
- * a functionality that is supported by the server and takes a JSON object
- * as its parameter to be sent to the server.
- * <p>
- * Some methods return JSON object upon completion and others return nothing.
- * <p>
- * All methods return "OK" if connection was success and "Bad Request" or null
- * if the connection failed or there is a problem with the request.
- * <p>
- * Each request must be initialize using a new Connection task.
- * <p>
- * <p>
- * Example of how to use this class:
- * # Create your JSON object that you want to send to server, call it <MyJSON>
- * # Initialize new task:
- * ConnectionTask <TASK_NAME> = new ConnectionTask(new ConnectionTask.CallBack() {
  *
- * @Override public void Done(JSONObject <NAME_OF_OBJECT>) {
- * if(<NAME_OF_OBJECT> != null) {
- * // Do Something after the task has finished...
- * } else {
- * // Handle the exception here...
- * }
- * }
+ * This is a connector class that works as the middleman between the app and the server.
+ *
+ * It connects the app to the server using methods that each represents
+ *  a functionality that is supported by the server and uses a JSON object
+ *  as passed through the constructor to be sent to the server.
+ *
+ * Some methods return JSON object upon completion and others return null.
+ *
+ * All methods return "OK" if connection was success and "Bad Request" or others...
+ *  if the connection failed or there is a problem with the request.
+ *
+ * Each request must be initialize using a new Connection task.
+ *
+ *
+ * Example of how to use this class:
+ * # Create your JSON object that you want to send to server, call it: <MyJSON>
+ * # Initialize new task and pass your JSON to it: ConnectionTask <TASK_NAME> = new ConnectionTask(<MyJSON>);
+ * # Call your desired method and pass your call back to it: for example,
+ * <TASK_NAME>.<DESIRED_METHOD>(new ConnectionTask.CallBack() {
+ *      @Override
+ *      public void Done(JSONObject result) {
+ *          if(result != null) {
+ *              // Do Something after the task has finished...
+ *          } else {
+ *              // Handle the exception here...
+ *          }
+ *      }
  * });
- * <TASK_NAME>.<DESIRED_METHOD>(<MyJSON>);
- * <p>
- * <p>
+ *
+ *
  * Example of creating JSON object:
  * JSONObject <MyJSON> = new JSONObject();
  * try {
- * <MyJSON>.put("userEmail", "u0000002@utah.edu");
- * <MyJSON>.put("userPassword", "testing799");
+ *  <MyJSON>.put("userEmail", "u0000002@utah.edu");
+ *  <MyJSON>.put("userPassword", "testing799");
  * } catch (JSONException e) {
- * e.printStackTrace();
+ *  e.printStackTrace();
  * }
- * <p>
- * <p>
+ *
+ *
  * Example of extracting a JSON object:
  * try {
- * String usrname = <MyJSON>.getString("userEmail");
- * String password = <MyJSON>.getString("userPassword");
+ *  String usrname = <MyJSON>.getString("userEmail");
+ *  String password = <MyJSON>.getString("userPassword");
  * } catch (JSONException e) {
- * e.printStackTrace();
+ *  e.printStackTrace();
  * }
  */
 
 public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public interface CallBack {
-		public boolean Done(JSONObject result);
+		public void Done(JSONObject result);
 	}
 
 	// This is the reference to the associated listener
-	private final ConnectionTask.CallBack taskListener;
-	//private boolean isOfferingToTutor = false; // EDIT: ALI - Needed for offering to tutor
+	private ConnectionTask.CallBack taskListener;
+
 	private final String server_url = "http://tuber-test.cloudapp.net/ProductRESTService.svc";
 	private JSONObject jsonParam = null;
 
-	public ConnectionTask(ConnectionTask.CallBack taskListener) {
-		// The listener reference is passed in through the constructor
-		this.taskListener = taskListener;
+	public ConnectionTask(JSONObject obj) {
+		jsonParam = obj;
 	}
 
 	@Override
@@ -97,59 +96,42 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 
 		try {
 
-                jsonParam = new JSONObject(params[1]);
+			jsonParam = new JSONObject(params[1]);
 
-                //Set-up connection
-                url = new URL(newURL);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setDoInput(true);
-                urlConnection.setDoOutput(true);
-                urlConnection.setUseCaches(false);
-                urlConnection.setRequestProperty("Content-Type", "application/json");
-                urlConnection.connect();
+			//Set-up connection
+			url = new URL(newURL);
+			urlConnection = (HttpURLConnection) url.openConnection();
+			urlConnection.setDoInput(true);
+			urlConnection.setDoOutput(true);
+			urlConnection.setUseCaches(false);
+			urlConnection.setRequestProperty("Content-Type", "application/json");
+			urlConnection.connect();
 
-                // Send POST output.
-                printout = new DataOutputStream(urlConnection.getOutputStream());
-                printout.writeBytes(jsonParam.toString());
-                printout.flush();
-                printout.close();
+			// Send POST output.
+			printout = new DataOutputStream(urlConnection.getOutputStream());
+			printout.writeBytes(jsonParam.toString());
+			printout.flush();
+			printout.close();
 
-                // Receive response
-                int HttpResult = urlConnection.getResponseCode();
+			// Receive response
+			int HttpResult = urlConnection.getResponseCode();
+			if (HttpResult == HttpURLConnection.HTTP_OK) {
+				// Receiving JSON response
+				InputStream in = urlConnection.getInputStream();
+				InputStreamReader reader = new InputStreamReader(in);
+				int data = reader.read();
 
-//			// EDIT: ALI - If bad request and /checkpai
-//			if(HttpResult == HttpURLConnection.HTTP_BAD_REQUEST && params[0].equals("/checkpairedstatus")) {
-//				isOfferingToTutor = false;
-//				return null;
-//			}
-
-                if (HttpResult == HttpURLConnection.HTTP_OK) {
-                    // Receiving JSON response
-                    InputStream in = urlConnection.getInputStream();
-                    InputStreamReader reader = new InputStreamReader(in);
-                    int data = reader.read();
-
-                    while (data != -1) {
-                        char current = (char) data;
-                        result += current;
-                        data = reader.read();
-                    }
-                }
-
-//			// EDIT: ALI - If ok is returned for /checkpairedstatus and json is null the tutor is currently offering to tutor (but isn't paired yet)
-//			if(HttpResult == HttpURLConnection.HTTP_OK && params[0].equals("/checkpairedstatus")) {
-//				if(result == null){
-//					isOfferingToTutor = true;
-//					return null;
-//				} else {
-//					isOfferingToTutor = false;
-//				}
-//			}
+				while (data != -1) {
+					char current = (char) data;
+					result += current;
+					data = reader.read();
+				}
+			}
 
 			Log.i("ServerResponse", urlConnection.getResponseMessage());
-            if(!result.equals("")) {
-                return new JSONObject(result);
-            }
+			if(!result.equals("")) {
+				return new JSONObject(result);
+			}
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -172,17 +154,6 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 			this.taskListener.Done(result);
 		}
 	}
-
-
-//	/**
-//	 * EDIT: ALI
-//	 * Returns true if a tutor is currently offering to tutor
-//	 *
-//	 * @return isOfferingToTutor
-//	 */
-//	public boolean getIsOfferingToTutor() {
-//		return isOfferingToTutor;
-//	}
 
 	/************************************************************
 	 *  USER ACCOUNT FUNCTIONS                                  *
@@ -207,8 +178,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * "userPassword": "testing123"
 	 * }
 	 */
-	public void create_user(JSONObject obj) {
-		this.execute("/createuser", obj.toString());
+	public void create_user(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/createuser", jsonParam.toString());
 	}
 
 	/**
@@ -230,8 +202,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * ],
 	 * }
 	 */
-	public void verify_user(JSONObject obj) {
-		this.execute("/verifyuser", obj.toString());
+	public void verify_user(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/verifyuser", jsonParam.toString());
 	}
 
 	/************************************************************
@@ -249,8 +222,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Returns 200 OK
 	 * Nothing...
 	 */
-	public void make_tutor_available(JSONObject obj) {
-		this.execute("/maketutoravailable", obj.toString());
+	public void make_tutor_available(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/maketutoravailable", jsonParam.toString());
 	}
 
 	/**
@@ -262,8 +236,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Returns 200 OK
 	 * Nothing...
 	 */
-	public void delete_tutor_available(JSONObject obj) {
-		this.execute("/deletetutoravailable", obj.toString());
+	public void delete_tutor_available(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/deletetutoravailable", jsonParam.toString());
 	}
 
 	/**
@@ -286,8 +261,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 *  }
 	 * ],
 	 */
-	public void find_available_tutors(JSONObject obj) {
-		this.execute("/findavailabletutors", obj.toString());
+	public void find_available_tutors(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/findavailabletutors", jsonParam.toString());
 	}
 
 	/**
@@ -301,6 +277,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * }
 	 * @Returns: 200 OK
 	 * {
+	 * "distanceFromStudent": 2.709236634958018,
 	 * "requestedTutorEmail": "brandontobin@cox.net",
 	 * "session_status": 0,
 	 * "studentLatitude": "40.735140",
@@ -312,8 +289,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * "userToken": "127ef466-2210-4b87-9f39-06cacd4b6cf5"
 	 * }
 	 */
-	public void pair_student_tutor(JSONObject obj) {
-		this.execute("/pairstudenttutor", obj.toString());
+	public void pair_student_tutor(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/pairstudenttutor", jsonParam.toString());
 	}
 
 	/**
@@ -327,7 +305,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 *
 	 * @Returns: 200 OK
 	 * IF student has not been paired with tutor
-     * empty JSON OBJECT and updates the tutor's location
+	 * empty JSON OBJECT and updates the tutor's location
 	 * ELSE
 	 * {
 	 * "session_status": 0,
@@ -345,8 +323,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * RETURNS 200 OK/empty JSON if tutor has been offering but is not paired yet
 	 * RETURNS 200 OK/non-empty JSON if tutor has been paired
 	 */
-	public void check_paired_status(JSONObject obj) {
-		this.execute("/checkpairedstatus", obj.toString());
+	public void check_paired_status(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/checkpairedstatus", jsonParam.toString());
 	}
 
 
@@ -360,8 +339,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Returns 200 OK
 	 * Nothing...
 	 */
-	public void start_tutor_session(JSONObject obj) {
-		this.execute("/starttutorsession", obj.toString());
+	public void start_tutor_session(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/starttutorsession", jsonParam.toString());
 	}
 
 	/**
@@ -381,8 +361,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * "userEmail": "brandontobin@cox.net"
 	 * }
 	 */
-	public void end_tutor_session(JSONObject obj) {
-		this.execute("/endtutorsession", obj.toString());
+	public void end_tutor_session(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/endtutorsession", jsonParam.toString());
 	}
 
 	/**
@@ -400,8 +381,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * "tutorLongitude": "111.845200"
 	 * }
 	 */
-	public void update_student_location(JSONObject obj) {
-		this.execute("/updatestudentlocation", obj.toString());
+	public void update_student_location(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/updatestudentlocation", jsonParam.toString());
 	}
 
 	/**
@@ -419,8 +401,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * "studentLongitude": "111.845200"
 	 * }
 	 */
-	public void update_tutor_location(JSONObject obj) {
-		this.execute("/updatetutorlocation", obj.toString());
+	public void update_tutor_location(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/updatetutorlocation", jsonParam.toString());
 	}
 
 	/************************************************************
@@ -438,8 +421,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Returns 200 OK
 	 * Nothing...
 	 */
-	public void create_study_hotspot(JSONObject obj) {
-		this.execute("/createstudyhotspot", obj.toString());
+	public void create_study_hotspot(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/createstudyhotspot", jsonParam.toString());
 	}
 
 	/**
@@ -466,8 +450,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * ],
 	 * }
 	 */
-	public void find_study_hotspots(JSONObject obj) {
-		this.execute("/findstudyhotspots", obj.toString());
+	public void find_study_hotspots(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/findstudyhotspots", jsonParam.toString());
 	}
 
 	/**
@@ -480,8 +465,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Returns 200 OK
 	 * Nothing...
 	 */
-	public void join_study_hotspots(JSONObject obj) {
-		this.execute("/joinstudyhotspot", obj.toString());
+	public void join_study_hotspots(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/joinstudyhotspot", jsonParam.toString());
 	}
 
 	/**
@@ -493,8 +479,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Returns 200 OK
 	 * Nothing...
 	 */
-	public void leave_study_hotspots(JSONObject obj) {
-		this.execute("/leavestudyhotspot", obj.toString());
+	public void leave_study_hotspots(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/leavestudyhotspot", jsonParam.toString());
 	}
 
 	/**
@@ -518,8 +505,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * }
 	 * ],
 	 */
-	public void get_study_hotspot_members(JSONObject obj) {
-		this.execute("/getstudyhotspotmembers", obj.toString());
+	public void get_study_hotspot_members(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/getstudyhotspotmembers", jsonParam.toString());
 	}
 
 	/**
@@ -532,8 +520,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Returns 200 OK
 	 * Nothing...
 	 */
-	public void delete_study_hotspots(JSONObject obj) {
-		this.execute("/deletestudyhotspot", obj.toString());
+	public void delete_study_hotspots(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/deletestudyhotspot", jsonParam.toString());
 	}
 
 	/************************************************************
@@ -554,8 +543,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Returns 200 OK
 	 * Nothing...
 	 */
-	public void schedule_tutor(JSONObject obj) {
-		this.execute("/scheduletutor", obj.toString());
+	public void schedule_tutor(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/scheduletutor", jsonParam.toString());
 	}
 
 	/**
@@ -578,8 +568,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * ],
 	 * }
 	 */
-	public void find_all_scheduled_tutor_requests(JSONObject obj) {
-		this.execute("/findallscheduletutorrequests", obj.toString());
+	public void find_all_scheduled_tutor_requests(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/findallscheduletutorrequests", jsonParam.toString());
 	}
 
 	/**
@@ -600,8 +591,34 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * "tutor_email": "brandontobin@cox.net"
 	 * }
 	 */
-	public void accept_student_scheduled_request(JSONObject obj) {
-		this.execute("/acceptstudentscheduledrequest", obj.toString());
+	public void accept_student_scheduled_request(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/acceptstudentscheduledrequest", jsonParam.toString());
+	}
+
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "brandontobin2@cox.net",
+	 * "userToken" : "289569ba-3022-44fe-b568-6dcfd88e0933",
+	 * "course" : "CS 4000"
+	 * }
+	 * @Returns 200 OK
+	 * {
+	 * "tutorRequestItems": [
+	 * {
+	 * "course": "CS 4000",
+	 * "dateTime": "2/3/2017 12:00:00 PM",
+	 * "duration": "2.4",
+	 * "studentEmail": "brandontobin@cox.net",
+	 * "topic": "HW Help"
+	 * }
+	 * ],
+	 * }
+	 */
+	public void find_all_scheduled_tutor_acceptedRequests(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/findallscheduletutoracceptedrequests", jsonParam.toString());
 	}
 
 	/**
@@ -624,8 +641,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * ],
 	 * }
 	 */
-	public void check_scheduled_paired_status(JSONObject obj) {
-		this.execute("/checkscheduledpairedstatus", obj.toString());
+	public void check_scheduled_paired_status(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/checkscheduledpairedstatus", jsonParam.toString());
 	}
 
 	/**
@@ -640,8 +658,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Note Use the same /endtutorsession in the Immediate tutor
 	 * functions section to end the tutoring session.
 	 */
-	public void start_scheduled_tutor_session(JSONObject obj) {
-		this.execute("/scheduletutor", obj.toString());
+	public void start_scheduled_tutor_session(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/scheduletutor", jsonParam.toString());
 	}
 
 	/************************************************************
@@ -663,8 +682,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * If you receive response code "406 : Not Acceptable", then there is already an entry in
 	 * the tutor_ratings table for the tutor session ID provided.
 	 */
-	public void rate_tutor(JSONObject obj) {
-		this.execute("/ratetutor", obj.toString());
+	public void rate_tutor(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/ratetutor", jsonParam.toString());
 	}
 
 	/**
@@ -683,8 +703,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * If you receive response code "406 : Not Acceptable", then there is already an entry in
 	 * the tutor_ratings table for the tutor session ID provided.
 	 */
-	public void rate_student(JSONObject obj) {
-		this.execute("/ratestudent", obj.toString());
+	public void rate_student(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/ratestudent", jsonParam.toString());
 	}
 
 	/************************************************************
@@ -710,8 +731,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Note Use this method to retrieve all tutors a student has met with, and then
 	 * allow them to select the tutor to report.
 	 */
-	public void reportTutor_get_tutorList(JSONObject obj) {
-		this.execute("/reporttutorgettutorlist", obj.toString());
+	public void reportTutor_get_tutorList(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/reporttutorgettutorlist", jsonParam.toString());
 	}
 
 	/**
@@ -752,8 +774,9 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Note Use this method to retrieve all sessions the student and selected tutor have had,
 	 * and then allow the student to select the session to report.
 	 */
-	public void reportTutor_get_sessionList(JSONObject obj) {
-		this.execute("/reporttutorgetsessionlist", obj.toString());
+	public void reportTutor_get_sessionList(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/reporttutorgetsessionlist", jsonParam.toString());
 	}
 
 	/**
@@ -771,7 +794,8 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Note If the tutor has 5 or more reports in the DB, then the tutor's eligibility will be set to
 	 * 0 (can't tutor anymore)
 	 */
-	public void report_tutor(JSONObject obj) {
-		this.execute("/reporttutor", obj.toString());
+	public void report_tutor(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/reporttutor", jsonParam.toString());
 	}
 }
