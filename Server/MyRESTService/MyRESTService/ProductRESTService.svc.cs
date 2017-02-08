@@ -879,8 +879,8 @@ namespace ToDoList
                                             int returnedTutorSessionID = -1;
 
                                             // Get the tutor_session_id
-                                            command.CommandText = "SELECT tutor_session_id FROM tutor_sessions_completed WHERE studentEmail = ?studentEmail AND tutorEmail = ?tutorEmail AND course = ?course AND session_start_time = ?session_start_time AND session_end_time = ?session_end_time AND session_cost = ?session_cost";
-
+                                            //command.CommandText = "SELECT tutor_session_id FROM tutor_sessions_completed WHERE studentEmail = ?studentEmail AND tutorEmail = ?tutorEmail AND course = ?course AND session_start_time = ?session_start_time AND session_end_time = ?session_end_time AND session_cost = ?session_cost";
+                                            command.CommandText = "SELECT LAST_INSERT_ID() as tutor_session_id FROM tutor_sessions_completed";
                                             using (MySqlDataReader reader = command.ExecuteReader())
                                             {
                                                 while (reader.Read())
@@ -907,7 +907,16 @@ namespace ToDoList
                                             {
                                                 // Getting the tutor_session_id from the tutor_sessions_completed table failed
                                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ExpectationFailed;
-                                                return new EndTutorSessionResponseItem();
+                                                EndTutorSessionResponseItem endresponse = new EndTutorSessionResponseItem();
+                                                endresponse.tutorSessionID = returnedTutorSessionID;
+                                                endresponse.userEmail = returnedTutorEmail;
+                                                endresponse.studentEmail = returnedStudentEmail;
+                                                endresponse.course = returnedCourseName;
+                                                endresponse.sessionStartTime = returnedSessionStartTime.ToString();
+                                                endresponse.sessionEndTime = sessionEndTime.ToString();
+                                                endresponse.sessionCost = cost;
+                                                return endresponse;
+                                                //return new EndTutorSessionResponseItem();
                                             }
                                         }
                                         else
@@ -1317,7 +1326,8 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() > 0)
                                 {
                                     // Retreive the new hotspot_id
-                                    command.CommandText = "SELECT hotspot_id FROM study_hotspots WHERE owner_email = ?owner_email";
+                                    //command.CommandText = "SELECT hotspot_id FROM study_hotspots WHERE owner_email = ?owner_email";
+                                    command.CommandText = "SELECT LAST_INSERT_ID() as hotspot_id FROM study_hotspots";
                                     using (MySqlDataReader reader = command.ExecuteReader())
                                     {
                                         while (reader.Read())
@@ -1335,7 +1345,10 @@ namespace ToDoList
                                     {
                                         // Hotspot created successfully
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                                        return new CreateStudyHotspotResponseItem();
+                                        CreateStudyHotspotResponseItem hotspot = new CreateStudyHotspotResponseItem();
+                                        hotspot.hotspotID = returnedHotspotID;
+                                        return hotspot;
+                                        //return new CreateStudyHotspotResponseItem();
                                     }
                                     else
                                     {

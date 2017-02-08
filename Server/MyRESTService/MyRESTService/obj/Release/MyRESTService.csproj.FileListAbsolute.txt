@@ -69,7 +69,6 @@ C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\MySql.Data.d
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Newtonsoft.Json.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\System.Spatial.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\MonAgentListener.dll
-C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.Azure.KeyVault.Core.xml
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.Data.Edm.xml
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.Data.OData.xml
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.Data.Services.Client.xml

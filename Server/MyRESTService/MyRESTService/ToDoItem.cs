@@ -405,7 +405,8 @@ namespace ToDoList
 
     public class CreateStudyHotspotResponseItem
     {
-        
+        [DataMember]
+        public string hotspotID { get; set; }
     }
 
     public class StudyHotspotItem
