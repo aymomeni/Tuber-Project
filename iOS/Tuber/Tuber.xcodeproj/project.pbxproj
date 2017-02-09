@@ -19,6 +19,7 @@
 		9714011B1DF528490099A8DB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9714011A1DF528490099A8DB /* LoginViewController.swift */; };
 		9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9714011C1DF52C130099A8DB /* ScheduleTutorViewController.swift */; };
 		9714011F1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9714011E1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift */; };
+		971A55B91E4D1E3B009D8E38 /* StudentViewScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971A55B81E4D1E3B009D8E38 /* StudentViewScheduleTableViewController.swift */; };
 		971CE55E1E431BBF00CB2324 /* HotspotInitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971CE55D1E431BBF00CB2324 /* HotspotInitialViewController.swift */; };
 		971CE5601E496CD800CB2324 /* ActiveSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971CE55F1E496CD800CB2324 /* ActiveSessionViewController.swift */; };
 		971CE5621E499D2000CB2324 /* ActiveHotspotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971CE5611E499D2000CB2324 /* ActiveHotspotViewController.swift */; };
@@ -70,6 +71,7 @@
 		9714011A1DF528490099A8DB /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		9714011C1DF52C130099A8DB /* ScheduleTutorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTutorViewController.swift; sourceTree = "<group>"; };
 		9714011E1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleTutorConfirmViewController.swift; sourceTree = "<group>"; };
+		971A55B81E4D1E3B009D8E38 /* StudentViewScheduleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentViewScheduleTableViewController.swift; sourceTree = "<group>"; };
 		971CE55D1E431BBF00CB2324 /* HotspotInitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotspotInitialViewController.swift; sourceTree = "<group>"; };
 		971CE55F1E496CD800CB2324 /* ActiveSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSessionViewController.swift; sourceTree = "<group>"; };
 		971CE5611E499D2000CB2324 /* ActiveHotspotViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveHotspotViewController.swift; sourceTree = "<group>"; };
@@ -154,6 +156,7 @@
 				97D6B3D91DF80BDA0093479E /* TutorServicesTableViewCell.swift */,
 				97EEACC61DF8FDDC007F23B1 /* OfferTutorTableViewController.swift */,
 				97EEACCC1DF902CD007F23B1 /* TutorViewScheduleTableViewController.swift */,
+				971A55B81E4D1E3B009D8E38 /* StudentViewScheduleTableViewController.swift */,
 				97EEACCA1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift */,
 				97EEACCE1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift */,
 				97EEACD01DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift */,
@@ -339,6 +342,7 @@
 				971CE55E1E431BBF00CB2324 /* HotspotInitialViewController.swift in Sources */,
 				97EEACC71DF8FDDC007F23B1 /* OfferTutorTableViewController.swift in Sources */,
 				97EEACCB1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift in Sources */,
+				971A55B91E4D1E3B009D8E38 /* StudentViewScheduleTableViewController.swift in Sources */,
 				97D6B3D41DF7EC9C0093479E /* ClassOptionsTableViewCell.swift in Sources */,
 				97D6B3DA1DF80BDA0093479E /* TutorServicesTableViewCell.swift in Sources */,
 			);
