@@ -21,8 +21,10 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
     var haveLocation = false
     
     var returnedJSON: [String : AnyObject] = [:]
-    var names: [String] = []
-    var contacts: [String] = []
+    var ownerEmail: [String] = []
+    var hotspotID: [String] = []
+    var longitude: [Double] = []
+    var latitude: [Double] = []
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.location = locations[0]
@@ -31,7 +33,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
 //        print(String(location!.coordinate.longitude))
         
         let span:MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
-//        let myLocation:CLLocationCoordinate2D = CLLocationCoordinate2DMake(location!.coordinate.latitude, location!.coordinate.longitude)
         self.myLocation = CLLocationCoordinate2DMake(location!.coordinate.latitude, location!.coordinate.longitude)
 
         let region:MKCoordinateRegion = MKCoordinateRegionMake(self.myLocation!, span)
@@ -56,29 +57,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.requestWhenInUseAuthorization()
         manager.startUpdatingLocation()
-//        mapview.showsUserLocation = true
-//        ring(describing: myLocation?.longitude))
-        
-//        findHotspots()
-//        
-//        print(returnedJSON.count)
-//        
-//        var annotations = [MKPointAnnotation]()
-//
-//        let annotation1 = MKPointAnnotation()
-//        annotation1.coordinate = CLLocationCoordinate2DMake(37.8, -122.406417)
-//        annotation1.title = names[0]
-//        annotation1.subtitle = contacts[0]
-//        
-//        let annotation2 = MKPointAnnotation()
-//        annotation2.coordinate = CLLocationCoordinate2DMake(37.77, -122.406417)
-//        annotation1.title = names[1]
-//        annotation1.subtitle = contacts[1]
-//        
-//        annotations.append(annotation1)
-//        annotations.append(annotation2)
-//        
-//        mapview.addAnnotations(annotations)
     }
 
     override func didReceiveMemoryWarning() {
@@ -196,44 +174,28 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
                 
                 //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
                 if let arrJSON = hotspots["studyHotspots"] {
-                    for index in 0...arrJSON.count-1 {
+                    if (arrJSON.count > 0) {
+                        for index in 0...arrJSON.count-1 {
                         
-                        let aObject = arrJSON[index] as! [String : AnyObject]
+                            let aObject = arrJSON[index] as! [String : AnyObject]
                         
-                        print(aObject)
+                            print(aObject)
                         
-                        self.names.append(aObject["hotspotID"] as! String)
-                        self.contacts.append(aObject["student_count"] as! String)
+                            self.ownerEmail.append(aObject["ownerEmail"] as! String)
+                            self.hotspotID.append(aObject["hotspotID"] as! String)
+                            self.latitude.append(aObject["latitude"] as! Double)
+                            self.longitude.append(aObject["longitude"] as! Double)
                         
-                        print(aObject["hotspotID"] as! String)
-                        print(aObject["student_count"] as! String)
+                        }
                     }
                 }
-                print(self.names)
-                print(self.contacts)
+                print(self.ownerEmail)
+                print(self.hotspotID)
                 
                 OperationQueue.main.addOperation{
                     self.createAnnotations()
-                    //                    self.performSegue(withIdentifier: "loginSuccess", sender: nil)
                 }
-                
-                //self.tableView.reloadData()
-                //                //converting resonse to NSDictionary
-                //                let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as? NSDictionary
-                //
-                //                //parsing the json
-                //                if let parseJSON = myJSON {
-                //
-                //                    //creating a string
-                //                    var msg : String!
-                //
-                //                    //getting the json response
-                //                    msg = parseJSON["message"] as! String?
-                //
-                //                    //printing the response
-                //                    print(msg)
-                //
-                //                }
+
             } catch {
                 print(error)
             }
@@ -290,18 +252,16 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
         
         var annotations = [MKPointAnnotation]()
         
-        let annotation1 = MKPointAnnotation()
-        annotation1.coordinate = CLLocationCoordinate2DMake(37.8, -122.406417)
-        annotation1.title = names[0]
-        annotation1.subtitle = contacts[0]
-        
-        let annotation2 = MKPointAnnotation()
-        annotation2.coordinate = CLLocationCoordinate2DMake(37.77, -122.406417)
-        annotation1.title = names[1]
-        annotation1.subtitle = contacts[1]
-        
-        annotations.append(annotation1)
-        annotations.append(annotation2)
+        if (ownerEmail.count > 0){
+            for index in 0...ownerEmail.count-1 {
+                
+                let annotation1 = MKPointAnnotation()
+                annotation1.coordinate = CLLocationCoordinate2DMake(latitude[index], longitude[index])
+                annotation1.title = ownerEmail[index]
+                annotation1.subtitle = hotspotID[index]
+                annotations.append(annotation1)
+            }
+        }
         
         mapview.addAnnotations(annotations)
     }

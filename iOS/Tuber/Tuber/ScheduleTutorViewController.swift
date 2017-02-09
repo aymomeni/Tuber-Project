@@ -38,7 +38,7 @@ class ScheduleTutorViewController: UIViewController {
         let datetime = format.string(from: dateDatePicker.date)
         let duration =  durationTextField.text
         let subject = subjectTextField.text
-        //let toPass = "Date/Time: " + date + " \nDuration (Hours): " + duration! + " \nSubject: " + subject!
+        let toPass = "Date/Time: " + datetime + " \nDuration (Hours): " + duration! + " \nSubject: " + subject!
 
      
         //creating the post parameter by concatenating the keys and values from text field
@@ -48,7 +48,11 @@ class ScheduleTutorViewController: UIViewController {
         
         print(datetime)
         
-        performSegue(withIdentifier: "scheduleConfirmation", sender: postParameters)
+        var send: [String] = []
+        send.append(toPass)
+        send.append(postParameters)
+        
+        performSegue(withIdentifier: "scheduleConfirmation", sender: send)
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -56,7 +60,7 @@ class ScheduleTutorViewController: UIViewController {
         {
             if let destination = segue.destination as? ScheduleTutorConfirmViewController
             {
-                destination.passed = sender as? String
+                destination.passed = sender as! [String]
             }
         }
     }

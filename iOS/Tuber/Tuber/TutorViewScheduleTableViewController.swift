@@ -16,18 +16,13 @@ class TutorViewScheduleTableViewController: UITableViewController {
     var dates: [[String]] = []
     var duration: [[String]] = []
     var subjects: [[String]] = []
-
-//    var students = [["Sally Hart", "Michael Fitz", "James Clark"], ["Anne Aoki"]]
-//    var dates = [["12/10/2016 4:30PM", "12/12/2016 10:45AM", "12/12/2016 2:00PM"],["2/12/2016 2:00PM"]]
-//    var duration = [["1.5", "1", "2"], ["1"]]
-//    var subjects = [["Malloc", "Proxy Server", "Concurrency"], ["Tiling"]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = ClassListViewController.selectedClass.className
+        self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
         
-        self.navigationController?.willMove(toParentViewController: ClassOptionsViewController())
+        self.navigationController?.willMove(toParentViewController: OfferTutorTableViewController())
         
         self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(TutorViewScheduleTableViewController.back(sender:)))
@@ -92,29 +87,6 @@ class TutorViewScheduleTableViewController: UITableViewController {
         performSegue(withIdentifier: "selectAppointment", sender: nil)
                 
     }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "selectAppointment"
-//        {
-//            print("prep for segue")
-//            
-//            if let destination = segue.destination as? UnconfirmedAppointmentTutorViewController
-//            {
-//                if (sender as! Int == 0)
-//                {
-//                    selectedAppointment.buttonLabel = "Start Session"
-//                }
-//                            
-//                destination.students = self.studentNames
-//                destination.dates = self.dates
-//                destination.duration = self.durations
-//                destination.subjects = self.topics
-//                destination.passed = sender as? String
-//                print("destinations set")
-//            }
-//            
-//        }
-//    }
     
     struct selectedAppointment {
         static var studentName = String()
