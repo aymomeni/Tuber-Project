@@ -1,28 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools">
-    <item
-        android:id="@+id/search"
-        android:orderInCategory="100"
-        android:title="@string/search"
-        app:showAsAction="always"
-        android:icon="@drawable/quantum_ic_pause_grey600_36" />
+      android:minHeight="?attr/actionBarSize"
+      android:background="@color/primary_darker"
+    >
+
+    <!--<Image-->
+        <!--android:id="@+id/actionbar_tuberlogo"-->
+        <!--android:title="@string/actionbar_tuberlogo"-->
+        <!--android:orderInCategory="1"-->
+        <!--android:icon="@drawable/ic_tuber_logo_medium"-->
+        <!--app:showAsAction="always"-->
+        <!--/>-->
 
     <item
         android:id="@+id/products"
         android:orderInCategory="100"
-        android:title="@string/products"
+        android:title="@string/myProfile"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/contact_us"
+        android:id="@+id/actionbar_settings"
         android:orderInCategory="100"
-        android:title="@string/contactus"
+        android:title="@string/settings"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/about"
+        android:id="@+id/actionbar_contact_us"
+        android:orderInCategory="100"
+        android:title="@string/help"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/actionbar_about_us"
         android:orderInCategory="100"
         android:title="@string/about"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/actionbar_logOut"
+        android:orderInCategory="100"
+        android:title="@string/logOut"
         app:showAsAction="never"/>
 
 

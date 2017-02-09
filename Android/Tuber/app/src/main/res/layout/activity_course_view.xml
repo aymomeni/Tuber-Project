@@ -9,14 +9,6 @@
     android:layout_height="match_parent"
     tools:context="cs4000.tuber.CourseViewActivity">
 
-    <ImageView
-        android:id="@+id/tutor_services_view"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_menubar"
-        />
 
     <ListView
         android:layout_width="match_parent"

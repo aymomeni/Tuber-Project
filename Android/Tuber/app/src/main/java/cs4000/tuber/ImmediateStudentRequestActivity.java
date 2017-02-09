@@ -67,6 +67,8 @@ public class ImmediateStudentRequestActivity extends Activity {
     ArrayList<Double> requestLongitudes = new ArrayList<Double>();
 
     ArrayList<String> usernames = new ArrayList<String>();
+    ArrayList<String> courses = new ArrayList<String>();
+
     LocationManager locationManager;
     LocationListener locationListener;
 
@@ -109,7 +111,8 @@ public class ImmediateStudentRequestActivity extends Activity {
 
                     Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                    if(requestLatitudes.size() > i && requestLongitudes.size() > i && usernames.size() > i && lastKnownLocation != null) {
+                    if(requestLatitudes.size() > i && requestLongitudes.size() > i && usernames.size() > i
+                            && courses.size() > i && lastKnownLocation != null) {
 
                         Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
 
@@ -117,6 +120,7 @@ public class ImmediateStudentRequestActivity extends Activity {
                         intent.putExtra("tutorLongitude", requestLongitudes.get(i));
                         intent.putExtra("studentLatitude", lastKnownLocation.getLatitude());
                         intent.putExtra("studentLongitude", lastKnownLocation.getLongitude());
+                        intent.putExtra("studentCourse", courses.get(i));
                         intent.putExtra("username", usernames.get(i));
 
                         startActivity(intent);
@@ -149,21 +153,18 @@ public class ImmediateStudentRequestActivity extends Activity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                ConnectionTask UpdateLocation = new ConnectionTask(new ConnectionTask.CallBack() {
+                ConnectionTask UpdateLocation = new ConnectionTask(jO);
+                UpdateLocation.update_student_location(new ConnectionTask.CallBack() {
                     @Override
-                    public boolean Done(JSONObject result) {
+                    public void Done(JSONObject result) {
                         if(result != null){
                             Log.i("@onLocationChanged","Location updated successfully");
-                            return true;
                         }
                         else {
                             Log.i("@onLocationChanged","Location update failed");
-                            return false;
                         }
                     }
                 });
-                UpdateLocation.update_student_location(jO);
 
                 //ParseUser.getCurrentUser().put("location", new ParseGeoPoint(location.getLatitude(), location.getLongitude()));
                 //ParseUser.getCurrentUser().saveInBackground();
@@ -233,12 +234,14 @@ public class ImmediateStudentRequestActivity extends Activity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            ConnectionTask task = new ConnectionTask(new ConnectionTask.CallBack() {
-                @Override
-                public boolean Done(JSONObject response) {
-                    // Do Something after the task has finished
 
-                    if(response != null) {
+            ConnectionTask task = new ConnectionTask(jsonParam3);
+            task.find_available_tutors(new ConnectionTask.CallBack() {
+                @Override
+                public void Done(JSONObject result) {
+
+                    // Do Something after the task has finished
+                    if(result != null) {
 
                         requests.clear();
                         requestLatitudes.clear();
@@ -248,7 +251,7 @@ public class ImmediateStudentRequestActivity extends Activity {
                         try {
 
 
-                            JSONArray array = response.getJSONArray("availableTutors");
+                            JSONArray array = result.getJSONArray("availableTutors");
 
                             Log.i("Length", String.valueOf(array.length()));
                             //Log.i("Lat", String.valueOf(array.length()));
@@ -273,7 +276,7 @@ public class ImmediateStudentRequestActivity extends Activity {
                                     requestLatitudes.add(Double.parseDouble(latitude));
                                     requestLongitudes.add(Double.parseDouble(longitude));
                                     usernames.add(userEmail);
-
+                                    courses.add(tutorCourse);
 
                                 }
 
@@ -305,10 +308,9 @@ public class ImmediateStudentRequestActivity extends Activity {
                             e.printStackTrace();
                         }
                     }
-                    return true;
                 }
             });
-            task.find_available_tutors(jsonParam3);
+
 //            ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
 //
 //            final ParseGeoPoint studentLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());

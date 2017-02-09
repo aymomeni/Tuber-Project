@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         android:id="@+id/offerToTutorButton"
-        android:onClick="onOfferToTutorOrCancelToTutorClicked"
+        android:onClick="offerToTutor"
         android:layout_alignParentBottom="true"
         android:layout_toLeftOf="@+id/logoutButton"
         android:layout_toStartOf="@+id/logoutButton"
