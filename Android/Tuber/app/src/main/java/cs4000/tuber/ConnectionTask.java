@@ -38,7 +38,7 @@ import java.net.URL;
  * Example of how to use this class:
  * # Create your JSON object that you want to send to server, call it: <MyJSON>
  * # Initialize new task and pass your JSON to it: ConnectionTask <TASK_NAME> = new ConnectionTask(<MyJSON>);
- * # Call your desired method and pass your call back to it: for example,
+ * # Call your desired method and pass your CallBack to it: for example,
  * <TASK_NAME>.<DESIRED_METHOD>(new ConnectionTask.CallBack() {
  *      @Override
  *      public void Done(JSONObject result) {
@@ -328,6 +328,28 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 		this.execute("/checkpairedstatus", jsonParam.toString());
 	}
 
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "anne@cox.net",
+	 * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
+	 * }
+	 * @Returns 200 OK
+	 * {
+	 * "session_status": "completed"
+	 * }
+	 *
+	 * @Note Possible Statuses :
+	 * "available" = you are currently looking to pair with a student
+	 * "paired" = you are currently paired with a student
+	 * "active" = you are currently in an active tutoring session
+	 * "completed" = your tutoring session has been completed
+	 * A bad request response means that you are not in any of these states.
+	 */
+	public void check_session_status(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/getsessionstatus", jsonParam.toString());
+	}
 
 	/**
 	 * @Send POST

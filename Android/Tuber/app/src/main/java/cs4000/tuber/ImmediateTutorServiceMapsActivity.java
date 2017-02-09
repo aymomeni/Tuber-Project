@@ -57,8 +57,9 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
     String userType = "tutor";
 
     Button offerToTutorButton;
-    Boolean requestActive = false;
-    Boolean studentActive = false;
+    Button log_out_botton;
+    Boolean tutor_offered = false; // offered
+    Boolean initial_pairing = true;
     TextView infoTextView;
 
     private SharedPreferences sharedPreferences;
@@ -89,20 +90,22 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
         try{
             obj.put("userEmail", _userEmail);
             obj.put("userToken", _userToken);
-            obj.put("latitude", "40.7674");
-            obj.put("longitude", "-111.844");
+            obj.put("latitude", tutorLatitude);
+            obj.put("longitude", tutorLongitude);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        // cheching if already offered to tutor
+        // checking if already offered to tutor
         ConnectionTask checkstatust = new ConnectionTask(obj);
         checkstatust.check_paired_status(new ConnectionTask.CallBack() {
             @Override
             public void Done(JSONObject result) {
                 try {
-                    if(result != null && !result.get("studentEmail").equals(null)){
+                    if(result != null && !result.get("studentEmail").equals(null)){ // student has accepted (check session_status)
                         Log.i("@checkstatust2", "check status successful w/non-EmptyJson");
+
+                        offerToTutorButton.setVisibility(View.INVISIBLE);
 
                         //session_status = result.getString("session_status");
                         //studentEmail = result.getString("studentEmail");
@@ -115,9 +118,9 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                         //userToken = result.getString("userToken");
 
 
-                        if (studentActive == false) {
+                        if (initial_pairing == true) { // show this only first-time we enter this method
 
-                            new AlertDialog.Builder(ImmediateTutorServiceMapsActivity.this)
+                            final AlertDialog dialog = new AlertDialog.Builder(ImmediateTutorServiceMapsActivity.this)
                                     .setTitle("Paired")
                                     .setMessage("You paired successfully with a Tutor.")
                                     .setCancelable(false)
@@ -127,9 +130,17 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                                             dialog.cancel();
                                         }
                                     }).show();
-                        }
 
-                        studentActive = true;
+                            handler.postDelayed(new Runnable() {
+
+                                @Override
+
+                                public void run() {
+                                    dialog.dismiss();
+                                }
+                            }, 4000);
+                        }
+                        initial_pairing = false;
 
                         if (Build.VERSION.SDK_INT < 23 || ContextCompat.checkSelfPermission(ImmediateTutorServiceMapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
@@ -148,11 +159,18 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                                     handler.postDelayed(new Runnable() {
                                         @Override
                                         public void run() {
-                                            infoTextView.setText("");
-                                            offerToTutorButton.setVisibility(View.VISIBLE);
-                                            offerToTutorButton.setText("Offer to Tutor");
-                                            requestActive = false;
-                                            studentActive = false;
+//                                            infoTextView.setText("");
+//                                            offerToTutorButton.setVisibility(View.VISIBLE);
+//                                            offerToTutorButton.setText("Offer to Tutor");
+//                                            tutor_offered = false;
+//                                            initial_pairing = true;
+
+                                            Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+                                            intent.putExtra("status", "0");
+//
+                                            startActivity(intent);
+                                            finish();
+
                                         }
                                     }, 5000);
                                 } else { // studet hasn't arrived yet
@@ -183,8 +201,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
                                     mMap.animateCamera(cu);
 
-                                    offerToTutorButton.setVisibility(View.INVISIBLE);
-
                                     handler.postDelayed(new Runnable() {
 
                                         @Override
@@ -202,10 +218,10 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
                         }
 
-                    } else {
+                    } else { // no student accepted yet
                         Log.i("@checkstatust2", "check status failed!");
 
-                        if(requestActive){
+                        if(tutor_offered){
                             handler.postDelayed(new Runnable() {
 
                                 @Override
@@ -264,14 +280,14 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
         Log.i("Info", "Tutor Requested");
 
         // checking if a request is active
-        if(requestActive){
+        if(tutor_offered){
 
             JSONObject obj = new JSONObject();
             try{
                 obj.put("userEmail", _userEmail);
                 obj.put("userToken", _userToken);
-                obj.put("latitude", "40.7674");
-                obj.put("longitude", "-111.844");
+                obj.put("latitude", tutorLatitude);
+                obj.put("longitude", tutorLongitude);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -303,7 +319,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                                 }
                             });
 
-                            requestActive = false;
+                            tutor_offered = false;
                             offerToTutorButton.setText("Offer to Tutor");
 
                         } else {
@@ -329,8 +345,8 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                         obj3.put("userEmail", _userEmail);
                         obj3.put("userToken", _userToken);
                         obj3.put("tutorCourse", _userCourse);
-                        obj3.put("latitude", "40.7674");
-                        obj3.put("longitude", "-111.844");
+                        obj3.put("latitude", String.valueOf(lastKnownLocation.getLatitude()));
+                        obj3.put("longitude", String.valueOf(lastKnownLocation.getLongitude()));
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -347,7 +363,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                                 Log.i("tutorCourse", _userCourse);
 
                                 offerToTutorButton.setText("Cancel Offer");
-                                requestActive = true;
+                                tutor_offered = true;
                                 //Log.i("Info", "Tutor Service Cancelled");
 
                                 checkForUpdate();
@@ -378,14 +394,8 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                 .findFragmentById(R.id.activity_immediate_tutor_service_map);
         mapFragment.getMapAsync(this);
 
-//        ParseUser.getCurrentUser().put("studentOrTutor", userType);
-//        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
-//            @Override
-//            public void done(ParseException e) {
-//                // TODO: empty for now
-//                //redirectActivity?
-//            }
-//        });
+        log_out_botton = (Button) findViewById(R.id.logoutButton);
+        log_out_botton.setVisibility(View.INVISIBLE);
 
         offerToTutorButton = (Button) findViewById(R.id.offerToTutorButton);
         infoTextView = (TextView) findViewById(R.id.infoTextView);
@@ -399,40 +409,94 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
         _userCourse = "CS 2420"; // TODO: must come from the message supplied by the intent driver
 
 
-        JSONObject obj = new JSONObject();
+        JSONObject obj2 = new JSONObject();
         try{
-            obj.put("userEmail", _userEmail);
-            obj.put("userToken", _userToken);
-            obj.put("latitude", "40.7674");
-            obj.put("longitude", "-111.844");
+            obj2.put("userEmail", _userEmail);
+            obj2.put("userToken", _userToken);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        // cheching if already offered to tutor
-        ConnectionTask checkstatust = new ConnectionTask(obj);
-        checkstatust.check_paired_status(new ConnectionTask.CallBack() {
+        ConnectionTask check_session_status = new ConnectionTask(obj2);
+        check_session_status.check_session_status(new ConnectionTask.CallBack() {
             @Override
             public void Done(JSONObject result) {
-                if(result != null){ // offered but hasn't been paired yet - delete from list
-                    Log.i("@checkstatust1", "check status successful");
+                if(result != null){
+                    Log.i("@check_session_status", "check session completed");
+
                     try {
-                        if(result.get("studentEmail").equals(null)){
-                            requestActive = true;
+
+                        String status = result.getString("session_status");
+                        if(status.equals("available")){ // only offered but looking to pair
+                            tutor_offered = true;
                             offerToTutorButton.setText("Cancel Offer");
 
                             checkForUpdate();
-                        } else {
+                        } else if(status.equals("paired")){ // paired
                             checkForUpdate();
+                        } else if(status.equals("active")){ // in an active session
+                            Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+                            intent.putExtra("status", "1");
+                            startActivity(intent);
+                            finish();
+                        } else if(status.equals("completed")){ // session has ended
+                            // do nothing
                         }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+
                 } else {
-                    Log.i("@checkstatust1", "check status failed!");
+                    Log.i("@check_session_status", "check session status failed!"); // has not offered yet
                 }
             }
         });
+
+//        // cheching if already offered to tutor
+//        ConnectionTask checkstatust = new ConnectionTask(obj);
+//        checkstatust.check_paired_status(new ConnectionTask.CallBack() {
+//            @Override
+//            public void Done(JSONObject result) {
+//                if(result != null){
+//                    Log.i("@checkstatust1", "check status successful");
+//                    try {
+//                        if(result.get("studentEmail").equals(null)){ // offered but hasn't been paired yet
+//                            tutor_offered = true;
+//                            offerToTutorButton.setText("Cancel Offer");
+//
+//                            checkForUpdate();
+//                        } else { // paired
+//
+//
+//
+//                            checkForUpdate();
+//
+////                            if(result.getString("session_status").equals("0")) {
+////                                checkForUpdate();
+////                            } else { // go to session page - session is active
+////                                Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+//////
+//////                                intent.putExtra("tutorLatitude", requestLatitudes.get(i));
+//////                                intent.putExtra("tutorLongitude", requestLongitudes.get(i));
+//////                                intent.putExtra("studentLatitude", lastKnownLocation.getLatitude());
+//////                                intent.putExtra("studentLongitude", lastKnownLocation.getLongitude());
+//////                                intent.putExtra("studentCourse", courses.get(i));
+//////                                intent.putExtra("username", usernames.get(i));
+//////
+////                                startActivity(intent);
+////                                finish();
+////                                //finishAndRemoveTask();
+////                                //return;
+////                            }
+//                        }
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                } else {
+//                    Log.i("@checkstatust1", "check status failed!");
+//                }
+//            }
+//        });
     }
 
 
@@ -454,6 +518,9 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+
+                tutorLatitude = String.valueOf(location.getLatitude());
+                tutorLongitude = String.valueOf(location.getLongitude());
 
                 updateMap(location);
 
@@ -526,6 +593,8 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
     // Updates the map when location of user changes
     public void updateMap(Location location) {
+        tutorLatitude = String.valueOf(location.getLatitude());
+        tutorLongitude = String.valueOf(location.getLongitude());
 
         LatLng userLocation = new LatLng(location.getLatitude(), location.getLongitude());
 
