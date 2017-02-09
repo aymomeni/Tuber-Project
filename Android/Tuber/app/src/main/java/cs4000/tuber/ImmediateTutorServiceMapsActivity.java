@@ -54,8 +54,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
     LocationManager locationManager;
     LocationListener locationListener;
 
-    String userType = "tutor";
-
     Button offerToTutorButton;
     Button log_out_botton;
     Boolean tutor_offered = false; // offered
@@ -358,21 +356,14 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                         public void Done(JSONObject result) {
                             if(result != null){
                                 Log.i("@OfferToTutor", "Offer to tutor successful");
-                                Log.i("userEmail", _userEmail);
-                                Log.i("userToken", _userToken);
-                                Log.i("tutorCourse", _userCourse);
 
                                 offerToTutorButton.setText("Cancel Offer");
                                 tutor_offered = true;
-                                //Log.i("Info", "Tutor Service Cancelled");
 
                                 checkForUpdate();
 
                             } else {
                                 Log.i("@OfferToTutor", "Offer to tutor failed!");
-                                Log.i("userEmail", _userEmail);
-                                Log.i("userToken", _userToken);
-                                Log.i("tutorCourse", _userCourse);
                             }
                         }
                     });
@@ -451,52 +442,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                 }
             }
         });
-
-//        // cheching if already offered to tutor
-//        ConnectionTask checkstatust = new ConnectionTask(obj);
-//        checkstatust.check_paired_status(new ConnectionTask.CallBack() {
-//            @Override
-//            public void Done(JSONObject result) {
-//                if(result != null){
-//                    Log.i("@checkstatust1", "check status successful");
-//                    try {
-//                        if(result.get("studentEmail").equals(null)){ // offered but hasn't been paired yet
-//                            tutor_offered = true;
-//                            offerToTutorButton.setText("Cancel Offer");
-//
-//                            checkForUpdate();
-//                        } else { // paired
-//
-//
-//
-//                            checkForUpdate();
-//
-////                            if(result.getString("session_status").equals("0")) {
-////                                checkForUpdate();
-////                            } else { // go to session page - session is active
-////                                Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
-//////
-//////                                intent.putExtra("tutorLatitude", requestLatitudes.get(i));
-//////                                intent.putExtra("tutorLongitude", requestLongitudes.get(i));
-//////                                intent.putExtra("studentLatitude", lastKnownLocation.getLatitude());
-//////                                intent.putExtra("studentLongitude", lastKnownLocation.getLongitude());
-//////                                intent.putExtra("studentCourse", courses.get(i));
-//////                                intent.putExtra("username", usernames.get(i));
-//////
-////                                startActivity(intent);
-////                                finish();
-////                                //finishAndRemoveTask();
-////                                //return;
-////                            }
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                } else {
-//                    Log.i("@checkstatust1", "check status failed!");
-//                }
-//            }
-//        });
     }
 
 
@@ -574,7 +519,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-
 
             } else {
 

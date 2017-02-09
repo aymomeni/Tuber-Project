@@ -7,8 +7,11 @@ import android.app.Activity;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.RatingBar;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -17,6 +20,9 @@ import org.json.JSONObject;
 public class Studysession extends Activity {
 
     Switch session_switch;
+    Button submitRating_button;
+    TextView ratingText;
+    RatingBar rating_bar;
 
     private SharedPreferences sharedPreferences;
     Intent intent;
@@ -25,6 +31,8 @@ public class Studysession extends Activity {
     private String _userEmail;
     private String _userToken;
     private String _course;
+    private String session_id;
+    private String studentEmail;
 
 //    public void onBackPressed()
 //    {
@@ -42,7 +50,13 @@ public class Studysession extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_studysession);
         session_switch = (Switch) findViewById(R.id.session_switch);
+        submitRating_button = (Button) findViewById(R.id.submit_rating_button);
+        ratingText = (TextView) findViewById(R.id.rating_text);
+        rating_bar = (RatingBar) findViewById(R.id.ratingBar);
 
+        ratingText.setVisibility(View.INVISIBLE);
+        rating_bar.setVisibility(View.INVISIBLE);
+        submitRating_button.setVisibility(View.INVISIBLE);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");
@@ -57,40 +71,38 @@ public class Studysession extends Activity {
             session_switch.setChecked(true);
         }
 
-//        JSONObject obj2 = new JSONObject();
-//        try{
-//            obj2.put("userEmail", _userEmail);
-//            obj2.put("userToken", _userToken);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        ConnectionTask check_session_status = new ConnectionTask(obj2);
-//        check_session_status.check_session_status(new ConnectionTask.CallBack() {
-//            @Override
-//            public void Done(JSONObject result) {
-//                if(result != null){
-//                    Log.i("@check_session_status", "check session completed");
-//
-//                    try {
-//                        String status = result.getString("session_status");
-//                        if(status.equals("available")){ // only offered but looking to pair
-//                            // do nothing
-//                        } else if(status.equals("paired")){ // paired
-//                            // do nothing
-//                        } else if(status.equals("active")){ // in an active session
-//                            session_switch.setChecked(true);
-//                        } else if(status.equals("completed")){ // session has ended
-//                            // do nothing
-//                        }
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                } else {
-//                    Log.i("@check_session_status", "check session status failed!"); // has not offered yet
-//                }
-//            }
-//        });
+        submitRating_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("userEmail",_userEmail);
+                    obj.put("userToken",_userToken);
+                    obj.put("tutorSessionID", session_id);
+                    obj.put("studentEmail",studentEmail);
+                    obj.put("rating", String.valueOf(rating_bar.getRating()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                ConnectionTask rate_student = new ConnectionTask(obj);
+                rate_student.rate_student(new ConnectionTask.CallBack() {
+                    @Override
+                    public void Done(JSONObject result) {
+                        if(result != null) {
+                            Toast.makeText(getBaseContext(),
+                                    "Thank you for your feedback. Your rating has been submitted successfully",
+                                    Toast.LENGTH_LONG).show();
+                            submitRating_button.setClickable(false);
+                        } else {
+                            Toast.makeText(getBaseContext(),
+                                    "Something went wrong! Please try again in a moment",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
 
         session_switch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -132,6 +144,15 @@ public class Studysession extends Activity {
                         @Override
                         public void Done(JSONObject result) {
                             if(result != null){
+
+                                try {
+                                    session_id = result.getString("tutorSessionID");
+                                    studentEmail = result.getString("studentEmail");
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
 //                        "course": "CS 3500",
 //                        "sessionCost": 16.11,
 //                        "sessionEndTime": "01,31,2017 12:49:46 PM",
@@ -147,16 +168,11 @@ public class Studysession extends Activity {
                     });
 
                     // move to rate the session
-//            Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
-//
-////            intent.putExtra("tutorLatitude", requestLatitudes.get(i));
-////            intent.putExtra("tutorLongitude", requestLongitudes.get(i));
-////            intent.putExtra("studentLatitude", lastKnownLocation.getLatitude());
-////            intent.putExtra("studentLongitude", lastKnownLocation.getLongitude());
-////            intent.putExtra("studentCourse", courses.get(i));
-////            intent.putExtra("username", usernames.get(i));
-//
-//            startActivity(intent);
+                    session_switch.setClickable(false);
+
+                    ratingText.setVisibility(View.VISIBLE);
+                    rating_bar.setVisibility(View.VISIBLE);
+                    submitRating_button.setVisibility(View.VISIBLE);
                 }
             }
         });
