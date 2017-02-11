@@ -11,6 +11,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -70,8 +71,69 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 	LocationListener locationListener;
 
 
+	Handler handler = new Handler(); // used for polling
+
+
+	private void check_session_status(){
+
+
+		JSONObject obj = new JSONObject();
+		try {
+			obj.put("userEmail", _userEmail);
+			obj.put("userToken", _userToken);
+			//obj.put("requestedTutorEmail", _tutorUsername);
+			//obj.put("studentLatitude", _studentLat);
+			//obj.put("studentLongitude", _studentLong);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		ConnectionTask task = new ConnectionTask(obj);
+		task.check_session_activeStatusStudent(new ConnectionTask.CallBack() {
+			@Override
+			public void Done(JSONObject result) {
+				if(result != null) {
+
+//					final AlertDialog dialog = new AlertDialog.Builder(StudentMapActivity.this)
+//							.setTitle("Paired")
+//							.setMessage("You paired successfully with a Tutor.")
+//							.setCancelable(false)
+//							.setNeutralButton("Directions", new DialogInterface.OnClickListener() {
+//								@Override
+//								public void onClick(DialogInterface dialog, int which) {
+//									Intent directionsIntent = new Intent(android.content.Intent.ACTION_VIEW,
+//											Uri.parse("http://maps.google.com/maps?saddr=" + intent.getDoubleExtra("tutorLatitude", 0) + "," + intent.getDoubleExtra("tutorLongitude", 0) + "&daddr=" + intent.getDoubleExtra("requestLatitude", 0) + "," + intent.getDoubleExtra("requestLongitude", 0)));
+//									startActivity(directionsIntent);
+//								}
+//							})
+//							.setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
+//								@Override
+//								public void onClick(DialogInterface dialog, int which) {
+//									dialog.cancel();
+//								}
+//							}).show();
+
+
+					Intent intent = new Intent(StudentMapActivity.this, StudentStudySession2.class);
+					intent.putExtra("tutorEmail", "");
+					intent.putExtra("tutorSessionID", "");
+					startActivity(intent);
+					finish();
+
+				} else {
+					Log.i("@","");
+					handler.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							check_session_status();
+						}
+					}, 10000);
+				}
+			}
+		});
+	}
 
 	public void acceptTutorService(View view){
+		ImmediateStudentRequestActivity.getInstance().finish();
 
 		acceptTutorServiceButton = (Button)findViewById(R.id.acceptTutorButton);
 		acceptTutorServiceButton.setVisibility(View.INVISIBLE);
@@ -104,7 +166,7 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 
 				if(result != null) {
 					// pairing complete
-					new AlertDialog.Builder(StudentMapActivity.this)
+					final AlertDialog dialog = new AlertDialog.Builder(StudentMapActivity.this)
 							.setTitle("Paired")
 							.setMessage("You paired successfully with a Tutor.")
 							.setCancelable(false)
@@ -122,63 +184,21 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 									dialog.cancel();
 								}
 							}).show();
+
+
+					handler.postDelayed(new Runnable() {
+						@Override
+						public void run() {
+							dialog.dismiss();
+							check_session_status();
+						}
+					}, 4000);
 				}
 				else {
 					Log.i("@acceptTutorService","Pairing failed!");
 				}
 			}
 		});
-
-
-//	ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
-//
-//	query.whereEqualTo("username", intent.getStringExtra("username"));
-//
-//	query.findInBackground(new FindCallback<ParseObject>(){
-//	  @Override
-//	  public void done(List<ParseObject>objects, ParseException e){
-//
-//		if(e == null) {
-//
-//		  if(objects.size() > 0) {
-//
-//			for(ParseObject object : objects) {
-//
-//			  object.put("studentUsername", ParseUser.getCurrentUser().getUsername());
-//
-//			  object.saveInBackground(new SaveCallback() {
-//				@Override
-//				public void done(ParseException e) {
-//
-//				  	if(e == null){
-//
-//					  // pairing complete
-//					  new AlertDialog.Builder(StudentMapActivity.this)
-//							  .setTitle("Paired")
-//							  .setMessage("You paired successfully with a Tutor.")
-//							  .setCancelable(false)
-//							  .setNeutralButton("Directions", new DialogInterface.OnClickListener() {
-//								@Override
-//								public void onClick(DialogInterface dialog, int which) {
-//								  Intent directionsIntent = new Intent(android.content.Intent.ACTION_VIEW,
-//										  Uri.parse("http://maps.google.com/maps?saddr=" + intent.getDoubleExtra("tutorLatitude", 0) + "," + intent.getDoubleExtra("tutorLongitude", 0) + "&daddr=" + intent.getDoubleExtra("requestLatitude", 0) + "," + intent.getDoubleExtra("requestLongitude", 0)));
-//								  startActivity(directionsIntent);
-//								}
-//							  })
-//							  .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
-//								@Override
-//								public void onClick(DialogInterface dialog, int which) {
-//								  dialog.cancel();
-//								}
-//							  }).show();
-//					}
-//				}
-//			  });
-//			}
-//		  }
-//		}
-//	  }
-//	});
 	}
 
 	@Override

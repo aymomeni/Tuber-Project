@@ -27,6 +27,8 @@
     <string name="help">Help</string>
     <string name="about">About</string>
     <string name="rating_text">Please rate your student</string>
+    <string name="rating_text_student">Please rate your turtor after the session is over</string>
     <string name="title_activity_course_view4">CourseViewActivity4</string>
     <string name="title_activity_studysession">Studysession</string>
+    <string name="title_activity_student_study_session2">StudentStudySession2</string>
 </resources>

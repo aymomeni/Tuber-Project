@@ -49,6 +49,7 @@ public class Studysession extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_studysession);
+
         session_switch = (Switch) findViewById(R.id.session_switch);
         submitRating_button = (Button) findViewById(R.id.submit_rating_button);
         ratingText = (TextView) findViewById(R.id.rating_text);
