@@ -13,7 +13,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class StudentStudySession2 extends AppCompatActivity {
+public class StudentStudySession extends AppCompatActivity {
 
     Button rate_tutor;
 
@@ -31,7 +31,7 @@ public class StudentStudySession2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_study_session2);
+        setContentView(R.layout.activity_student_study_session);
 
         rating_bar_student = (RatingBar) findViewById(R.id.rating_tutor_bar);
         rate_tutor = (Button) findViewById(R.id.rate_tutor_button);

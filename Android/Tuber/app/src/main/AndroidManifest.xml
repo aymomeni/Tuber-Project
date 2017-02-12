@@ -78,9 +78,6 @@
         <activity
             android:name=".ImmediateTutorServiceMapsActivity"
             android:label="@string/title_activity_immediate_tutor_service_maps" />
-        <activity
-            android:name=".ImmediateStudentRequestMapsActivity"
-            android:label="@string/title_activity_immediate_student_request_maps" />
         <activity android:name=".CourseViewActivity" />
         <activity
             android:name=".CourseViewActivityNew"
@@ -89,7 +86,7 @@
             android:name=".Studysession"
             android:label="@string/title_activity_studysession" />
         <activity
-            android:name=".StudentStudySession2"
+            android:name=".StudentStudySession"
             android:label="@string/title_activity_student_study_session2"></activity>
     </application>
 
