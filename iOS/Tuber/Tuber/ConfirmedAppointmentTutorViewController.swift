@@ -17,7 +17,7 @@ class ConfirmedAppointmentTutorViewController: UIViewController {
     var durations: [[String]] = [[],[]]
     var topics: [[String]] = [[],[]]
     
-    var labelContents: String = ""
+    var labelContents: [String] = []
 
     @IBOutlet weak var messageLabel: UILabel!
     
@@ -25,9 +25,9 @@ class ConfirmedAppointmentTutorViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        if (labelContents != "")
+        if (labelContents.count == 2)
         {
-            messageLabel.text = labelContents
+            messageLabel.text = "You earned $\(labelContents[1]) for your session with \(labelContents[0])"
         }
     }
 
@@ -53,7 +53,7 @@ class ConfirmedAppointmentTutorViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "backToSchedule"
         {
-            print("prep for segue")
+//            print("prep for segue")
             
             if let destination = segue.destination as? TutorViewScheduleTableViewController
             {
@@ -67,7 +67,7 @@ class ConfirmedAppointmentTutorViewController: UIViewController {
                 destination.duration = self.durations
                 destination.subjects = self.topics
                 //destination.passed = sender as? String
-                print("destinations set")
+//                print("destinations set")
             }
             
         }
@@ -160,9 +160,6 @@ class ConfirmedAppointmentTutorViewController: UIViewController {
     //    func appointmentRequests(completionHandler: @escaping (String?, NSError?) -> Void)
     func appointmentRequests()
     {
-        //        let semaphore = DispatchSemaphore(value: 0)
-        
-        
         //created NSURL
         let requestURL = NSURL(string: server + "findallscheduletutorrequests")
         
@@ -241,7 +238,6 @@ class ConfirmedAppointmentTutorViewController: UIViewController {
         }
         //executing the task
         task.resume()
-        //        semaphore.wait(timeout: .distantFuture);
     }
 
 }

@@ -1,36 +1,37 @@
 //
-//  TutorViewScheduleTableViewController.swift
+//  StudentViewScheduleTableViewController.swift
 //  Tuber
 //
-//  Created by Anne on 12/7/16.
-//  Copyright © 2016 Tuber. All rights reserved.
+//  Created by Anne on 2/9/17.
+//  Copyright © 2017 Tuber. All rights reserved.
 //
 
 import UIKit
 
-class TutorViewScheduleTableViewController: UITableViewController {
+class StudentViewScheduleTableViewController: UITableViewController {
+
+    let sections = ["Confirmed Appointments", "Appointment Requests"]
     
-    let sections = ["Scheduled Appointments", "Appointment Requests"]
-    
-    var students: [[String]] = []
     var dates: [[String]] = []
     var duration: [[String]] = []
     var subjects: [[String]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
         
-        self.navigationController?.willMove(toParentViewController: OfferTutorTableViewController())
+        self.navigationController?.willMove(toParentViewController: TutorServicesViewController())
         
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(TutorViewScheduleTableViewController.back(sender:)))
-        self.navigationItem.leftBarButtonItem = newBackButton
-    }
-    
-    func back(sender: UIBarButtonItem) {
-        navigationController!.popToViewController(navigationController!.viewControllers[2], animated: false)
+//        self.navigationItem.hidesBackButton = true
+//        let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(StudentViewScheduleTableViewController.back(sender:)))
+//        self.navigationItem.leftBarButtonItem = newBackButton
+        
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,59 +42,29 @@ class TutorViewScheduleTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
         return 2
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // TODO: DB query for appointments
-        return students[section].count
+        // #warning Incomplete implementation, return the number of rows
+        print(dates)
+        return dates[section].count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return sections[section]
     }
     
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "studentAppointments", for: indexPath) as! TutorViewScheduleTableViewCell
         
-        cell.studentNameLabel.text = students[indexPath.section][indexPath.row]
+//        cell.studentNameLabel.text = students[indexPath.section][indexPath.row]
         cell.dateLabel.text = dates[indexPath.section][indexPath.row]
         cell.durationLabel.text = duration[indexPath.section][indexPath.row]
         cell.subjectLabel.text = subjects[indexPath.section][indexPath.row]
         
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
-                
-        let currentCell = tableView.cellForRow(at: indexPath!)! as! TutorViewScheduleTableViewCell
-        
-        selectedAppointment.studentName = currentCell.studentNameLabel.text!
-        selectedAppointment.date = currentCell.dateLabel.text!
-        selectedAppointment.duration = currentCell.durationLabel.text!
-        selectedAppointment.subject = currentCell.subjectLabel.text!
-        
-        if (indexPath?.section == 0)
-        {
-            selectedAppointment.buttonLabel = "Start Session"
-        }
-        else
-        {
-            selectedAppointment.buttonLabel = "Accept Request"
-        }
-        
-        performSegue(withIdentifier: "selectAppointment", sender: nil)
-                
-    }
-    
-    struct selectedAppointment {
-        static var studentName = String()
-        static var date = String()
-        static var duration = String()
-        static var subject = String()
-        static var buttonLabel = String()
     }
 
     /*

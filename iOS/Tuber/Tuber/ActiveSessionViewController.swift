@@ -34,17 +34,19 @@ class ActiveSessionViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func prepare(for segue: UIStoryboardSegue, sender: [String]) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("in prep")
         if segue.identifier == "endSession"
         {
             print("prep for segue")
             
             if let destination = segue.destination as? ConfirmedAppointmentTutorViewController
             {
-//                let message = "You earned $\(sender[0]) for your session with \(sender[1])"
-//                destination.labelContents = message
+//                let message = "You earned $\(cost) for your session with \(student)"
+//                print(message)
+                destination.labelContents = sender as! [String]
 
-                destination.labelContents = "Completed Scheduled Tutor Session"
+//                destination.labelContents = "Completed Scheduled Tutor Session"
                 //destination.passed = sender as? String
                 print(destination.labelContents)
                 print("destinations set")
@@ -75,8 +77,6 @@ class ActiveSessionViewController: UIViewController {
         //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\"}"
         
-        print(postParameters)
-        
         //adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -88,11 +88,9 @@ class ActiveSessionViewController: UIViewController {
             data, response, error in
             
             if error != nil{
-                //                completionHandler(nil, error as NSError?)
+                print(error as! String)
                 return;
             }
-            
-            //            semaphore.signal();
             
             let r = response as? HTTPURLResponse
             
@@ -102,21 +100,19 @@ class ActiveSessionViewController: UIViewController {
                     //converting resonse to NSDictionary
                     let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
                     
-                    
                     //parsing the json
                     if let parseJSON = myJSON {
                         
                         var parsed = [String]()
-                        parsed.append("Completed Scheduled Tutor Session")
                         
-//                        print(parseJSON["studentEmail"] as! String)
-//                        print(parseJSON["sessionCost"] as! String)
+                        print(parseJSON["studentEmail"] as! String)
+                        print(parseJSON["sessionCost"] as! Double)
                         
-//                        parsed.append((parseJSON["studentEmail"] as! String?)!)
-//                        parsed.append((parseJSON["sessionCost"] as! String?)!)
-                        
+                        parsed.append((parseJSON["studentEmail"] as! String?)!)
+                        parsed.append("\(parseJSON["sessionCost"] as! Double)")
+//
                         print(parsed)
-                        
+//
                         OperationQueue.main.addOperation{
                             self.performSegue(withIdentifier: "endSession", sender: parsed)
                         }

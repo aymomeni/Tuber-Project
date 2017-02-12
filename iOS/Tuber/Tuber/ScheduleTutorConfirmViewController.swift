@@ -11,7 +11,7 @@ import UIKit
 class ScheduleTutorConfirmViewController: UIViewController {
 
     @IBOutlet weak var confirmLabel: UILabel!
-    var passed: String!
+    var passed: [String]!
     
     let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/scheduletutor"
     
@@ -20,7 +20,7 @@ class ScheduleTutorConfirmViewController: UIViewController {
         
         self.title = ClassListViewController.selectedClass.className
 
-        confirmLabel.text = passed
+        confirmLabel.text = passed[0]
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,7 +44,7 @@ class ScheduleTutorConfirmViewController: UIViewController {
 
         
         //adding the parameters to request body
-        request.httpBody = passed.data(using: String.Encoding.utf8)
+        request.httpBody = passed[1].data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
