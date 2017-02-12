@@ -13,7 +13,7 @@
 		9709067D1DF6BAF500C68561 /* ClassTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */; };
 		971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971400EC1DF527D60099A8DB /* AppDelegate.swift */; };
 		971400EF1DF527D60099A8DB /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971400EE1DF527D60099A8DB /* ViewController.swift */; };
-		971400F21DF527D60099A8DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 971400F01DF527D60099A8DB /* Main.storyboard */; };
+		971400F21DF527D60099A8DB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 971400F01DF527D60099A8DB /* Main.storyboard */; settings = {ASSET_TAGS = (cardPicker, picker, ); }; };
 		971400F41DF527D60099A8DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 971400F31DF527D60099A8DB /* Assets.xcassets */; };
 		971400F71DF527D60099A8DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 971400F51DF527D60099A8DB /* LaunchScreen.storyboard */; };
 		971401021DF527D60099A8DB /* TuberTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971401011DF527D60099A8DB /* TuberTests.swift */; };
@@ -246,6 +246,10 @@
 		971400E11DF527D60099A8DB /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					cardPicker,
+					picker,
+				);
 				LastSwiftUpdateCheck = 0810;
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Tuber;

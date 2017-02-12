@@ -8,15 +8,20 @@
 
 import UIKit
 
-class Registration2ViewController: UIViewController {
+class Registration2ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate {
+    @available(iOS 2.0, *)
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1;
+    }
 
-    @IBOutlet weak var picker: UIPickerView!
-    var pickerData: [String] = [String]()
     
+    @IBOutlet weak var picker: UIPickerView!
+    let pickerData = ["Master", "Visa"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        pickerData = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"]
+        picker.dataSource = self;
+        picker.delegate = self;
         
         // Do any additional setup after loading the view.
     }
@@ -26,6 +31,20 @@ class Registration2ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    //MARK: Data Sources
+    func numberOfComponentsInPickerView(in pickerView: UIPickerView) -> Int {
+        return 1;
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return pickerData.count;
+    }
+    
+    //MARK: Delegates
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return pickerData[row];
+    }
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    }
 
     /*
     // MARK: - Navigation
