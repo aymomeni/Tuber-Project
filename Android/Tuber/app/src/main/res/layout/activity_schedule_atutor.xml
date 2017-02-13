@@ -5,7 +5,7 @@
     android:id="@+id/activity_schedule_atutor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+
     tools:context="cs4000.tuber.ScheduleATutor">
 
     <TextView
@@ -15,26 +15,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:id="@+id/topicTextView"
-        android:textColor="@color/textColorWhileBG"
         android:textSize="24sp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="25dp"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textShortMessage"
-        android:ems="10"
-        android:id="@+id/topiceditText"
-        android:layout_alignBaseline="@+id/topicTextView"
-        android:layout_alignBottom="@+id/topicTextView"
-        android:layout_toEndOf="@+id/topicTextView"
-        android:textColor="@color/textColorWhileBG"
-        android:background="@drawable/back"
-        android:padding="10dp"
-        android:layout_marginRight="10dp"
-        android:textSize="18sp" />
-
 
 
     <TextView
@@ -44,7 +27,6 @@
         android:layout_below="@+id/topiceditText"
         android:layout_alignParentStart="true"
         android:id="@+id/DTtextView"
-        android:textColor="@color/textColorWhileBG"
         android:textSize="24sp"
         android:layout_marginTop="30dp"
         android:layout_marginLeft="10sp" />
@@ -54,26 +36,31 @@
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/calendar"
         android:id="@+id/imageButton"
-        android:background="@color/white"
+        android:background="@color/primary"
         android:layout_below="@+id/DTtextView"
         android:layout_alignParentEnd="true"
         android:onClick="showDatePickerDialog"/>
 
-    <EditText
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
+        android:layout_marginRight="10dp"
         android:id="@+id/dateEditText"
         android:layout_below="@+id/DTtextView"
         android:layout_toStartOf="@+id/imageButton"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/back"
-        android:textSize="24sp"
-        android:padding="10sp"
-        android:bufferType="editable"
-        android:textColor="@color/textColorWhileBG"/>
+        android:layout_marginLeft="10dp">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/dateEditText2"
+            android:textSize="24sp"
+            android:bufferType="editable"/>
+    </android.support.design.widget.TextInputLayout>
+
+
 
     <TextView
         android:text="Pick a Time:"
@@ -82,7 +69,6 @@
         android:layout_below="@+id/imageButton"
         android:layout_alignStart="@+id/dateEditText"
         android:id="@+id/timeTextView"
-        android:textColor="@color/textColorWhileBG"
         android:textSize="24sp"
         android:layout_marginTop="30dp" />
 
@@ -93,24 +79,32 @@
         android:layout_below="@+id/timeTextView"
         android:layout_alignParentEnd="true"
         android:id="@+id/imageButton3"
-        android:background="@color/white"
-        android:onClick="showTimePickerDialog"/>
+        android:onClick="showTimePickerDialog"
+        android:background="@color/primary" />
 
-    <EditText
+
+
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="time"
-        android:ems="10"
+        android:layout_marginRight="10dp"
         android:id="@+id/timeEditText"
         android:layout_below="@+id/timeTextView"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
-        android:padding="10dp"
-        android:background="@drawable/back"
-        android:textSize="24sp"
-        android:textColor="@color/textColorWhileBG"
-        android:layout_toLeftOf="@+id/imageButton3" />
+        android:layout_toLeftOf="@+id/imageButton3">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="time"
+            android:ems="10"
+            android:id="@+id/timeEditText2"
+            android:textSize="24sp"
+            android:bufferType="editable"/>
+    </android.support.design.widget.TextInputLayout>
+
+
 
     <TextView
         android:text="Duration:"
@@ -121,8 +115,7 @@
         android:id="@+id/durationTextView"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"
-        android:textSize="24sp"
-        android:textColor="@color/textColorWhileBG"/>
+        android:textSize="24sp" />
 
     <cs4000.tuber.NumberPicker
         android:id="@+id/np"
@@ -130,7 +123,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageButton3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="25dp"
+        android:solidColor="@color/primary" />
 
     <Button
         android:text="SUBMIT"
@@ -144,5 +138,22 @@
         android:layout_marginBottom="15dp"
         android:textSize="20sp"
         android:padding="15dp" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/topiceditText"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/topicTextView">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textShortMessage"
+            android:ems="10"
+            android:id="@+id/topiceditText2"
+            android:textSize="24sp" />
+    </android.support.design.widget.TextInputLayout>
 
 </RelativeLayout>

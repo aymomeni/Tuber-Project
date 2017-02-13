@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -74,7 +75,7 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
         _username = sharedPreferences.getString("userEmail", "");
         _useToken = sharedPreferences.getString("userToken", "");
 
-        topicTextBox = (EditText) findViewById(R.id.topiceditText);
+        topicTextBox = (EditText) findViewById(R.id.topiceditText2);
         submitButton = (Button) findViewById(R.id.submitButton);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
@@ -110,8 +111,8 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
                         if(result != null) {
                             Toast.makeText(ScheduleATutor.this, "Your have submitted a scheduled tutor request", Toast.LENGTH_LONG).show();
 
-                            Intent intent = new Intent(ScheduleATutor.this, TutorServicesActivity.class);
-                            startActivity(intent);
+                            //Intent intent = new Intent(ScheduleATutor.this, TutorServicesActivity.class);
+                            //startActivity(intent);
                             finish();
 
                         } else {
@@ -125,7 +126,7 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
 
 
 
-        dateView = (EditText) findViewById(R.id.dateEditText);
+        dateView = (EditText) findViewById(R.id.dateEditText2);
         final java.util.Calendar c = java.util.Calendar.getInstance();
         int year = c.get(java.util.Calendar.YEAR);
         int month = c.get(java.util.Calendar.MONTH);
@@ -139,9 +140,10 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
 
         dateView.setText(year + "-" + str_mon + "-" + str_day);
 
+        //dateView.setEnabled(false);
 
 
-        timeView = (EditText) findViewById(R.id.timeEditText);
+        timeView = (EditText) findViewById(R.id.timeEditText2);
         int hour = c.get(java.util.Calendar.HOUR_OF_DAY);
         int minute = c.get(java.util.Calendar.MINUTE);
 
