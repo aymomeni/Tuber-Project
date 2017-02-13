@@ -30,25 +30,4 @@
       </Content>
     </Contents>
   </WebRole>
-  <WebRole name="WebRole1" vmsize="ExtraSmall">
-    <Runtime executionContext="elevated" />
-    <Sites>
-      <Site name="Web">
-        <Bindings>
-          <Binding name="Endpoint1" endpointName="Endpoint1" />
-        </Bindings>
-      </Site>
-    </Sites>
-    <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
-    </ConfigurationSettings>
-    <Endpoints>
-      <InputEndpoint name="Endpoint1" protocol="http" port="8080" />
-    </Endpoints>
-    <Contents>
-      <Content destination=".\">
-        <SourceDirectory path="C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\rcf\Release\WebRole1Content\" />
-      </Content>
-    </Contents>
-  </WebRole>
 </ServiceDefinition>
