@@ -2144,6 +2144,7 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
                             }
                         }
@@ -2186,7 +2187,7 @@ namespace ToDoList
                                 MySqlCommand command = conn.CreateCommand();
 
                                 // Retrieve all tutor requests for the specified course
-                                command.CommandText = "SELECT * FROM tutor_requests WHERE course = ?courseName";
+                                command.CommandText = "SELECT student_email, course, topic, DATE_FORMAT(date_time, '%Y-%m-%d %T') as date_time, duration FROM tutor_requests WHERE course = ?courseName";
                                 command.Parameters.AddWithValue("courseName", item.course);
 
                                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -2254,7 +2255,7 @@ namespace ToDoList
                                 MySqlCommand command = conn.CreateCommand();
 
                                 // Retrieve all tutor requests for the specified course
-                                command.CommandText = "SELECT * FROM tutor_requests_accepted WHERE course = ?courseName";
+                                command.CommandText = "SELECT student_email, tutor_email, course, topic, DATE_FORMAT(date_time, '%Y-%m-%d %T') as date_time, duration FROM tutor_requests_accepted WHERE course = ?courseName";
                                 command.Parameters.AddWithValue("courseName", item.course);
 
                                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -2394,6 +2395,7 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
                             }
                         }
@@ -2475,6 +2477,7 @@ namespace ToDoList
                         }
                         catch (Exception e)
                         {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
                     }
@@ -2574,6 +2577,7 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
                             }
                         }
