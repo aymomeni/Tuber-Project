@@ -38,7 +38,7 @@ import java.net.URL;
  * Example of how to use this class:
  * # Create your JSON object that you want to send to server, call it: <MyJSON>
  * # Initialize new task and pass your JSON to it: ConnectionTask <TASK_NAME> = new ConnectionTask(<MyJSON>);
- * # Call your desired method and pass your call back to it: for example,
+ * # Call your desired method and pass your CallBack to it: for example,
  * <TASK_NAME>.<DESIRED_METHOD>(new ConnectionTask.CallBack() {
  *      @Override
  *      public void Done(JSONObject result) {
@@ -328,6 +328,64 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 		this.execute("/checkpairedstatus", jsonParam.toString());
 	}
 
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "brandontobin2@cox.net",
+	 * "userToken" : "3762e8ed-9112-4964-99e6-0b1ce4da18e9",
+	 * "tutorEmail" : "brandontobin@cox.net",			-- OPTIONAL
+	 * "course" : "CS 4000",					-- OPTIONAL
+	 * "sessionStartTime" : "2017-02-06 12:00:00"			-- OPTIONAL
+	 * }
+	 * @Returns 200 OK
+	 * {
+	 * "course": "CS 4000",
+	 * "sessionCost": 1040.27,
+	 * "sessionEndTime": "2017-02-09 09:21:04",
+	 * "sessionStartTime": "2017-02-06 12:00:00",
+	 * "tutorEmail": "brandontobin@cox.net",
+	 * "tutorSessionID": "10",
+	 * "userEmail": "brandontobin2@cox.net"
+	 * }
+	 *
+	 * @Note This method is designed to be called after the tutor/student pairing process
+	 * is complete. When the tutor starts the tutoring session, you start calling this method
+	 * from the student's application. When you first start calling this method, you will
+	 * only provide the student's email and token. The method will return to you after the
+	 * first call the session's start time, the tutors email, and the course name and will
+	 * continue returning this information until the tutor ends the tutoring session. When
+	 * the tutor ends the tutoring session, this method will then return the rest of the
+	 * session information (the session ID, end time, and cost). Once you receive all of
+	 * the information, you can stop calling this method and then the student's app will
+	 * know the tutoring session has completed.
+	 */
+	public void check_session_activeStatusStudent(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/checksessionactivestatusstudent", jsonParam.toString());
+	}
+
+	/**
+	 * @Send POST
+	 * {
+	 * "userEmail" : "anne@cox.net",
+	 * "userToken" : "127ef466-2210-4b87-9f39-06cacd4b6cf5",
+	 * }
+	 * @Returns 200 OK
+	 * {
+	 * "session_status": "completed"
+	 * }
+	 *
+	 * @Note Possible Statuses :
+	 * "available" = you are currently looking to pair with a student
+	 * "paired" = you are currently paired with a student
+	 * "active" = you are currently in an active tutoring session
+	 * "completed" = your tutoring session has been completed
+	 * A bad request response means that you are not in any of these states.
+	 */
+	public void check_session_status(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/getsessionstatus", jsonParam.toString());
+	}
 
 	/**
 	 * @Send POST

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_studysession"
     android:layout_width="match_parent"
@@ -11,11 +12,45 @@
     tools:context="cs4000.tuber.Studysession">
 
     <Switch
-        android:text="Start Session"
+        android:text="Start/End Session      "
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:id="@+id/session_switch"
-        android:onClick=""/>
+        android:textSize="18sp"
+        android:scaleX="1.25"
+        android:scaleY="1.25" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar"
+        android:layout_above="@+id/session_switch"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ratingBar"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/rating_text"
+        android:layout_marginBottom="40dp"
+        android:text="@string/rating_text"
+        android:textSize="24sp"
+        android:textColor="@color/cardview_light_background" />
+
+    <Button
+        android:text="Submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/submit_rating_button"
+        android:layout_below="@+id/session_switch"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:textSize="18sp" />
+
 </RelativeLayout>

@@ -11,15 +11,24 @@ import android.view.View;
  */
 public class TutorServicesActivity extends Activity {
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_tutor_services);
-  }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_tutor_services);
+    }
 
-  public void tutor_services_immediate_request(View view) {
-	Log.i("OnListner", "clicked!");
-	startActivity(new Intent(TutorServicesActivity.this, ImmediateStudentRequestActivity.class));
-  }
+    public void tutor_services_immediate_request(View view) {
+        Log.i("OnListner", "clicked!");
+        startActivity(new Intent(TutorServicesActivity.this, ImmediateStudentRequestActivity.class));
+    }
 
+    public void tutor_services_schedule_request(View view) {
+        Log.i("OnListner", "clicked!");
+        startActivity(new Intent(TutorServicesActivity.this, ScheduleATutor.class));
+    }
+
+    public void view_scheduled_requests(View view) {
+        Log.i("OnListner", "clicked!");
+        startActivity(new Intent(TutorServicesActivity.this, TutoringRequests.class));
+    }
 }

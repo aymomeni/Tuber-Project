@@ -41,13 +41,13 @@
         <activity android:name=".ClassActivity" />
         <activity
             android:name=".TutorServicesActivity"
-            android:label="@string/title_activity_tutor_services"></activity>
+            android:label="@string/title_activity_tutor_services" />
         <activity
             android:name=".OfferToTutorActivity"
-            android:label="@string/title_activity_offer_to_tutor"></activity>
+            android:label="@string/title_activity_offer_to_tutor" />
         <activity
             android:name=".ImmediateStudentRequestActivity"
-            android:label="@string/title_activity_immediate_tutor_service"></activity>
+            android:label="@string/title_activity_immediate_tutor_service" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -62,7 +62,7 @@
 
         <activity
             android:name=".StudentMapActivity"
-            android:label="@string/title_activity_tutor_location"></activity>
+            android:label="@string/title_activity_tutor_location" />
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -74,20 +74,22 @@
         <activity
             android:name=".RegistrationActivity"
             android:label="@string/title_activity_registration"
-            android:theme="@style/AppTheme.Blue"></activity>
+            android:theme="@style/AppTheme.Blue" />
         <activity
             android:name=".ImmediateTutorServiceMapsActivity"
-            android:label="@string/title_activity_immediate_tutor_service_maps"></activity>
-        <activity
-            android:name=".ImmediateStudentRequestMapsActivity"
-            android:label="@string/title_activity_immediate_student_request_maps"></activity>
-        <activity android:name=".CourseViewActivity"></activity>
+            android:label="@string/title_activity_immediate_tutor_service_maps" />
+        <activity android:name=".CourseViewActivity" />
         <activity
             android:name=".CourseViewActivityNew"
-            android:label="@string/title_activity_course_view4"></activity>
+            android:label="@string/title_activity_course_view4" />
         <activity
             android:name=".Studysession"
-            android:label="@string/title_activity_studysession"></activity>
+            android:label="@string/title_activity_studysession" />
+        <activity
+            android:name=".StudentStudySession"
+            android:label="@string/title_activity_student_study_session2" />
+        <activity android:name=".TutoringRequests" />
+        <activity android:name=".ScheduleATutor"></activity>
     </application>
 
 </manifest>

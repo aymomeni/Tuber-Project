@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.google.android.gms.appindexing.Action;
@@ -39,7 +40,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /*
  * Displays all students that created a immediate tutor request
@@ -52,6 +52,8 @@ public class ImmediateStudentRequestActivity extends Activity {
     private String _userToken;
     private String _userLatitude;
     private String _userLongitude;
+
+    private Location temp;
 
 
     private ConnectionTask connectionTask;
@@ -72,6 +74,10 @@ public class ImmediateStudentRequestActivity extends Activity {
     LocationManager locationManager;
     LocationListener locationListener;
 
+    private Button ref_button;
+
+    private Intent intent;
+
     Handler handler = new Handler(); // used for polling
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -79,10 +85,18 @@ public class ImmediateStudentRequestActivity extends Activity {
      */
     private GoogleApiClient client;
 
+
+    public static ImmediateStudentRequestActivity getInstance(){
+        return activity;
+    }
+    static ImmediateStudentRequestActivity activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_immediate_student_request);
+
+        activity = this;
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");
@@ -90,10 +104,11 @@ public class ImmediateStudentRequestActivity extends Activity {
         //_studentLatitude = lastKnownLocation.getLatitude();
         //_studentLongitude = lastKnownLocation.getLongitude();
 
+        ref_button = (Button) findViewById(R.id.Refresh_button);
 
         setTitle("Nearby Tutors");
 
-        tutorsListView = (ListView) findViewById(R.id.tutorListView);
+        tutorsListView = (ListView) findViewById(R.id.requestsListId);
 
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, requests);
         requests.clear();
@@ -186,32 +201,159 @@ public class ImmediateStudentRequestActivity extends Activity {
             }
         };
 
-        // Checking for GPS permissions
-        if (Build.VERSION.SDK_INT < 23) {
+        ref_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateListView(getLocation());
+            }
+        });
 
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        temp = getLocation();
+        JSONObject obj = new JSONObject();
+        try{
+            obj.put("userEmail", _userEmail);
+            obj.put("userToken", _userToken);
+            obj.put("latitude", String.valueOf(temp.getLatitude()));
+            obj.put("longitude", String.valueOf(temp.getLongitude()));
 
-        } else {
+            Log.i("@ISRQ_Loc2_Slat", String.valueOf(temp.getLatitude()));
+            Log.i("@ISRQ_Loc2_Slong",String.valueOf(temp.getLongitude()));
 
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ConnectionTask check_session_student = new ConnectionTask(obj);
+        check_session_student.update_student_location(new ConnectionTask.CallBack() {
+            @Override
+            public void Done(JSONObject result) {
+                if(result != null) {
+                    Log.i("@check_session_student", "check sessionStudent completed");
 
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                    Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
+                    try {
+                        intent.putExtra("tutorLatitude", Double.valueOf(result.getString("tutorLatitude")));
+                        intent.putExtra("tutorLongitude", Double.valueOf(result.getString("tutorLongitude")));
+                        intent.putExtra("studentLatitude", temp.getLatitude());
+                        intent.putExtra("studentLongitude", temp.getLongitude());
+                        intent.putExtra("studentCourse", "CS 2420");
+                        intent.putExtra("username", result.getString("tutorEmail"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    startActivity(intent);
+                    finish();
+//                    Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
+//                    intent.putExtra("tutorEmail", "");
+//                    intent.putExtra("tutorSessionID", "");
+//                    startActivity(intent);
+//                    finish();
 
-
-            } else {
-
-                // else we have permission
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
-                // gets last knwon location else it'll update the location based on the current location
-                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-                if (lastKnownLocation != null) {
-
-                    updateListView(lastKnownLocation);
+                } else {
+                    Log.i("@check_session_student", "check sessionStudent failed - no pairing");
+                    updateListView(getLocation());
+//                    JSONObject obj2 = new JSONObject();
+//                    try{
+//                        obj2.put("userEmail", _userEmail);
+//                        obj2.put("userToken", _userToken);
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    ConnectionTask check_session_student = new ConnectionTask(obj2);
+//                    check_session_student.check_session_activeStatusStudent(new ConnectionTask.CallBack() {
+//                        @Override
+//                        public void Done(JSONObject result) {
+//                            if(result != null) {
+//                                Log.i("@check_session_student", "check sessionStudent completed");
+//
+//                                Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
+//                                intent.putExtra("tutorEmail", "");
+//                                intent.putExtra("tutorSessionID", "");
+//                                startActivity(intent);
+//                                finish();
+//
+//                            } else {
+//                                Log.i("@check_session_student", "check sessionStudent failed - no pairing");
+//                                updateListView(getLocation());
+//                            }
+//                        }
+//                    });
                 }
             }
-        }
+        });
+
+
+//        // Checking for GPS permissions
+//        if (Build.VERSION.SDK_INT < 23) {
+//
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+//
+//        } else {
+//
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//
+//                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+//
+//
+//            } else {
+//
+//                // else we have permission
+//                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+//
+//                // gets last knwon location else it'll update the location based on the current location
+//                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//
+//                if (lastKnownLocation != null) {
+//
+//                    updateListView(lastKnownLocation);
+//                }
+//            }
+//        }
+
+
+//        JSONObject obj2 = new JSONObject();
+//        try{
+//            obj2.put("userEmail", _userEmail);
+//            obj2.put("userToken", _userToken);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        ConnectionTask check_session_status = new ConnectionTask(obj2);
+//        check_session_status.check_session_status(new ConnectionTask.CallBack() {
+//            @Override
+//            public void Done(JSONObject result) {
+//                if(result != null){
+//                    Log.i("@check_session_status", "check session completed");
+//
+//                    try {
+//
+//                        String status = result.getString("session_status");
+//                        if(status.equals("available")){ // only offered but looking to pair
+//                            tutor_offered = true;
+//                            offerToTutorButton.setText("Cancel Offer");
+//
+//                            checkForUpdate();
+//                        } else if(status.equals("paired")){ // paired
+//                            checkForUpdate();
+//                        } else if(status.equals("active")){ // in an active session
+//                            Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+//                            intent.putExtra("status", "1");
+//                            startActivity(intent);
+//                            finish();
+//                        } else if(status.equals("completed")){ // session has ended
+//                            // do nothing
+//                        }
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                } else {
+//                    Log.i("@check_session_status", "check session status failed!"); // has not offered yet
+//                }
+//            }
+//        });
+//
+
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
@@ -229,8 +371,12 @@ public class ImmediateStudentRequestActivity extends Activity {
                 jsonParam3.put("userEmail", _userEmail);
                 jsonParam3.put("userToken", _userToken);
                 jsonParam3.put("tutorCourse", "CS 2420");
-                jsonParam3.put("latitude", Double.toString(location.getLatitude()));
-                jsonParam3.put("longitude", Double.toString(location.getLongitude()));
+                jsonParam3.put("latitude", String.valueOf(location.getLatitude()));
+                jsonParam3.put("longitude", String.valueOf(location.getLongitude()));
+
+                Log.i("@ISRQ_Loc1_Slat",String.valueOf(location.getLatitude()));
+                Log.i("@ISRQ_Loc1_Slong",String.valueOf(location.getLongitude()));
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -284,22 +430,21 @@ public class ImmediateStudentRequestActivity extends Activity {
 
                                 //switchToMenu();
                                 //view1.setText("Second Thread is Done!2");
-                            }
-                            else {
+                            } else {
 
                                 Log.i("Second Thread", "No tutors");
 
                                 requests.add("no active tutors nearby");
-                                handler.postDelayed(new Runnable() {
-
-                                    @Override
-
-                                    public void run() {
-
-                                        updateListView(location);
-
-                                    }
-                                }, 2000);
+//                                handler.postDelayed(new Runnable() {
+//
+//                                    @Override
+//
+//                                    public void run() {
+//
+//                                        updateListView(location);
+//
+//                                    }
+//                                }, 2000);
                             }
 
                             arrayAdapter.notifyDataSetChanged();
@@ -310,65 +455,6 @@ public class ImmediateStudentRequestActivity extends Activity {
                     }
                 }
             });
-
-//            ParseQuery<ParseObject> query = ParseQuery.getQuery("TutorServices");
-//
-//            final ParseGeoPoint studentLocation = new ParseGeoPoint(location.getLatitude(), location.getLongitude());
-//            query.whereNear("tutorLocation", studentLocation);
-//            query.setLimit(11); // usually driver selects one out of the 10 closest locations
-//            query.whereDoesNotExist("studentUsername");
-//            query.findInBackground(new FindCallback<ParseObject>() {
-//                @Override
-//                public void done(List<ParseObject> objects, ParseException e) {
-//
-//                    if (e == null) {
-//
-//                        requests.clear();
-//                        requestLatitudes.clear();
-//                        requestLongitudes.clear();
-//
-//                        if (objects.size() > 0) {
-//
-//                            Log.i("Debug Adapter", "" + objects.size());
-//
-//                            for (ParseObject object : objects) {
-//
-//                                ParseGeoPoint tutorLocation = (ParseGeoPoint)object.get("tutorLocation");
-//
-//                                if(tutorLocation != null ){
-//
-//                                    Double distanceInMiles = studentLocation.distanceInMilesTo((ParseGeoPoint) object.get("tutorLocation"));
-//                                    Double distanceOneDP = (double) Math.round(distanceInMiles * 10) / 10;
-//                                    requests.add(object.get("username").toString() + "        " + distanceOneDP.toString() + " miles");
-//
-//                                    requestLatitudes.add(tutorLocation.getLatitude());
-//                                    requestLongitudes.add(tutorLocation.getLongitude());
-//                                    usernames.add(object.getString("username"));
-//
-//                                }
-//
-//                            }
-//
-//                        } else {
-//
-//                            requests.add("no active tutors nearby");
-//                            handler.postDelayed(new Runnable() {
-//
-//                                @Override
-//
-//                                public void run() {
-//
-//                                    updateListView(location);
-//
-//                                }
-//                            }, 2000);
-//                        }
-//
-//                        arrayAdapter.notifyDataSetChanged();
-//                    }
-//                }
-//            });
-
         }
     }
 
@@ -394,6 +480,38 @@ public class ImmediateStudentRequestActivity extends Activity {
         }
     }
 
+    private Location getLocation(){
+        Location temp = new Location(LocationManager.GPS_PROVIDER);
+        temp.setLatitude(0);
+        temp.setLongitude(0);
+
+        // Checking for GPS permissions
+        if (Build.VERSION.SDK_INT < 23) {
+
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+        } else {
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+
+            } else {
+
+                // else we have permission
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+                // gets last knwon location else it'll update the location based on the current location
+                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                if (lastKnownLocation != null) {
+
+                    return lastKnownLocation;
+                }
+            }
+        }
+        return temp;
+    }
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -430,61 +548,6 @@ public class ImmediateStudentRequestActivity extends Activity {
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }
-
-//    private JSONObject getJsonForCheckPairedStatusTutorRequest() throws JSONException {
-//
-//        JSONObject jO = new JSONObject();
-//        jO.put("userEmail", _userEmail);
-//        jO.put("userToken", _userToken);
-//
-//        try {
-//            _userLatitude = Double.toString(getMyLocation().getLatitude());
-//            _userLongitude = Double.toString(getMyLocation().getLongitude());
-//        } catch (Exception e) {
-//            _userLatitude = "0.0";
-//            _userLongitude = "0.0";
-//            Log.i("Tutor Service Request:", "Error in loading tutor location");
-//            e.printStackTrace();
-//        }
-//
-//        jO.put("latitude", _userLatitude);
-//        jO.put("longitude", _userLongitude);
-//
-//
-//        return jO;
-//    }
-
-
-//    /**
-//     * Returns the location of the user in the context of this class
-//     * returns null if there is no access to current location (Android system Preferences)
-//     * @return
-//     */
-//    private Location getMyLocation() {
-//
-//        // Checking for GPS permissions
-//        if (Build.VERSION.SDK_INT < 23 || ContextCompat.checkSelfPermission(ImmediateStudentRequestActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//
-//            _myLastKnownLocation = _locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//
-//
-//        } else {
-//
-//            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-//
-//            } else {
-//
-//                // else we have permission
-//                _locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (android.location.LocationListener) _locationListener);
-//
-//                // gets last knwon location else it'll update the location based on the current location
-//                _myLastKnownLocation = _locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//            }
-//        }
-//
-//        return _myLastKnownLocation;
-//    }
 
 
 }
