@@ -906,5 +906,77 @@ namespace ToDoList
     {
         
     }
+
+    public class AddStudentClassesRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public List<String> classesToBeAdded { get; set; }
+    }
+
+    public class AddStudentClassesResponseItem
+    {
+        [DataMember]
+        public List<String> enrolledStudentClasses { get; set; }
+    }
+
+    public class RemoveStudentClassesRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public List<String> classesToBeRemoved { get; set; }
+    }
+
+    public class RemoveStudentClassesResponseItem
+    {
+        [DataMember]
+        public List<String> enrolledStudentClasses { get; set; }
+    }
+
+    public class AddTutorClassesRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public List<String> classesToBeAdded { get; set; }
+    }
+
+    public class AddTutorClassesResponseItem
+    {
+        [DataMember]
+        public List<String> enrolledTutorClasses { get; set; }
+    }
+
+    public class RemoveTutorClassesRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public List<String> classesToBeRemoved { get; set; }
+    }
+
+    public class RemoveTutorClassesResponseItem
+    {
+        [DataMember]
+        public List<String> enrolledTutorClasses { get; set; }
+    }
 }
 

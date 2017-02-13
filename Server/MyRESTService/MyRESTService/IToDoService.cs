@@ -261,5 +261,37 @@ namespace ToDoList
            ResponseFormat = WebMessageFormat.Json,
            BodyStyle = WebMessageBodyStyle.Bare)]
         ReportTutorResponseItem ReportTutor(ReportTutorRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/addstudentclasses",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        AddStudentClassesResponseItem AddStudentClasses(AddStudentClassesRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/removestudentclasses",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        RemoveStudentClassesResponseItem RemoveStudentClasses(RemoveStudentClassesRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/addtutorclasses",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        AddTutorClassesResponseItem AddTutorClasses(AddTutorClassesRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/removetutorclasses",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        RemoveTutorClassesResponseItem RemoveTutorClasses(RemoveTutorClassesRequestItem data);
     }
 }
