@@ -232,6 +232,90 @@ namespace ToDoList
         public double distanceFromStudent { get; set; }
     }
 
+    public class CheckSessionActiveStatusStudentRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }      
+
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string sessionStartTime { get; set; }
+    }
+
+    public class CheckSessionActiveStatusStudentResponseItem
+    {
+        [DataMember]
+        public string tutorSessionID { get; set; }
+
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string sessionStartTime { get; set; }
+
+        [DataMember]
+        public string sessionEndTime { get; set; }
+
+        [DataMember]
+        public double sessionCost { get; set; }
+    }
+
+    public class GetSessionStatusRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class GetSessionStatusResponseItem
+    {
+
+        [DataMember]
+        public string session_status { get; set; }
+        //[DataMember]
+        //public string userEmail { get; set; }
+
+        //[DataMember]
+        //public string userToken { get; set; }
+
+        //[DataMember]
+        //public string studentEmail { get; set; }
+
+        //[DataMember]
+        //public string tutorCourse { get; set; }
+
+        //[DataMember]
+        //public double studentLatitude { get; set; }
+
+        //[DataMember]
+        //public double studentLongitude { get; set; }
+
+        //[DataMember]
+        //public double tutorLatitude { get; set; }
+
+        //[DataMember]
+        //public double tutorLongitude { get; set; }
+
+        //[DataMember]
+        //public double distanceFromStudent { get; set; }
+    }
+
     public class UpdateStudentLocationRequestItem
     {
         [DataMember]
