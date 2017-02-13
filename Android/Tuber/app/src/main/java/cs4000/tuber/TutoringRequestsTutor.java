@@ -18,40 +18,43 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class TutoringRequests extends Activity {
+public class TutoringRequestsTutor extends Activity {
 
     ListView requestsListView;
+    //ListView acceptedRequestsListView;
     ArrayList<String> requests = new ArrayList<String>();
-    ArrayList<String> tutorEmails = new ArrayList<String>();
+    ArrayList<String> studentEmails = new ArrayList<String>();
     ArrayList<String> courses = new ArrayList<String>();
     ArrayList<String> topics = new ArrayList<String>();
     ArrayList<String> dateTimes = new ArrayList<String>();
     ArrayList<String> durations = new ArrayList<String>();
-    ArrayList<Boolean> statuses = new ArrayList<Boolean>();
 
     ArrayAdapter arrayAdapter;
 
     private SharedPreferences sharedPreferences;
     private String _userEmail;
     private String _userToken;
+    private String _course = "CS 2420";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tutoring_requests);
+        setContentView(R.layout.activity_tutoring_requests_tutor);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");
         _userToken = sharedPreferences.getString("userToken", "");
 
-        requestsListView = (ListView) findViewById(R.id.requestsListId);
+        requestsListView = (ListView) findViewById(R.id.t_requestsListId);
+        //acceptedRequestsListView = (ListView) findViewById(R.id.t_requestsListId2);
 
         requests.clear();
-        requests.add("Getting scheduled requests...");
+        requests.add("Getting available requests...");
 
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, requests);
 
         requestsListView.setAdapter(arrayAdapter);
+        //acceptedRequestsListView.setAdapter(arrayAdapter);
 
 
         requestsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -59,16 +62,15 @@ public class TutoringRequests extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
 
-                if(requests.size() > i && tutorEmails.size() > i && courses.size() > i && topics.size() > i
-                        && dateTimes.size() > i && durations.size() > i && statuses.size() > i) {
+                if(requests.size() > i && studentEmails.size() > i && courses.size() > i && topics.size() > i
+                        && dateTimes.size() > i && durations.size() > i) {
 
-                    Intent intent = new Intent(getApplicationContext(), TutoringRequestPage.class);
+                    Intent intent = new Intent(getApplicationContext(), AvailableRequestPage.class);
 
-                    intent.putExtra("tutorEmail", tutorEmails.get(i));
+                    intent.putExtra("studentEmail", studentEmails.get(i));
                     intent.putExtra("topic", topics.get(i));
                     intent.putExtra("dateTime", dateTimes.get(i));
                     intent.putExtra("duration", durations.get(i));
-                    intent.putExtra("isPaired", statuses.get(i));
                     intent.putExtra("course", courses.get(i));
 
                     startActivity(intent);
@@ -76,11 +78,8 @@ public class TutoringRequests extends Activity {
             }
         });
 
-
         UpdateList();
-
     }
-
 
     public void UpdateList() {
 
@@ -88,26 +87,25 @@ public class TutoringRequests extends Activity {
         try {
             obj.put("userEmail", _userEmail);
             obj.put("userToken", _userToken);
-
+            obj.put("course", _course);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         ConnectionTask task = new ConnectionTask(obj);
-        task.check_scheduled_paired_status(new ConnectionTask.CallBack() {
+        task.find_all_scheduled_tutor_requests(new ConnectionTask.CallBack() {
             @Override
             public void Done(JSONObject result) {
                 if(result != null) {
 
                     requests.clear();
-                    tutorEmails.clear();
+                    studentEmails.clear();
                     courses.clear();
                     topics.clear();
                     dateTimes.clear();
                     durations.clear();
-                    statuses.clear();
 
                     try {
-                        JSONArray array = result.getJSONArray("requests");
+                        JSONArray array = result.getJSONArray("tutorRequestItems");
 
 
                         if (array.length() > 0) {
@@ -117,24 +115,21 @@ public class TutoringRequests extends Activity {
                                 String course = temp.getString("course");
                                 String datetime = temp.getString("dateTime");
                                 datetime = datetime.substring(0,16);
-
                                 String duration = temp.getString("duration");
-                                Boolean status = temp.getBoolean("isPaired");
-                                String tutorEmail = temp.getString("tutorEmail");
+                                String studentEmail = temp.getString("studentEmail");
                                 String topic = temp.getString("topic");
 
                                 requests.add(course + ": " + topic);
-                                tutorEmails.add(tutorEmail);
+                                studentEmails.add(studentEmail);
                                 courses.add(course);
                                 topics.add(topic);
                                 dateTimes.add(datetime);
                                 durations.add(duration);
-                                statuses.add(status);
                             }
 
                         } else {
-                            requests.add("no scheduled requests found");
-                            Toast.makeText(TutoringRequests.this, "no scheduled requests found", Toast.LENGTH_SHORT).show();
+                            requests.add("no available requests found");
+                            Toast.makeText(TutoringRequestsTutor.this, "no available requests found", Toast.LENGTH_SHORT).show();
                         }
 
                         arrayAdapter.notifyDataSetChanged();
