@@ -3153,6 +3153,140 @@ namespace ToDoList
             }
         }
 
+        public EnableTutoringResponseItem EnableTutoring(EnableTutoringRequestItem item)
+        {
+            // Check that the user token is valid
+            if (checkUserToken(item.userEmail, item.userToken))
+            {
+                // Check to see if the user already has tutoring enabled
+                if (checkTutorEligibility(item.userEmail))
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    return new EnableTutoringResponseItem();
+                }
+                // Enable tutoring for the user if they are eligible
+                else
+                {
+                    // Check to see if the user is eligible -- make sure they have less than 5 reported tutor incidents 
+                    int incidentCount = -1;
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+
+                            // Get the count of all the reported tutor incidents
+                            command.CommandText = "SELECT count(*) AS count FROM reported_tutors WHERE tutorEmail = ?tutorEmail;";
+                            command.Parameters.AddWithValue("tutorEmail", item.userEmail);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    incidentCount = reader.GetInt32("count");
+                                }
+                            }
+
+                            // Make sure there are less than 5 reported tutor incidents
+                            if (incidentCount < 5)
+                            {
+                                command.CommandText = "UPDATE users SET tutor_eligible = ?eligibleFlag WHERE email = ?tutorEmail";
+                                command.Parameters.AddWithValue("eligibleFlag", 1);
+
+                                if (command.ExecuteNonQuery() > 0)
+                                {
+                                    // Tutor eligibility activated successfully
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    return new EnableTutoringResponseItem();
+                                }
+                                else
+                                {
+                                    // Something went wrong updating the tutor_eligible field
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new EnableTutoringResponseItem();
+                                }
+                            }
+                            else
+                            {
+                                // User has too many reported tutor incidents
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                                return new EnableTutoringResponseItem();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // User's email & token combo is not valid
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                return new EnableTutoringResponseItem();
+            }
+        }
+
+        public DisableTutoringResponseItem DisableTutoring(DisableTutoringRequestItem item)
+        {
+            // Check that the user token is valid
+            if (checkUserToken(item.userEmail, item.userToken))
+            {
+                // Check to see if the user already has tutoring disabled
+                if (checkTutorEligibility(item.userEmail))
+                {
+                    // Disable tutoring for account 
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+
+                            command.CommandText = "UPDATE users SET tutor_eligible = ?eligibleFlag WHERE email = ?tutorEmail";
+                            command.Parameters.AddWithValue("tutorEmail", item.userEmail);
+                            command.Parameters.AddWithValue("eligibleFlag", 0);
+
+                            if (command.ExecuteNonQuery() > 0)
+                            {
+                                // Tutor deactivated successfully
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                return new DisableTutoringResponseItem();
+                            }
+                            else
+                            {
+                                // Something went wrong with updating the tutor_eligible field
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                return new DisableTutoringResponseItem();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                    }
+                }
+                // Tutor eligibility is already disabled
+                else
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                    return new DisableTutoringResponseItem();   
+                }
+            }
+            else
+            {
+                // User's email & token combo is not valid
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                return new DisableTutoringResponseItem();
+            }
+        }
 
         ////////////////////
         // Helper Functions 

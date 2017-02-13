@@ -978,5 +978,33 @@ namespace ToDoList
         [DataMember]
         public List<String> enrolledTutorClasses { get; set; }
     }
+
+    public class EnableTutoringRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class EnableTutoringResponseItem
+    {
+        
+    }
+
+    public class DisableTutoringRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class DisableTutoringResponseItem
+    {
+
+    }
 }
 

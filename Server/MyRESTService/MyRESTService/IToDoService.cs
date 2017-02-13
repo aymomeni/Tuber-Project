@@ -293,5 +293,21 @@ namespace ToDoList
            ResponseFormat = WebMessageFormat.Json,
            BodyStyle = WebMessageBodyStyle.Bare)]
         RemoveTutorClassesResponseItem RemoveTutorClasses(RemoveTutorClassesRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/enabletutoring",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        EnableTutoringResponseItem EnableTutoring(EnableTutoringRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+          UriTemplate = "/disabletutoring",
+          RequestFormat = WebMessageFormat.Json,
+          ResponseFormat = WebMessageFormat.Json,
+          BodyStyle = WebMessageBodyStyle.Bare)]
+        DisableTutoringResponseItem DisableTutoring(DisableTutoringRequestItem data);
     }
 }
