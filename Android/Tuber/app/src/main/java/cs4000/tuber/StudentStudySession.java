@@ -1,5 +1,6 @@
 package cs4000.tuber;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class StudentStudySession extends AppCompatActivity {
+public class StudentStudySession extends Activity {
 
     Button rate_tutor;
 

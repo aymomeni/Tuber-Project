@@ -87,7 +87,9 @@
             android:label="@string/title_activity_studysession" />
         <activity
             android:name=".StudentStudySession"
-            android:label="@string/title_activity_student_study_session2"></activity>
+            android:label="@string/title_activity_student_study_session2" />
+        <activity android:name=".TutoringRequests" />
+        <activity android:name=".ScheduleATutor"></activity>
     </application>
 
 </manifest>

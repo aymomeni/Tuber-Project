@@ -108,7 +108,7 @@ public class ImmediateStudentRequestActivity extends Activity {
 
         setTitle("Nearby Tutors");
 
-        tutorsListView = (ListView) findViewById(R.id.tutorListView);
+        tutorsListView = (ListView) findViewById(R.id.requestsListId);
 
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, requests);
         requests.clear();
