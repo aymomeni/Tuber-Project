@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,6 +35,7 @@ public class AvailableRequestPage extends AppCompatActivity {
     TextView durationTextView;
     Button sessionButton;
 
+    boolean acceptedRequest = false;
 
     Intent intent;
 
@@ -73,32 +75,48 @@ public class AvailableRequestPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                JSONObject obj = new JSONObject();
-                try {
-                    obj.put("userEmail", _userEmail);
-                    obj.put("userToken", _userToken);
-                    obj.put("studentEmail", studentEmail);
-                    obj.put("course", course);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                ConnectionTask task = new ConnectionTask(obj);
-                task.accept_student_scheduled_request(new ConnectionTask.CallBack() {
-                    @Override
-                    public void Done(JSONObject result) {
+                if(!acceptedRequest){
 
-                        if(result != null) {
-
-                            Toast.makeText(AvailableRequestPage.this, "You have accepted the resquest Successfully. You can now view the session"
-                                    , Toast.LENGTH_LONG).show();
-                            sessionButton.setText("VIEW SESSION");
-                        } else {
-                            Toast.makeText(AvailableRequestPage.this, "Something went wrong! Try again"
-                                    , Toast.LENGTH_LONG).show();
-                        }
-
+                    JSONObject obj = new JSONObject();
+                    try {
+                        obj.put("userEmail", _userEmail);
+                        obj.put("userToken", _userToken);
+                        obj.put("studentEmail", studentEmail);
+                        obj.put("course", course);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                });
+                    ConnectionTask task = new ConnectionTask(obj);
+                    task.accept_student_scheduled_request(new ConnectionTask.CallBack() {
+                        @Override
+                        public void Done(JSONObject result) {
+
+                            if (result != null) {
+                                TutoringRequestsTutor.getInstance().finish();
+
+                                Toast.makeText(AvailableRequestPage.this, "You have accepted the resquest successfully. You can now view the session"
+                                        , Toast.LENGTH_LONG).show();
+                                sessionButton.setText("VIEW SESSION");
+
+                                acceptedRequest = true;
+                            } else {
+                                Toast.makeText(AvailableRequestPage.this, "Something went wrong! Try again"
+                                        , Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    });
+
+                } else {
+
+                    Intent intent = new Intent(AvailableRequestPage.this, Studysession.class);
+                    intent.putExtra("status", "0");
+                    intent.putExtra("dateTime", dateTime);
+                    Log.i("@from","Im HERE ");
+                    intent.putExtra("from", "scheduling");
+                    startActivity(intent);
+                    //finish();
+                }
 
             }
         });

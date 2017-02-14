@@ -20,6 +20,13 @@ import java.util.ArrayList;
 
 public class TutoringRequestsTutor extends Activity {
 
+
+    public static TutoringRequestsTutor getInstance(){
+        return activity;
+    }
+    static TutoringRequestsTutor activity;
+
+
     ListView requestsListView;
     //ListView acceptedRequestsListView;
     ArrayList<String> requests = new ArrayList<String>();
@@ -40,6 +47,8 @@ public class TutoringRequestsTutor extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutoring_requests_tutor);
+
+        activity = this;
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");

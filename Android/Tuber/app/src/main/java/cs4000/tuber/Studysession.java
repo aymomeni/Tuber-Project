@@ -67,6 +67,7 @@ public class Studysession extends Activity {
         _course = intent.getStringExtra("course");
 
         String state = intent.getStringExtra("status");
+        String fromwhere = intent.getStringExtra("from");
 
         if(state.equals("1")){
             session_switch.setChecked(true);
@@ -116,20 +117,42 @@ public class Studysession extends Activity {
                         sesssion_info.put("userEmail", _userEmail);
                         sesssion_info.put("userToken", _userToken);
                         sesssion_info.put("course", "CS 2420");
+
+
+                        //intent.putExtra("from", "scheduling");
+
+                        String from = intent.getStringExtra("from");
+                        Log.i("@from",from);
+                        if(from != null && from.equals("scheduling")) {
+                            sesssion_info.put("dateTime", intent.getStringExtra("dateTime"));
+                            ConnectionTask task = new ConnectionTask(sesssion_info);
+                            task.start_scheduled_tutor_session(new ConnectionTask.CallBack() {
+                                @Override
+                                public void Done(JSONObject result) {
+                                    if (result != null) {
+                                        Log.i("@start_scheduled_sessin", "session started!");
+                                    } else {
+                                        Log.i("@start_scheduled_sessin", "start session failed!");
+                                    }
+                                }
+                            });
+
+                        } else {
+                            ConnectionTask task = new ConnectionTask(sesssion_info);
+                            task.start_tutor_session(new ConnectionTask.CallBack() {
+                                @Override
+                                public void Done(JSONObject result) {
+                                    if (result != null) {
+                                        Log.i("@start_tutor_session", "session started!");
+                                    } else {
+                                        Log.i("@start_tutor_session", "start session failed!");
+                                    }
+                                }
+                            });
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    ConnectionTask task = new ConnectionTask(sesssion_info);
-                    task.start_tutor_session(new ConnectionTask.CallBack() {
-                        @Override
-                        public void Done(JSONObject result) {
-                            if(result != null){
-                                Log.i("@start_tutor_session","session started!");
-                            } else {
-                                Log.i("@start_tutor_session","start session failed!");
-                            }
-                        }
-                    });
                 } else {
                     // The toggle is disabled
                     JSONObject sesssion_info = new JSONObject();

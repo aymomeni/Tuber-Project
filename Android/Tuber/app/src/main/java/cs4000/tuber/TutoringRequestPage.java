@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -70,5 +71,15 @@ public class TutoringRequestPage extends AppCompatActivity {
         topicTextView.setText(topic);
         dateTimeTextView.setText(dateTime);
         durationTextView.setText(duration);
+
+        sessionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TutoringRequestPage.this, StudentStudySession.class);
+                //intent.putExtra("status", "0");
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }
