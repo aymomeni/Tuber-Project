@@ -46,6 +46,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import jp.wasabeef.recyclerview.animators.*;
+import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+
 import static cs4000.tuber.R.id.swipeContainer;
 
 /*
@@ -118,7 +122,9 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
         //_studentLongitude = lastKnownLocation.getLongitude();
 
         // Lookup the recyclerview in activity layout
-        RecyclerView Persons_rv = (RecyclerView) findViewById(R.id.persons_rv);
+        Persons_rv = (RecyclerView) findViewById(R.id.persons_rv);
+        Persons_rv.setHasFixedSize(true);
+        Persons_rv.setItemAnimator(new SlideInUpAnimator());
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading

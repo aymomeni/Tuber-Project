@@ -17,7 +17,7 @@ public class PersonsActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeContainer;
 
-    ArrayList<Person> persons;
+    ArrayList<Person> persons = new ArrayList<Person>();
 
     PersonAdapter adapter;
 
@@ -29,6 +29,7 @@ public class PersonsActivity extends AppCompatActivity {
 
         // Lookup the recyclerview in activity layout
         RecyclerView Persons_rv = (RecyclerView) findViewById(R.id.persons_rv);
+        Persons_rv.setItemAnimator(new SlideInUpAnimator());
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
 
         // Setup refresh listener which triggers new data loading
@@ -59,11 +60,7 @@ public class PersonsActivity extends AppCompatActivity {
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
 
                         if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
-//                            TextView temoV = (TextView) v.findViewById(R.id.contact_name);
-//                            //Contact temp = contacts.get(position);
-//                            // We can access the data within the views
-//                            temoV.setText("Changed");
-//                            Toast.makeText(getBaseContext(), temoV.getText(), Toast.LENGTH_SHORT).show();
+                            adapter.add(new Person("Hello", 5.5));
                         }
 
                     }
@@ -84,9 +81,11 @@ public class PersonsActivity extends AppCompatActivity {
 
 
         // Initialize contacts
-        persons = Person.createPersonsList(20);
+        ArrayList<Person> persons1 = Person.createPersonsList(20);
         // Create adapter passing in the sample user data
         adapter = new PersonAdapter(this, persons);
+
+        adapter.addAll(persons1);
         // Set layout manager to position the items
         Persons_rv.setLayoutManager(new LinearLayoutManager(this));
         // Attach the adapter to the recyclerview to populate items

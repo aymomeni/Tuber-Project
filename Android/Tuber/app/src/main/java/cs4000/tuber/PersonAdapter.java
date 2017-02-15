@@ -78,26 +78,58 @@ public class PersonAdapter extends
 
     // Clean all elements of the recycler
     public void clear() {
-        Persons.clear();
-        notifyDataSetChanged();
+        int curSize = getItemCount();
+        //Persons.clear();
+        //notifyDataSetChanged();
+        for(int i = 0; i < curSize; i++) {
+            this.remove(0);
+        }
     }
 
     // Add a list of items
     public void addAll(List<Person> list) {
+
+//        for (Person p: list) {
+//            this.add(p);
+//            try {
+//                Thread.sleep(5000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }
+
+        int curSize = getItemCount();
         Persons.addAll(list);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(curSize, list.size());
     }
 
     // Add a list of items
     public void add(Person person) {
         Persons.add(person);
-        notifyDataSetChanged();
+        notifyItemInserted(Persons.size() - 1);
+        //scrollToPosition(mAdapter.getItemCount() - 1);
+    }
+
+    // Add a list of items
+    public void add(Person person, int i) {
+        Persons.add(i, person);
+        notifyItemInserted(i);
+        //scrollToPosition(mAdapter.getItemCount() - 1);
+    }
+
+    // Add a list of items
+    public void remove(Person person) {
+        int curPos = Persons.indexOf(person);
+        Persons.remove(person);
+        notifyItemRemoved(curPos);
+        //notifyDataSetChanged();
     }
 
     // Add a list of items
     public void remove(int i) {
         Persons.remove(i);
-        notifyDataSetChanged();
+        notifyItemRemoved(i);
+        //notifyDataSetChanged();
     }
 
     // Usually involves inflating a layout from XML and returning the holder
