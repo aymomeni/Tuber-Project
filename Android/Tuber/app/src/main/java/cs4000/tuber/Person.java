@@ -13,6 +13,9 @@ public class Person {
     private String lastName;
     private Double distance;
 
+    private Double Longitude;
+    private Double Latitudes;
+
     public static int lastContactId = 0;
 
     public Person(String userEmail, Double miles) {
@@ -61,5 +64,21 @@ public class Person {
         }
 
         return persons;
+    }
+
+    public Double getLongitude() {
+        return Longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        Longitude = longitude;
+    }
+
+    public Double getLatitudes() {
+        return Latitudes;
+    }
+
+    public void setLatitudes(Double latitudes) {
+        Latitudes = latitudes;
     }
 }

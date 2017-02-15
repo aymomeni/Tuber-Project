@@ -88,6 +88,18 @@ public class PersonAdapter extends
         notifyDataSetChanged();
     }
 
+    // Add a list of items
+    public void add(Person person) {
+        Persons.add(person);
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items
+    public void remove(int i) {
+        Persons.remove(i);
+        notifyDataSetChanged();
+    }
+
     // Usually involves inflating a layout from XML and returning the holder
     @Override
     public PersonAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
