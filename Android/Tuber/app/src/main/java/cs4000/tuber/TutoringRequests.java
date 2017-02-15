@@ -31,6 +31,11 @@ public class TutoringRequests extends Activity {
 
     ArrayAdapter arrayAdapter;
 
+    public static TutoringRequests getInstance(){
+        return activity;
+    }
+    static TutoringRequests activity;
+
     private SharedPreferences sharedPreferences;
     private String _userEmail;
     private String _userToken;
@@ -39,6 +44,8 @@ public class TutoringRequests extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutoring_requests);
+
+        activity = this;
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");

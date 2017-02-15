@@ -92,7 +92,8 @@
         <activity android:name=".ScheduleATutor" />
         <activity android:name=".TutoringRequestPage" />
         <activity android:name=".TutoringRequestsTutor" />
-        <activity android:name=".AvailableRequestPage"></activity>
+        <activity android:name=".AvailableRequestPage" />
+        <activity android:name=".PersonsActivity"></activity>
     </application>
 
 </manifest>

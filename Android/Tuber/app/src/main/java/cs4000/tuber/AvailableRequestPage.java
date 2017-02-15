@@ -35,6 +35,11 @@ public class AvailableRequestPage extends AppCompatActivity {
     TextView durationTextView;
     Button sessionButton;
 
+    public static AvailableRequestPage getInstance(){
+        return activity;
+    }
+    static AvailableRequestPage activity;
+
     boolean acceptedRequest = false;
 
     Intent intent;
@@ -45,6 +50,7 @@ public class AvailableRequestPage extends AppCompatActivity {
         setContentView(R.layout.activity_available_request_page);
 
         intent = getIntent();
+        activity = this;
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");
@@ -109,13 +115,45 @@ public class AvailableRequestPage extends AppCompatActivity {
 
                 } else {
 
-                    Intent intent = new Intent(AvailableRequestPage.this, Studysession.class);
-                    intent.putExtra("status", "0");
-                    intent.putExtra("dateTime", dateTime);
-                    Log.i("@from","Im HERE ");
-                    intent.putExtra("from", "scheduling");
-                    startActivity(intent);
-                    //finish();
+                    JSONObject obj2 = new JSONObject();
+                    try{
+                        obj2.put("userEmail", _userEmail);
+                        obj2.put("userToken", _userToken);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    ConnectionTask check_session_status = new ConnectionTask(obj2);
+                    check_session_status.check_session_status(new ConnectionTask.CallBack() {
+                        @Override
+                        public void Done(JSONObject result) {
+                            if(result != null){
+                                Log.i("@check_session_status", "check session completed");
+
+                                try {
+
+                                    String status = result.getString("session_status");
+                                    Intent intent2 = new Intent(AvailableRequestPage.this, Studysession.class);
+                                    if(status.equals("active")){ // only offered but looking to pair
+                                        intent2.putExtra("status", "1");
+                                    } else { // session has ended
+                                        intent2.putExtra("status", "0");
+                                    }
+
+                                    intent2.putExtra("dateTime", dateTime);
+                                    Log.i("@from","Im HERE ");
+                                    intent2.putExtra("from", "scheduling");
+                                    startActivity(intent2);
+                                    //finish();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                            } else {
+                                Log.i("@check_session_status", "check session status failed!"); // has not offered yet
+                            }
+                        }
+                    });
+
                 }
 
             }

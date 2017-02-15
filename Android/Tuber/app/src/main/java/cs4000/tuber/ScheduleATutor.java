@@ -31,7 +31,7 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
     String course = "CS 2420";
     String topic;
     String dateTime;
-    String duration = "1.0";
+    String duration = "1";
     private SharedPreferences sharedPreferences;
 
 
@@ -174,16 +174,9 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal){
                 //Display the newly selected number from picker
-                //duration = String.valueOf(newVal);
+                duration = String.valueOf(newVal);
             }
         });
-
-//        np.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
     }
 
     @Override

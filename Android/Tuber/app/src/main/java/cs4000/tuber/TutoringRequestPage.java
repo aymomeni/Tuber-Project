@@ -35,12 +35,19 @@ public class TutoringRequestPage extends AppCompatActivity {
 
     Intent intent;
 
+    public static TutoringRequestPage getInstance(){
+        return activity;
+    }
+    static TutoringRequestPage activity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutoring_request_page);
 
         intent = getIntent();
+
+        activity = this;
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");
@@ -78,7 +85,7 @@ public class TutoringRequestPage extends AppCompatActivity {
                 Intent intent = new Intent(TutoringRequestPage.this, StudentStudySession.class);
                 //intent.putExtra("status", "0");
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
     }

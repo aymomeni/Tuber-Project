@@ -92,7 +92,9 @@ public class StudentStudySession extends Activity {
                             Toast.makeText(getBaseContext(),
                                     "Thank you for your feedback. Your rating has been submitted successfully",
                                     Toast.LENGTH_LONG).show();
+
                             rate_tutor.setClickable(false);
+                            finish();
                         } else {
                             Toast.makeText(getBaseContext(),
                                     "Something went wrong! Please try again in a moment",
@@ -143,6 +145,9 @@ public class StudentStudySession extends Activity {
                                 Toast.LENGTH_LONG).show();
 
                         session_id = result.getString("tutorSessionID");
+
+                        if(TutoringRequestPage.getInstance() != null) {TutoringRequestPage.getInstance().finish();}
+                        if(TutoringRequests.getInstance() != null) {TutoringRequests.getInstance().finish();}
 
                     } else if(result != null) {
 
