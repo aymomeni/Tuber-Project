@@ -96,11 +96,19 @@ namespace ToDoList
 
         [OperationContract]
         [WebInvoke(Method = "POST",
-            UriTemplate = "/starttutorsession",
+            UriTemplate = "/starttutorsessiontutor",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        StartTutorSessionResponseItem StartTutorSession(StartTutorSessionItem data);
+        StartTutorSessionTutorResponseItem StartTutorSessionTutor(StartTutorSessionTutorItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/starttutorsessionstudent",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StartTutorSessionStudentResponseItem StartTutorSessionStudent(StartTutorSessionStudentItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -232,11 +240,19 @@ namespace ToDoList
 
         [OperationContract]
         [WebInvoke(Method = "POST",
-            UriTemplate = "/startscheduledtutorsession",
+            UriTemplate = "/startscheduledtutorsessiontutor",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        StartScheduledTutorSessionResponseItem StartScheduledTutorSession(StartScheduledTutorSessionItem data);
+        StartScheduledTutorSessionTutorResponseItem StartScheduledTutorSessionTutor(StartScheduledTutorSessionTutorItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/startscheduledtutorsessionstudent",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StartScheduledTutorSessionStudentResponseItem StartScheduledTutorSessionStudent(StartScheduledTutorSessionStudentItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",

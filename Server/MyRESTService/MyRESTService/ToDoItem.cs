@@ -370,7 +370,7 @@ namespace ToDoList
         public string studentLongitude { get; set; }
     }
 
-    public class StartTutorSessionItem
+    public class StartTutorSessionTutorItem
     {
         [DataMember]
         public string userEmail { get; set; }
@@ -382,9 +382,26 @@ namespace ToDoList
         public string course { get; set; }
     }
 
-    public class StartTutorSessionResponseItem
+    public class StartTutorSessionTutorResponseItem
     {
         
+    }
+
+    public class StartTutorSessionStudentItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+    }
+
+    public class StartTutorSessionStudentResponseItem
+    {
+
     }
 
     public class EndTutorSessionRequestItem
@@ -786,7 +803,7 @@ namespace ToDoList
         public List<FindAllScheduleTutorAcceptedItem> tutorRequestItems { get; set; }
     }
 
-    public class StartScheduledTutorSessionItem
+    public class StartScheduledTutorSessionTutorItem
     {
         [DataMember]
         public string userEmail { get; set; }
@@ -801,9 +818,29 @@ namespace ToDoList
         public string dateTime { get; set; }
     }
 
-    public class StartScheduledTutorSessionResponseItem
+    public class StartScheduledTutorSessionTutorResponseItem
     {
         
+    }
+
+    public class StartScheduledTutorSessionStudentItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string dateTime { get; set; }
+    }
+
+    public class StartScheduledTutorSessionStudentResponseItem
+    {
+
     }
 
     public class ReportTutorGetTutorListRequestItem
