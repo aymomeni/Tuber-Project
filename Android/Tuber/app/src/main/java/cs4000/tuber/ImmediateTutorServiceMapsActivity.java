@@ -104,65 +104,77 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
         ConnectionTask checkstatust = new ConnectionTask(obj);
         checkstatust.check_paired_status(new ConnectionTask.CallBack() {
             @Override
-            public void Done(JSONObject result) {
+            public void Done(final JSONObject result) {
                 try {
                     if(result != null && !result.get("studentEmail").equals(null)){
                         offerToTutorButton.setVisibility(View.INVISIBLE);
 
-                        if (initial_pairing == true) {
-                            // pairing complete
-                            final AlertDialog dialog = new AlertDialog.Builder(ImmediateTutorServiceMapsActivity.this)
-                                    .setTitle("Paired")
-                                    .setMessage("You paired successfully with a Student.")
-                                    .setCancelable(false)
-                                    .setNeutralButton("Directions", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            Intent directionsIntent = new Intent(Intent.ACTION_VIEW,
-                                                    Uri.parse("http://maps.google.com/maps?saddr=" + intent.getDoubleExtra("tutorLatitude", 0) + "," + intent.getDoubleExtra("tutorLongitude", 0) + "&daddr=" + intent.getDoubleExtra("requestLatitude", 0) + "," + intent.getDoubleExtra("requestLongitude", 0)));
-                                            startActivity(directionsIntent);
-                                        }
-                                    })
-                                    .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.cancel();
-                                        }
-                                    }).show();
+                        //if (initial_pairing == true) {
+                        // pairing complete
+                        final AlertDialog dialog = new AlertDialog.Builder(ImmediateTutorServiceMapsActivity.this)
+                                .setTitle("Paired")
+                                .setMessage("You paired successfully with a Student.")
+                                .setCancelable(false)
+                                .setNeutralButton("Directions", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent directionsIntent = new Intent(Intent.ACTION_VIEW,
+                                                Uri.parse("http://maps.google.com/maps?saddr=" + intent.getDoubleExtra("tutorLatitude", 0) + "," + intent.getDoubleExtra("tutorLongitude", 0) + "&daddr=" + intent.getDoubleExtra("requestLatitude", 0) + "," + intent.getDoubleExtra("requestLongitude", 0)));
+                                        startActivity(directionsIntent);
+                                    }
+                                })
+                                .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                }).show();
 
-                            studentLatitude = result.getString("studentLatitude");
-                            studentLongitude = result.getString("studentLongitude");
+                        studentLatitude = result.getString("studentLatitude");
+                        studentLongitude = result.getString("studentLongitude");
 
-                            LatLng studentLocationLatLng = new LatLng(Double.parseDouble(studentLatitude), Double.parseDouble(studentLongitude));
-                            LatLng requestLocationLatLng = new LatLng(Double.parseDouble(tutorLatitude), Double.parseDouble(tutorLongitude));
+                        LatLng studentLocationLatLng = new LatLng(Double.parseDouble(studentLatitude), Double.parseDouble(studentLongitude));
+                        LatLng requestLocationLatLng = new LatLng(Double.parseDouble(tutorLatitude), Double.parseDouble(tutorLongitude));
 
-                            ArrayList<Marker> markers = new ArrayList<>();
-                            mMap.clear(); // clears all existing markers
-                            markers.add(mMap.addMarker(new MarkerOptions().position(requestLocationLatLng).title("Your Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
-                            markers.add(mMap.addMarker(new MarkerOptions().position(studentLocationLatLng).title("Student Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))));
+                        ArrayList<Marker> markers = new ArrayList<>();
+                        mMap.clear(); // clears all existing markers
+                        markers.add(mMap.addMarker(new MarkerOptions().position(requestLocationLatLng).title("Your Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
+                        markers.add(mMap.addMarker(new MarkerOptions().position(studentLocationLatLng).title("Student Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))));
 
-                            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-                            for (Marker marker : markers) {
-                                builder.include(marker.getPosition());
-                            }
-                            LatLngBounds bounds = builder.build();
-
-                            int padding = 60;
-                            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-
-                            mMap.animateCamera(cu);
-
-
-
-
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    dialog.dismiss();
-                                }
-                            }, 4000);
+                        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                        for (Marker marker : markers) {
+                            builder.include(marker.getPosition());
                         }
-                        initial_pairing = false;
+                        LatLngBounds bounds = builder.build();
+
+                        int padding = 60;
+                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+
+                        mMap.animateCamera(cu);
+
+
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                dialog.dismiss();
+
+                                try {
+                                    if(Double.valueOf(result.getString("distanceFromStudent")) < 0.5){
+
+
+                                        Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+                                        intent.putExtra("status", "0");
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, 4000);
+
+                        //}
+                        //initial_pairing = false;
 
 
                     } else { // no student accepted yet

@@ -106,5 +106,4 @@ public class CourseViewActivityNew extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.activity_main_actions, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
 }

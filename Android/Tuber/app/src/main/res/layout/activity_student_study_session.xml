@@ -27,7 +27,8 @@
         android:layout_marginRight="80dp"
         android:layout_below="@+id/rating_tutor_bar"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="50dp"
+        android:enabled="false" />
 
     <TextView
         android:text="@string/rating_text_student"

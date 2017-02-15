@@ -718,7 +718,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 */
 	public void start_scheduled_tutor_session(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
-		this.execute("/scheduletutor", jsonParam.toString());
+		this.execute("/startscheduledtutorsession", jsonParam.toString());
 	}
 
 	/************************************************************

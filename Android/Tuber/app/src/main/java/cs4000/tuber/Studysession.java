@@ -30,10 +30,11 @@ public class Studysession extends Activity {
 
     private String _userEmail;
     private String _userToken;
-    private String _course;
+    private String _course = "CS 2420";
     private String session_id;
     private String studentEmail;
 
+    private String from;
 //    public void onBackPressed()
 //    {
 //        super.onBackPressed();
@@ -67,6 +68,7 @@ public class Studysession extends Activity {
         _course = intent.getStringExtra("course");
 
         String state = intent.getStringExtra("status");
+        from = intent.getStringExtra("from");
 
         if(state.equals("1")){
             session_switch.setChecked(true);
@@ -95,6 +97,7 @@ public class Studysession extends Activity {
                                     "Thank you for your feedback. Your rating has been submitted successfully",
                                     Toast.LENGTH_LONG).show();
                             submitRating_button.setClickable(false);
+                            finish();
                         } else {
                             Toast.makeText(getBaseContext(),
                                     "Something went wrong! Please try again in a moment",
@@ -116,20 +119,42 @@ public class Studysession extends Activity {
                         sesssion_info.put("userEmail", _userEmail);
                         sesssion_info.put("userToken", _userToken);
                         sesssion_info.put("course", "CS 2420");
+
+
+                        //intent.putExtra("from", "scheduling");
+
+                        //String from = intent.getStringExtra("from");
+                        //Log.i("@from",from);
+                        if(from != null && from.equals("scheduling")) {
+                            sesssion_info.put("dateTime", intent.getStringExtra("dateTime"));
+                            ConnectionTask task = new ConnectionTask(sesssion_info);
+                            task.start_scheduled_tutor_session(new ConnectionTask.CallBack() {
+                                @Override
+                                public void Done(JSONObject result) {
+                                    if (result != null) {
+                                        Log.i("@start_scheduled_sessin", "session started!");
+                                    } else {
+                                        Log.i("@start_scheduled_sessin", "start session failed!");
+                                    }
+                                }
+                            });
+
+                        } else {
+                            ConnectionTask task = new ConnectionTask(sesssion_info);
+                            task.start_tutor_session(new ConnectionTask.CallBack() {
+                                @Override
+                                public void Done(JSONObject result) {
+                                    if (result != null) {
+                                        Log.i("@start_tutor_session", "session started!");
+                                    } else {
+                                        Log.i("@start_tutor_session", "start session failed!");
+                                    }
+                                }
+                            });
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    ConnectionTask task = new ConnectionTask(sesssion_info);
-                    task.start_tutor_session(new ConnectionTask.CallBack() {
-                        @Override
-                        public void Done(JSONObject result) {
-                            if(result != null){
-                                Log.i("@start_tutor_session","session started!");
-                            } else {
-                                Log.i("@start_tutor_session","start session failed!");
-                            }
-                        }
-                    });
                 } else {
                     // The toggle is disabled
                     JSONObject sesssion_info = new JSONObject();
@@ -160,7 +185,9 @@ public class Studysession extends Activity {
 //                        "sessionStartTime": "01,31,2017 11:45:19 AM",
 //                        "studentEmail": "brandontobin2@cox.net",
 //                        "userEmail": "brandontobin@cox.net"
-
+                                if(from != null && from.equals("scheduling")) {
+                                    AvailableRequestPage.getInstance().finish();
+                                }
                                 Log.i("@end_tutor_session","session ended!");
                             } else {
                                 Log.i("@end_tutor_session","end session failed!");
