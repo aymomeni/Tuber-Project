@@ -46,9 +46,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import jp.wasabeef.recyclerview.animators.*;
-import jp.wasabeef.recyclerview.animators.FadeInAnimator;
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+//import jp.wasabeef.recyclerview.animators.*;
+//import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+//import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 import static cs4000.tuber.R.id.swipeContainer;
 
@@ -90,8 +90,6 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
 
     LocationManager locationManager;
     LocationListener locationListener;
-
-    private Button ref_button;
 
     private Intent intent;
 
@@ -174,9 +172,6 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                     }
                 }
         );
-
-
-        ref_button = (Button) findViewById(R.id.Refresh_button);
 
         setTitle("Nearby Tutors");
 

@@ -70,6 +70,7 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_atutor);
+        setTitle("Schedule A Tutor Request");
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _username = sharedPreferences.getString("userEmail", "");

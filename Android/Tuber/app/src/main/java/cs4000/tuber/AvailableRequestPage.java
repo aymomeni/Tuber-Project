@@ -48,6 +48,7 @@ public class AvailableRequestPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_available_request_page);
+        setTitle("Open Request");
 
         intent = getIntent();
         activity = this;
@@ -83,36 +84,42 @@ public class AvailableRequestPage extends AppCompatActivity {
 
                 if(!acceptedRequest){
 
-                    JSONObject obj = new JSONObject();
-                    try {
-                        obj.put("userEmail", _userEmail);
-                        obj.put("userToken", _userToken);
-                        obj.put("studentEmail", studentEmail);
-                        obj.put("course", course);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    ConnectionTask task = new ConnectionTask(obj);
-                    task.accept_student_scheduled_request(new ConnectionTask.CallBack() {
-                        @Override
-                        public void Done(JSONObject result) {
+                    if(!_userEmail.equals(studentEmail)){
 
-                            if (result != null) {
-                                TutoringRequestsTutor.getInstance().finish();
-
-                                Toast.makeText(AvailableRequestPage.this, "You have accepted the resquest successfully. You can now view the session"
-                                        , Toast.LENGTH_LONG).show();
-                                sessionButton.setText("VIEW SESSION");
-
-                                acceptedRequest = true;
-                            } else {
-                                Toast.makeText(AvailableRequestPage.this, "Something went wrong! Try again"
-                                        , Toast.LENGTH_LONG).show();
-                            }
-
+                        JSONObject obj = new JSONObject();
+                        try {
+                            obj.put("userEmail", _userEmail);
+                            obj.put("userToken", _userToken);
+                            obj.put("studentEmail", studentEmail);
+                            obj.put("course", course);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-                    });
+                        ConnectionTask task = new ConnectionTask(obj);
+                        task.accept_student_scheduled_request(new ConnectionTask.CallBack() {
+                            @Override
+                            public void Done(JSONObject result) {
 
+                                if (result != null) {
+                                    TutoringRequestsTutor.getInstance().finish();
+
+                                    Toast.makeText(AvailableRequestPage.this, "You have accepted the resquest successfully. You can now view the session"
+                                            , Toast.LENGTH_LONG).show();
+                                    sessionButton.setText("VIEW SESSION");
+
+                                    acceptedRequest = true;
+                                } else {
+                                    Toast.makeText(AvailableRequestPage.this, "Something went wrong! Try again"
+                                            , Toast.LENGTH_LONG).show();
+                                }
+
+                            }
+                        });
+
+                    } else {
+                        Toast.makeText(AvailableRequestPage.this, "You can't accept a request that belongs to you"
+                                , Toast.LENGTH_LONG).show();
+                    }
                 } else {
 
                     JSONObject obj2 = new JSONObject();
