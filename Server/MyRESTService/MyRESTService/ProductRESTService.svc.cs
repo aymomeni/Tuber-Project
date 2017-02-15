@@ -825,7 +825,7 @@ namespace ToDoList
             }
         }
 
-        public GetSessionStatusResponseItem GetSessionStatus(GetSessionStatusRequestItem item)
+        public GetSessionStatusTutorResponseItem GetSessionStatusTutor(GetSessionStatusTutorRequestItem item)
         {
             lock (this)
             {
@@ -862,84 +862,83 @@ namespace ToDoList
                                     // Check to see if the tutor is in the tutor_sessions_pairing table
                                     command.CommandText = "SELECT * FROM tutor_sessions_pairing WHERE tutorEmail = ?userEmail";
 
-                                    //PairedStatusItem pairedStatus = new PairedStatusItem();
-
                                     using (MySqlDataReader reader = command.ExecuteReader())
                                     {
                                         while (reader.Read())
                                         {
                                             returnedTutorEmail = reader.GetString("tutorEmail");
-                                            //pairedStatus.studentEmail = reader.GetString("studentEmail");
-                                            //pairedStatus.userEmail = reader.GetString("tutorEmail");
-                                            //pairedStatus.tutorCourse = reader.GetString("course");
-                                            //pairedStatus.studentLatitude = reader.GetDouble("studentLatitude");
-                                            //pairedStatus.studentLongitude = reader.GetDouble("studentLongitude");
-                                            //pairedStatus.tutorLatitude = reader.GetDouble("tutorLatitude");
-                                            //pairedStatus.tutorLongitude = reader.GetDouble("tutorLongitude");
                                         }
                                     }
 
                                     if (returnedTutorEmail == "" || returnedTutorEmail == null)
                                     {
-                                        command.CommandText = "SELECT * FROM tutor_sessions_active WHERE tutorEmail = ?userEmail";
+                                        // Check to see if the tutor is in the tutor_sessions_pending table
+                                        command.CommandText = "SELECT * FROM tutor_sessions_pending WHERE tutorEmail = ?userEmail";
 
                                         using (MySqlDataReader reader = command.ExecuteReader())
                                         {
                                             while (reader.Read())
                                             {
                                                 returnedTutorEmail = reader.GetString("tutorEmail");
-                                                //pairedStatus.studentEmail = reader.GetString("studentEmail");
-                                                //pairedStatus.userEmail = reader.GetString("tutorEmail");
-                                                //pairedStatus.tutorCourse = reader.GetString("course");
-                                                //pairedStatus.studentLatitude = reader.GetDouble("studentLatitude");
-                                                //pairedStatus.studentLongitude = reader.GetDouble("studentLongitude");
-                                                //pairedStatus.tutorLatitude = reader.GetDouble("tutorLatitude");
-                                                //pairedStatus.tutorLongitude = reader.GetDouble("tutorLongitude");
                                             }
                                         }
 
                                         if (returnedTutorEmail == "" || returnedTutorEmail == null)
                                         {
-                                            command.CommandText = "SELECT * FROM tutor_sessions_completed WHERE tutorEmail = ?userEmail";
+                                            // Check to see if the tutor is in the tutor_sessions_active table
+                                            command.CommandText = "SELECT * FROM tutor_sessions_active WHERE tutorEmail = ?userEmail";
 
                                             using (MySqlDataReader reader = command.ExecuteReader())
                                             {
                                                 while (reader.Read())
                                                 {
                                                     returnedTutorEmail = reader.GetString("tutorEmail");
-                                                    //pairedStatus.studentEmail = reader.GetString("studentEmail");
-                                                    //pairedStatus.userEmail = reader.GetString("tutorEmail");
-                                                    //pairedStatus.tutorCourse = reader.GetString("course");
-                                                    //pairedStatus.studentLatitude = reader.GetDouble("studentLatitude");
-                                                    //pairedStatus.studentLongitude = reader.GetDouble("studentLongitude");
-                                                    //pairedStatus.tutorLatitude = reader.GetDouble("tutorLatitude");
-                                                    //pairedStatus.tutorLongitude = reader.GetDouble("tutorLongitude");
                                                 }
                                             }
 
                                             if (returnedTutorEmail == "" || returnedTutorEmail == null)
                                             {
-                                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
-                                                return new GetSessionStatusResponseItem();
+                                                // Check to see if the tutor is in the tutor_sessions_completed table
+                                                command.CommandText = "SELECT * FROM tutor_sessions_completed WHERE tutorEmail = ?userEmail";
+
+                                                using (MySqlDataReader reader = command.ExecuteReader())
+                                                {
+                                                    while (reader.Read())
+                                                    {
+                                                        returnedTutorEmail = reader.GetString("tutorEmail");
+                                                    }
+                                                }
+
+                                                if (returnedTutorEmail == "" || returnedTutorEmail == null)
+                                                {
+                                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                                    return new GetSessionStatusTutorResponseItem();
+                                                }
+                                                else
+                                                {
+                                                    GetSessionStatusTutorResponseItem sessionStatus = new GetSessionStatusTutorResponseItem();
+                                                    sessionStatus.session_status = "completed";
+                                                    return sessionStatus;
+                                                }
                                             }
                                             else
                                             {
-                                                GetSessionStatusResponseItem sessionStatus = new GetSessionStatusResponseItem();
-                                                sessionStatus.session_status = "completed";
+                                                GetSessionStatusTutorResponseItem sessionStatus = new GetSessionStatusTutorResponseItem();
+                                                sessionStatus.session_status = "active";
                                                 return sessionStatus;
                                             }
                                         }
                                         else
                                         {
-                                            GetSessionStatusResponseItem sessionStatus = new GetSessionStatusResponseItem();
-                                            sessionStatus.session_status = "active";
+                                            GetSessionStatusTutorResponseItem sessionStatus = new GetSessionStatusTutorResponseItem();
+                                            sessionStatus.session_status = "pending";
                                             return sessionStatus;
                                         }
 
                                     }
                                     else
                                     {
-                                        GetSessionStatusResponseItem sessionStatus = new GetSessionStatusResponseItem();
+                                        GetSessionStatusTutorResponseItem sessionStatus = new GetSessionStatusTutorResponseItem();
                                         sessionStatus.session_status = "paired";
                                         return sessionStatus;
                                     }
@@ -947,7 +946,7 @@ namespace ToDoList
                                 else
                                 {
                                     // Tutor is still waiting for a student to pair with them so update the tutor's location
-                                    GetSessionStatusResponseItem sessionStatus = new GetSessionStatusResponseItem();
+                                    GetSessionStatusTutorResponseItem sessionStatus = new GetSessionStatusTutorResponseItem();
                                     sessionStatus.session_status = "available";
                                     return sessionStatus;
 
@@ -955,6 +954,7 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
                             }
                         }
@@ -963,14 +963,134 @@ namespace ToDoList
                     {
                         // User has tutor_eligible set to 0 -- not able to tutor any class
                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                        return new GetSessionStatusResponseItem();
+                        return new GetSessionStatusTutorResponseItem();
                     }
                 }
                 else
                 {
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
-                    return new GetSessionStatusResponseItem();
+                    return new GetSessionStatusTutorResponseItem();
+                }
+            }
+        }
+
+        public GetSessionStatusStudentResponseItem GetSessionStatusStudent(GetSessionStatusStudentRequestItem item)
+        {
+            lock (this)
+            {
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    // Check that the tutor is still available 
+                    String returnedStudentEmail = "";
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+
+                            // Check to see if the student is in the pairing table
+                            command.CommandText = "SELECT * FROM tutor_sessions_pairing WHERE studentEmail = ?userEmail";
+                            command.Parameters.AddWithValue("userEmail", item.userEmail);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedStudentEmail = reader.GetString("studentEmail");
+                                }
+                            }
+
+                            if (returnedStudentEmail == "" || returnedStudentEmail == null)
+                            {
+                                // Check to see if the student is in the tutor_sessions_pending table
+                                command.CommandText = "SELECT * FROM tutor_sessions_pending WHERE studentEmail = ?userEmail";
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        returnedStudentEmail = reader.GetString("studentEmail");
+                                    }
+                                }
+
+                                if (returnedStudentEmail == "" || returnedStudentEmail == null)
+                                {
+                                    // Check to see if the student is in the tutor_sessions_active table
+                                    command.CommandText = "SELECT * FROM tutor_sessions_active WHERE studentEmail = ?userEmail";
+
+                                    using (MySqlDataReader reader = command.ExecuteReader())
+                                    {
+                                        while (reader.Read())
+                                        {
+                                            returnedStudentEmail = reader.GetString("studentEmail");
+                                        }
+                                    }
+
+                                    if (returnedStudentEmail == "" || returnedStudentEmail == null)
+                                    {
+                                        // Check to see if the tutor is in the tutor_sessions_completed table
+                                        command.CommandText = "SELECT * FROM tutor_sessions_completed WHERE studentEmail = ?userEmail";
+
+                                        using (MySqlDataReader reader = command.ExecuteReader())
+                                        {
+                                            while (reader.Read())
+                                            {
+                                                returnedStudentEmail = reader.GetString("studentEmail");
+                                            }
+                                        }
+
+                                        if (returnedStudentEmail == "" || returnedStudentEmail == null)
+                                        {
+                                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                            return new GetSessionStatusStudentResponseItem();
+                                        }
+                                        else
+                                        {
+                                            GetSessionStatusStudentResponseItem sessionStatus = new GetSessionStatusStudentResponseItem();
+                                            sessionStatus.session_status = "completed";
+                                            return sessionStatus;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        GetSessionStatusStudentResponseItem sessionStatus = new GetSessionStatusStudentResponseItem();
+                                        sessionStatus.session_status = "active";
+                                        return sessionStatus;
+                                    }
+
+                                }
+                                else
+                                {
+                                    GetSessionStatusStudentResponseItem sessionStatus = new GetSessionStatusStudentResponseItem();
+                                    sessionStatus.session_status = "pending";
+                                    return sessionStatus;
+                                }
+                            }
+                            else
+                            {
+                                // Student is in the pairing table
+                                GetSessionStatusStudentResponseItem sessionStatus = new GetSessionStatusStudentResponseItem();
+                                sessionStatus.session_status = "paired";
+                                return sessionStatus;
+
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    // User's email & token combo is not valid
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new GetSessionStatusStudentResponseItem();
                 }
             }
         }

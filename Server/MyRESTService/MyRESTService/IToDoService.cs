@@ -88,11 +88,19 @@ namespace ToDoList
 
         [OperationContract]
         [WebInvoke(Method = "POST",
-            UriTemplate = "/getsessionstatus",
+            UriTemplate = "/getsessionstatustutor",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        GetSessionStatusResponseItem GetSessionStatus(GetSessionStatusRequestItem data);
+        GetSessionStatusTutorResponseItem GetSessionStatusTutor(GetSessionStatusTutorRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/getsessionstatusstudent",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        GetSessionStatusStudentResponseItem GetSessionStatusStudent(GetSessionStatusStudentRequestItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",

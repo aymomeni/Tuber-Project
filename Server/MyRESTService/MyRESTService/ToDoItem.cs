@@ -274,7 +274,7 @@ namespace ToDoList
         public double sessionCost { get; set; }
     }
 
-    public class GetSessionStatusRequestItem
+    public class GetSessionStatusTutorRequestItem
     {
         [DataMember]
         public string userEmail { get; set; }
@@ -283,37 +283,27 @@ namespace ToDoList
         public string userToken { get; set; }
     }
 
-    public class GetSessionStatusResponseItem
+    public class GetSessionStatusTutorResponseItem
     {
 
         [DataMember]
         public string session_status { get; set; }
-        //[DataMember]
-        //public string userEmail { get; set; }
+    }
 
-        //[DataMember]
-        //public string userToken { get; set; }
+    public class GetSessionStatusStudentRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
 
-        //[DataMember]
-        //public string studentEmail { get; set; }
+        [DataMember]
+        public string userToken { get; set; }
+    }
 
-        //[DataMember]
-        //public string tutorCourse { get; set; }
+    public class GetSessionStatusStudentResponseItem
+    {
 
-        //[DataMember]
-        //public double studentLatitude { get; set; }
-
-        //[DataMember]
-        //public double studentLongitude { get; set; }
-
-        //[DataMember]
-        //public double tutorLatitude { get; set; }
-
-        //[DataMember]
-        //public double tutorLongitude { get; set; }
-
-        //[DataMember]
-        //public double distanceFromStudent { get; set; }
+        [DataMember]
+        public string session_status { get; set; }
     }
 
     public class UpdateStudentLocationRequestItem
