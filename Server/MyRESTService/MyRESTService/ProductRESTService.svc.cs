@@ -1081,7 +1081,6 @@ namespace ToDoList
                         }
                         catch (Exception e)
                         {
-                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
                     }
@@ -1146,7 +1145,7 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() >= 0)
                                     {
                                         // Insert pairing into the tutor_sesssions_pending table
-                                        command.CommandText = "INSERT INTO tutor_sessions_pending VALUES (?studentEmail, ?tutorEmail, ?course, ?studentLatitude, ?studentLongitude, ?tutorLatitude, ?tutorLongitude)";
+                                        command.CommandText = "INSERT INTO tutor_sessions_pending VALUES (?studentEmail, ?tutorEmail, ?course)";
                                         command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
                                         command.Parameters.AddWithValue("course", returnedCourseName);
                                         command.Parameters.AddWithValue("studentLatitude", returnedStudentLatitude);
@@ -1223,7 +1222,7 @@ namespace ToDoList
                             conn.Open();
 
                             MySqlCommand command = conn.CreateCommand();
-                            command.CommandText = "SELECT studentEmail, tutorEmail, course FROM tutor_sessions_pending WHERE studentEmail = ?studentEmail";
+                            command.CommandText = "SELECT * FROM tutor_sessions_pending WHERE studentEmail = ?studentEmail";
                             command.Parameters.AddWithValue("studentEmail", item.userEmail);
 
                             using (MySqlDataReader reader = command.ExecuteReader())
@@ -2765,7 +2764,7 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() >= 0)
                                     {
                                         // Insert pairing into the tutor_sesssions_pending table
-                                        command.CommandText = "INSERT INTO tutor_sessions_pending (studentEmail, tutorEmail, course) VALUES (?studentEmail, ?tutorEmail, ?course)";
+                                        command.CommandText = "INSERT INTO tutor_sessions_pending VALUES (?studentEmail, ?tutorEmail, ?course)";
                                         command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
                                         //command.Parameters.AddWithValue("session_start_time", DateTime.Now);
 
@@ -2840,7 +2839,7 @@ namespace ToDoList
                             MySqlCommand command = conn.CreateCommand();
 
                             // Get information from tutor_sessions_pending table
-                            command.CommandText = "SELECT studentEmail, tutorEmail, course FROM tutor_sessions_pending WHERE studentEmail = ?studentEmail AND course = ?course";
+                            command.CommandText = "SELECT * FROM tutor_sessions_pending WHERE studentEmail = ?studentEmail AND course = ?course";
                             command.Parameters.AddWithValue("studentEmail", item.userEmail);
                             command.Parameters.AddWithValue("course", item.course);
                             //command.Parameters.AddWithValue("dateTime", item.dateTime);
