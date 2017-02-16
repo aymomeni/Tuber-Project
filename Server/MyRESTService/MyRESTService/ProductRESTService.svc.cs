@@ -101,11 +101,15 @@ namespace ToDoList
 
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
+                    MySqlTransaction transaction = null;
+
                     try
                     {
                         conn.Open();
+                        transaction = conn.BeginTransaction();
 
                         MySqlCommand command = conn.CreateCommand();
+                        command.Transaction = transaction;
                         command.CommandText = "select email, password from users where email = ?userEmail";
                         command.Parameters.AddWithValue("userEmail", item.userEmail);
 
@@ -181,21 +185,57 @@ namespace ToDoList
                                         user.userTutorCourses = tutorCourses;
                                         user.userToken = userToken;
 
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return user;
                                     }
                                     else
                                     {
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new VerifiedUserItem();
                                     }
                                 }
                                 else
                                 {
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new VerifiedUserItem();
                                 }
                             }
+                            //if (existingSessionEmail == item.userEmail)
+                            //{
+                            //    command.CommandText = "DELETE FROM sessions WHERE email = ?userEmail";
+
+                            //    if (command.ExecuteNonQuery() >= 0)
+                            //    {
+                            //        command.CommandText = "INSERT INTO sessions VALUES (?userEmail, ?userToken)";
+                            //        command.Parameters.AddWithValue("userToken", userToken);
+
+                            //        if (command.ExecuteNonQuery() > 0)
+                            //        {
+                            //            VerifiedUserItem user = new VerifiedUserItem();
+                            //            user.userEmail = returnedUserEmail;
+                            //            user.userPassword = returnedUserPassword;
+                            //            user.userStudentCourses = studentCourses;
+                            //            user.userTutorCourses = tutorCourses;
+                            //            user.userToken = userToken;
+
+                            //            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                            //            return user;
+                            //        }
+                            //        else
+                            //        {
+                            //            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                            //            return new VerifiedUserItem();
+                            //        }
+                            //    }
+                            //    else
+                            //    {
+                            //        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                            //        return new VerifiedUserItem();
+                            //    }
+                            //}
                             else
                             {
                                 command.CommandText = "INSERT INTO sessions VALUES (?userEmail, ?userToken)";
@@ -210,11 +250,13 @@ namespace ToDoList
                                     user.userTutorCourses = tutorCourses;
                                     user.userToken = userToken;
 
+                                    transaction.Commit();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     return user;
                                 }
                                 else
                                 {
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new VerifiedUserItem();
                                 }
@@ -223,11 +265,16 @@ namespace ToDoList
                     }
                     catch (Exception e)
                     {
-                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadGateway;
-                        VerifiedUserItem user = new VerifiedUserItem();
-                        user.userEmail = e.ToString();
-                        return user;
+                        transaction.Rollback();
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                         throw e;
+                    }
+                    finally
+                    {
+                        if (conn != null)
+                        {
+                            conn.Close();
+                        }
                     }
                 }
             }
@@ -252,11 +299,14 @@ namespace ToDoList
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
+                            transaction = conn.BeginTransaction();
 
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Get the count of all the reported tutor incidents
                             command.CommandText = "SELECT count(*) AS count FROM reported_tutors WHERE tutorEmail = ?tutorEmail;";
@@ -279,12 +329,14 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() > 0)
                                 {
                                     // Tutor eligibility activated successfully
+                                    transaction.Commit();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     return new EnableTutoringResponseItem();
                                 }
                                 else
                                 {
                                     // Something went wrong updating the tutor_eligible field
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new EnableTutoringResponseItem();
                                 }
@@ -292,14 +344,23 @@ namespace ToDoList
                             else
                             {
                                 // User has too many reported tutor incidents
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                                 return new EnableTutoringResponseItem();
                             }
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
@@ -323,11 +384,14 @@ namespace ToDoList
                     // Disable tutoring for account 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
+                            transaction = conn.BeginTransaction();
 
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             command.CommandText = "UPDATE users SET tutor_eligible = ?eligibleFlag WHERE email = ?tutorEmail";
                             command.Parameters.AddWithValue("tutorEmail", item.userEmail);
@@ -336,20 +400,30 @@ namespace ToDoList
                             if (command.ExecuteNonQuery() > 0)
                             {
                                 // Tutor deactivated successfully
+                                transaction.Commit();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                 return new DisableTutoringResponseItem();
                             }
                             else
                             {
                                 // Something went wrong with updating the tutor_eligible field
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                 return new DisableTutoringResponseItem();
                             }
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
@@ -380,11 +454,14 @@ namespace ToDoList
                     // Verify the old password provided matches what is in the DB
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
+                            transaction = conn.BeginTransaction();
 
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Retrieve the current hashed password 
                             command.CommandText = "SELECT password FROM users WHERE email = ?userEmail";
@@ -417,11 +494,13 @@ namespace ToDoList
 
                                 if (command.ExecuteNonQuery() > 0)
                                 {
+                                    transaction.Commit();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     return new ChangeUserPasswordResponseItem();
                                 }
                                 else
                                 {
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                     return new ChangeUserPasswordResponseItem();
                                 }
@@ -429,8 +508,16 @@ namespace ToDoList
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
@@ -440,6 +527,390 @@ namespace ToDoList
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new ChangeUserPasswordResponseItem();
                 }
+            }
+        }
+
+        public AddStudentClassesResponseItem AddStudentClasses(AddStudentClassesRequestItem item)
+        {
+            // Check that the user token is valid
+            if (checkUserToken(item.userEmail, item.userToken))
+            {
+                List<String> currentlyEnrolledCourses = new List<String>();
+
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    MySqlTransaction transaction = null;
+                    try
+                    {
+                        conn.Open();
+                        transaction = conn.BeginTransaction();
+
+                        MySqlCommand command = conn.CreateCommand();
+                        command.Transaction = transaction;
+
+                        // Get all courses the student is currently enrolled in
+                        command.CommandText = "SELECT name FROM student_courses WHERE email = ?studentEmail";
+                        command.Parameters.AddWithValue("studentEmail", item.userEmail);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                currentlyEnrolledCourses.Add(reader.GetString("name"));
+                            }
+                        }
+
+                        // Remove all courses that the student is currently enrolled in from the add list
+                        for (int i = 0; i < currentlyEnrolledCourses.Count; i++)
+                        {
+                            item.classesToBeAdded.Remove(currentlyEnrolledCourses[i]);
+                        }
+
+                        // Enroll student in the courses that remain
+                        for (int i = 0; i < item.classesToBeAdded.Count; i++)
+                        {
+                            command.CommandText = "INSERT INTO student_courses VALUES (?studentEmail, ?courseName);";
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("studentEmail", item.userEmail);
+                            command.Parameters.AddWithValue("courseName", item.classesToBeAdded[i]);
+
+                            if (command.ExecuteNonQuery() > 0)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                transaction.Rollback();
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                break;
+                            }
+                        }
+                        
+                        // Commit the changes
+                        transaction.Commit();
+
+                        // Get updated list of every class the student is enrolled in
+                        currentlyEnrolledCourses = new List<String>();
+
+                        command.CommandText = "SELECT name FROM student_courses WHERE email = ?studentEmail";
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                currentlyEnrolledCourses.Add(reader.GetString("name"));
+                            }
+                        }
+
+                        // Return the list of enrolled classes
+                        AddStudentClassesResponseItem responseItem = new AddStudentClassesResponseItem();
+                        responseItem.enrolledStudentClasses = currentlyEnrolledCourses;
+                        return responseItem;
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                        throw e;
+                    }
+                    finally
+                    {
+                        if (conn != null)
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // User's email & token combo is not valid
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                return new AddStudentClassesResponseItem();
+            }
+        }
+
+        public RemoveStudentClassesResponseItem RemoveStudentClasses(RemoveStudentClassesRequestItem item)
+        {
+            // Check that the user token is valid
+            if (checkUserToken(item.userEmail, item.userToken))
+            {
+                List<String> currentlyEnrolledCourses = new List<String>();
+
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    MySqlTransaction transaction = null;
+                    try
+                    {
+                        conn.Open();
+                        transaction = conn.BeginTransaction();
+
+                        MySqlCommand command = conn.CreateCommand();
+                        command.Transaction = transaction;
+
+                        // Remove all courses specified
+                        for (int i = 0; i < item.classesToBeRemoved.Count; i++)
+                        {
+                            command.CommandText = "DELETE FROM student_courses WHERE name = ?courseName AND email = ?studentEmail;";
+                            command.Parameters.Clear();
+                            command.Parameters.AddWithValue("studentEmail", item.userEmail);
+                            command.Parameters.AddWithValue("courseName", item.classesToBeRemoved[i]);
+
+                            if (command.ExecuteNonQuery() > 0)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                transaction.Rollback();
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                break;
+                            }
+                        }
+
+                        // Commit the changes
+                        transaction.Commit();
+
+                        // Get updated list of every class the student is enrolled in
+                        currentlyEnrolledCourses = new List<String>();
+
+                        command.CommandText = "SELECT name FROM student_courses WHERE email = ?studentEmail";
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                currentlyEnrolledCourses.Add(reader.GetString("name"));
+                            }
+                        }
+
+                        // Return the list of tutoring sessions
+                        RemoveStudentClassesResponseItem responseItem = new RemoveStudentClassesResponseItem();
+                        responseItem.enrolledStudentClasses = currentlyEnrolledCourses;
+                        return responseItem;
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                        throw e;
+                    }
+                    finally
+                    {
+                        if (conn != null)
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // User's email & token combo is not valid
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                return new RemoveStudentClassesResponseItem();
+            }
+        }
+
+        public AddTutorClassesResponseItem AddTutorClasses(AddTutorClassesRequestItem item)
+        {
+            // Check that the user token is valid
+            if (checkUserToken(item.userEmail, item.userToken))
+            {
+                // Make sure tutor is eligible to tutor
+                if (checkTutorEligibility(item.userEmail))
+                {
+                    List<String> currentlyEnrolledCourses = new List<String>();
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        MySqlTransaction transaction = null;
+                        try
+                        {
+                            conn.Open();
+                            transaction = conn.BeginTransaction();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
+
+                            // Get all courses the tutor is currently enrolled in
+                            command.CommandText = "SELECT name FROM tutor_courses WHERE email = ?tutorEmail";
+                            command.Parameters.AddWithValue("tutorEmail", item.userEmail);
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    currentlyEnrolledCourses.Add(reader.GetString("name"));
+                                }
+                            }
+
+                            // Remove all courses that the tutor is currently enrolled in from the add list
+                            for (int i = 0; i < currentlyEnrolledCourses.Count; i++)
+                            {
+                                item.classesToBeAdded.Remove(currentlyEnrolledCourses[i]);
+                            }
+
+                            // Enroll tutor in the courses that remain
+                            for (int i = 0; i < item.classesToBeAdded.Count; i++)
+                            {
+                                command.CommandText = "INSERT INTO tutor_courses VALUES (?tutorEmail, ?courseName);";
+                                command.Parameters.Clear();
+                                command.Parameters.AddWithValue("tutorEmail", item.userEmail);
+                                command.Parameters.AddWithValue("courseName", item.classesToBeAdded[i]);
+
+                                if (command.ExecuteNonQuery() > 0)
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    transaction.Rollback();
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    break;
+                                }
+                            }
+
+                            // Commit the changes
+                            transaction.Commit();
+
+                            // Get updated list of every class the student is enrolled in
+                            currentlyEnrolledCourses = new List<String>();
+
+                            command.CommandText = "SELECT name FROM tutor_courses WHERE email = ?tutorEmail";
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    currentlyEnrolledCourses.Add(reader.GetString("name"));
+                                }
+                            }
+
+                            // Return the list of tutoring sessions
+                            AddTutorClassesResponseItem responseItem = new AddTutorClassesResponseItem();
+                            responseItem.enrolledTutorClasses = currentlyEnrolledCourses;
+                            return responseItem;
+                        }
+                        catch (Exception e)
+                        {
+                            transaction.Rollback();
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // User has tutor_eligible set to 0-- not able to tutor any class
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                    return new AddTutorClassesResponseItem();
+                }
+            }
+            else
+            {
+                // User's email & token combo is not valid
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                return new AddTutorClassesResponseItem();
+            }
+        }
+
+        public RemoveTutorClassesResponseItem RemoveTutorClasses(RemoveTutorClassesRequestItem item)
+        {
+            // Check that the user token is valid
+            if (checkUserToken(item.userEmail, item.userToken))
+            {
+                // Make sure tutor is eligible to tutor
+                if (checkTutorEligibility(item.userEmail))
+                {
+                    List<String> currentlyEnrolledCourses = new List<String>();
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        MySqlTransaction transaction = null;
+                        try
+                        {
+                            conn.Open();
+                            transaction = conn.BeginTransaction();
+
+                            MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
+
+                            // Remove all courses specified
+                            for (int i = 0; i < item.classesToBeRemoved.Count; i++)
+                            {
+                                command.CommandText = "DELETE FROM tutor_courses WHERE name = ?courseName AND email = ?tutorEmail;";
+                                command.Parameters.Clear();
+                                command.Parameters.AddWithValue("tutorEmail", item.userEmail);
+                                command.Parameters.AddWithValue("courseName", item.classesToBeRemoved[i]);
+
+                                if (command.ExecuteNonQuery() > 0)
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    transaction.Rollback();
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    break;
+                                }
+                            }
+
+                            // Commit the changes
+                            transaction.Commit();
+
+                            // Get updated list of every class the tutor is enrolled in
+                            currentlyEnrolledCourses = new List<String>();
+
+                            command.CommandText = "SELECT name FROM tutor_courses WHERE email = ?tutorEmail";
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    currentlyEnrolledCourses.Add(reader.GetString("name"));
+                                }
+                            }
+
+                            // Return the list of tutoring sessions
+                            RemoveTutorClassesResponseItem responseItem = new RemoveTutorClassesResponseItem();
+                            responseItem.enrolledTutorClasses = currentlyEnrolledCourses;
+                            return responseItem;
+                        }
+                        catch (Exception e)
+                        {
+                            transaction.Rollback();
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // User has tutor_eligible set to 0-- not able to tutor any class
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                    return new RemoveTutorClassesResponseItem();
+                }
+            }
+            else
+            {
+                // User's email & token combo is not valid
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                return new RemoveTutorClassesResponseItem();
             }
         }
 
@@ -1326,11 +1797,14 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
+                                transaction = conn.BeginTransaction();
 
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
                                 command.CommandText = "SELECT * FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
                                 command.Parameters.AddWithValue("tutorEmail", item.userEmail);
 
@@ -1356,7 +1830,8 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() >= 0)
                                     {
                                         // Insert pairing into the tutor_sesssions_pending table
-                                        command.CommandText = "INSERT INTO tutor_sessions_pending VALUES (?studentEmail, ?tutorEmail, ?course)";
+                                        //command.CommandText = "INSERT INTO tutor_sessions_pending VALUES (?studentEmail, ?tutorEmail, ?course)";
+                                        command.CommandText = "INSERT INTO tutor_sessions_pending VALUES (?studentEmail, ?tutorEmail)";
                                         command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
                                         command.Parameters.AddWithValue("course", returnedCourseName);
                                         command.Parameters.AddWithValue("studentLatitude", returnedStudentLatitude);
@@ -1367,12 +1842,14 @@ namespace ToDoList
                                         if (command.ExecuteNonQuery() > 0)
                                         {
                                             // Everything went as planned
+                                            transaction.Commit();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                             return new StartTutorSessionTutorResponseItem();
                                         }
                                         else
                                         {
                                             // Inserting into tutor_sessions_pending table failed
+                                            transaction.Rollback();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                             return new StartTutorSessionTutorResponseItem();
                                         }
@@ -1380,6 +1857,7 @@ namespace ToDoList
                                     else
                                     {
                                         // Deleting from tutor_sessions_pairing failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new StartTutorSessionTutorResponseItem();
                                     }
@@ -1387,14 +1865,23 @@ namespace ToDoList
                                 else
                                 {
                                     // Pairing session the tutor is looking for is no longer available. 
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
                                     return new StartTutorSessionTutorResponseItem();
                                 }
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
@@ -3359,329 +3846,7 @@ namespace ToDoList
             }
         }
 
-        public AddStudentClassesResponseItem AddStudentClasses(AddStudentClassesRequestItem item)
-        {
-            // Check that the user token is valid
-            if (checkUserToken(item.userEmail, item.userToken))
-            {
-                List<String> currentlyEnrolledCourses = new List<String>();
-
-                using (MySqlConnection conn = new MySqlConnection(connectionString))
-                {
-                    try
-                    {
-                        conn.Open();
-
-                        MySqlCommand command = conn.CreateCommand();
-
-                        // Get all courses the student is currently enrolled in
-                        command.CommandText = "SELECT name FROM student_courses WHERE email = ?studentEmail";
-                        command.Parameters.AddWithValue("studentEmail", item.userEmail);
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                currentlyEnrolledCourses.Add(reader.GetString("name"));
-                            }
-                        }
-
-                        // Remove all courses that the student is currently enrolled in from the add list
-                        for (int i = 0; i < currentlyEnrolledCourses.Count; i++)
-                        {
-                            item.classesToBeAdded.Remove(currentlyEnrolledCourses[i]);
-                        }
-
-                        // Enroll student in the courses that remain
-                        for (int i = 0; i < item.classesToBeAdded.Count; i++)
-                        {
-                            command.CommandText = "INSERT INTO student_courses VALUES (?studentEmail, ?courseName);";
-                            command.Parameters.Clear();
-                            command.Parameters.AddWithValue("studentEmail", item.userEmail);
-                            command.Parameters.AddWithValue("courseName", item.classesToBeAdded[i]);
-
-                            if (command.ExecuteNonQuery() > 0)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
-                                break;
-                            }
-                        }
-
-                        // Get updated list of every class the student is enrolled in
-                        currentlyEnrolledCourses = new List<String>();
-
-                        command.CommandText = "SELECT name FROM student_courses WHERE email = ?studentEmail";
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                currentlyEnrolledCourses.Add(reader.GetString("name"));
-                            }
-                        }
-
-                        // Return the list of tutoring sessions
-                        AddStudentClassesResponseItem responseItem = new AddStudentClassesResponseItem();
-                        responseItem.enrolledStudentClasses = currentlyEnrolledCourses;
-                        return responseItem;
-                    }
-                    catch (Exception e)
-                    {
-                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
-                        throw e;
-                    }
-                }
-            }
-            else
-            {
-                // User's email & token combo is not valid
-                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
-                return new AddStudentClassesResponseItem();
-            }
-        }
-
-        public RemoveStudentClassesResponseItem RemoveStudentClasses(RemoveStudentClassesRequestItem item)
-        {
-            // Check that the user token is valid
-            if (checkUserToken(item.userEmail, item.userToken))
-            {
-                List<String> currentlyEnrolledCourses = new List<String>();
-
-                using (MySqlConnection conn = new MySqlConnection(connectionString))
-                {
-                    try
-                    {
-                        conn.Open();
-
-                        MySqlCommand command = conn.CreateCommand();
-
-                        // Remove all courses specified
-                        for (int i = 0; i < item.classesToBeRemoved.Count; i++)
-                        {
-                            command.CommandText = "DELETE FROM student_courses WHERE name = ?courseName AND email = ?studentEmail;";
-                            command.Parameters.Clear();
-                            command.Parameters.AddWithValue("studentEmail", item.userEmail);
-                            command.Parameters.AddWithValue("courseName", item.classesToBeRemoved[i]);
-
-                            if (command.ExecuteNonQuery() > 0)
-                            {
-                                continue;
-                            }
-                            else
-                            {
-                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
-                                break;
-                            }
-                        }
-
-                        // Get updated list of every class the student is enrolled in
-                        currentlyEnrolledCourses = new List<String>();
-
-                        command.CommandText = "SELECT name FROM student_courses WHERE email = ?studentEmail";
-
-                        using (MySqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
-                            {
-                                currentlyEnrolledCourses.Add(reader.GetString("name"));
-                            }
-                        }
-
-                        // Return the list of tutoring sessions
-                        RemoveStudentClassesResponseItem responseItem = new RemoveStudentClassesResponseItem();
-                        responseItem.enrolledStudentClasses = currentlyEnrolledCourses;
-                        return responseItem;
-                    }
-                    catch (Exception e)
-                    {
-                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
-                        throw e;
-                    }
-                }
-            }
-            else
-            {
-                // User's email & token combo is not valid
-                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
-                return new RemoveStudentClassesResponseItem();
-            }
-        }
-
-        public AddTutorClassesResponseItem AddTutorClasses(AddTutorClassesRequestItem item)
-        {
-            // Check that the user token is valid
-            if (checkUserToken(item.userEmail, item.userToken))
-            {
-                // Make sure tutor is eligible to tutor
-                if (checkTutorEligibility(item.userEmail))
-                {
-                    List<String> currentlyEnrolledCourses = new List<String>();
-
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
-                    {
-                        try
-                        {
-                            conn.Open();
-
-                            MySqlCommand command = conn.CreateCommand();
-
-                            // Get all courses the tutor is currently enrolled in
-                            command.CommandText = "SELECT name FROM tutor_courses WHERE email = ?tutorEmail";
-                            command.Parameters.AddWithValue("tutorEmail", item.userEmail);
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
-                            {
-                                while (reader.Read())
-                                {
-                                    currentlyEnrolledCourses.Add(reader.GetString("name"));
-                                }
-                            }
-
-                            // Remove all courses that the tutor is currently enrolled in from the add list
-                            for (int i = 0; i < currentlyEnrolledCourses.Count; i++)
-                            {
-                                item.classesToBeAdded.Remove(currentlyEnrolledCourses[i]);
-                            }
-
-                            // Enroll tutor in the courses that remain
-                            for (int i = 0; i < item.classesToBeAdded.Count; i++)
-                            {
-                                command.CommandText = "INSERT INTO tutor_courses VALUES (?tutorEmail, ?courseName);";
-                                command.Parameters.Clear();
-                                command.Parameters.AddWithValue("tutorEmail", item.userEmail);
-                                command.Parameters.AddWithValue("courseName", item.classesToBeAdded[i]);
-
-                                if (command.ExecuteNonQuery() > 0)
-                                {
-                                    continue;
-                                }
-                                else
-                                {
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
-                                    break;
-                                }
-                            }
-
-                            // Get updated list of every class the student is enrolled in
-                            currentlyEnrolledCourses = new List<String>();
-
-                            command.CommandText = "SELECT name FROM tutor_courses WHERE email = ?tutorEmail";
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
-                            {
-                                while (reader.Read())
-                                {
-                                    currentlyEnrolledCourses.Add(reader.GetString("name"));
-                                }
-                            }
-
-                            // Return the list of tutoring sessions
-                            AddTutorClassesResponseItem responseItem = new AddTutorClassesResponseItem();
-                            responseItem.enrolledTutorClasses = currentlyEnrolledCourses;
-                            return responseItem;
-                        }
-                        catch (Exception e)
-                        {
-                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
-                            throw e;
-                        }
-                    }
-                }
-                else
-                {
-                    // User has tutor_eligible set to 0-- not able to tutor any class
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    return new AddTutorClassesResponseItem();
-                }
-            }
-            else
-            {
-                // User's email & token combo is not valid
-                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
-                return new AddTutorClassesResponseItem();
-            }
-        }
-
-        public RemoveTutorClassesResponseItem RemoveTutorClasses(RemoveTutorClassesRequestItem item)
-        {
-            // Check that the user token is valid
-            if (checkUserToken(item.userEmail, item.userToken))
-            {
-                // Make sure tutor is eligible to tutor
-                if (checkTutorEligibility(item.userEmail))
-                {
-                    List<String> currentlyEnrolledCourses = new List<String>();
-
-                    using (MySqlConnection conn = new MySqlConnection(connectionString))
-                    {
-                        try
-                        {
-                            conn.Open();
-
-                            MySqlCommand command = conn.CreateCommand();
-
-                            // Remove all courses specified
-                            for (int i = 0; i < item.classesToBeRemoved.Count; i++)
-                            {
-                                command.CommandText = "DELETE FROM tutor_courses WHERE name = ?courseName AND email = ?tutorEmail;";
-                                command.Parameters.Clear();
-                                command.Parameters.AddWithValue("tutorEmail", item.userEmail);
-                                command.Parameters.AddWithValue("courseName", item.classesToBeRemoved[i]);
-
-                                if (command.ExecuteNonQuery() > 0)
-                                {
-                                    continue;
-                                }
-                                else
-                                {
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
-                                    break;
-                                }
-                            }
-
-                            // Get updated list of every class the tutor is enrolled in
-                            currentlyEnrolledCourses = new List<String>();
-
-                            command.CommandText = "SELECT name FROM tutor_courses WHERE email = ?tutorEmail";
-
-                            using (MySqlDataReader reader = command.ExecuteReader())
-                            {
-                                while (reader.Read())
-                                {
-                                    currentlyEnrolledCourses.Add(reader.GetString("name"));
-                                }
-                            }
-
-                            // Return the list of tutoring sessions
-                            RemoveTutorClassesResponseItem responseItem = new RemoveTutorClassesResponseItem();
-                            responseItem.enrolledTutorClasses = currentlyEnrolledCourses;
-                            return responseItem;
-                        }
-                        catch (Exception e)
-                        {
-                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
-                            throw e;
-                        }
-                    }
-                }
-                else
-                {
-                    // User has tutor_eligible set to 0-- not able to tutor any class
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    return new RemoveTutorClassesResponseItem();
-                }
-            }
-            else
-            {
-                // User's email & token combo is not valid
-                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
-                return new RemoveTutorClassesResponseItem();
-            }
-        }
+        
 
         
 

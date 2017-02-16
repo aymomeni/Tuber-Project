@@ -1,15 +1,17 @@
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Emulator config file set to C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\csx\Debug\roles\MyRESTService\approot\diagnostics.wadcfgx
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] DiagnosticsStoreRootPath set to: C:\Users\brand\AppData\Local\dftmp\Resources\ce8c347c-d85d-4a70-9d1f-0d6f2583039d
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Loading config file: C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\csx\Debug\roles\MyRESTService\approot\diagnostics.wadcfgx
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Config file to read: C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\csx\Debug\roles\MyRESTService\approot\diagnostics.wadcfgx
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Checking VM Type
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Emulator config file set to C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\csx\Debug\roles\MyRESTService\approot\diagnostics.wadcfgx
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Extension set to Emulator Mode
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Reading XML configuration file
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Bypassing private config decryption
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Stopping the running plugin, if any
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] No DiagnosticsPlugin is running.
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Killing any DiagnosticsPlugin that might remain.
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Killing any MonAgentHost that might remain.
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Diagnostics plugin stopped successfully
-DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 4:46:50 PM] Resetting DiagnosticPlugin
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Emulator config file set to C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\csx\Debug\roles\MyRESTService\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] DiagnosticsStoreRootPath set to: C:\Users\brand\AppData\Local\dftmp\Resources\182f4da4-e148-4664-a77b-0147a15cda03
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Loading config file: C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\csx\Debug\roles\MyRESTService\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Config file to read: C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\csx\Debug\roles\MyRESTService\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Checking VM Type
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Emulator config file set to C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\csx\Debug\roles\MyRESTService\approot\diagnostics.wadcfgx
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Extension set to Emulator Mode
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Reading XML configuration file
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Bypassing private config decryption
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Stopping the running plugin, if any
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] No DiagnosticsPlugin is running.
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Killing any DiagnosticsPlugin that might remain.
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Killing any MonAgentHost that might remain.
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Diagnostics plugin stopped successfully
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:07:31 PM] Resetting DiagnosticPlugin
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:08:42 PM] DiagnosticsPlugin launched successfully with new configuration
+DiagnosticsPluginLauncher.exe Information: 0 : [02,16,2017 9:08:42 PM] DiagnosticPlugin exited with code 0
