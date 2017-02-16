@@ -1034,6 +1034,25 @@ namespace ToDoList
 
     }
 
+    public class ChangeUserPasswordRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string currentPassword { get; set; }
+
+        [DataMember]
+        public string newPassword { get; set; }
+    }
+
+    public class ChangeUserPasswordResponseItem
+    {
+
+    }
 
 
 

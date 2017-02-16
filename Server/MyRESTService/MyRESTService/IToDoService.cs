@@ -334,7 +334,13 @@ namespace ToDoList
           BodyStyle = WebMessageBodyStyle.Bare)]
         DisableTutoringResponseItem DisableTutoring(DisableTutoringRequestItem data);
 
-
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+          UriTemplate = "/changeuserpassword",
+          RequestFormat = WebMessageFormat.Json,
+          ResponseFormat = WebMessageFormat.Json,
+          BodyStyle = WebMessageBodyStyle.Bare)]
+        ChangeUserPasswordResponseItem ChangeUserPassword(ChangeUserPasswordRequestItem data);
 
 
 
