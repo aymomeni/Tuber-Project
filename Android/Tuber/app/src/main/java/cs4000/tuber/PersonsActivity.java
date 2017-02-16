@@ -28,7 +28,7 @@ public class PersonsActivity extends AppCompatActivity {
 
 
         // Lookup the recyclerview in activity layout
-        RecyclerView Persons_rv = (RecyclerView) findViewById(R.id.persons_rv);
+        final RecyclerView Persons_rv = (RecyclerView) findViewById(R.id.persons_rv);
         Persons_rv.setItemAnimator(new SlideInUpAnimator());
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
 
@@ -60,6 +60,12 @@ public class PersonsActivity extends AppCompatActivity {
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
 
                         if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
+
+
+                            //TextView temp = (TextView) v.findViewById(R.id.durationTextvalue);
+                            //temp.setText("");
+                            //Person p = persons.get(position);
+
                             adapter.add(new Person("Hello", 5.5));
                         }
 
