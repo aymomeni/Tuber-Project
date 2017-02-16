@@ -103,12 +103,12 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void Done(JSONObject result) {
                 if(result != null){
-                    Log.i("CreateUser/Success", "User successfully added to the db");
+//                    Log.i("CreateUser/Success", "User successfully added to the db");
 
                 } else {
 
                     onSignupFailed();
-                    Log.i("CreateUser/Error", "Issue connecting to the server");
+//                    Log.i("CreateUser/Error", "Issue connecting to the server");
                 }
             }
         });

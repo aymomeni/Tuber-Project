@@ -249,10 +249,10 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                     @Override
                     public void Done(JSONObject result) {
                         if(result != null){
-                            Log.i("@onLocationChanged","Location updated successfully");
+//                            Log.i("@onLocationChanged","Location updated successfully");
                         }
                         else {
-                            Log.i("@onLocationChanged","Location update failed");
+//                            Log.i("@onLocationChanged","Location update failed");
                         }
                     }
                 });
@@ -292,8 +292,8 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
             obj.put("latitude", String.valueOf(temp.getLatitude()));
             obj.put("longitude", String.valueOf(temp.getLongitude()));
 
-            Log.i("@ISRQ_Loc2_Slat", String.valueOf(temp.getLatitude()));
-            Log.i("@ISRQ_Loc2_Slong",String.valueOf(temp.getLongitude()));
+//            Log.i("@ISRQ_Loc2_Slat", String.valueOf(temp.getLatitude()));
+//            Log.i("@ISRQ_Loc2_Slong",String.valueOf(temp.getLongitude()));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -303,7 +303,7 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
             @Override
             public void Done(JSONObject result) {
                 if(result != null) {
-                    Log.i("@check_session_student", "check sessionStudent completed");
+//                    Log.i("@check_session_student", "check sessionStudent completed");
 
                     Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
                     try {
@@ -325,7 +325,7 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
 //                    finish();
 
                 } else {
-                    Log.i("@check_session_student", "check sessionStudent failed - no pairing");
+//                    Log.i("@check_session_student", "check sessionStudent failed - no pairing");
                     updateListView(getLocation());
 //                    JSONObject obj2 = new JSONObject();
 //                    try{
@@ -397,8 +397,8 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                 jsonParam3.put("latitude", String.valueOf(location.getLatitude()));
                 jsonParam3.put("longitude", String.valueOf(location.getLongitude()));
 
-                Log.i("@ISRQ_Loc1_Slat",String.valueOf(location.getLatitude()));
-                Log.i("@ISRQ_Loc1_Slong",String.valueOf(location.getLongitude()));
+//                Log.i("@ISRQ_Loc1_Slat",String.valueOf(location.getLatitude()));
+//                Log.i("@ISRQ_Loc1_Slong",String.valueOf(location.getLongitude()));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -423,7 +423,7 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
 
                             JSONArray array = result.getJSONArray("availableTutors");
 
-                            Log.i("Length", String.valueOf(array.length()));
+//                            Log.i("Length", String.valueOf(array.length()));
                             //Log.i("Lat", String.valueOf(array.length()));
                             //Log.i("Log", String.valueOf(array.length()));
 
@@ -436,8 +436,8 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                                     String tutorCourse = temp.getString("tutorCourse");
                                     String userEmail = temp.getString("userEmail");
 
-                                    Log.i("username", userEmail);
-                                    Log.i("dist", distanceFromStudent);
+//                                    Log.i("username", userEmail);
+//                                    Log.i("dist", distanceFromStudent);
 
                                     Double distanceOneDP = (double) Math.round(Double.parseDouble(distanceFromStudent) * 10) / 10;
 
@@ -455,13 +455,13 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
 
                                 }
 
-                                Log.i("Second Thread", "Pulled tutors");
+//                                Log.i("Second Thread", "Pulled tutors");
 
                                 //switchToMenu();
                                 //view1.setText("Second Thread is Done!2");
                             } else {
 
-                                Log.i("Second Thread", "No tutors");
+//                                Log.i("Second Thread", "No tutors");
 
                                 Toast.makeText(getBaseContext(), "No active tutors nearby", Toast.LENGTH_LONG).show();
                                 //requests.add("no active tutors nearby");

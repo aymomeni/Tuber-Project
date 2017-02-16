@@ -178,7 +178,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
 
                     } else { // no student accepted yet
-                        Log.i("@checkstatust2", "check status failed!");
+//                        Log.i("@checkstatust2", "check status failed!");
 
                         if(tutor_offered){
                             handler.postDelayed(new Runnable() {
@@ -199,171 +199,9 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
     }
 
 
-
-
-
-//    public void checkForUpdate() {
-//
-//
-//        JSONObject obj = new JSONObject();
-//        try{
-//            obj.put("userEmail", _userEmail);
-//            obj.put("userToken", _userToken);
-//            obj.put("latitude", tutorLatitude);
-//            obj.put("longitude", tutorLongitude);
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        // checking if already offered to tutor
-//        ConnectionTask checkstatust = new ConnectionTask(obj);
-//        checkstatust.check_paired_status(new ConnectionTask.CallBack() {
-//            @Override
-//            public void Done(JSONObject result) {
-//                try {
-//                    if(result != null && !result.get("studentEmail").equals(null)){ // student has accepted (check session_status)
-//                        Log.i("@checkstatust2", "check status successful w/non-EmptyJson");
-//
-//                        offerToTutorButton.setVisibility(View.INVISIBLE);
-//
-//                        //session_status = result.getString("session_status");
-//                        //studentEmail = result.getString("studentEmail");
-//                        studentLatitude = result.getString("studentLatitude");
-//                        studentLongitude = result.getString("studentLongitude");
-//                        //tutorCourse = result.getString("tutorCourse");
-//                        tutorLatitude = result.getString("tutorLatitude");
-//                        tutorLongitude = result.getString("tutorLongitude");
-//                        //userEmail = result.getString("userEmail");
-//                        //userToken = result.getString("userToken");
-//
-//
-//                        if (initial_pairing == true) { // show this only first-time we enter this method
-//
-//                            final AlertDialog dialog = new AlertDialog.Builder(ImmediateTutorServiceMapsActivity.this)
-//                                    .setTitle("Paired")
-//                                    .setMessage("You paired successfully with a Tutor.")
-//                                    .setCancelable(false)
-//                                    .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialog, int which) {
-//                                            dialog.cancel();
-//                                        }
-//                                    }).show();
-//
-//                            handler.postDelayed(new Runnable() {
-//
-//                                @Override
-//
-//                                public void run() {
-//                                    dialog.dismiss();
-//                                }
-//                            }, 4000);
-//                        }
-//                        initial_pairing = false;
-//
-//                        if (Build.VERSION.SDK_INT < 23 || ContextCompat.checkSelfPermission(ImmediateTutorServiceMapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//
-//                            // gets last knwon location else it'll update the location based on the current location
-//                            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-//
-//                            if (lastKnownLocation != null) {
-//
-//                                Double distanceInMiles = Double.parseDouble(result.getString("distanceFromStudent"));
-//
-//                                if (distanceInMiles < 0.5) { // student has arrived!
-//                                    infoTextView.setTextColor(Color.GREEN);
-//                                    infoTextView.setText("Your student has arrived");
-//
-//
-//                                    handler.postDelayed(new Runnable() {
-//                                        @Override
-//                                        public void run() {
-////                                            infoTextView.setText("");
-////                                            offerToTutorButton.setVisibility(View.VISIBLE);
-////                                            offerToTutorButton.setText("Offer to Tutor");
-////                                            tutor_offered = false;
-////                                            initial_pairing = true;
-//
-//                                            Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
-//                                            intent.putExtra("status", "0");
-////
-//                                            startActivity(intent);
-//                                            finish();
-//
-//                                        }
-//                                    }, 5000);
-//                                } else { // studet hasn't arrived yet
-//
-//
-//                                    Double distanceOneDP = (double) Math.round(distanceInMiles * 10) / 10;
-//
-//                                    infoTextView.setText("Your student is " + distanceOneDP.toString() + " miles away!");
-//
-//
-//                                    LatLng studentLocationLatLng = new LatLng(Double.parseDouble(studentLatitude), Double.parseDouble(studentLongitude));
-//                                    LatLng requestLocationLatLng = new LatLng(Double.parseDouble(tutorLatitude), Double.parseDouble(tutorLongitude));
-//
-//                                    ArrayList<Marker> markers = new ArrayList<>();
-//
-//                                    mMap.clear(); // clears all existing markers
-//                                    markers.add(mMap.addMarker(new MarkerOptions().position(studentLocationLatLng).title("Student Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))));
-//                                    markers.add(mMap.addMarker(new MarkerOptions().position(requestLocationLatLng).title("Your Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
-//
-//                                    LatLngBounds.Builder builder = new LatLngBounds.Builder();
-//                                    for (Marker marker : markers) {
-//                                        builder.include(marker.getPosition());
-//                                    }
-//                                    LatLngBounds bounds = builder.build();
-//
-//                                    int padding = 60;
-//                                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-//
-//                                    mMap.animateCamera(cu);
-//
-//                                    handler.postDelayed(new Runnable() {
-//
-//                                        @Override
-//
-//                                        public void run() {
-//
-//                                            checkForUpdate();
-//
-//                                        }
-//                                    }, 2000);
-//
-//                                }
-//
-//                            }
-//
-//                        }
-//
-//                    } else { // no student accepted yet
-//                        Log.i("@checkstatust2", "check status failed!");
-//
-//                        if(tutor_offered){
-//                            handler.postDelayed(new Runnable() {
-//
-//                                @Override
-//
-//                                public void run() {
-//
-//                                    checkForUpdate();
-//
-//                                }
-//                            }, 2000);
-//                        }
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
-//    }
-
-
     public void logout(View view) {
 
-        Log.i("Info", "Logout Tutor Immediate Service");
+//        Log.i("Info", "Logout Tutor Immediate Service");
         //ParseUser.logOut();
 
         //Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
@@ -396,7 +234,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
     public void offerToTutor(View view) {
 
-        Log.i("Info", "Tutor Requested");
+//        Log.i("Info", "Tutor Requested");
 
         // checking if a request is active
         if(tutor_offered){
@@ -418,7 +256,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                 public void Done(JSONObject result) {
                     try {
                         if(result != null && result.get("studentEmail").equals(null)){ // offered but hasn't been paired yet - delete from list
-                            Log.i("@checkstatust3", "check status successful w/EmptyJson");
+//                            Log.i("@checkstatust3", "check status successful w/EmptyJson");
 
 
                             JSONObject obj2 = new JSONObject();
@@ -431,9 +269,9 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                                 @Override
                                 public void Done(JSONObject result) {
                                     if(result != null){
-                                        Log.i("@deleteTutor", "delete Tutor successful");
+//                                        Log.i("@deleteTutor", "delete Tutor successful");
                                     } else {
-                                        Log.i("@deleteTutor", "delete Tutor failed!");
+//                                        Log.i("@deleteTutor", "delete Tutor failed!");
                                     }
                                 }
                             });
@@ -442,7 +280,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                             offerToTutorButton.setText("Offer to Tutor");
 
                         } else {
-                            Log.i("@checkstatust3", "check status failed");
+//                            Log.i("@checkstatust3", "check status failed");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -476,7 +314,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                         @Override
                         public void Done(JSONObject result) {
                             if(result != null){
-                                Log.i("@OfferToTutor", "Offer to tutor successful");
+//                                Log.i("@OfferToTutor", "Offer to tutor successful");
 
                                 offerToTutorButton.setText("Cancel Offer");
                                 tutor_offered = true;
@@ -484,7 +322,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                                 checkForUpdate2();
 
                             } else {
-                                Log.i("@OfferToTutor", "Offer to tutor failed!");
+//                                Log.i("@OfferToTutor", "Offer to tutor failed!");
                             }
                         }
                     });
@@ -529,11 +367,11 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
             e.printStackTrace();
         }
         ConnectionTask check_session_status = new ConnectionTask(obj2);
-        check_session_status.check_session_status(new ConnectionTask.CallBack() {
+        check_session_status.check_session_status_tutor(new ConnectionTask.CallBack() {
             @Override
             public void Done(JSONObject result) {
                 if(result != null){
-                    Log.i("@check_session_status", "check session completed");
+//                    Log.i("@check_session_status", "check session completed");
 
                     try {
 
@@ -545,6 +383,11 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                             checkForUpdate2();
                         } else if(status.equals("paired")){ // paired
                             checkForUpdate2();
+                        } else if(status.equals("pending")){
+                            Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+                            intent.putExtra("status", "2");
+                            startActivity(intent);
+                            finish();
                         } else if(status.equals("active")){ // in an active session
                             Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
                             intent.putExtra("status", "1");
@@ -559,7 +402,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                     }
 
                 } else {
-                    Log.i("@check_session_status", "check session status failed!"); // has not offered yet
+//                    Log.i("@check_session_status", "check session status failed!"); // has not offered yet
                 }
             }
         });
@@ -673,33 +516,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
                     if(DistanceToStudent < 0.5){
 
-//                        final AlertDialog dialog = new AlertDialog.Builder(ImmediateTutorServiceMapsActivity.this)
-//                                .setTitle("Arrived")
-//                                .setMessage("You have a.")
-//                                .setCancelable(false)
-//                                .setNeutralButton("Directions", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        Intent directionsIntent = new Intent(android.content.Intent.ACTION_VIEW,
-//                                                Uri.parse("http://maps.google.com/maps?saddr=" + intent.getDoubleExtra("tutorLatitude", 0) + "," + intent.getDoubleExtra("tutorLongitude", 0) + "&daddr=" + intent.getDoubleExtra("requestLatitude", 0) + "," + intent.getDoubleExtra("requestLongitude", 0)));
-//                                        startActivity(directionsIntent);
-//                                    }
-//                                })
-//                                .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.cancel();
-//                                    }
-//                                }).show();
-//
-//
-//                        handler.postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                dialog.dismiss();
-//                            }
-//                        }, 4000);
-
 
                         handler.postDelayed(new Runnable() {
                             @Override
@@ -712,10 +528,10 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                         }, 4000);
                     }
 
-                    Log.i("@onLocationChanged","Location updated successfully");
+//                    Log.i("@onLocationChanged","Location updated successfully");
                 }
                 else {
-                    Log.i("@onLocationChanged","Location update failed");
+//                    Log.i("@onLocationChanged","Location update failed");
                 }
             }
         });

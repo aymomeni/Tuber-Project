@@ -20,12 +20,12 @@ public class ClassActivity extends Activity {
   }
 
   public void class_option_tutorServices_clicked(View view) {
-	Log.i("OnListner", "clicked!");
+//	Log.i("OnListner", "clicked!");
 	startActivity(new Intent(ClassActivity.this, TutorServicesActivity.class));
   }
 
   public void class_option_offerToTutor_clicked(View view) {
-	Log.i("OnListner", "clicked!");
+//	Log.i("OnListner", "clicked!");
 	startActivity(new Intent(ClassActivity.this, OfferToTutorActivity.class));
   }
 
