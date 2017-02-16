@@ -1033,5 +1033,22 @@ namespace ToDoList
     {
 
     }
+
+
+
+
+
+
+
+
+
+    public class PayPalTestResponseItem
+    {
+        [DataMember]
+        public string string1 { get; set; }
+
+        [DataMember]
+        public string string2 { get; set; }
+    }
 }
 

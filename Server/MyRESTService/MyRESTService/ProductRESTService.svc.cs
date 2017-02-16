@@ -8,6 +8,8 @@ using MySql.Data.MySqlClient;
 using System.Device.Location;
 using System.Security.Cryptography;
 using System.Globalization;
+using PayPal.Api;
+
 
 
 namespace ToDoList
@@ -17,10 +19,10 @@ namespace ToDoList
     public class ProductRESTService : IToDoService
     {
         // Active CADE DB
-        public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
+        //public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
 
         // Developmental DB
-        //public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
+        public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
 
         // Old VM DB
         //public const string connectionString = "Server=23.99.55.197;Database=tuber;UID=tobin;Password=Redpack!99!!";
@@ -3813,6 +3815,11 @@ namespace ToDoList
             }
         }
 
-
+        public PayPalTestResponseItem PaypalTest()
+        {
+            // Skipped APIContext
+          
+            throw new NotImplementedException();
+        }
     }
 }
