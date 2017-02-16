@@ -88,19 +88,35 @@ namespace ToDoList
 
         [OperationContract]
         [WebInvoke(Method = "POST",
-            UriTemplate = "/getsessionstatus",
+            UriTemplate = "/getsessionstatustutor",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        GetSessionStatusResponseItem GetSessionStatus(GetSessionStatusRequestItem data);
+        GetSessionStatusTutorResponseItem GetSessionStatusTutor(GetSessionStatusTutorRequestItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
-            UriTemplate = "/starttutorsession",
+            UriTemplate = "/getsessionstatusstudent",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        StartTutorSessionResponseItem StartTutorSession(StartTutorSessionItem data);
+        GetSessionStatusStudentResponseItem GetSessionStatusStudent(GetSessionStatusStudentRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/starttutorsessiontutor",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StartTutorSessionTutorResponseItem StartTutorSessionTutor(StartTutorSessionTutorItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/starttutorsessionstudent",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StartTutorSessionStudentResponseItem StartTutorSessionStudent(StartTutorSessionStudentItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -232,11 +248,19 @@ namespace ToDoList
 
         [OperationContract]
         [WebInvoke(Method = "POST",
-            UriTemplate = "/startscheduledtutorsession",
+            UriTemplate = "/startscheduledtutorsessiontutor",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        StartScheduledTutorSessionResponseItem StartScheduledTutorSession(StartScheduledTutorSessionItem data);
+        StartScheduledTutorSessionTutorResponseItem StartScheduledTutorSessionTutor(StartScheduledTutorSessionTutorItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/startscheduledtutorsessionstudent",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StartScheduledTutorSessionStudentResponseItem StartScheduledTutorSessionStudent(StartScheduledTutorSessionStudentItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
