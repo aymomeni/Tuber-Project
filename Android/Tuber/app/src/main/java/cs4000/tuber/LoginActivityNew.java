@@ -116,7 +116,7 @@ public class LoginActivityNew extends AppCompatActivity {
             userLoginJSON.put("userPassword", _userPassword);
 
         }catch(JSONException e){
-            Log.i(TAG, "JSON Exception filling the object");
+//            Log.i(TAG, "JSON Exception filling the object");
             e.printStackTrace();
         }
 
@@ -134,28 +134,34 @@ public class LoginActivityNew extends AppCompatActivity {
                         _userTutorCourses = result.getString("userTutorCourses");
                         _lastLoginSuccess = true;
 
+                        onLoginSuccess(_lastLoginSuccess);
+                        progressDialog.dismiss();
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 } else {
                     _lastLoginSuccess = false;
-                    Log.i(TAG, "JSON result object null");
 
+                    onLoginSuccess(_lastLoginSuccess);
+                    progressDialog.dismiss();
+
+//                    Log.i(TAG, "JSON result object null");
                 }
             }
         });
 
 
 
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess(_lastLoginSuccess);
-                        //onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+//        new android.os.Handler().postDelayed(
+//                new Runnable() {
+//                    public void run() {
+//                        // On complete call either onLoginSuccess or onLoginFailed
+//                        onLoginSuccess(_lastLoginSuccess);
+//                        //onLoginFailed();
+//                        progressDialog.dismiss();
+//                    }
+//                }, 3000);
     }
 
 

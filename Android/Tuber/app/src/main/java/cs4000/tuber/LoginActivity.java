@@ -63,7 +63,7 @@ public class LoginActivity extends Activity {
 					  @Override
 					  public void done(ParseException e) {
 						  if (e == null){
-							  Log.i("SignUp", "Successful");
+//							  Log.i("SignUp", "Successful");
 							  Toast.makeText(getApplicationContext(),
 									  "Redirecting...", Toast.LENGTH_SHORT).show();
 							  switchToMenu();
@@ -94,10 +94,10 @@ public class LoginActivity extends Activity {
 							  usernameStr = user.getUsername();
 							  userObjectID = user.getObjectId();
 
-							  Log.i("LogIn", "Successful");
-							  Log.i("LogIn", "username: " + user.getUsername());
-							  Log.i("LogIn", "password: " + user.get("password"));
-							  Log.i("LogIn", "UID: " + user.getObjectId());
+//							  Log.i("LogIn", "Successful");
+//							  Log.i("LogIn", "username: " + user.getUsername());
+//							  Log.i("LogIn", "password: " + user.get("password"));
+//							  Log.i("LogIn", "UID: " + user.getObjectId());
 
 							// TODO: What if the password is incorrect?
 							// TODO: How to store username and maybe UserID Application Wide?

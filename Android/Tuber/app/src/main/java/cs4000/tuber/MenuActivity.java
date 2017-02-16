@@ -18,7 +18,7 @@ import com.parse.ParseAnalytics;
 public class MenuActivity extends Activity {
 
     public void pic_clicked(View view){
-        Log.i("OnListner","clicked!");
+//        Log.i("OnListner","clicked!");
         startActivity(new Intent(MenuActivity.this, ClassActivity.class));
     }
 

@@ -130,11 +130,11 @@ public class AvailableRequestPage extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     ConnectionTask check_session_status = new ConnectionTask(obj2);
-                    check_session_status.check_session_status(new ConnectionTask.CallBack() {
+                    check_session_status.check_session_status_tutor(new ConnectionTask.CallBack() {
                         @Override
                         public void Done(JSONObject result) {
                             if(result != null){
-                                Log.i("@check_session_status", "check session completed");
+//                                Log.i("@check_session_status", "check session completed");
 
                                 try {
 
@@ -142,12 +142,14 @@ public class AvailableRequestPage extends AppCompatActivity {
                                     Intent intent2 = new Intent(AvailableRequestPage.this, Studysession.class);
                                     if(status.equals("active")){ // only offered but looking to pair
                                         intent2.putExtra("status", "1");
-                                    } else { // session has ended
+                                    } else if (status.equals("pending")) { // session has ended
+                                        intent2.putExtra("status", "2");
+                                    } else {
                                         intent2.putExtra("status", "0");
                                     }
 
                                     intent2.putExtra("dateTime", dateTime);
-                                    Log.i("@from","Im HERE ");
+//                                    Log.i("@from","Im HERE ");
                                     intent2.putExtra("from", "scheduling");
                                     startActivity(intent2);
                                     //finish();
@@ -156,7 +158,7 @@ public class AvailableRequestPage extends AppCompatActivity {
                                 }
 
                             } else {
-                                Log.i("@check_session_status", "check session status failed!"); // has not offered yet
+//                                Log.i("@check_session_status", "check session status failed!"); // has not offered yet
                             }
                         }
                     });

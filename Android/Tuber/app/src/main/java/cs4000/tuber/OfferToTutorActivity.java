@@ -18,13 +18,13 @@ public class OfferToTutorActivity extends Activity {
   }
 
   public void tutor_services_immediate_service(View view) {
-	Log.i("Immediate Tutor Service", "clicked!");
+//	Log.i("Immediate Tutor Service", "clicked!");
 	startActivity(new Intent(OfferToTutorActivity.this, ImmediateTutorServiceMapsActivity.class));
   }
 
 
     public void view_available_requests(View view) {
-        Log.i("OnListner", "clicked!");
+//        Log.i("OnListner", "clicked!");
         startActivity(new Intent(OfferToTutorActivity.this, TutoringRequestsTutor.class));
     }
 

@@ -96,12 +96,12 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
                     jO.put("dateTime", dateTime);
                     jO.put("duration", duration);
 
-                    Log.i("@userEmail",_username);
-                    Log.i("@userToken",_useToken);
-                    Log.i("@course",course);
-                    Log.i("@topic",topic);
-                    Log.i("@dateTime",dateTime);
-                    Log.i("@duration",duration);
+//                    Log.i("@userEmail",_username);
+//                    Log.i("@userToken",_useToken);
+//                    Log.i("@course",course);
+//                    Log.i("@topic",topic);
+//                    Log.i("@dateTime",dateTime);
+//                    Log.i("@duration",duration);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

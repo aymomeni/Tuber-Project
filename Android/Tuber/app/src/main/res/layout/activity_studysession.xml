@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_studysession"
     android:layout_width="match_parent"
@@ -52,5 +53,26 @@
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
         android:textSize="18sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/red_light"
+        android:layout_alignTop="@+id/statusView"
+        android:layout_toEndOf="@+id/statusView"
+        android:id="@+id/statusImageV2"
+        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/rating_text" />
+
+    <TextView
+        android:text="Session Status:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/statusView"
+        android:textSize="24sp"
+        android:textColor="@color/white"
+        android:layout_above="@+id/rating_text"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="65dp" />
 
 </RelativeLayout>

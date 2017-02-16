@@ -181,6 +181,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void create_user(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/createuser", jsonParam.toString());
+		Log.i("@createuser",jsonParam.toString());
 	}
 
 	/**
@@ -205,6 +206,44 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void verify_user(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/verifyuser", jsonParam.toString());
+		Log.i("@verifyuser",jsonParam.toString());
+	}
+
+
+	public void add_student_classes(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/addstudentclasses", jsonParam.toString());
+		Log.i("@addstudentclasses",jsonParam.toString());
+	}
+
+	public void remove_student_classes(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/removestudentclasses", jsonParam.toString());
+		Log.i("@removestudentclasses",jsonParam.toString());
+	}
+
+	public void add_tutor_classes(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/addtutorclasses", jsonParam.toString());
+		Log.i("@addtutorclasses",jsonParam.toString());
+	}
+
+	public void remove_tutor_classes(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/removestudentclasses", jsonParam.toString());
+		Log.i("@removestudentclasses",jsonParam.toString());
+	}
+
+	public void enable_tutoring(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/enabletutoring", jsonParam.toString());
+		Log.i("@enabletutoring",jsonParam.toString());
+	}
+
+	public void disable_tutoring(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/disabletutoring", jsonParam.toString());
+		Log.i("@disabletutoring",jsonParam.toString());
 	}
 
 	/************************************************************
@@ -225,6 +264,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void make_tutor_available(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/maketutoravailable", jsonParam.toString());
+		Log.i("@maketutoravailable",jsonParam.toString());
 	}
 
 	/**
@@ -239,6 +279,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void delete_tutor_available(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/deletetutoravailable", jsonParam.toString());
+		Log.i("@deletetutoravailable",jsonParam.toString());
 	}
 
 	/**
@@ -264,6 +305,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void find_available_tutors(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/findavailabletutors", jsonParam.toString());
+		Log.i("@findavailabletutors",jsonParam.toString());
 	}
 
 	/**
@@ -289,9 +331,10 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * "userToken": "127ef466-2210-4b87-9f39-06cacd4b6cf5"
 	 * }
 	 */
-	public void pair_student_tutor(ConnectionTask.CallBack taskListener) {
+	public void pair_student_to_tutor(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/pairstudenttutor", jsonParam.toString());
+		Log.i("@pairstudenttutor",jsonParam.toString());
 	}
 
 	/**
@@ -326,6 +369,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void check_paired_status(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/checkpairedstatus", jsonParam.toString());
+		Log.i("@checkpairedstatus",jsonParam.toString());
 	}
 
 	/**
@@ -362,6 +406,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void check_session_activeStatusStudent(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/checksessionactivestatusstudent", jsonParam.toString());
+		Log.i("@sessionactivestudent",jsonParam.toString());
 	}
 
 	/**
@@ -382,9 +427,16 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * "completed" = your tutoring session has been completed
 	 * A bad request response means that you are not in any of these states.
 	 */
-	public void check_session_status(ConnectionTask.CallBack taskListener) {
+	public void check_session_status_tutor(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
-		this.execute("/getsessionstatus", jsonParam.toString());
+		this.execute("/getsessionstatustutor", jsonParam.toString());
+		Log.i("@getsessionstatustutor",jsonParam.toString());
+	}
+
+	public void check_session_status_student(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/getsessionstatusstudent", jsonParam.toString());
+		Log.i("@sessionstatusstudent",jsonParam.toString());
 	}
 
 	/**
@@ -397,9 +449,16 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Returns 200 OK
 	 * Nothing...
 	 */
-	public void start_tutor_session(ConnectionTask.CallBack taskListener) {
+	public void start_tutoring_session_tutor(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
-		this.execute("/starttutorsession", jsonParam.toString());
+		this.execute("/starttutorsessiontutor", jsonParam.toString());
+		Log.i("@startsessiontutor",jsonParam.toString());
+	}
+
+	public void start_tutoring_session_student(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/starttutorsessionstudent", jsonParam.toString());
+		Log.i("@startsessionstudent",jsonParam.toString());
 	}
 
 	/**
@@ -419,9 +478,10 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * "userEmail": "brandontobin@cox.net"
 	 * }
 	 */
-	public void end_tutor_session(ConnectionTask.CallBack taskListener) {
+	public void end_tutoring_session(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/endtutorsession", jsonParam.toString());
+		Log.i("@endtutorsession",jsonParam.toString());
 	}
 
 	/**
@@ -442,6 +502,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void update_student_location(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/updatestudentlocation", jsonParam.toString());
+		Log.i("@updatestudentlocation",jsonParam.toString());
 	}
 
 	/**
@@ -462,6 +523,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void update_tutor_location(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/updatetutorlocation", jsonParam.toString());
+		Log.i("@updatetutorlocation",jsonParam.toString());
 	}
 
 	/************************************************************
@@ -482,6 +544,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void create_study_hotspot(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/createstudyhotspot", jsonParam.toString());
+		Log.i("@createstudyhotspot",jsonParam.toString());
 	}
 
 	/**
@@ -511,6 +574,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void find_study_hotspots(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/findstudyhotspots", jsonParam.toString());
+		Log.i("@findstudyhotspots",jsonParam.toString());
 	}
 
 	/**
@@ -526,6 +590,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void join_study_hotspots(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/joinstudyhotspot", jsonParam.toString());
+		Log.i("@joinstudyhotspot",jsonParam.toString());
 	}
 
 	/**
@@ -540,6 +605,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void leave_study_hotspots(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/leavestudyhotspot", jsonParam.toString());
+		Log.i("@leavestudyhotspot",jsonParam.toString());
 	}
 
 	/**
@@ -566,6 +632,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void get_study_hotspot_members(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/getstudyhotspotmembers", jsonParam.toString());
+		Log.i("@getstudyhotspotmembers",jsonParam.toString());
 	}
 
 	/**
@@ -581,6 +648,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void delete_study_hotspots(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/deletestudyhotspot", jsonParam.toString());
+		Log.i("@deletestudyhotspot",jsonParam.toString());
 	}
 
 	/************************************************************
@@ -604,6 +672,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void schedule_tutor(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/scheduletutor", jsonParam.toString());
+		Log.i("@scheduletutor",jsonParam.toString());
 	}
 
 	/**
@@ -629,6 +698,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void find_all_scheduled_tutor_requests(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/findallscheduletutorrequests", jsonParam.toString());
+		Log.i("@findschedulerequests",jsonParam.toString());
 	}
 
 	/**
@@ -652,6 +722,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void accept_student_scheduled_request(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/acceptstudentscheduledrequest", jsonParam.toString());
+		Log.i("@acceptstudentscheduled",jsonParam.toString());
 	}
 
 	/**
@@ -677,6 +748,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void find_all_scheduled_tutor_acceptedRequests(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/findallscheduletutoracceptedrequests", jsonParam.toString());
+		Log.i("@scheduleDtutoraccepted",jsonParam.toString());
 	}
 
 	/**
@@ -702,6 +774,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void check_scheduled_paired_status(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/checkscheduledpairedstatus", jsonParam.toString());
+		Log.i("@scheduledpairedstatus",jsonParam.toString());
 	}
 
 	/**
@@ -716,9 +789,16 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	 * @Note Use the same /endtutorsession in the Immediate tutor
 	 * functions section to end the tutoring session.
 	 */
-	public void start_scheduled_tutor_session(ConnectionTask.CallBack taskListener) {
+	public void start_scheduled_tutor_session_tutor(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
-		this.execute("/startscheduledtutorsession", jsonParam.toString());
+		this.execute("/startscheduledtutorsessiontutor", jsonParam.toString());
+		Log.i("@scheduledtutorsessionT",jsonParam.toString());
+	}
+
+	public void start_scheduled_tutor_session_student(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/startscheduledtutorsessionstudent", jsonParam.toString());
+		Log.i("@scheduledtutorsessionS",jsonParam.toString());
 	}
 
 	/************************************************************
@@ -743,6 +823,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void rate_tutor(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/ratetutor", jsonParam.toString());
+		Log.i("@ratetutor",jsonParam.toString());
 	}
 
 	/**
@@ -764,6 +845,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void rate_student(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/ratestudent", jsonParam.toString());
+		Log.i("@ratestudent",jsonParam.toString());
 	}
 
 	/************************************************************
@@ -792,6 +874,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void reportTutor_get_tutorList(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/reporttutorgettutorlist", jsonParam.toString());
+		Log.i("@gettutorlist",jsonParam.toString());
 	}
 
 	/**
@@ -835,6 +918,7 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void reportTutor_get_sessionList(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/reporttutorgetsessionlist", jsonParam.toString());
+		Log.i("@getsessionlist",jsonParam.toString());
 	}
 
 	/**
@@ -855,5 +939,6 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public void report_tutor(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
 		this.execute("/reporttutor", jsonParam.toString());
+		Log.i("@reporttutor",jsonParam.toString());
 	}
 }

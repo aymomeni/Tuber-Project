@@ -18,17 +18,17 @@ public class TutorServicesActivity extends Activity {
     }
 
     public void tutor_services_immediate_request(View view) {
-        Log.i("OnListner", "clicked!");
+//        Log.i("OnListner", "clicked!");
         startActivity(new Intent(TutorServicesActivity.this, ImmediateStudentRequestActivity.class));
     }
 
     public void tutor_services_schedule_request(View view) {
-        Log.i("OnListner", "clicked!");
+//        Log.i("OnListner", "clicked!");
         startActivity(new Intent(TutorServicesActivity.this, ScheduleATutor.class));
     }
 
     public void view_scheduled_requests(View view) {
-        Log.i("OnListner", "clicked!");
+//        Log.i("OnListner", "clicked!");
         startActivity(new Intent(TutorServicesActivity.this, TutoringRequests.class));
     }
 }
