@@ -1033,5 +1033,41 @@ namespace ToDoList
     {
 
     }
+
+    public class ChangeUserPasswordRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string currentPassword { get; set; }
+
+        [DataMember]
+        public string newPassword { get; set; }
+    }
+
+    public class ChangeUserPasswordResponseItem
+    {
+
+    }
+
+
+
+
+
+
+
+
+    public class PayPalTestResponseItem
+    {
+        [DataMember]
+        public string string1 { get; set; }
+
+        [DataMember]
+        public string string2 { get; set; }
+    }
 }
 

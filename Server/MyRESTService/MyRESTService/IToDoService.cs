@@ -333,5 +333,24 @@ namespace ToDoList
           ResponseFormat = WebMessageFormat.Json,
           BodyStyle = WebMessageBodyStyle.Bare)]
         DisableTutoringResponseItem DisableTutoring(DisableTutoringRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+          UriTemplate = "/changeuserpassword",
+          RequestFormat = WebMessageFormat.Json,
+          ResponseFormat = WebMessageFormat.Json,
+          BodyStyle = WebMessageBodyStyle.Bare)]
+        ChangeUserPasswordResponseItem ChangeUserPassword(ChangeUserPasswordRequestItem data);
+
+
+
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+          UriTemplate = "/paypaltest",
+          RequestFormat = WebMessageFormat.Json,
+          ResponseFormat = WebMessageFormat.Json,
+          BodyStyle = WebMessageBodyStyle.Bare)]
+        PayPalTestResponseItem PaypalTest();
     }
 }

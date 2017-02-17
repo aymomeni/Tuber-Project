@@ -123,3 +123,5 @@ C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyREST
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.pdb
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.csprojResolveAssemblyReference.cache
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.Web.Administration.dll
+C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\PayPal.dll
+C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\PayPal.xml
