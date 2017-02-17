@@ -135,45 +135,47 @@ public class StudentStudySession extends Activity {
                         if(result.getString("session_status").equals("pending")){
 
                             final AlertDialog dialog = new AlertDialog.Builder(StudentStudySession.this)
-								.setTitle("Pending")
-								.setMessage("Please confirm the start of the session.")
-								.setCancelable(false)
-								.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										dialog.cancel();
+                                    .setTitle("Pending")
+                                    .setMessage("Please confirm the start of the session.")
+                                    .setCancelable(false)
+                                    .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.cancel();
 
-										JSONObject obj3 = new JSONObject();
-										try{
-											obj3.put("userEmail", _userEmail);
-											obj3.put("userToken", _userToken);
-											obj3.put("course", "CS 2420");
+                                            JSONObject obj3 = new JSONObject();
+                                            try{
+                                                obj3.put("userEmail", _userEmail);
+                                                obj3.put("userToken", _userToken);
+                                                obj3.put("course", "CS 2420");
 //											obj2.put("longitude", _studentLong);
-										} catch (JSONException e) {
-											e.printStackTrace();
-										}
-										ConnectionTask task2 = new ConnectionTask(obj3);
-										task2.start_tutoring_session_student(new ConnectionTask.CallBack() {
-											@Override
-											public void Done(JSONObject result) {
-												if(result != null) {
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            ConnectionTask task2 = new ConnectionTask(obj3);
+                                            task2.start_tutoring_session_student(new ConnectionTask.CallBack() {
+                                                @Override
+                                                public void Done(JSONObject result) {
+                                                    if(result != null) {
 //													Log.i("@STST", "start sessionStudent completed");
-                                                    check_for_sessionEnd();
-												} else {
+                                                        check_for_sessionEnd();
+                                                    } else {
 //													Log.i("@STST", "start sessionStudent FAILED");
-												}
-											}
-										});
-									}
-								}).show();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }).show();
 
                         } else {
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    check_for_sessionStart();
-                                }
-                            }, 3000);
+                            if(!exited) {
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        check_for_sessionStart();
+                                    }
+                                }, 500);
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -238,7 +240,7 @@ public class StudentStudySession extends Activity {
                                 public void run() {
                                     check_for_sessionEnd();
                                 }
-                            }, 3000);
+                            }, 5000);
                         }
                     } else {
 
@@ -248,7 +250,7 @@ public class StudentStudySession extends Activity {
                                 public void run() {
                                     check_for_sessionEnd();
                                 }
-                            }, 3000);
+                            }, 5000);
                         }
                     }
                 } catch (JSONException e) {

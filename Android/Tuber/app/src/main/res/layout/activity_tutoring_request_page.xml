@@ -12,16 +12,6 @@
     tools:context="cs4000.tuber.TutoringRequestPage">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/tutorNameTextValue"
-        android:layout_marginTop="50dp"
-        android:textSize="30sp"
-        android:text="Awaiting to be paired" />
-
-    <TextView
         android:text="Course:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -117,5 +107,16 @@
         android:layout_marginLeft="10dp"
         android:layout_alignStart="@+id/sessionButton"
         android:layout_alignBaseline="@+id/durationTextView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tutorNameTextValue"
+        android:layout_marginTop="50dp"
+        android:textSize="30sp"
+        android:text="Awaiting to be paired"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="26dp" />
 
 </RelativeLayout>
