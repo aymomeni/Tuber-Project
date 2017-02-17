@@ -98,6 +98,132 @@ namespace ToDoList
         public string longitude { get; set; }
     }
 
+
+
+    public class AddStudentClassesRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public List<String> classesToBeAdded { get; set; }
+    }
+
+    public class AddStudentClassesResponseItem
+    {
+        [DataMember]
+        public List<String> enrolledStudentClasses { get; set; }
+    }
+
+    public class RemoveStudentClassesRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public List<String> classesToBeRemoved { get; set; }
+    }
+
+    public class RemoveStudentClassesResponseItem
+    {
+        [DataMember]
+        public List<String> enrolledStudentClasses { get; set; }
+    }
+
+    public class AddTutorClassesRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public List<String> classesToBeAdded { get; set; }
+    }
+
+    public class AddTutorClassesResponseItem
+    {
+        [DataMember]
+        public List<String> enrolledTutorClasses { get; set; }
+    }
+
+    public class RemoveTutorClassesRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public List<String> classesToBeRemoved { get; set; }
+    }
+
+    public class RemoveTutorClassesResponseItem
+    {
+        [DataMember]
+        public List<String> enrolledTutorClasses { get; set; }
+    }
+
+    public class EnableTutoringRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class EnableTutoringResponseItem
+    {
+
+    }
+
+    public class DisableTutoringRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class DisableTutoringResponseItem
+    {
+
+    }
+
+    public class ChangeUserPasswordRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string currentPassword { get; set; }
+
+        [DataMember]
+        public string newPassword { get; set; }
+    }
+
+    public class ChangeUserPasswordResponseItem
+    {
+
+    }
+
+
+
+
+
     public class MakeTutorAvailableResponseItem
     {
 
@@ -474,6 +600,48 @@ namespace ToDoList
     public class RateStudentResponseItem
     {
         
+    }
+
+    public class GetTutorRatingRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string tutorEmail { get; set; }
+    }
+
+    public class GetTutorRatingResponseItem
+    {
+        [DataMember]
+        public double ratingsCount { get; set; }
+
+        [DataMember]
+        public double ratingsAverage { get; set; }
+    }
+
+    public class GetStudentRatingRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string studentEmail { get; set; }
+    }
+
+    public class GetStudentRatingResponseItem
+    {
+        [DataMember]
+        public double ratingsCount { get; set; }
+
+        [DataMember]
+        public double ratingsAverage { get; set; }
     }
 
     public class CreateStudyHotspotRequestItem
@@ -934,125 +1102,7 @@ namespace ToDoList
         
     }
 
-    public class AddStudentClassesRequestItem
-    {
-        [DataMember]
-        public string userEmail { get; set; }
-
-        [DataMember]
-        public string userToken { get; set; }
-
-        [DataMember]
-        public List<String> classesToBeAdded { get; set; }
-    }
-
-    public class AddStudentClassesResponseItem
-    {
-        [DataMember]
-        public List<String> enrolledStudentClasses { get; set; }
-    }
-
-    public class RemoveStudentClassesRequestItem
-    {
-        [DataMember]
-        public string userEmail { get; set; }
-
-        [DataMember]
-        public string userToken { get; set; }
-
-        [DataMember]
-        public List<String> classesToBeRemoved { get; set; }
-    }
-
-    public class RemoveStudentClassesResponseItem
-    {
-        [DataMember]
-        public List<String> enrolledStudentClasses { get; set; }
-    }
-
-    public class AddTutorClassesRequestItem
-    {
-        [DataMember]
-        public string userEmail { get; set; }
-
-        [DataMember]
-        public string userToken { get; set; }
-
-        [DataMember]
-        public List<String> classesToBeAdded { get; set; }
-    }
-
-    public class AddTutorClassesResponseItem
-    {
-        [DataMember]
-        public List<String> enrolledTutorClasses { get; set; }
-    }
-
-    public class RemoveTutorClassesRequestItem
-    {
-        [DataMember]
-        public string userEmail { get; set; }
-
-        [DataMember]
-        public string userToken { get; set; }
-
-        [DataMember]
-        public List<String> classesToBeRemoved { get; set; }
-    }
-
-    public class RemoveTutorClassesResponseItem
-    {
-        [DataMember]
-        public List<String> enrolledTutorClasses { get; set; }
-    }
-
-    public class EnableTutoringRequestItem
-    {
-        [DataMember]
-        public string userEmail { get; set; }
-
-        [DataMember]
-        public string userToken { get; set; }
-    }
-
-    public class EnableTutoringResponseItem
-    {
-        
-    }
-
-    public class DisableTutoringRequestItem
-    {
-        [DataMember]
-        public string userEmail { get; set; }
-
-        [DataMember]
-        public string userToken { get; set; }
-    }
-
-    public class DisableTutoringResponseItem
-    {
-
-    }
-
-    public class ChangeUserPasswordRequestItem
-    {
-        [DataMember]
-        public string userEmail { get; set; }
-
-        [DataMember]
-        public string userToken { get; set; }
-
-        [DataMember]
-        public string currentPassword { get; set; }
-
-        [DataMember]
-        public string newPassword { get; set; }
-    }
-
-    public class ChangeUserPasswordResponseItem
-    {
-
-    }
+    
 
 
 
