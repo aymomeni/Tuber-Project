@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              >
+
+    <com.chauthai.overscroll.RecyclerViewBouncy
+
+        android:id="@+id/recyclerViewStudent"
+        android:overScrollMode="always"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:tension="1000"
+        app:friction="200"
+
+        app:gapLimit="220"
+        app:speedFactor="5"
+
+        app:viewCountEstimateSize="5"
+        app:maxAdapterSizeToEstimate="20"
+        />
+
+
+</LinearLayout>

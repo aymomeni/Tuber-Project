@@ -35,6 +35,7 @@ public class Studysession extends AppCompatActivity {
     Intent intent;
 
     private boolean automated = false;
+    private boolean exited = false;
 
     private String _userEmail;
     private String _userToken;
@@ -43,6 +44,12 @@ public class Studysession extends AppCompatActivity {
     private String studentEmail;
 
     Handler handler = new Handler();
+
+    @Override
+    public void onBackPressed() {
+        exited = true;
+        finish();
+    }
 
     private String from;
 //    public void onBackPressed()
@@ -177,6 +184,7 @@ public class Studysession extends AppCompatActivity {
                                             Check_sessionStart();
 
                                         } else {
+                                            automated = true;
                                             session_switch.setChecked(false);
 //                                            Log.i("@start_tutor_session", "start session failed!");
                                         }
@@ -272,12 +280,14 @@ public class Studysession extends AppCompatActivity {
                                     }).show();
                             status_light.setImageResource(R.drawable.green_light);
                         } else {
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Check_sessionStart();
-                                }
-                            }, 3000);
+                            if(!exited) {
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Check_sessionStart();
+                                    }
+                                }, 500);
+                            }
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

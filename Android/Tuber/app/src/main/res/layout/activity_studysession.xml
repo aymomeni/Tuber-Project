@@ -73,6 +73,6 @@
         android:textColor="@color/white"
         android:layout_above="@+id/rating_text"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="65dp" />
+        android:layout_marginLeft="87dp" />
 
 </RelativeLayout>

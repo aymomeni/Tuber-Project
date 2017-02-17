@@ -33,6 +33,7 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.games.internal.api.StatsImpl;
 //import com.parse.FindCallback;
 //import com.parse.ParseException;
 //import com.parse.ParseGeoPoint;
@@ -299,63 +300,114 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         ConnectionTask check_session_student = new ConnectionTask(obj);
-        check_session_student.update_student_location(new ConnectionTask.CallBack() {
+
+        check_session_student.check_session_status_student(new ConnectionTask.CallBack() {
             @Override
             public void Done(JSONObject result) {
                 if(result != null) {
-//                    Log.i("@check_session_student", "check sessionStudent completed");
-
-                    Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
                     try {
-                        intent.putExtra("tutorLatitude", Double.valueOf(result.getString("tutorLatitude")));
-                        intent.putExtra("tutorLongitude", Double.valueOf(result.getString("tutorLongitude")));
-                        intent.putExtra("studentLatitude", temp.getLatitude());
-                        intent.putExtra("studentLongitude", temp.getLongitude());
-                        intent.putExtra("studentCourse", "CS 2420");
-                        intent.putExtra("username", result.getString("tutorEmail"));
+                        String status = result.getString("session_status");
+
+                        if(status.equals("paired")) {
+                            Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
+                            try {
+                                intent.putExtra("tutorLatitude", Double.valueOf(result.getString("tutorLatitude")));
+                                intent.putExtra("tutorLongitude", Double.valueOf(result.getString("tutorLongitude")));
+                                intent.putExtra("studentLatitude", temp.getLatitude());
+                                intent.putExtra("studentLongitude", temp.getLongitude());
+                                intent.putExtra("studentCourse", "CS 2420");
+                                intent.putExtra("username", result.getString("tutorEmail"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            startActivity(intent);
+                            finish();
+                        } else if(status.equals("pending")) {
+                            Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
+                            //intent.putExtra("status", "1");
+                            startActivity(intent);
+                            finish();
+                        } else if(status.equals("pending")) {
+                            Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
+                            //intent.putExtra("status", "2");
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            updateListView(getLocation());
+                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    startActivity(intent);
-                    finish();
-//                    Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
-//                    intent.putExtra("tutorEmail", "");
-//                    intent.putExtra("tutorSessionID", "");
-//                    startActivity(intent);
-//                    finish();
-
                 } else {
-//                    Log.i("@check_session_student", "check sessionStudent failed - no pairing");
-                    updateListView(getLocation());
-//                    JSONObject obj2 = new JSONObject();
-//                    try{
-//                        obj2.put("userEmail", _userEmail);
-//                        obj2.put("userToken", _userToken);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                    ConnectionTask check_session_student = new ConnectionTask(obj2);
-//                    check_session_student.check_session_activeStatusStudent(new ConnectionTask.CallBack() {
-//                        @Override
-//                        public void Done(JSONObject result) {
-//                            if(result != null) {
-//                                Log.i("@check_session_student", "check sessionStudent completed");
-//
-//                                Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
-//                                intent.putExtra("tutorEmail", "");
-//                                intent.putExtra("tutorSessionID", "");
-//                                startActivity(intent);
-//                                finish();
-//
-//                            } else {
-//                                Log.i("@check_session_student", "check sessionStudent failed - no pairing");
-//                                updateListView(getLocation());
-//                            }
-//                        }
-//                    });
+
                 }
             }
         });
+
+
+
+
+
+
+        //ConnectionTask check_session_student = new ConnectionTask(obj);
+//        check_session_student.update_student_location(new ConnectionTask.CallBack() {
+//            @Override
+//            public void Done(JSONObject result) {
+//                if(result != null) {
+////                    Log.i("@check_session_student", "check sessionStudent completed");
+//
+//                    Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
+//                    try {
+//                        intent.putExtra("tutorLatitude", Double.valueOf(result.getString("tutorLatitude")));
+//                        intent.putExtra("tutorLongitude", Double.valueOf(result.getString("tutorLongitude")));
+//                        intent.putExtra("studentLatitude", temp.getLatitude());
+//                        intent.putExtra("studentLongitude", temp.getLongitude());
+//                        intent.putExtra("studentCourse", "CS 2420");
+//                        intent.putExtra("username", result.getString("tutorEmail"));
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                    startActivity(intent);
+//                    finish();
+////                    Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
+////                    intent.putExtra("tutorEmail", "");
+////                    intent.putExtra("tutorSessionID", "");
+////                    startActivity(intent);
+////                    finish();
+//
+//                } else {
+////                    Log.i("@check_session_student", "check sessionStudent failed - no pairing");
+//                    updateListView(getLocation());
+////                    JSONObject obj2 = new JSONObject();
+////                    try{
+////                        obj2.put("userEmail", _userEmail);
+////                        obj2.put("userToken", _userToken);
+////                    } catch (JSONException e) {
+////                        e.printStackTrace();
+////                    }
+////                    ConnectionTask check_session_student = new ConnectionTask(obj2);
+////                    check_session_student.check_session_activeStatusStudent(new ConnectionTask.CallBack() {
+////                        @Override
+////                        public void Done(JSONObject result) {
+////                            if(result != null) {
+////                                Log.i("@check_session_student", "check sessionStudent completed");
+////
+////                                Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
+////                                intent.putExtra("tutorEmail", "");
+////                                intent.putExtra("tutorSessionID", "");
+////                                startActivity(intent);
+////                                finish();
+////
+////                            } else {
+////                                Log.i("@check_session_student", "check sessionStudent failed - no pairing");
+////                                updateListView(getLocation());
+////                            }
+////                        }
+////                    });
+//                }
+//            }
+//        });
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.

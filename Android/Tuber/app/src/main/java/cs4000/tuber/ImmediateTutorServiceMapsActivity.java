@@ -55,6 +55,8 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
     LocationManager locationManager;
     LocationListener locationListener;
 
+    boolean exited = false;
+
     Button offerToTutorButton;
     Button log_out_botton;
     Boolean tutor_offered = false; // offered
@@ -81,6 +83,12 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
 
     Handler handler = new Handler(); // used for polling
+
+    @Override
+    public void onBackPressed() {
+        exited = true;
+        finish();
+    }
 
     Intent intent;
 
@@ -180,7 +188,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                     } else { // no student accepted yet
 //                        Log.i("@checkstatust2", "check status failed!");
 
-                        if(tutor_offered){
+                        if(tutor_offered && !exited){
                             handler.postDelayed(new Runnable() {
 
                                 @Override
