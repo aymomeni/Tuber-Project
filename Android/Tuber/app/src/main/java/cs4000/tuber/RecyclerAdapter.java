@@ -1,6 +1,5 @@
 package cs4000.tuber;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,18 +8,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import static android.R.attr.type;
-
 /**
  * Created by Ali on 2/7/2017.
  */
 
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     private ArrayList<RecyclerCourseObject> dataList;
 
-    private Context mContext;
 
     @Override
     public int getItemCount() {
@@ -146,8 +142,4 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 }

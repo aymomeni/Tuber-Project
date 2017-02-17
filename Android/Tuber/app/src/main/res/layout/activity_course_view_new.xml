@@ -8,28 +8,29 @@
     tools:context="cs4000.tuber.CourseViewActivityNew">
 
 
-<!--<android.support.v4.view.ViewPager-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:id="@+id/viewpager"-->
+<android.support.v4.view.ViewPager
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/viewpager">
 
-    <!--/>-->
-    <com.chauthai.overscroll.RecyclerViewBouncy
+    <!--<com.chauthai.overscroll.RecyclerViewBouncy-->
 
-        android:id="@+id/r_view"
-        android:overScrollMode="always"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        <!--android:id="@+id/r_view"-->
+        <!--android:overScrollMode="always"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
 
-        app:tension="1000"
-        app:friction="200"
+        <!--app:tension="1000"-->
+        <!--app:friction="200"-->
 
-        app:gapLimit="220"
-        app:speedFactor="5"
+        <!--app:gapLimit="220"-->
+        <!--app:speedFactor="5"-->
 
-        app:viewCountEstimateSize="5"
-        app:maxAdapterSizeToEstimate="20"
-     />
+        <!--app:viewCountEstimateSize="5"-->
+        <!--app:maxAdapterSizeToEstimate="20"-->
+        <!--/>-->
+
+</android.support.v4.view.ViewPager>
 
 
 </LinearLayout>
