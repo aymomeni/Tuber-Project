@@ -116,3 +116,5 @@ C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Release\MyRE
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Release\MyRESTService.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Release\MyRESTService.pdb
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.Web.Administration.dll
+C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\PayPal.dll
+C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\PayPal.xml
