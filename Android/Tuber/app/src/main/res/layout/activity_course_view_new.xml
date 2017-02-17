@@ -5,9 +5,15 @@
     android:id="@+id/activity_course_view4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="cs4000.tuber.CourseViewActivityNew">
 
+
+<!--<android.support.v4.view.ViewPager-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:id="@+id/viewpager"-->
+
+    <!--/>-->
     <com.chauthai.overscroll.RecyclerViewBouncy
 
         android:id="@+id/r_view"
@@ -24,5 +30,6 @@
         app:viewCountEstimateSize="5"
         app:maxAdapterSizeToEstimate="20"
      />
+
 
 </LinearLayout>

@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import static android.R.attr.type;
+
 /**
  * Created by Ali on 2/7/2017.
  */
