@@ -1,5 +1,6 @@
 package cs4000.tuber;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -46,6 +47,23 @@ public class StudentCourseFragment extends Fragment {
         //GridLayoutManager gl= new GridLayoutmanager(context,6,GridLayoutManager.HORIZONTAL,reverseLayout);
         //StaggeredGridLayoutManager sgl= new StaggeredGridLayoutManager(6, StaggeredGridLayoutManager.HORIZONTAL);
         recList.setLayoutManager(llm);
+
+        ItemClickSupport.addTo(recList).setOnItemClickListener(
+                new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        if(studentCourseDataSet.size() > position) {
+
+                            Intent intent = new Intent(getActivity(), ClassActivity.class);
+                            intent.putExtra("courseName", studentCourseDataSet.get(position).getCourse());
+                            startActivity(intent);
+
+                        }
+
+
+                    }
+                }
+        );
 
 
         studentCourseDataSet = new ArrayList<RecyclerCourseObject>();
