@@ -117,6 +117,8 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");
         _userToken = sharedPreferences.getString("userToken", "");
+
+
         //_studentLatitude = lastKnownLocation.getLatitude();
         //_studentLongitude = lastKnownLocation.getLongitude();
 

@@ -3,17 +3,12 @@ package cs4000.tuber;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Activity;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -97,7 +92,7 @@ public class TutoringRequestsTutor extends AppCompatActivity {
                         if (position != RecyclerView.NO_POSITION) { // Check if an item was deleted, but the user clicked it before the UI removed it
                             if(requests.size() > position) {
 
-                                Intent intent = new Intent(getApplicationContext(), AvailableRequestPage.class);
+                                Intent intent = new Intent(getApplicationContext(), AvailableAcceptedRequestPage.class);
 
                                 intent.putExtra("studentEmail", requests.get(position).getStudentEmail());
                                 intent.putExtra("topic", requests.get(position).getTopic());
@@ -141,7 +136,7 @@ public class TutoringRequestsTutor extends AppCompatActivity {
 //                if(requests.size() > i && studentEmails.size() > i && courses.size() > i && topics.size() > i
 //                        && dateTimes.size() > i && durations.size() > i) {
 //
-//                    Intent intent = new Intent(getApplicationContext(), AvailableRequestPage.class);
+//                    Intent intent = new Intent(getApplicationContext(), AvailableAcceptedRequestPage.class);
 //
 //                    intent.putExtra("studentEmail", studentEmails.get(i));
 //                    intent.putExtra("topic", topics.get(i));

@@ -25,7 +25,7 @@ public class OfferToTutorActivity extends Activity {
 
     public void view_available_requests(View view) {
 //        Log.i("OnListner", "clicked!");
-        startActivity(new Intent(OfferToTutorActivity.this, TutoringRequestsTutor.class));
+        startActivity(new Intent(OfferToTutorActivity.this, TutoringRequestsPager.class));
     }
 
 

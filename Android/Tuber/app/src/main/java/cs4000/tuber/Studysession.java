@@ -4,12 +4,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Activity;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -96,7 +94,9 @@ public class Studysession extends AppCompatActivity {
 
         if(state.equals("2")) {
             session_switch.setChecked(true);
+            session_switch.setClickable(false);
             status_light.setImageResource(R.drawable.yellow_light);
+            Check_sessionStart();
         }
 
         submitRating_button.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +140,7 @@ public class Studysession extends AppCompatActivity {
                         // The toggle is enabled
                         //do stuff when Switch is ON
 
-                        JSONObject sesssion_info = new JSONObject();
+                        final JSONObject sesssion_info = new JSONObject();
                         try {
                             sesssion_info.put("userEmail", _userEmail);
                             sesssion_info.put("userToken", _userToken);
@@ -160,6 +160,7 @@ public class Studysession extends AppCompatActivity {
                                         if (result != null) {
 //                                            Log.i("@start_scheduled_sessin", "session pending!");
                                             status_light.setImageResource(R.drawable.yellow_light);
+                                            session_switch.setClickable(false);
                                             Check_sessionStart();
 
                                         } else {
@@ -181,8 +182,8 @@ public class Studysession extends AppCompatActivity {
                                         if (result != null) {
 //                                            Log.i("@start_tutor_session", "session started!");
                                             status_light.setImageResource(R.drawable.yellow_light);
+                                            session_switch.setClickable(false);
                                             Check_sessionStart();
-
                                         } else {
                                             automated = true;
                                             session_switch.setChecked(false);
@@ -225,7 +226,7 @@ public class Studysession extends AppCompatActivity {
 //                        "studentEmail": "brandontobin2@cox.net",
 //                        "userEmail": "brandontobin@cox.net"
                                     if (from != null && from.equals("scheduling")) {
-                                        AvailableRequestPage.getInstance().finish();
+                                        AvailableAcceptedRequestPage.getInstance().finish();
                                     }
 //                                    Log.i("@end_tutor_session", "session ended!");
                                 } else {
@@ -279,8 +280,9 @@ public class Studysession extends AppCompatActivity {
                                         }
                                     }).show();
                             status_light.setImageResource(R.drawable.green_light);
+                            session_switch.setClickable(true);
                         } else {
-                            if(!exited) {
+                            if(!exited && session_switch.isChecked()) {
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {

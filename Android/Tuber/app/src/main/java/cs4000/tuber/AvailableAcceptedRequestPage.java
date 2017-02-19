@@ -24,6 +24,7 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
     private String topic;
     private String dateTime;
     private String duration;
+    private String type;
 
     TextView studetEmailTextView;
     TextView courseTextView;
@@ -59,6 +60,7 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
         topic = intent.getStringExtra("topic");
         dateTime = intent.getStringExtra("dateTime");
         duration = intent.getStringExtra("duration");
+        type = intent.getStringExtra("type");
 
         studetEmailTextView = (TextView) findViewById(R.id.studentNameTextValue);
         courseTextView = (TextView) findViewById(R.id.courseTextValue2);
@@ -73,7 +75,6 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
         topicTextView.setText(topic);
         dateTimeTextView.setText(dateTime);
         durationTextView.setText(duration);
-
 
         sessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +99,7 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
                             public void Done(JSONObject result) {
 
                                 if (result != null) {
-                                    TutoringRequestsTutor.getInstance().finish();
+                                    //TutoringRequestsTutor.getInstance().finish();
 
                                     Toast.makeText(AvailableAcceptedRequestPage.this, "You have accepted the resquest successfully. You can now view the session"
                                             , Toast.LENGTH_LONG).show();
@@ -165,5 +166,9 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
             }
         });
 
+        if(type.equals("accepted")){
+            sessionButton.setText("VIEW SESSION");
+            acceptedRequest = true;
+        }
     }
 }

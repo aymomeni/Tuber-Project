@@ -1,10 +1,13 @@
 package cs4000.tuber;
 
+import android.app.NotificationManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import android.content.Intent;
@@ -44,6 +47,7 @@ public class LoginActivityNew extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_new);
         ButterKnife.inject(this);
+
 
         // finding out if last login was successful and if it was we enter in email and password automatically
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

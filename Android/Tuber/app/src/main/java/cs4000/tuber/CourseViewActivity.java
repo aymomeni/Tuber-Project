@@ -1,8 +1,10 @@
 package cs4000.tuber;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -10,6 +12,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -24,7 +29,6 @@ public class CourseViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_view);
-
 
         coursesListViewStudent = (ListView) findViewById(R.id.coursesListViewStudent);
         arrayAdapterStudent = new ArrayAdapter(this, android.R.layout.simple_list_item_1, _myCoursesArrListStudent);
