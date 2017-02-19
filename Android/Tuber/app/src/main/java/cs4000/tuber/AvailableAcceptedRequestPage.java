@@ -1,22 +1,19 @@
 package cs4000.tuber;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AvailableRequestPage extends AppCompatActivity {
+public class AvailableAcceptedRequestPage extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private String _userEmail;
@@ -35,10 +32,10 @@ public class AvailableRequestPage extends AppCompatActivity {
     TextView durationTextView;
     Button sessionButton;
 
-    public static AvailableRequestPage getInstance(){
+    public static AvailableAcceptedRequestPage getInstance(){
         return activity;
     }
-    static AvailableRequestPage activity;
+    static AvailableAcceptedRequestPage activity;
 
     boolean acceptedRequest = false;
 
@@ -103,13 +100,13 @@ public class AvailableRequestPage extends AppCompatActivity {
                                 if (result != null) {
                                     TutoringRequestsTutor.getInstance().finish();
 
-                                    Toast.makeText(AvailableRequestPage.this, "You have accepted the resquest successfully. You can now view the session"
+                                    Toast.makeText(AvailableAcceptedRequestPage.this, "You have accepted the resquest successfully. You can now view the session"
                                             , Toast.LENGTH_LONG).show();
                                     sessionButton.setText("VIEW SESSION");
 
                                     acceptedRequest = true;
                                 } else {
-                                    Toast.makeText(AvailableRequestPage.this, "Something went wrong! Try again"
+                                    Toast.makeText(AvailableAcceptedRequestPage.this, "Something went wrong! Try again"
                                             , Toast.LENGTH_LONG).show();
                                 }
 
@@ -117,7 +114,7 @@ public class AvailableRequestPage extends AppCompatActivity {
                         });
 
                     } else {
-                        Toast.makeText(AvailableRequestPage.this, "You can't accept a request that belongs to you"
+                        Toast.makeText(AvailableAcceptedRequestPage.this, "You can't accept a request that belongs to you"
                                 , Toast.LENGTH_LONG).show();
                     }
                 } else {
@@ -139,7 +136,7 @@ public class AvailableRequestPage extends AppCompatActivity {
                                 try {
 
                                     String status = result.getString("session_status");
-                                    Intent intent2 = new Intent(AvailableRequestPage.this, Studysession.class);
+                                    Intent intent2 = new Intent(AvailableAcceptedRequestPage.this, Studysession.class);
                                     if(status.equals("active")){ // only offered but looking to pair
                                         intent2.putExtra("status", "1");
                                     } else if (status.equals("pending")) { // session has ended
