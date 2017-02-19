@@ -34,7 +34,9 @@ public class AcceptedRequestsFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private String _userEmail;
     private String _userToken;
-    private String _course = "CS 2420";
+
+    private String course;
+    Intent intent;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View rootView = inflater.inflate(R.layout.available_requests_fragment_layout, container, false);
@@ -42,9 +44,12 @@ public class AcceptedRequestsFragment extends Fragment {
             return null;
         }
 
+        intent = getActivity().getIntent();
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         _userEmail = sharedPreferences.getString("userEmail", "");
         _userToken = sharedPreferences.getString("userToken", "");
+        course = intent.getStringExtra("course");
 
         Requests_rv = (RecyclerView) rootView.findViewById(R.id.persons_rv);
         Requests_rv.setHasFixedSize(true);
@@ -147,7 +152,7 @@ public class AcceptedRequestsFragment extends Fragment {
         try {
             obj.put("userEmail", _userEmail);
             obj.put("userToken", _userToken);
-            obj.put("course", _course);
+            obj.put("course", course);
         } catch (JSONException e) {
             e.printStackTrace();
         }

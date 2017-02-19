@@ -1,20 +1,14 @@
 package cs4000.tuber;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -40,8 +34,8 @@ public class CourseViewActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
 
-                Intent intent = new Intent(getApplicationContext(), ClassActivity.class);
-                intent.putExtra("courseName", _myCoursesArrListStudent.get(i));
+                Intent intent = new Intent(getApplicationContext(), ClassStudentActivity.class);
+                intent.putExtra("course", _myCoursesArrListStudent.get(i));
                 startActivity(intent);
 
             }

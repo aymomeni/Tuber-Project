@@ -1,12 +1,10 @@
 package cs4000.tuber;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 
@@ -19,7 +17,7 @@ public class MenuActivity extends Activity {
 
     public void pic_clicked(View view){
 //        Log.i("OnListner","clicked!");
-        startActivity(new Intent(MenuActivity.this, ClassActivity.class));
+        startActivity(new Intent(MenuActivity.this, ClassStudentActivity.class));
     }
 
     @Override
@@ -47,7 +45,7 @@ public class MenuActivity extends Activity {
 
     protected void switchToMenu() {
 
-        Intent intent = new Intent(this, ClassActivity.class);
+        Intent intent = new Intent(this, ClassStudentActivity.class);
         //EditText editText = (EditText) findViewById(R.id.edit_message);
         //String message = editText.getText().toString();
         intent.putExtra("", "");

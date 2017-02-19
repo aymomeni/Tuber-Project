@@ -52,8 +52,8 @@ public class TutorCourseFragment extends Fragment {
                         if(tutorCourseDataSet.size() > position) {
 
 
-                            Intent intent = new Intent(getActivity(), ClassActivity.class);
-                            intent.putExtra("courseName", tutorCourseDataSet.get(position).getCourse());
+                            Intent intent = new Intent(getActivity(), ClassTutorActivity.class);
+                            intent.putExtra("course", tutorCourseDataSet.get(position).getCourse());
                             startActivity(intent);
 
                         }
@@ -66,27 +66,6 @@ public class TutorCourseFragment extends Fragment {
 
         tutorCourseDataSet = new ArrayList<RecyclerCourseObject>();
 
-//        for (int i = 0; i < 6; i++) {
-//            RecyclerCourseObject newoffer = new RecyclerCourseObject();
-//            switch (i%2) {
-//                case 0:
-//
-//                    newoffer.course = "CS 4400";
-//                    newoffer.subTitle = "Computer Systems";
-//                    newoffer.type = "one";
-//                    break;
-//                case 1:
-//                    newoffer = new RecyclerCourseObject();
-//                    newoffer.course = "CS 3500";
-//                    newoffer.subTitle = "Software Practice 1";
-//                    newoffer.type = "two"; // two
-//
-//                    break;
-//            }
-//
-//
-//            studentCourseDataSet.add(newoffer);
-//        }
 
         // read course information from shared preferences, parse it and add it to an array.
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
@@ -107,32 +86,6 @@ public class TutorCourseFragment extends Fragment {
 
             tutorCourseDataSet.add(newOffer);
         }
-
-
-
-
-
-//        for (int i = 0; i < 2; i++) {
-//            RecyclerCourseObject newoffer = new RecyclerCourseObject();
-//            switch (i%2) {
-//                case 0:
-//
-//                    newoffer.course = "CS 4400";
-//                    newoffer.subTitle = "Computer Systems";
-//                    newoffer.type = "one";
-//                    break;
-//                case 1:
-//                    newoffer = new RecyclerCourseObject();
-//                    newoffer.course = "CS 3500";
-//                    newoffer.subTitle = "Software Practice 1";
-//                    newoffer.type = "one"; // two
-//
-//                    break;
-//            }
-//
-//
-//            studentCourseDataSet.add(newoffer);
-//        }
 
 
         RecyclerAdapter mAdapter = new RecyclerAdapter(tutorCourseDataSet);

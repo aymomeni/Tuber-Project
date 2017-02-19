@@ -30,17 +30,6 @@ import java.util.ArrayList;
 
 public class TutoringRequests extends AppCompatActivity {
 
-    //ListView requestsListView;
-    //ArrayList<String> requests = new ArrayList<String>();
-    //ArrayList<String> tutorEmails = new ArrayList<String>();
-    //ArrayList<String> courses = new ArrayList<String>();
-    //ArrayList<String> topics = new ArrayList<String>();
-    //ArrayList<String> dateTimes = new ArrayList<String>();
-    //ArrayList<String> durations = new ArrayList<String>();
-    //ArrayList<Boolean> statuses = new ArrayList<Boolean>();
-
-    //ArrayAdapter arrayAdapter;
-
     private SwipeRefreshLayout swipeContainer;
 
     RecyclerView Requests_rv;
@@ -128,38 +117,6 @@ public class TutoringRequests extends AppCompatActivity {
         // Attach the adapter to the recyclerview to populate items
         Requests_rv.setAdapter(adapter);
 
-        //requestsListView = (ListView) findViewById(R.id.requestsListId);
-
-        //requests.clear();
-        //requests.add("Getting scheduled requests...");
-
-        //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, requests);
-
-        //requestsListView.setAdapter(arrayAdapter);
-
-
-//        requestsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//
-//                if(requests.size() > i && tutorEmails.size() > i && courses.size() > i && topics.size() > i
-//                        && dateTimes.size() > i && durations.size() > i && statuses.size() > i) {
-//
-//                    Intent intent = new Intent(getApplicationContext(), TutoringRequestPage.class);
-//
-//                    intent.putExtra("tutorEmail", tutorEmails.get(i));
-//                    intent.putExtra("topic", topics.get(i));
-//                    intent.putExtra("dateTime", dateTimes.get(i));
-//                    intent.putExtra("duration", durations.get(i));
-//                    intent.putExtra("isPaired", statuses.get(i));
-//                    intent.putExtra("course", courses.get(i));
-//
-//                    startActivity(intent);
-//                }
-//            }
-//        });
-
 
         JSONObject obj = new JSONObject();
         try{
@@ -212,12 +169,6 @@ public class TutoringRequests extends AppCompatActivity {
                 if(result != null) {
 
                     adapter.clear();
-//                    tutorEmails.clear();
-//                    courses.clear();
-//                    topics.clear();
-//                    dateTimes.clear();
-//                    durations.clear();
-//                    statuses.clear();
 
                     try {
                         JSONArray array = result.getJSONArray("requests");
@@ -245,13 +196,6 @@ public class TutoringRequests extends AppCompatActivity {
 
                                 adapter.add(temp1);
 
-//                                requests.add(course + ": " + topic);
-//                                tutorEmails.add(tutorEmail);
-//                                courses.add(course);
-//                                topics.add(topic);
-//                                dateTimes.add(datetime);
-//                                durations.add(duration);
-//                                statuses.add(status);
                             }
 
                         } else {

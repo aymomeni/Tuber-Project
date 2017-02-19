@@ -37,7 +37,8 @@ public class Studysession extends AppCompatActivity {
 
     private String _userEmail;
     private String _userToken;
-    private String _course = "CS 2420";
+
+    private String course;
     private String session_id;
     private String studentEmail;
 
@@ -82,7 +83,7 @@ public class Studysession extends AppCompatActivity {
         _userToken = sharedPreferences.getString("userToken", "");
 
         intent = getIntent();
-        _course = intent.getStringExtra("course");
+        course = intent.getStringExtra("course");
 
         String state = intent.getStringExtra("status");
         from = intent.getStringExtra("from");
@@ -144,7 +145,7 @@ public class Studysession extends AppCompatActivity {
                         try {
                             sesssion_info.put("userEmail", _userEmail);
                             sesssion_info.put("userToken", _userToken);
-                            sesssion_info.put("course", "CS 2420");
+                            sesssion_info.put("course", course);
 
 
                             //intent.putExtra("from", "scheduling");
@@ -172,9 +173,6 @@ public class Studysession extends AppCompatActivity {
                                 });
 
                             } else {
-//                                Log.i("userEmail", _userEmail);
-//                                Log.i("userToken", _userToken);
-//                                Log.i("course", "CS 2420");
                                 ConnectionTask task = new ConnectionTask(sesssion_info);
                                 task.start_tutoring_session_tutor(new ConnectionTask.CallBack() {
                                     @Override
@@ -201,7 +199,7 @@ public class Studysession extends AppCompatActivity {
                         try {
                             sesssion_info.put("userEmail", _userEmail);
                             sesssion_info.put("userToken", _userToken);
-                            sesssion_info.put("course", "CS 2420");
+                            sesssion_info.put("course", course);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

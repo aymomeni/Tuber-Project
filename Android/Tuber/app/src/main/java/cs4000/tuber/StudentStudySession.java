@@ -26,14 +26,15 @@ public class StudentStudySession extends Activity {
     private String _userEmail;
     private String _userToken;
 
-    String session_id;
-    String sessionStartTime;
+    private String session_id;
+    private String sessionStartTime;
 
-    String tutorEmail;
+    private String tutorEmail;
+    private String course;
 
     RatingBar rating_bar_student;
 
-    private Intent intent;
+    Intent intent;
 
     private boolean exited = false;
 
@@ -56,6 +57,9 @@ public class StudentStudySession extends Activity {
         rating_bar_student = (RatingBar) findViewById(R.id.rating_tutor_bar);
         rate_tutor = (Button) findViewById(R.id.rate_tutor_button);
 
+        intent = getIntent();
+
+        course = intent.getStringExtra("course");
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");
@@ -147,7 +151,7 @@ public class StudentStudySession extends Activity {
                                             try{
                                                 obj3.put("userEmail", _userEmail);
                                                 obj3.put("userToken", _userToken);
-                                                obj3.put("course", "CS 2420");
+                                                obj3.put("course", course);
 //											obj2.put("longitude", _studentLong);
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
@@ -197,16 +201,11 @@ public class StudentStudySession extends Activity {
             obj.put("userEmail", _userEmail);
             obj.put("userToken", _userToken);
 
-            obj.put("course", "CS 2420");
+            obj.put("course", course);
 
-//            Log.i("userEmail",_userEmail);
-//            Log.i("userToken",_userToken);
-//            Log.i("course","CS 2420");
             if(sessionStartTime != null) {
                 obj.put("tutorEmail", tutorEmail);
                 obj.put("sessionStartTime", sessionStartTime);
-//                Log.i("tutorEmail",tutorEmail);
-//                Log.i("sessionStartTime",sessionStartTime);
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -7,7 +7,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 
 
 /**
@@ -59,8 +55,8 @@ public class StudentCourseFragment extends Fragment {
 
                         if(studentCourseDataSet.size() > position) {
 
-                            Intent intent = new Intent(getActivity(), ClassActivity.class);
-                            intent.putExtra("courseName", studentCourseDataSet.get(position).getCourse());
+                            Intent intent = new Intent(getActivity(), ClassStudentActivity.class);
+                            intent.putExtra("course", studentCourseDataSet.get(position).getCourse());
                             startActivity(intent);
 
                         }

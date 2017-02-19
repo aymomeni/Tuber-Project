@@ -20,7 +20,7 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
 
     String _username;
     String _useToken;
-    String course = "CS 2420";
+    String course;
     String topic;
     String dateTime;
     String duration = "1";
@@ -67,6 +67,10 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _username = sharedPreferences.getString("userEmail", "");
         _useToken = sharedPreferences.getString("userToken", "");
+
+        intent = getIntent();
+
+        course = intent.getStringExtra("course");
 
         topicTextBox = (EditText) findViewById(R.id.topiceditText2);
         submitButton = (Button) findViewById(R.id.submitButton);

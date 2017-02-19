@@ -38,7 +38,7 @@
             android:value="@string/parse_client_key" />
 
         <activity android:name=".MenuActivity" />
-        <activity android:name=".ClassActivity" />
+        <activity android:name=".ClassStudentActivity" />
         <activity
             android:name=".TutorServicesActivity"
             android:label="@string/title_activity_tutor_services" />
@@ -91,10 +91,10 @@
         <activity android:name=".TutoringRequests" />
         <activity android:name=".ScheduleATutor" />
         <activity android:name=".TutoringRequestPage" />
-        <activity android:name=".TutoringRequestsTutor" />
         <activity android:name=".AvailableAcceptedRequestPage" />
         <activity android:name=".PersonsActivity" />
-        <activity android:name=".TutoringRequestsPager"></activity>
+        <activity android:name=".TutoringRequestsPager" />
+        <activity android:name=".ClassTutorActivity"></activity>
     </application>
 
 </manifest>

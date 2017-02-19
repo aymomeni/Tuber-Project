@@ -19,16 +19,22 @@ public class TutorServicesActivity extends Activity {
 
     public void tutor_services_immediate_request(View view) {
 //        Log.i("OnListner", "clicked!");
-        startActivity(new Intent(TutorServicesActivity.this, ImmediateStudentRequestActivity.class));
+        Intent intent = new Intent(TutorServicesActivity.this, ImmediateStudentRequestActivity.class);
+        intent.putExtra("course", getIntent().getStringExtra("course"));
+        startActivity(intent);
     }
 
     public void tutor_services_schedule_request(View view) {
 //        Log.i("OnListner", "clicked!");
-        startActivity(new Intent(TutorServicesActivity.this, ScheduleATutor.class));
+        Intent intent = new Intent(TutorServicesActivity.this, ScheduleATutor.class);
+        intent.putExtra("course", getIntent().getStringExtra("course"));
+        startActivity(intent);
     }
 
     public void view_scheduled_requests(View view) {
 //        Log.i("OnListner", "clicked!");
-        startActivity(new Intent(TutorServicesActivity.this, TutoringRequests.class));
+        Intent intent = new Intent(TutorServicesActivity.this, TutoringRequests.class);
+        intent.putExtra("course", getIntent().getStringExtra("course"));
+        startActivity(intent);
     }
 }

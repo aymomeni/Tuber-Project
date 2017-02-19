@@ -10,9 +10,9 @@
     <com.chauthai.overscroll.RecyclerViewBouncy
 
         android:id="@+id/recyclerViewStudent"
-        android:overScrollMode="always"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="always"
 
         app:tension="1000"
         app:friction="200"
