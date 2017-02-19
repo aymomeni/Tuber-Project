@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,6 +55,8 @@ public class StudentCourseFragment extends Fragment {
                 new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        position--;
+
                         if(studentCourseDataSet.size() > position) {
 
                             Intent intent = new Intent(getActivity(), ClassActivity.class);
@@ -92,22 +97,47 @@ public class StudentCourseFragment extends Fragment {
 
         // read course information from shared preferences, parse it and add it to an array.
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-        String studentClasses = sharedPreferences.getString("userStudentCourses", "");
 
-        Pattern p = Pattern.compile("\"(\\w+\\s*\\w+)\"");
-        Matcher m = p.matcher(studentClasses);
-        if (!m.matches()) {
-            Log.i(TAG, "No existing courses.");
+        try {
+            JSONArray array = new JSONArray(sharedPreferences.getString("userStudentCourses", ""));
+
+
+            for(int i = 0; i < array.length(); i++) {
+
+                String str = array.getString(i);
+
+                RecyclerCourseObject newOffer = new RecyclerCourseObject();
+                newOffer.setCourse(str);
+                newOffer.setSubTitle("Subtitle");
+                newOffer.setType("one");
+
+                studentCourseDataSet.add(newOffer);
+
+
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        while (m.find()) {
-            RecyclerCourseObject newOffer = new RecyclerCourseObject();
-            newOffer.setCourse(m.group(1));
-            newOffer.setSubTitle("Subtitle");
-            newOffer.setType("one");
 
-            studentCourseDataSet.add(newOffer);
-        }
+//        String studentClasses = sharedPreferences.getString("userStudentCourses", "");
+//
+//        Pattern p = Pattern.compile("\"(\\w+\\s*\\w+)\"");
+//        Matcher m = p.matcher(studentClasses);
+//        if (!m.matches()) {
+//            Log.i(TAG, "No existing courses.");
+//        }
+//
+//        while (m.find()) {
+//            RecyclerCourseObject newOffer = new RecyclerCourseObject();
+//            newOffer.setCourse(m.group(1));
+//            newOffer.setSubTitle("Subtitle");
+//            newOffer.setType("one");
+//
+//            studentCourseDataSet.add(newOffer);
+//        }
 
 
 //        for (int i = 0; i < 2; i++) {

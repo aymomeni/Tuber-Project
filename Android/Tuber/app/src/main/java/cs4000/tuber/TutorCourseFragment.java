@@ -47,7 +47,10 @@ public class TutorCourseFragment extends Fragment {
                 new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        position--;
+
                         if(tutorCourseDataSet.size() > position) {
+
 
                             Intent intent = new Intent(getActivity(), ClassActivity.class);
                             intent.putExtra("courseName", tutorCourseDataSet.get(position).getCourse());

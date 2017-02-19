@@ -161,8 +161,37 @@ public class TutoringRequests extends AppCompatActivity {
 //        });
 
 
-        UpdateList();
+        JSONObject obj = new JSONObject();
+        try{
+            obj.put("userEmail", _userEmail);
+            obj.put("userToken", _userToken);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ConnectionTask check_session_student = new ConnectionTask(obj);
+        check_session_student.check_session_status_student(new ConnectionTask.CallBack() {
+            @Override
+            public void Done(JSONObject result) {
+                if(result != null) {
+                    try {
+                        String status = result.getString("session_status");
+                        if(status.equals("pending") || status.equals("active")) {
+                            Intent intent = new Intent(TutoringRequests.this, StudentStudySession.class);
+                            //intent.putExtra("status", "1");
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            UpdateList();
+                        }
 
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+
+                }
+            }
+        });
     }
 
 

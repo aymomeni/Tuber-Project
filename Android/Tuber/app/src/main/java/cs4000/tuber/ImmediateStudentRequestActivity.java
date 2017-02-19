@@ -292,8 +292,8 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
         try{
             obj.put("userEmail", _userEmail);
             obj.put("userToken", _userToken);
-            obj.put("latitude", String.valueOf(temp.getLatitude()));
-            obj.put("longitude", String.valueOf(temp.getLongitude()));
+            //obj.put("latitude", String.valueOf(temp.getLatitude()));
+            //obj.put("longitude", String.valueOf(temp.getLongitude()));
 
 //            Log.i("@ISRQ_Loc2_Slat", String.valueOf(temp.getLatitude()));
 //            Log.i("@ISRQ_Loc2_Slong",String.valueOf(temp.getLongitude()));
@@ -324,17 +324,12 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                             }
                             startActivity(intent);
                             finish();
-                        } else if(status.equals("pending")) {
+                        } else if(status.equals("pending") || status.equals("active") ) {
                             Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
                             //intent.putExtra("status", "1");
                             startActivity(intent);
                             finish();
-                        } else if(status.equals("pending")) {
-                            Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
-                            //intent.putExtra("status", "2");
-                            startActivity(intent);
-                            finish();
-                        } else {
+                        }  else {
                             updateListView(getLocation());
                         }
 
