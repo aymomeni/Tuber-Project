@@ -4,11 +4,14 @@ package cs4000.tuber;
  * Created by Ali on 2/7/2017.
  */
 
+/**
+ * Represents the container for Course Android Cards/Adapter
+ */
 public class RecyclerCourseObject {
 
-    String course;
-    String subTitle;
-    String type;
+    String course; // course name -> CS 1400
+    String subTitle; // course subTitle must be done in the future
+    String type; // unused right now
 
     public String getCourse() {
         return course;

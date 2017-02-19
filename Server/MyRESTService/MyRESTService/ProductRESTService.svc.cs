@@ -19,10 +19,10 @@ namespace ToDoList
     public class ProductRESTService : IToDoService
     {
         // Active CADE DB
-        public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
+        //public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
 
         // Developmental DB
-        //public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
+        public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
 
 
         //////////////////////
@@ -913,6 +913,173 @@ namespace ToDoList
                 return new RemoveTutorClassesResponseItem();
             }
         }
+
+        public GetTutorRatingResponseItem GetTutorRating(GetTutorRatingRequestItem item)
+        {
+            // Check that the user token is valid
+            if (checkUserToken(item.userEmail, item.userToken))
+            {
+                double returnedRatingCount = -1;
+                double returnedAverageRating = -1;
+
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+
+                        MySqlCommand command = conn.CreateCommand();
+
+                        // Get the rating of the tutor specified
+                        command.CommandText = "SELECT COUNT(*) as count, ROUND(AVG(rating), 1) as averageRating FROM tutor_ratings WHERE tutorEmail = ?tutorEmail";
+                        command.Parameters.AddWithValue("tutorEmail", item.tutorEmail);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                returnedRatingCount = reader.GetDouble("count");
+
+                                if (reader.IsDBNull(reader.GetOrdinal("averageRating")))
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    returnedAverageRating = reader.GetDouble("averageRating");
+                                }
+                                
+                            }
+                        }
+
+                        if (returnedRatingCount == -1)
+                        {
+                            // Getting the information out of the database failed
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                            return new GetTutorRatingResponseItem();
+                        }
+                        else if (returnedRatingCount == 0)
+                        {
+                            // The tutor doesn't have any ratings so we give them a rating of 5
+                            GetTutorRatingResponseItem tutorRating = new GetTutorRatingResponseItem();
+                            tutorRating.ratingsCount = returnedRatingCount;
+                            tutorRating.ratingsAverage = 5;
+                            return tutorRating;
+                        }
+                        else
+                        {
+                            // Everything worked and we return the tutor's rating information
+                            GetTutorRatingResponseItem tutorRating = new GetTutorRatingResponseItem();
+                            tutorRating.ratingsCount = returnedRatingCount;
+                            tutorRating.ratingsAverage = returnedAverageRating;
+                            return tutorRating;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                        throw e;
+                    }
+                    finally
+                    {
+                        if (conn != null)
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // User's email & token combo is not valid
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                return new GetTutorRatingResponseItem();
+            }
+        }
+
+        public GetStudentRatingResponseItem GetStudentRating(GetStudentRatingRequestItem item)
+        {
+            // Check that the user token is valid
+            if (checkUserToken(item.userEmail, item.userToken))
+            {
+                double returnedRatingCount = -1;
+                double returnedAverageRating = -1;
+
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+
+                        MySqlCommand command = conn.CreateCommand();
+
+                        // Get the rating of the student specified
+                        command.CommandText = "SELECT COUNT(*) as count, ROUND(AVG(rating), 1) as averageRating FROM student_ratings WHERE studentEmail = ?studentEmail";
+                        command.Parameters.AddWithValue("studentEmail", item.studentEmail);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                returnedRatingCount = reader.GetDouble("count");
+
+                                if (reader.IsDBNull(reader.GetOrdinal("averageRating")))
+                                {
+                                    continue;
+                                }
+                                else
+                                {
+                                    returnedAverageRating = reader.GetDouble("averageRating");
+                                }
+
+                            }
+                        }
+
+                        if (returnedRatingCount == -1)
+                        {
+                            // Getting the information out of the database failed
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                            return new GetStudentRatingResponseItem();
+                        }
+                        else if (returnedRatingCount == 0)
+                        {
+                            // The student doesn't have any ratings so we give them a rating of 5
+                            GetStudentRatingResponseItem studentRating = new GetStudentRatingResponseItem();
+                            studentRating.ratingsCount = returnedRatingCount;
+                            studentRating.ratingsAverage = 5;
+                            return studentRating;
+                        }
+                        else
+                        {
+                            // Everything worked and we return the student's rating information
+                            GetStudentRatingResponseItem studentRating = new GetStudentRatingResponseItem();
+                            studentRating.ratingsCount = returnedRatingCount;
+                            studentRating.ratingsAverage = returnedAverageRating;
+                            return studentRating;
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                        throw e;
+                    }
+                    finally
+                    {
+                        if (conn != null)
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // User's email & token combo is not valid
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                return new GetStudentRatingResponseItem();
+            }
+        }
+
 
         /////////////////////////////
         // Immediate Tutor Functions 
@@ -1830,8 +1997,7 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() >= 0)
                                     {
                                         // Insert pairing into the tutor_sesssions_pending table
-                                        //command.CommandText = "INSERT INTO tutor_sessions_pending VALUES (?studentEmail, ?tutorEmail, ?course)";
-                                        command.CommandText = "INSERT INTO tutor_sessions_pending VALUES (?studentEmail, ?tutorEmail)";
+                                        command.CommandText = "INSERT INTO tutor_sessions_pending VALUES (?studentEmail, ?tutorEmail, ?course)";
                                         command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
                                         command.Parameters.AddWithValue("course", returnedCourseName);
                                         command.Parameters.AddWithValue("studentLatitude", returnedStudentLatitude);

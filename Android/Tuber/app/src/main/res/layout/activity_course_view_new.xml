@@ -5,24 +5,35 @@
     android:id="@+id/activity_course_view4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context="cs4000.tuber.CourseViewActivityNew">
 
-    <com.chauthai.overscroll.RecyclerViewBouncy
 
-        android:id="@+id/r_view"
-        android:overScrollMode="always"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+<android.support.v4.view.ViewPager
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/viewpager">
 
-        app:tension="1000"
-        app:friction="200"
+    <!--<com.chauthai.overscroll.RecyclerViewBouncy-->
 
-        app:gapLimit="220"
-        app:speedFactor="5"
+        <!--android:id="@+id/r_view"-->
+        <!--android:overScrollMode="always"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
 
-        app:viewCountEstimateSize="5"
-        app:maxAdapterSizeToEstimate="20"
-     />
+        <!--app:tension="1000"-->
+        <!--app:friction="200"-->
+
+        <!--app:gapLimit="220"-->
+        <!--app:speedFactor="5"-->
+
+        <!--app:viewCountEstimateSize="5"-->
+        <!--app:maxAdapterSizeToEstimate="20"-->
+        <!--/>-->
+
+
+</android.support.v4.view.ViewPager>
+
+
+
 
 </LinearLayout>

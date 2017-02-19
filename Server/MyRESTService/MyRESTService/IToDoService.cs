@@ -35,6 +35,62 @@ namespace ToDoList
             BodyStyle = WebMessageBodyStyle.Bare)]
         VerifiedUserItem VerifyUser(UserItem data);
 
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/addstudentclasses",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        AddStudentClassesResponseItem AddStudentClasses(AddStudentClassesRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/removestudentclasses",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        RemoveStudentClassesResponseItem RemoveStudentClasses(RemoveStudentClassesRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/addtutorclasses",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        AddTutorClassesResponseItem AddTutorClasses(AddTutorClassesRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/removetutorclasses",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        RemoveTutorClassesResponseItem RemoveTutorClasses(RemoveTutorClassesRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/enabletutoring",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        EnableTutoringResponseItem EnableTutoring(EnableTutoringRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+          UriTemplate = "/disabletutoring",
+          RequestFormat = WebMessageFormat.Json,
+          ResponseFormat = WebMessageFormat.Json,
+          BodyStyle = WebMessageBodyStyle.Bare)]
+        DisableTutoringResponseItem DisableTutoring(DisableTutoringRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+          UriTemplate = "/changeuserpassword",
+          RequestFormat = WebMessageFormat.Json,
+          ResponseFormat = WebMessageFormat.Json,
+          BodyStyle = WebMessageBodyStyle.Bare)]
+        ChangeUserPasswordResponseItem ChangeUserPassword(ChangeUserPasswordRequestItem data);
+
         /// <summary>
         /// Accepts HTTP request to make a tutor available.
         /// </summary>
@@ -157,6 +213,22 @@ namespace ToDoList
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
         RateStudentResponseItem RateStudent(RateStudentItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/gettutorrating",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        GetTutorRatingResponseItem GetTutorRating(GetTutorRatingRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/getstudentrating",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        GetStudentRatingResponseItem GetStudentRating(GetStudentRatingRequestItem data);
 
         [OperationContract]
         [WebInvoke(Method = "POST",
@@ -286,61 +358,7 @@ namespace ToDoList
            BodyStyle = WebMessageBodyStyle.Bare)]
         ReportTutorResponseItem ReportTutor(ReportTutorRequestItem data);
 
-        [OperationContract]
-        [WebInvoke(Method = "POST",
-           UriTemplate = "/addstudentclasses",
-           RequestFormat = WebMessageFormat.Json,
-           ResponseFormat = WebMessageFormat.Json,
-           BodyStyle = WebMessageBodyStyle.Bare)]
-        AddStudentClassesResponseItem AddStudentClasses(AddStudentClassesRequestItem data);
-
-        [OperationContract]
-        [WebInvoke(Method = "POST",
-           UriTemplate = "/removestudentclasses",
-           RequestFormat = WebMessageFormat.Json,
-           ResponseFormat = WebMessageFormat.Json,
-           BodyStyle = WebMessageBodyStyle.Bare)]
-        RemoveStudentClassesResponseItem RemoveStudentClasses(RemoveStudentClassesRequestItem data);
-
-        [OperationContract]
-        [WebInvoke(Method = "POST",
-           UriTemplate = "/addtutorclasses",
-           RequestFormat = WebMessageFormat.Json,
-           ResponseFormat = WebMessageFormat.Json,
-           BodyStyle = WebMessageBodyStyle.Bare)]
-        AddTutorClassesResponseItem AddTutorClasses(AddTutorClassesRequestItem data);
-
-        [OperationContract]
-        [WebInvoke(Method = "POST",
-           UriTemplate = "/removetutorclasses",
-           RequestFormat = WebMessageFormat.Json,
-           ResponseFormat = WebMessageFormat.Json,
-           BodyStyle = WebMessageBodyStyle.Bare)]
-        RemoveTutorClassesResponseItem RemoveTutorClasses(RemoveTutorClassesRequestItem data);
-
-        [OperationContract]
-        [WebInvoke(Method = "POST",
-           UriTemplate = "/enabletutoring",
-           RequestFormat = WebMessageFormat.Json,
-           ResponseFormat = WebMessageFormat.Json,
-           BodyStyle = WebMessageBodyStyle.Bare)]
-        EnableTutoringResponseItem EnableTutoring(EnableTutoringRequestItem data);
-
-        [OperationContract]
-        [WebInvoke(Method = "POST",
-          UriTemplate = "/disabletutoring",
-          RequestFormat = WebMessageFormat.Json,
-          ResponseFormat = WebMessageFormat.Json,
-          BodyStyle = WebMessageBodyStyle.Bare)]
-        DisableTutoringResponseItem DisableTutoring(DisableTutoringRequestItem data);
-
-        [OperationContract]
-        [WebInvoke(Method = "POST",
-          UriTemplate = "/changeuserpassword",
-          RequestFormat = WebMessageFormat.Json,
-          ResponseFormat = WebMessageFormat.Json,
-          BodyStyle = WebMessageBodyStyle.Bare)]
-        ChangeUserPasswordResponseItem ChangeUserPassword(ChangeUserPasswordRequestItem data);
+        
 
 
 
