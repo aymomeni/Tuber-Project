@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,10 +51,15 @@ public class AvailableRequestsFragment extends Fragment {
         _userToken = sharedPreferences.getString("userToken", "");
 
         course = getActivity().getIntent().getStringExtra("course");
+        Log.i("@course_check",course);
 
-        Requests_rv = (RecyclerView) rootView.findViewById(R.id.persons_rv);
+        Requests_rv = (RecyclerView) rootView.findViewById(R.id.requests_rv);
         Requests_rv.setHasFixedSize(true);
         Requests_rv.setItemAnimator(new SlideInUpAnimator());
+
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
+        Requests_rv.addItemDecoration(itemDecoration);
 
         swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -108,38 +114,6 @@ public class AvailableRequestsFragment extends Fragment {
         // Attach the adapter to the recyclerview to populate items
         Requests_rv.setAdapter(adapter);
 
-        //requestsListView = (ListView) findViewById(R.id.t_requestsListId);
-        //acceptedRequestsListView = (ListView) findViewById(R.id.t_requestsListId2);
-
-//        requests.clear();
-//        requests.add("Getting available requests...");
-//
-//        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, requests);
-//
-//        requestsListView.setAdapter(arrayAdapter);
-        //acceptedRequestsListView.setAdapter(arrayAdapter);
-
-
-//        requestsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//
-//                if(requests.size() > i && studentEmails.size() > i && courses.size() > i && topics.size() > i
-//                        && dateTimes.size() > i && durations.size() > i) {
-//
-//                    Intent intent = new Intent(getApplicationContext(), AvailableAcceptedRequestPage.class);
-//
-//                    intent.putExtra("studentEmail", studentEmails.get(i));
-//                    intent.putExtra("topic", topics.get(i));
-//                    intent.putExtra("dateTime", dateTimes.get(i));
-//                    intent.putExtra("duration", durations.get(i));
-//                    intent.putExtra("course", courses.get(i));
-//
-//                    startActivity(intent);
-//                }
-//            }
-//        });
 
         UpdateList();
         return rootView;

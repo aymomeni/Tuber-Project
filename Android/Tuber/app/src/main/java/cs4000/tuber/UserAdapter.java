@@ -1,12 +1,10 @@
 package cs4000.tuber;
 
 import android.content.Context;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -17,8 +15,8 @@ import java.util.List;
 
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
-public class PersonAdapter extends
-        RecyclerView.Adapter<PersonAdapter.ViewHolder> {
+public class UserAdapter extends
+        RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
 //    public void swapItems(List<Contact> contacts) {
 //        // compute diffs
@@ -55,13 +53,13 @@ public class PersonAdapter extends
 
 
     // Store a member variable for the contacts
-    private List<Person> Persons;
+    private List<User> users;
     // Store the context for easy access
     private Context Context;
 
     // Pass in the contact array into the constructor
-    public PersonAdapter(Context context, List<Person> persons) {
-        Persons = persons;
+    public UserAdapter(Context context, List<User> users) {
+        this.users = users;
         Context = context;
     }
 
@@ -73,13 +71,13 @@ public class PersonAdapter extends
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
-        return Persons.size();
+        return users.size();
     }
 
     // Clean all elements of the recycler
     public void clear() {
         int curSize = getItemCount();
-        //Persons.clear();
+        //users.clear();
         //notifyDataSetChanged();
         for(int i = 0; i < curSize; i++) {
             this.remove(0);
@@ -87,9 +85,9 @@ public class PersonAdapter extends
     }
 
     // Add a list of items
-    public void addAll(List<Person> list) {
+    public void addAll(List<User> list) {
 
-//        for (Person p: list) {
+//        for (User p: list) {
 //            this.add(p);
 //            try {
 //                Thread.sleep(5000);
@@ -99,42 +97,42 @@ public class PersonAdapter extends
 //        }
 
         int curSize = getItemCount();
-        Persons.addAll(list);
+        users.addAll(list);
         notifyItemRangeInserted(curSize, list.size());
     }
 
     // Add a list of items
-    public void add(Person person) {
-        Persons.add(person);
-        notifyItemInserted(Persons.size() - 1);
+    public void add(User user) {
+        users.add(user);
+        notifyItemInserted(users.size() - 1);
         //scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
     // Add a list of items
-    public void add(Person person, int i) {
-        Persons.add(i, person);
+    public void add(User user, int i) {
+        users.add(i, user);
         notifyItemInserted(i);
         //scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
     // Add a list of items
-    public void remove(Person person) {
-        int curPos = Persons.indexOf(person);
-        Persons.remove(person);
+    public void remove(User user) {
+        int curPos = users.indexOf(user);
+        users.remove(user);
         notifyItemRemoved(curPos);
         //notifyDataSetChanged();
     }
 
     // Add a list of items
     public void remove(int i) {
-        Persons.remove(i);
+        users.remove(i);
         notifyItemRemoved(i);
         //notifyDataSetChanged();
     }
 
     // Usually involves inflating a layout from XML and returning the holder
     @Override
-    public PersonAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UserAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
@@ -148,15 +146,15 @@ public class PersonAdapter extends
 
     // Involves populating data into the item through holder
     @Override
-    public void onBindViewHolder(PersonAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(UserAdapter.ViewHolder viewHolder, int position) {
         // Get the data model based on position
-        Person person = Persons.get(position);
+        User user = users.get(position);
 
         // Set item views based on your views and data model
         TextView textView1 = viewHolder.userName;
-        textView1.setText(person.getUserEmail());
+        textView1.setText(user.getUserEmail());
 
         TextView textView2 = viewHolder.userDistance;
-        textView2.setText(String.valueOf(person.getDistance()) + " miles");
+        textView2.setText(String.valueOf(user.getDistance()) + " miles");
     }
 }

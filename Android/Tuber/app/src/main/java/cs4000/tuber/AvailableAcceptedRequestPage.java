@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -56,6 +57,7 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
         _userToken = sharedPreferences.getString("userToken", "");
 
         course = intent.getStringExtra("course");
+        Log.i("@course_check",course);
         studentEmail = intent.getStringExtra("studentEmail");
         topic = intent.getStringExtra("topic");
         dateTime = intent.getStringExtra("dateTime");
@@ -99,6 +101,8 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
                             public void Done(JSONObject result) {
 
                                 if (result != null) {
+
+                                    TutoringRequestsPager.getInstance().finish();
 
                                     Toast.makeText(AvailableAcceptedRequestPage.this, "You have accepted the resquest successfully. You can now view the session"
                                             , Toast.LENGTH_LONG).show();
@@ -148,6 +152,7 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
                                     intent2.putExtra("dateTime", dateTime);
 //                                    Log.i("@from","Im HERE ");
                                     intent2.putExtra("from", "scheduling");
+                                    intent2.putExtra("course", course);
                                     startActivity(intent2);
                                     //finish();
                                 } catch (JSONException e) {
@@ -156,6 +161,12 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
 
                             } else {
 //                                Log.i("@check_session_status", "check session status failed!"); // has not offered yet
+                                Intent intent2 = new Intent(AvailableAcceptedRequestPage.this, Studysession.class);
+                                intent2.putExtra("status", "0");
+                                intent2.putExtra("dateTime", dateTime);
+                                intent2.putExtra("from", "scheduling");
+                                intent2.putExtra("course", course);
+                                startActivity(intent2);
                             }
                         }
                     });

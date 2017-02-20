@@ -91,7 +91,7 @@ public class RequestsAdapter extends
     // Add a list of items
     public void addAll(List<Request> list) {
 
-//        for (Person p: list) {
+//        for (User p: list) {
 //            this.add(p);
 //            try {
 //                Thread.sleep(5000);

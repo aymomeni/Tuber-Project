@@ -1,25 +1,15 @@
 package cs4000.tuber;
 
-import android.*;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.app.Activity;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -46,10 +36,12 @@ public class TutoringRequests extends AppCompatActivity {
     private String _userEmail;
     private String _userToken;
 
+    private String course;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_persons);
+        setContentView(R.layout.activity_users);
 
         activity = this;
 
@@ -59,9 +51,16 @@ public class TutoringRequests extends AppCompatActivity {
         _userEmail = sharedPreferences.getString("userEmail", "");
         _userToken = sharedPreferences.getString("userToken", "");
 
-        Requests_rv = (RecyclerView) findViewById(R.id.persons_rv);
+        course = getIntent().getStringExtra("course");
+        Log.i("@course_check",course);
+
+        Requests_rv = (RecyclerView) findViewById(R.id.users_rv);
         Requests_rv.setHasFixedSize(true);
         Requests_rv.setItemAnimator(new SlideInUpAnimator());
+
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
+        Requests_rv.addItemDecoration(itemDecoration);
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -134,6 +133,7 @@ public class TutoringRequests extends AppCompatActivity {
                         String status = result.getString("session_status");
                         if(status.equals("pending") || status.equals("active")) {
                             Intent intent = new Intent(TutoringRequests.this, StudentStudySession.class);
+                            intent.putExtra("course", course);
                             //intent.putExtra("status", "1");
                             startActivity(intent);
                             finish();
@@ -145,7 +145,7 @@ public class TutoringRequests extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else {
-
+                    UpdateList();
                 }
             }
         });

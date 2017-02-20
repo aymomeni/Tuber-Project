@@ -22,8 +22,7 @@
         app:speedFactor="5"
 
         app:viewCountEstimateSize="5"
-        app:maxAdapterSizeToEstimate="20"
-        >
+        app:maxAdapterSizeToEstimate="20">
     </com.chauthai.overscroll.RecyclerViewBouncy>
 
     <android.support.design.widget.FloatingActionButton

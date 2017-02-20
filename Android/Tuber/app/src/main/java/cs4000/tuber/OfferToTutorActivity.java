@@ -18,7 +18,7 @@ public class OfferToTutorActivity extends Activity {
   }
 
   public void tutor_services_immediate_service(View view) {
-//	Log.i("Immediate Tutor Service", "clicked!");
+      Log.i("@class_check", getIntent().getStringExtra("course"));
       Intent intent = new Intent(OfferToTutorActivity.this, ImmediateTutorServiceMapsActivity.class);
       intent.putExtra("course", getIntent().getStringExtra("course"));
       startActivity(intent);
@@ -26,7 +26,7 @@ public class OfferToTutorActivity extends Activity {
 
 
     public void view_available_requests(View view) {
-//        Log.i("OnListner", "clicked!");
+        Log.i("@class_check", getIntent().getStringExtra("course"));
         Intent intent = new Intent(OfferToTutorActivity.this, TutoringRequestsPager.class);
         intent.putExtra("course", getIntent().getStringExtra("course"));
         startActivity(intent);

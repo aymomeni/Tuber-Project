@@ -66,6 +66,8 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 	private String tutorLatitude;
 	private String tutorLongitude;
 
+	private String course;
+
 	Boolean initial_pairing = true;
 	//Private Sting
 
@@ -176,6 +178,7 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 //                                            initial_pairing = true;
 
 										Intent intent = new Intent(StudentMapActivity.this, StudentStudySession.class);
+										intent.putExtra("course", course);
 										//intent.putExtra("status", "0");
 										startActivity(intent);
 										finish();
@@ -241,65 +244,6 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 		});
 	}
 
-
-
-//	private void check_session_status(){
-//
-//
-//		JSONObject obj = new JSONObject();
-//		try {
-//			obj.put("userEmail", _userEmail);
-//			obj.put("userToken", _userToken);
-//			//obj.put("requestedTutorEmail", _tutorUsername);
-//			//obj.put("studentLatitude", _studentLat);
-//			//obj.put("studentLongitude", _studentLong);
-//		} catch (JSONException e) {
-//			e.printStackTrace();
-//		}
-//		ConnectionTask task = new ConnectionTask(obj);
-//		task.check_session_activeStatusStudent(new ConnectionTask.CallBack() {
-//			@Override
-//			public void Done(JSONObject result) {
-//				if(result != null) {
-//
-////					final AlertDialog dialog = new AlertDialog.Builder(StudentMapActivity.this)
-////							.setTitle("Paired")
-////							.setMessage("You paired successfully with a Tutor.")
-////							.setCancelable(false)
-////							.setNeutralButton("Directions", new DialogInterface.OnClickListener() {
-////								@Override
-////								public void onClick(DialogInterface dialog, int which) {
-////									Intent directionsIntent = new Intent(android.content.Intent.ACTION_VIEW,
-////											Uri.parse("http://maps.google.com/maps?saddr=" + intent.getDoubleExtra("tutorLatitude", 0) + "," + intent.getDoubleExtra("tutorLongitude", 0) + "&daddr=" + intent.getDoubleExtra("requestLatitude", 0) + "," + intent.getDoubleExtra("requestLongitude", 0)));
-////									startActivity(directionsIntent);
-////								}
-////							})
-////							.setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
-////								@Override
-////								public void onClick(DialogInterface dialog, int which) {
-////									dialog.cancel();
-////								}
-////							}).show();
-//
-//
-//					Intent intent = new Intent(StudentMapActivity.this, StudentStudySession.class);
-//					intent.putExtra("tutorEmail", "");
-//					intent.putExtra("tutorSessionID", "");
-//					startActivity(intent);
-//					finish();
-//
-//				} else {
-//					Log.i("@","");
-//					handler.postDelayed(new Runnable() {
-//						@Override
-//						public void run() {
-//							check_session_status();
-//						}
-//					}, 10000);
-//				}
-//			}
-//		});
-//	}
 
 	public void acceptTutorService(View view){
 		ImmediateStudentRequestActivity.getInstance().finish();
@@ -370,6 +314,9 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 		_userToken = sharedPreferences.getString("userToken", "");
 
 		intent = getIntent();
+
+		course = intent.getStringExtra("course");
+		Log.i("@course_check",course);
 
 		_studentLat = String.valueOf(intent.getDoubleExtra("studentLatitude", 0));
 		_studentLong = String.valueOf(intent.getDoubleExtra("studentLongitude", 0));
@@ -446,33 +393,6 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 	@Override
 	public void onMapReady(GoogleMap googleMap) {
 		mMap = googleMap;
-
-//		RelativeLayout mapLayout = (RelativeLayout)findViewById(R.id.tutorLocationRelLayout);
-//		mapLayout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//			@Override
-//			public void onGlobalLayout(){
-//
-//				LatLng studentLocation = new LatLng(intent.getDoubleExtra("studentLatitude", 0), intent.getDoubleExtra("studentLongitude", 0));
-//				LatLng tutorLocation = new LatLng(intent.getDoubleExtra("tutorLatitude", 0), intent.getDoubleExtra("tutorLongitude", 0));
-//
-//				ArrayList<Marker> markers = new ArrayList<>();
-//
-//				markers.add(mMap.addMarker(new MarkerOptions().position(tutorLocation).title("Tutor Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))));
-//				markers.add(mMap.addMarker(new MarkerOptions().position(studentLocation).title("Your Location")));
-//
-//				LatLngBounds.Builder builder = new LatLngBounds.Builder();
-//				for(Marker marker : markers) {
-//					builder.include(marker.getPosition());
-//				}
-//				LatLngBounds bounds = builder.build();
-//
-//				int padding = 60;
-//				CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-//
-//				mMap.animateCamera(cu);
-//			}
-//		});
-
 
 		locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 

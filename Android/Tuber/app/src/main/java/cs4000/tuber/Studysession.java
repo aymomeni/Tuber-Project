@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -51,15 +52,6 @@ public class Studysession extends AppCompatActivity {
     }
 
     private String from;
-//    public void onBackPressed()
-//    {
-//        super.onBackPressed();
-//        startActivity(new Intent(Studysession.this, TutorServicesActivity.class));
-//        finish();
-//    }
-
-
-
 
 
     @Override
@@ -84,6 +76,7 @@ public class Studysession extends AppCompatActivity {
 
         intent = getIntent();
         course = intent.getStringExtra("course");
+        Log.i("@course_check",course);
 
         String state = intent.getStringExtra("status");
         from = intent.getStringExtra("from");
@@ -114,8 +107,8 @@ public class Studysession extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                ConnectionTask rate_student = new ConnectionTask(obj);
-                rate_student.rate_student(new ConnectionTask.CallBack() {
+                ConnectionTask rate_student1 = new ConnectionTask(obj);
+                rate_student1.rate_student(new ConnectionTask.CallBack() {
                     @Override
                     public void Done(JSONObject result) {
                         if(result != null) {
@@ -141,7 +134,7 @@ public class Studysession extends AppCompatActivity {
                         // The toggle is enabled
                         //do stuff when Switch is ON
 
-                        final JSONObject sesssion_info = new JSONObject();
+                        JSONObject sesssion_info = new JSONObject();
                         try {
                             sesssion_info.put("userEmail", _userEmail);
                             sesssion_info.put("userToken", _userToken);
@@ -217,14 +210,9 @@ public class Studysession extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
 
-//                        "course": "CS 3500",
-//                        "sessionCost": 16.11,
-//                        "sessionEndTime": "01,31,2017 12:49:46 PM",
-//                        "sessionStartTime": "01,31,2017 11:45:19 AM",
-//                        "studentEmail": "brandontobin2@cox.net",
-//                        "userEmail": "brandontobin@cox.net"
                                     if (from != null && from.equals("scheduling")) {
                                         AvailableAcceptedRequestPage.getInstance().finish();
+                                        TutoringRequestsPager.getInstance().finish();
                                     }
 //                                    Log.i("@end_tutor_session", "session ended!");
                                 } else {

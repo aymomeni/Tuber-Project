@@ -21,8 +21,7 @@
         app:speedFactor="5"
 
         app:viewCountEstimateSize="5"
-        app:maxAdapterSizeToEstimate="20"
-        />
+        app:maxAdapterSizeToEstimate="20" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

@@ -60,6 +60,7 @@ public class StudentStudySession extends Activity {
         intent = getIntent();
 
         course = intent.getStringExtra("course");
+        Log.i("@course_check",course);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");
@@ -82,11 +83,6 @@ public class StudentStudySession extends Activity {
                     obj.put("tutorEmail",tutorEmail);
                     obj.put("rating", String.valueOf(rating_bar_student.getRating()));
 
-//                    Log.i("userEmail",_userEmail);
-//                    Log.i("userToken",_userToken);
-//                    Log.i("tutorSessionID",session_id);
-//                    Log.i("tutorEmail",tutorEmail);
-//                    Log.i("rating",String.valueOf(rating_bar_student.getRating()));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

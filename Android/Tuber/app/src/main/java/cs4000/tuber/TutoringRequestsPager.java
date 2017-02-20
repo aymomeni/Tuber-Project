@@ -19,6 +19,10 @@ import java.util.Vector;
 
 public class TutoringRequestsPager extends AppCompatActivity {
 
+    public static TutoringRequestsPager getInstance(){
+        return activity;
+    }
+    static TutoringRequestsPager activity;
 
     private String _userEmail;
     private String _userToken;
@@ -29,7 +33,9 @@ public class TutoringRequestsPager extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutoring_requests_pager);
 
+        activity = this;
 
+        setTitle("");
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");
@@ -40,6 +46,7 @@ public class TutoringRequestsPager extends AppCompatActivity {
         try{
             obj2.put("userEmail", _userEmail);
             obj2.put("userToken", _userToken);
+            //obj2.put("course", "CS 2420");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -55,60 +62,18 @@ public class TutoringRequestsPager extends AppCompatActivity {
                         Log.i("@status_tutor",status);
                         if(status.equals("pending")){
                             Intent intent = new Intent(TutoringRequestsPager.this, Studysession.class);
+                            intent.putExtra("course", getIntent().getStringExtra("course"));
                             intent.putExtra("status", "2");
                             startActivity(intent);
                             finish();
                         } else if(status.equals("active")){ // in an active session
                             Intent intent = new Intent(TutoringRequestsPager.this, Studysession.class);
+                            intent.putExtra("course", getIntent().getStringExtra("course"));
                             intent.putExtra("status", "1");
                             startActivity(intent);
                             finish();
                         } else {
-
-
-                            List<Fragment> fragments = new Vector<>();
-                            fragments.add(Fragment.instantiate(getBaseContext(), AvailableRequestsFragment.class.getName()));
-                            fragments.add(Fragment.instantiate(getBaseContext(), AcceptedRequestsFragment.class.getName()));
-
-                            setTitle("");
-
-                            RequestsPagerAdapter adapter = new RequestsPagerAdapter(getSupportFragmentManager(), fragments);
-                            final ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
-                            pager.setAdapter(adapter);
-
-
-                            final ActionBar actionBar = getSupportActionBar();
-                            actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
-                            ActionBar.TabListener tabListener = new ActionBar.TabListener() {
-                                @Override
-                                public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
-                                    pager.setCurrentItem(tab.getPosition());
-                                }
-
-                                @Override
-                                public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
-                                }
-
-                                @Override
-                                public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
-
-                                }
-                            };
-
-                            actionBar.addTab(actionBar.newTab().setText("Available Requests").setTabListener(tabListener));
-                            actionBar.addTab(actionBar.newTab().setText("Accepted Requests").setTabListener(tabListener));
-
-
-                            pager.addOnPageChangeListener( new ViewPager.SimpleOnPageChangeListener() {
-                                public void onPageSelected(int position) {
-
-                                    actionBar.setSelectedNavigationItem(position);
-                                }
-                            });
-
-
+                            preparePages();
                         }
 
                     } catch (JSONException e) {
@@ -117,8 +82,53 @@ public class TutoringRequestsPager extends AppCompatActivity {
 
                 } else {
 //                    Log.i("@check_session_status", "check session status failed!"); // has not offered yet
+                    preparePages();
                 }
             }
         });
+    }
+
+    public void preparePages() {
+
+        List<Fragment> fragments = new Vector<>();
+        fragments.add(Fragment.instantiate(getBaseContext(), AvailableRequestsFragment.class.getName()));
+        fragments.add(Fragment.instantiate(getBaseContext(), AcceptedRequestsFragment.class.getName()));
+
+        RequestsPagerAdapter adapter = new RequestsPagerAdapter(getSupportFragmentManager(), fragments);
+        final ViewPager pager = (ViewPager) findViewById(R.id.viewpager);
+        pager.setAdapter(adapter);
+
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+            @Override
+            public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+                pager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+            }
+
+            @Override
+            public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+
+            }
+        };
+
+        actionBar.addTab(actionBar.newTab().setText("Available Requests").setTabListener(tabListener));
+        actionBar.addTab(actionBar.newTab().setText("Accepted Requests").setTabListener(tabListener));
+
+
+        pager.addOnPageChangeListener( new ViewPager.SimpleOnPageChangeListener() {
+            public void onPageSelected(int position) {
+
+                actionBar.setSelectedNavigationItem(position);
+            }
+        });
+
     }
 }

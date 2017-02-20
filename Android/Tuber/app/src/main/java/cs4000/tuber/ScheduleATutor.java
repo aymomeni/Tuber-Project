@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -71,6 +72,7 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
         intent = getIntent();
 
         course = intent.getStringExtra("course");
+        Log.i("@course_check",course);
 
         topicTextBox = (EditText) findViewById(R.id.topiceditText2);
         submitButton = (Button) findViewById(R.id.submitButton);
@@ -107,9 +109,6 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
                     public void Done(JSONObject result) {
                         if(result != null) {
                             Toast.makeText(ScheduleATutor.this, "Your have submitted a scheduled tutor request", Toast.LENGTH_LONG).show();
-
-                            //Intent intent = new Intent(ScheduleATutor.this, TutorServicesActivity.class);
-                            //startActivity(intent);
                             finish();
 
                         } else {

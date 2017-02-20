@@ -47,6 +47,10 @@ public class TutorCourseFragment extends Fragment {
         //StaggeredGridLayoutManager sgl= new StaggeredGridLayoutManager(6, StaggeredGridLayoutManager.HORIZONTAL);
         recList.setLayoutManager(llm);
 
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
+        recList.addItemDecoration(itemDecoration);
+
         ItemClickSupport.addTo(recList).setOnItemClickListener(
                 new ItemClickSupport.OnItemClickListener() {
                     @Override
@@ -73,8 +77,6 @@ public class TutorCourseFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent in = new Intent(getActivity(), InsertActivity.class);
-//                startActivity(in);
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dark_Dialog);
                 builder.setTitle("Add a Course");
                 // I'm using fragment here so I'm using getView() to provide ViewGroup

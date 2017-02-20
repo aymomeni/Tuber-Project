@@ -2,11 +2,11 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_persons"
+    android:id="@+id/activity_users"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="cs4000.tuber.PersonsActivity">
+    tools:context="cs4000.tuber.UsersActivity">
 
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -18,12 +18,11 @@
 
         <android.support.v7.widget.RecyclerView
 
-            android:id="@+id/persons_rv"
+            android:id="@+id/users_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:padding="10dp" />
+            android:layout_alignParentTop="true" />
 
 
     </android.support.v4.widget.SwipeRefreshLayout>

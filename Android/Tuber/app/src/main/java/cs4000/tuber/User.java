@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by FahadTmem on 2/15/17.
  */
 
-public class Person {
+public class User {
 
     private String userEmail;
     private String firstName;
@@ -18,7 +18,7 @@ public class Person {
 
     public static int lastContactId = 0;
 
-    public Person(String userEmail, Double miles) {
+    public User(String userEmail, Double miles) {
         this.userEmail = userEmail;
         distance = miles;
     }
@@ -56,14 +56,14 @@ public class Person {
     }
 
 
-    public static ArrayList<Person> createPersonsList(int numContacts) {
-        ArrayList<Person> persons = new ArrayList<Person>();
+    public static ArrayList<User> createPersonsList(int numContacts) {
+        ArrayList<User> users = new ArrayList<User>();
 
         for (int i = 1; i <= numContacts; i++) {
-            persons.add(new Person("User " + ++lastContactId, i + 5.5));
+            users.add(new User("User " + ++lastContactId, i + 5.5));
         }
 
-        return persons;
+        return users;
     }
 
     public Double getLongitude() {

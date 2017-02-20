@@ -164,6 +164,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
 
                                         Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+                                        intent.putExtra("course", course);
                                         intent.putExtra("status", "0");
                                         startActivity(intent);
                                         finish();
@@ -361,6 +362,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
         intent = getIntent();
 
         course = intent.getStringExtra("course");
+        Log.i("@course_check",course);
 
 
         JSONObject obj2 = new JSONObject();
@@ -389,11 +391,13 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                             checkForUpdate2();
                         } else if(status.equals("pending")){
                             Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+                            intent.putExtra("course", course);
                             intent.putExtra("status", "2");
                             startActivity(intent);
                             finish();
                         } else if(status.equals("active")){ // in an active session
                             Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+                            intent.putExtra("course", course);
                             intent.putExtra("status", "1");
                             startActivity(intent);
                             finish();
@@ -525,6 +529,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                             @Override
                             public void run() {
                                 Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+                                intent.putExtra("course", course);
                                 intent.putExtra("status", "0");
                                 startActivity(intent);
                                 finish();

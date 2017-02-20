@@ -92,7 +92,7 @@
         <activity android:name=".ScheduleATutor" />
         <activity android:name=".TutoringRequestPage" />
         <activity android:name=".AvailableAcceptedRequestPage" />
-        <activity android:name=".PersonsActivity" />
+        <activity android:name=".UsersActivity" />
         <activity android:name=".TutoringRequestsPager" />
         <activity android:name=".ClassTutorActivity"></activity>
     </application>

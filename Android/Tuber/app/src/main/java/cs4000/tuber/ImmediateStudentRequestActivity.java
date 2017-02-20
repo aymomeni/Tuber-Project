@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Activity;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -23,18 +22,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.games.internal.api.StatsImpl;
-import com.google.android.gms.security.ProviderInstaller;
 //import com.parse.FindCallback;
 //import com.parse.ParseException;
 //import com.parse.ParseGeoPoint;
@@ -52,7 +45,6 @@ import java.util.ArrayList;
 //import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 //import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
-import static cs4000.tuber.R.id.swipeContainer;
 
 /*
  * Displays all students that created a immediate tutor request
@@ -77,9 +69,9 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeContainer;
 
-    RecyclerView Persons_rv;
-    ArrayList<Person> persons = new ArrayList<Person>();
-    PersonAdapter adapter;
+    RecyclerView Users_rv;
+    ArrayList<User> users = new ArrayList<User>();
+    UserAdapter adapter;
 
     LocationManager locationManager;
     LocationListener locationListener;
@@ -102,7 +94,7 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_persons);
+        setContentView(R.layout.activity_users);
 
         activity = this;
 
@@ -113,12 +105,17 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
         intent = getIntent();
 
         course = intent.getStringExtra("course");
+        Log.i("@course_check",course);
 
 
         // Lookup the recyclerview in activity layout
-        Persons_rv = (RecyclerView) findViewById(R.id.persons_rv);
-        Persons_rv.setHasFixedSize(true);
-        Persons_rv.setItemAnimator(new SlideInUpAnimator());
+        Users_rv = (RecyclerView) findViewById(R.id.users_rv);
+        Users_rv.setHasFixedSize(true);
+        Users_rv.setItemAnimator(new SlideInUpAnimator());
+
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
+        Users_rv.addItemDecoration(itemDecoration);
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -139,7 +136,7 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                 android.R.color.holo_red_light);
 
 
-        ItemClickSupport.addTo(Persons_rv).setOnItemClickListener(
+        ItemClickSupport.addTo(Users_rv).setOnItemClickListener(
                 new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -149,16 +146,16 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
 
                                 Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                                if(persons.size() > position && lastKnownLocation != null) {
+                                if(users.size() > position && lastKnownLocation != null) {
 
                                     Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
 
-                                    intent.putExtra("tutorLatitude", persons.get(position).getLatitudes());
-                                    intent.putExtra("tutorLongitude", persons.get(position).getLongitude());
+                                    intent.putExtra("tutorLatitude", users.get(position).getLatitudes());
+                                    intent.putExtra("tutorLongitude", users.get(position).getLongitude());
                                     intent.putExtra("studentLatitude", lastKnownLocation.getLatitude());
                                     intent.putExtra("studentLongitude", lastKnownLocation.getLongitude());
-                                    intent.putExtra("studentCourse", course);
-                                    intent.putExtra("username", persons.get(position).getUserEmail());
+                                    intent.putExtra("course", course);
+                                    intent.putExtra("username", users.get(position).getUserEmail());
 
                                     startActivity(intent);
                                 }
@@ -172,13 +169,13 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
         setTitle("Nearby Tutors");
 
         // Create adapter passing in the sample user data
-        adapter = new PersonAdapter(this, persons);
+        adapter = new UserAdapter(this, users);
         // Set layout manager to position the items
-        Persons_rv.setLayoutManager(new LinearLayoutManager(this));
+        Users_rv.setLayoutManager(new LinearLayoutManager(this));
 
         adapter.clear();
         // Attach the adapter to the recyclerview to populate items
-        Persons_rv.setAdapter(adapter);
+        Users_rv.setAdapter(adapter);
 
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
@@ -241,7 +238,6 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         ConnectionTask check_session_student = new ConnectionTask(obj);
-
         check_session_student.check_session_status_student(new ConnectionTask.CallBack() {
             @Override
             public void Done(JSONObject result) {
@@ -256,7 +252,7 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                                 intent.putExtra("tutorLongitude", Double.valueOf(result.getString("tutorLongitude")));
                                 intent.putExtra("studentLatitude", temp.getLatitude());
                                 intent.putExtra("studentLongitude", temp.getLongitude());
-                                intent.putExtra("studentCourse", course);
+                                intent.putExtra("course", course);
                                 intent.putExtra("username", result.getString("tutorEmail"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -265,6 +261,7 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                             finish();
                         } else if(status.equals("pending") || status.equals("active") ) {
                             Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
+                            intent.putExtra("course", course);
                             //intent.putExtra("status", "1");
                             startActivity(intent);
                             finish();
@@ -277,7 +274,7 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else {
-
+                    updateListView(getLocation());
                 }
             }
         });
@@ -332,7 +329,7 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
 
                                     Double distanceOneDP = (double) Math.round(Double.parseDouble(distanceFromStudent) * 10) / 10;
 
-                                    Person temp1 = new Person(userEmail, distanceOneDP);
+                                    User temp1 = new User(userEmail, distanceOneDP);
                                     temp1.setLatitudes(Double.parseDouble(latitude));
                                     temp1.setLongitude(Double.parseDouble(longitude));
                                     adapter.add(temp1);
