@@ -60,7 +60,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 //            case 0:
 //                itemView = LayoutInflater.
 //                        from(viewGroup.getContext()).
-//                        inflate(R.layout.course_layout_linear, viewGroup, false);
+//                        inflate(R.layout.course_layout_linear_student, viewGroup, false);
 //                //itemView.setOnClickListener(mOnClickListener);
 //                viewHold= new DataViewHolder(itemView);
 //                break;
@@ -87,7 +87,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             case 0:
                 itemView = LayoutInflater.
                         from(viewGroup.getContext()).
-                        inflate(R.layout.course_layout_linear, viewGroup, false);
+                        inflate(R.layout.course_layout_linear_student, viewGroup, false);
                 //itemView.setOnClickListener(mOnClickListener);
                 viewHold= new DataViewHolder(itemView);
                 break;
@@ -95,7 +95,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             default:
                 itemView = LayoutInflater.
                         from(viewGroup.getContext()).
-                        inflate(R.layout.course_layout_grid, viewGroup, false);
+                        inflate(R.layout.course_layout_linear_tutor, viewGroup, false);
                 viewHold= new DataViewHolder(itemView);
                 break;
         }

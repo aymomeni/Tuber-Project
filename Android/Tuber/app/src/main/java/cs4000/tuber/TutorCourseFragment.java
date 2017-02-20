@@ -122,7 +122,7 @@ public class TutorCourseFragment extends Fragment {
             RecyclerCourseObject newOffer = new RecyclerCourseObject();
             newOffer.setCourse(m2.group(1));
             newOffer.setSubTitle("Subtitle");
-            newOffer.setType("one");
+            newOffer.setType("two");
 
             tutorCourseDataSet.add(newOffer);
         }
