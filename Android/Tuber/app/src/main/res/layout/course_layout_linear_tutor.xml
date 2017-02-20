@@ -87,10 +87,50 @@
                     <ImageView
                         android:id="@+id/ic_red_minus"
                         android:layout_alignParentLeft="true"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_centerInParent="true"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/ic_red_minus" />
+
+                    <ImageView
+                        android:id="@+id/ic_offer_tutor_outline"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_offer_tutor_outline" />
+
+                    <ImageView
+                        android:id="@+id/ic_scheduled_request"
+                        android:layout_toLeftOf="@id/ic_offer_tutor_outline"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="50dp"
+                        android:gravity="center"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_scheduled_request" />
+
+                    <ImageView
+                        android:id="@+id/ic_immediate_service"
+                        android:layout_toLeftOf="@id/ic_scheduled_request"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="50dp"
+                        android:gravity="center"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_immediate_service" />
+
+                    <ImageView
+                        android:id="@+id/ic_message_closed"
+                        android:layout_toLeftOf="@id/ic_immediate_service"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="50dp"
+                        android:gravity="center"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_message_closed" />
 
                 </RelativeLayout>
             </LinearLayout>

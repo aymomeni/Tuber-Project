@@ -87,10 +87,50 @@
                     <ImageView
                         android:id="@+id/ic_red_minus"
                         android:layout_alignParentLeft="true"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_centerInParent="true"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
                         android:adjustViewBounds="true"
                         android:src="@drawable/ic_red_minus" />
+
+                    <ImageView
+                        android:id="@+id/ic_study_hotspot_tower"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_study_hotspot_tower" />
+
+                    <ImageView
+                        android:id="@+id/ic_tutor_glasses"
+                        android:layout_toLeftOf="@id/ic_study_hotspot_tower"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="50dp"
+                        android:gravity="center"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_tutor_glasses" />
+
+                    <ImageView
+                        android:id="@+id/ic_discussion"
+                        android:layout_toLeftOf="@id/ic_tutor_glasses"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="50dp"
+                        android:gravity="center"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_discussion" />
+
+                    <ImageView
+                        android:id="@+id/ic_message_closed"
+                        android:layout_toLeftOf="@id/ic_discussion"
+                        android:layout_centerInParent="true"
+                        android:layout_marginRight="50dp"
+                        android:gravity="center"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_message_closed" />
 
                 </RelativeLayout>
             </LinearLayout>
