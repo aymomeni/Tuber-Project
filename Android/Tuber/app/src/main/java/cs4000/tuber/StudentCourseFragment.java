@@ -76,7 +76,7 @@ public class StudentCourseFragment extends Fragment {
             public void onClick(View view) {
 //                Intent in = new Intent(getActivity(), InsertActivity.class);
 //                startActivity(in);
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dark_Dialog);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyAlertDialogStyle);
                 builder.setTitle("Add a Course");
                 // I'm using fragment here so I'm using getView() to provide ViewGroup
                 // but you can provide here any other instance of ViewGroup from your Fragment / Activity

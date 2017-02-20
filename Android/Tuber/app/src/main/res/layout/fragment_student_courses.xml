@@ -34,7 +34,7 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_input_add"
         app:layout_anchor="@id/recyclerViewStudent"
-        app:backgroundTint="@color/colorPrimary_Grey"
+        app:backgroundTint="@color/colorPrimary_White"
         app:layout_anchorGravity="bottom|right|end"
         />
 
