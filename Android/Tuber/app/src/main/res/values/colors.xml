@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary_Grey">#dedede</color>
     <color name="colorPrimary_White">#ffffff</color>
-    <color name="colorAccent_Orange">#ff7400</color>
+    <color name="colorPrimary_Grey">#dedede</color>
     <color name="colorAccent_Blue">#d18bbad9</color>
-    <color name="colorAccent_Green">#da9ebd79</color>
-    <color name="colorAccent_Red">#ff7474</color>
+    <color name="colorAccent_Green">#86bf71</color>
     <color name="colorAccent_BlueGreen">#57bbb1</color>
+    <color name="colorAccent_Orange">#ff9f4f</color>
+    <color name="colorAccent_Red">#a52b2b</color>
 
     // added Jan 28 ALI
-    <color name="primary">#5ebadc</color>
-    <color name="primary_dark">#35828f</color>
-    <color name="primary_darker">#3e7b91</color>
+    <color name="primary">#bfbfbf</color>
+    <color name="primary_dark">#9b9b9b</color>
+    <color name="primary_darker">#717171</color>
     <color name="accent">#FFFFFF</color>
 
     <color name="black">#000000</color>

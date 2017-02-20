@@ -5,7 +5,9 @@
     android:id="@+id/activity_course_view4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="cs4000.tuber.CourseViewActivityNew">
+    tools:context="cs4000.tuber.CourseViewActivityNew"
+              android:background="@layout/backrepeat"
+    >
 
 
 <android.support.v4.view.ViewPager
