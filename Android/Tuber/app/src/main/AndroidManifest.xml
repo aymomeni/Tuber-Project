@@ -94,6 +94,7 @@
         <activity android:name=".AvailableAcceptedRequestPage" />
         <activity android:name=".PersonsActivity" />
         <activity android:name=".TutoringRequestsPager" />
+        <activity android:name=".HotspotActivity"/>
         <activity android:name=".ClassTutorActivity"></activity>
     </application>
 

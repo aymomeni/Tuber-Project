@@ -38,6 +38,8 @@
             android:id="@+id/classViewElement2"
             android:layout_width="match_parent"
             android:layout_height="110dp"
+            android:clickable="true"
+            android:onClick="class_option_study_hotspot_clicked"
             android:layout_below="@+id/classViewElement1"
             android:layout_marginBottom="10dp" />
 
