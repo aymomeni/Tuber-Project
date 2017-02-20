@@ -1,15 +1,19 @@
 package cs4000.tuber;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,7 +40,7 @@ public class StudentCourseFragment extends Fragment {
         if(container == null){
             return null;
         }
-        View rootView = inflater.inflate(R.layout.fragment_student_courses, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_student_courses, container, false);
 
         RecyclerView recList = (RecyclerView)rootView.findViewById(R.id.recyclerViewStudent);
 
@@ -65,6 +69,41 @@ public class StudentCourseFragment extends Fragment {
                     }
                 }
         );
+
+        FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.studentCourseAddFloatingButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent in = new Intent(getActivity(), InsertActivity.class);
+//                startActivity(in);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AppTheme_Dark_Dialog);
+                builder.setTitle("Add a Course");
+                // I'm using fragment here so I'm using getView() to provide ViewGroup
+                // but you can provide here any other instance of ViewGroup from your Fragment / Activity
+                View viewInflated = LayoutInflater.from(getContext()).inflate(R.layout.dialog_add_course, (ViewGroup) getView(), false);
+                // Set up the input
+                final EditText input = (EditText) viewInflated.findViewById(R.id.inputCourseDialog);
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                builder.setView(viewInflated);
+
+                // Set up the buttons
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String courseText = input.getText().toString(); //TODO: do something useful with course name
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                builder.show();
+
+            }
+        });
 
 
         studentCourseDataSet = new ArrayList<RecyclerCourseObject>();
