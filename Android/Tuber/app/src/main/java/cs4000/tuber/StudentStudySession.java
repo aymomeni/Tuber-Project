@@ -167,6 +167,8 @@ public class StudentStudySession extends Activity {
                                         }
                                     }).show();
 
+                        } else if(result.getString("session_status").equals("active")) {
+                            check_for_sessionEnd();
                         } else {
                             if(!exited) {
                                 handler.postDelayed(new Runnable() {

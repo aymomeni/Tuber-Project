@@ -148,6 +148,7 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
 
                                 if(users.size() > position && lastKnownLocation != null) {
 
+                                    Log.i("Inhere","123");
                                     Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
 
                                     intent.putExtra("tutorLatitude", users.get(position).getLatitudes());
@@ -394,19 +395,41 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                         String status = result.getString("session_status");
 
                         if(status.equals("paired")) {
-                            Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
-                            try {
-                                intent.putExtra("tutorLatitude", Double.valueOf(result.getString("tutorLatitude")));
-                                intent.putExtra("tutorLongitude", Double.valueOf(result.getString("tutorLongitude")));
-                                intent.putExtra("studentLatitude", temp.getLatitude());
-                                intent.putExtra("studentLongitude", temp.getLongitude());
-                                intent.putExtra("course", course);
-                                intent.putExtra("username", result.getString("tutorEmail"));
+                            Log.i("Inhere","321");
+
+
+                            JSONObject obj2 = new JSONObject();
+                            try{
+                                obj2.put("userEmail", _userEmail);
+                                obj2.put("userToken", _userToken);
+                                obj2.put("latitude", String.valueOf(temp.getLatitude()));
+                                obj2.put("longitude", String.valueOf(temp.getLongitude()));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            startActivity(intent);
-                            finish();
+                            ConnectionTask task = new ConnectionTask(obj2);
+                            task.update_student_location(new ConnectionTask.CallBack() {
+                                @Override
+                                public void Done(JSONObject result) {
+                                    if(result != null) {
+                                        Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
+                                        try {
+                                            intent.putExtra("tutorLatitude", Double.valueOf(result.getString("tutorLatitude")));
+                                            intent.putExtra("tutorLongitude", Double.valueOf(result.getString("tutorLongitude")));
+                                            intent.putExtra("studentLatitude", temp.getLatitude());
+                                            intent.putExtra("studentLongitude", temp.getLongitude());
+                                            intent.putExtra("course", course);
+                                            intent.putExtra("username", result.getString("tutorEmail"));
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+
+                                    }
+                                }
+                            });
                         } else if(status.equals("pending") || status.equals("active") ) {
                             Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
                             intent.putExtra("course", course);
