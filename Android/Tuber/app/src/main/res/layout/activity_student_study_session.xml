@@ -8,6 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@layout/backrepeat"
     tools:context="cs4000.tuber.StudentStudySession">
 
     <RatingBar
@@ -38,7 +39,7 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/rate_tutor_text"
         android:textSize="24sp"
-        android:textColor="@color/cardview_light_background"
+        android:textColor="@color/oil"
         android:textAlignment="center"
         android:layout_marginBottom="70dp" />
 </RelativeLayout>

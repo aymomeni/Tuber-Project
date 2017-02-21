@@ -39,6 +39,12 @@ public class AvailableRequestsFragment extends Fragment {
 
     private String course;
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        UpdateList();
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View rootView = inflater.inflate(R.layout.available_requests_fragment_layout, container, false);
         if(container == null) {
@@ -115,7 +121,7 @@ public class AvailableRequestsFragment extends Fragment {
         Requests_rv.setAdapter(adapter);
 
 
-        UpdateList();
+        //UpdateList();
         return rootView;
     }
 

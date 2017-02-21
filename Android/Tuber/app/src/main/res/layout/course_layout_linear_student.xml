@@ -5,27 +5,27 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical"
+    android:background="?android:attr/selectableItemBackground"
     >
     <!--android:background="?android:attr/selectableItemBackground"-->
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="6dp"
         card_view:cardBackgroundColor="@color/colorAccent_Green">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:elevation="24dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:id="@+id/iTitle_layout"
+                android:elevation="24dp">
 
                 <TextView
                     android:id="@+id/iTitle"
@@ -45,7 +45,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#25000000"
-                android:padding="6dp">
+                android:padding="6dp"
+                android:id="@+id/iSubTitle_layout"
+                android:elevation="24dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -98,39 +100,37 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="30dp"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_study_hotspot_tower" />
+                        android:src="@drawable/ic_study_hotspot_tower"
+                        android:layout_height="25dp"
+                        android:layout_width="75dp" />
 
                     <ImageView
                         android:id="@+id/ic_tutor_glasses"
                         android:layout_toLeftOf="@id/ic_study_hotspot_tower"
                         android:layout_centerInParent="true"
-                        android:layout_marginRight="50dp"
                         android:gravity="center"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_tutor_glasses" />
+                        android:src="@drawable/ic_tutor_glasses"
+                        android:layout_height="25dp"
+                        android:elevation="8dp"
+                        android:layout_width="75dp" />
 
                     <ImageView
                         android:id="@+id/ic_discussion"
                         android:layout_toLeftOf="@id/ic_tutor_glasses"
                         android:layout_centerInParent="true"
-                        android:layout_marginRight="50dp"
                         android:gravity="center"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_discussion" />
+                        android:layout_height="25dp"
+                        android:src="@drawable/ic_discussion"
+                        android:layout_width="75dp" />
 
                     <ImageView
                         android:id="@+id/ic_message_closed"
                         android:layout_toLeftOf="@id/ic_discussion"
                         android:layout_centerInParent="true"
-                        android:layout_marginRight="50dp"
                         android:gravity="center"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_message_closed" />
+                        android:src="@drawable/ic_message_closed"
+                        android:layout_height="25dp"
+                        android:layout_width="75dp" />
 
                 </RelativeLayout>
             </LinearLayout>

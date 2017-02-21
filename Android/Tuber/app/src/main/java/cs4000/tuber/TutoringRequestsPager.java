@@ -19,10 +19,10 @@ import java.util.Vector;
 
 public class TutoringRequestsPager extends AppCompatActivity {
 
-    public static TutoringRequestsPager getInstance(){
-        return activity;
-    }
-    static TutoringRequestsPager activity;
+//    public static TutoringRequestsPager getInstance(){
+//        return activity;
+//    }
+//    static TutoringRequestsPager activity;
 
     private String _userEmail;
     private String _userToken;
@@ -33,7 +33,7 @@ public class TutoringRequestsPager extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutoring_requests_pager);
 
-        activity = this;
+        //activity = this;
 
         setTitle("");
 

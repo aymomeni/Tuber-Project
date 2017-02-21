@@ -246,7 +246,7 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 
 
 	public void acceptTutorService(View view){
-		ImmediateStudentRequestActivity.getInstance().finish();
+		//ImmediateStudentRequestActivity.getInstance().finish();
 
 		acceptTutorServiceButton = (Button)findViewById(R.id.acceptTutorButton);
 		acceptTutorServiceButton.setVisibility(View.INVISIBLE);

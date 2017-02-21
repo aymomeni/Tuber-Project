@@ -10,10 +10,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,24 +61,65 @@ public class StudentCourseFragment extends Fragment {
         recList.addItemDecoration(itemDecoration);
 
 
-        ItemClickSupport.addTo(recList).setOnItemClickListener(
-                new ItemClickSupport.OnItemClickListener() {
+        ItemClickSupport.addTo(recList).setOnItemClickListenerStudent(
+                new ItemClickSupport.OnItemClickListenerStudent() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        position--;
+                        final int pos = position - 1;
 
-                        if(studentCourseDataSet.size() > position) {
+                        if(studentCourseDataSet.size() > pos) {
 
-                            Intent intent = new Intent(getActivity(), ClassStudentActivity.class);
-                            intent.putExtra("course", studentCourseDataSet.get(position).getCourse());
-                            startActivity(intent);
+                            if(v instanceof ImageView) {
+
+                                if(v.getId() == R.id.ic_study_hotspot_tower){
+
+                                    Log.i("StudyHotspot", studentCourseDataSet.get(pos).getCourse());
+                                    Intent intent = new Intent(getContext(), HotspotActivity.class);
+                                    intent.putExtra("course", studentCourseDataSet.get(pos).getCourse());
+                                    startActivity(intent);
+
+                                } else if(v.getId() == R.id.ic_tutor_glasses) {
+
+                                    Log.i("TutorService", studentCourseDataSet.get(pos).getCourse());
+                                    Intent intent = new Intent(getContext(), TutorServicesActivity.class);
+                                    intent.putExtra("course", studentCourseDataSet.get(pos).getCourse());
+                                    startActivity(intent);
+
+
+                                } else if(v.getId() == R.id.ic_discussion) {
+
+                                    //do something...
+                                    Toast.makeText(getContext(), "listener Definition missing", Toast.LENGTH_SHORT).show();
+
+                                } else if(v.getId() == R.id.ic_message_closed) {
+
+                                    //do something...
+                                    Toast.makeText(getContext(), "listener Definition missing", Toast.LENGTH_SHORT).show();
+
+                                }
+
+
+                            } else {
+                                Intent intent = new Intent(getActivity(), ClassStudentActivity.class);
+                                intent.putExtra("course", studentCourseDataSet.get(pos).getCourse());
+                                startActivity(intent);
+                            }
 
                         }
-
-
                     }
                 }
         );
+
+//        ItemClickSupport.addTo(recList).setOnItemClickListenerStudent(
+//                new ItemClickSupport.OnItemClickListenerStudent() {
+//                    @Override
+//                    public void onItemClicked(View v) {
+//                        Log.i("@TESTING","CLICKED2");
+//                        Toast.makeText(getContext(), "clicked!", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//        );
+
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.studentCourseAddFloatingButton);
         fab.setOnClickListener(new View.OnClickListener() {

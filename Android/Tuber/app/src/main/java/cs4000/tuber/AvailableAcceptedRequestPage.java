@@ -102,7 +102,7 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
 
                                 if (result != null) {
 
-                                    TutoringRequestsPager.getInstance().finish();
+                                    //TutoringRequestsPager.getInstance().finish();
 
                                     Toast.makeText(AvailableAcceptedRequestPage.this, "You have accepted the resquest successfully. You can now view the session"
                                             , Toast.LENGTH_LONG).show();

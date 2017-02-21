@@ -72,7 +72,7 @@ import java.net.URL;
 
 public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public interface CallBack {
-		public void Done(JSONObject result);
+		void Done(JSONObject result);
 	}
 
 	// This is the reference to the associated listener

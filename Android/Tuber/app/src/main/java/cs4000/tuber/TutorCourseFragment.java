@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -51,26 +53,51 @@ public class TutorCourseFragment extends Fragment {
                 DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
         recList.addItemDecoration(itemDecoration);
 
-        ItemClickSupport.addTo(recList).setOnItemClickListener(
-                new ItemClickSupport.OnItemClickListener() {
+        ItemClickSupport.addTo(recList).setOnItemClickListenerTutor(
+                new ItemClickSupport.OnItemClickListenerTutor() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        position--;
+                        final int pos = position - 1;
 
-                        if(tutorCourseDataSet.size() > position) {
+                        if(tutorCourseDataSet.size() > pos) {
 
+                            if(v instanceof ImageView) {
 
-                            Intent intent = new Intent(getActivity(), ClassTutorActivity.class);
-                            intent.putExtra("course", tutorCourseDataSet.get(position).getCourse());
-                            startActivity(intent);
+                                if(v.getId() == R.id.ic_offer_tutor_outline){
 
+                                    //do something...
+                                    Toast.makeText(getContext(), "listener Definition missing", Toast.LENGTH_SHORT).show();
+
+                                } else if(v.getId() == R.id.ic_scheduled_request) {
+
+                                    Log.i("@class_check", tutorCourseDataSet.get(pos).getCourse());
+                                    Intent intent = new Intent(getContext(), TutoringRequestsPager.class);
+                                    intent.putExtra("course",tutorCourseDataSet.get(pos).getCourse());
+                                    startActivity(intent);
+
+                                } else if(v.getId() == R.id.ic_immediate_service) {
+
+                                    Log.i("@class_check", tutorCourseDataSet.get(pos).getCourse());
+                                    Intent intent = new Intent(getContext(), ImmediateTutorServiceMapsActivity.class);
+                                    intent.putExtra("course", tutorCourseDataSet.get(pos).getCourse());
+                                    startActivity(intent);
+
+                                } else if(v.getId() == R.id.ic_message_closed) {
+
+                                    //do something...
+                                    Toast.makeText(getContext(), "listener Definition missing", Toast.LENGTH_SHORT).show();
+
+                                }
+
+                            } else {
+                                Intent intent = new Intent(getActivity(), ClassStudentActivity.class);
+                                intent.putExtra("course", tutorCourseDataSet.get(pos).getCourse());
+                                startActivity(intent);
+                            }
                         }
-
-
                     }
                 }
         );
-
 
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.tutorCourseAddFloatingButton);

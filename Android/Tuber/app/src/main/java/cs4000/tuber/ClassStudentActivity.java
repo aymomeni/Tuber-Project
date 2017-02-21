@@ -1,5 +1,6 @@
 package cs4000.tuber;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,7 @@ import android.view.View;
  * Options that the user can select in the context of the
  * given academic class
  */
-public class ClassStudentActivity extends AppCompatActivity {
+public class ClassStudentActivity extends Activity {
 
 
     @Override

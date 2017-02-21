@@ -5,17 +5,15 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="vertical"
-    >
+    android:background="?android:attr/selectableItemBackground"
+    android:id="@+id/course_leyout_tutor">
     <!--android:background="?android:attr/selectableItemBackground"-->
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="6dp"
-        card_view:cardBackgroundColor="@color/colorAccent_Orange">
+        card_view:cardBackgroundColor="@color/colorAccent_Orange"
+        android:id="@+id/course_leyout_tutor_card">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,7 +23,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:elevation="24dp">
 
                 <TextView
                     android:id="@+id/iTitle"
@@ -45,7 +44,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#25000000"
-                android:padding="6dp">
+                android:padding="6dp"
+                android:elevation="24dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -98,39 +98,36 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="30dp"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_offer_tutor_outline" />
+                        android:src="@drawable/ic_offer_tutor_outline"
+                        android:layout_width="75dp"
+                        android:layout_height="25dp" />
 
                     <ImageView
                         android:id="@+id/ic_scheduled_request"
                         android:layout_toLeftOf="@id/ic_offer_tutor_outline"
                         android:layout_centerInParent="true"
-                        android:layout_marginRight="50dp"
                         android:gravity="center"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_scheduled_request" />
+                        android:src="@drawable/ic_scheduled_request"
+                        android:layout_width="75dp"
+                        android:layout_height="25dp" />
 
                     <ImageView
                         android:id="@+id/ic_immediate_service"
                         android:layout_toLeftOf="@id/ic_scheduled_request"
                         android:layout_centerInParent="true"
-                        android:layout_marginRight="50dp"
                         android:gravity="center"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_immediate_service" />
+                        android:src="@drawable/ic_immediate_service"
+                        android:layout_width="75dp"
+                        android:layout_height="25dp" />
 
                     <ImageView
                         android:id="@+id/ic_message_closed"
                         android:layout_toLeftOf="@id/ic_immediate_service"
                         android:layout_centerInParent="true"
-                        android:layout_marginRight="50dp"
                         android:gravity="center"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/ic_message_closed" />
+                        android:src="@drawable/ic_message_closed"
+                        android:layout_width="75dp"
+                        android:layout_height="25dp" />
 
                 </RelativeLayout>
             </LinearLayout>

@@ -5,7 +5,7 @@
     android:id="@+id/activity_schedule_atutor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@layout/backrepeat"
     tools:context="cs4000.tuber.ScheduleATutor">
 
     <TextView
@@ -17,7 +17,8 @@
         android:id="@+id/topicTextView"
         android:textSize="24sp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="25dp"/>
+        android:layout_marginTop="25dp"
+        android:textColor="@color/oil" />
 
 
     <TextView
@@ -29,19 +30,20 @@
         android:id="@+id/DTtextView"
         android:textSize="24sp"
         android:layout_marginTop="30dp"
-        android:layout_marginLeft="10sp" />
+        android:layout_marginLeft="10sp"
+        android:textColor="@color/oil" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/calendar"
         android:id="@+id/imageButton"
-        android:background="@color/primary"
         android:layout_below="@+id/DTtextView"
         android:layout_alignParentEnd="true"
         android:onClick="showDatePickerDialog"
         android:scaleX="1.05"
-        android:scaleY="1.05" />
+        android:scaleY="1.05"
+        android:background="@color/white" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -59,7 +61,8 @@
             android:ems="10"
             android:id="@+id/dateEditText2"
             android:textSize="24sp"
-            android:bufferType="editable"/>
+            android:bufferType="editable"
+            android:textColor="@color/oil"/>
     </android.support.design.widget.TextInputLayout>
 
 
@@ -72,7 +75,8 @@
         android:layout_alignStart="@+id/dateEditText"
         android:id="@+id/timeTextView"
         android:textSize="24sp"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        android:textColor="@color/oil" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -82,7 +86,7 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/imageButton3"
         android:onClick="showTimePickerDialog"
-        android:background="@color/primary" />
+        android:background="@color/white" />
 
 
 
@@ -103,7 +107,8 @@
             android:ems="10"
             android:id="@+id/timeEditText2"
             android:textSize="24sp"
-            android:bufferType="editable"/>
+            android:bufferType="editable"
+            android:textColor="@color/oil"/>
     </android.support.design.widget.TextInputLayout>
 
 
@@ -117,7 +122,8 @@
         android:id="@+id/dateTimeTextView"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="30dp"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:textColor="@color/oil" />
 
     <cs4000.tuber.NumberPicker
         android:id="@+id/np"
@@ -125,8 +131,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageButton3"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:solidColor="@color/primary" />
+        android:layout_marginTop="25dp" />
 
     <Button
         android:text="SUBMIT"
@@ -155,7 +160,8 @@
             android:inputType="textShortMessage"
             android:ems="10"
             android:id="@+id/topiceditText2"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textColor="@color/oil"/>
     </android.support.design.widget.TextInputLayout>
 
 </RelativeLayout>

@@ -27,10 +27,10 @@ public class TutoringRequests extends AppCompatActivity {
     RequestsAdapter adapter;
 
 
-    public static TutoringRequests getInstance(){
-        return activity;
-    }
-    static TutoringRequests activity;
+//    public static TutoringRequests getInstance(){
+//        return activity;
+//    }
+//    static TutoringRequests activity;
 
     private SharedPreferences sharedPreferences;
     private String _userEmail;
@@ -43,7 +43,7 @@ public class TutoringRequests extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
 
-        activity = this;
+        //activity = this;
 
         setTitle("My Scheduled Requests");
 
@@ -115,7 +115,11 @@ public class TutoringRequests extends AppCompatActivity {
         adapter.clear();
         // Attach the adapter to the recyclerview to populate items
         Requests_rv.setAdapter(adapter);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         JSONObject obj = new JSONObject();
         try{
@@ -150,7 +154,6 @@ public class TutoringRequests extends AppCompatActivity {
             }
         });
     }
-
 
     public void UpdateList() {
 

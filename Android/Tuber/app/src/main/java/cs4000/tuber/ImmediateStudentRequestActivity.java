@@ -86,17 +86,17 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
     private GoogleApiClient client;
 
 
-    public static ImmediateStudentRequestActivity getInstance(){
-        return activity;
-    }
-    static ImmediateStudentRequestActivity activity;
+//    public static ImmediateStudentRequestActivity getInstance(){
+//        return activity;
+//    }
+//    static ImmediateStudentRequestActivity activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
 
-        activity = this;
+        //activity = this;
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");
@@ -227,58 +227,6 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
 
             }
         };
-
-        temp = getLocation();
-        JSONObject obj = new JSONObject();
-        try{
-            obj.put("userEmail", _userEmail);
-            obj.put("userToken", _userToken);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        ConnectionTask check_session_student = new ConnectionTask(obj);
-        check_session_student.check_session_status_student(new ConnectionTask.CallBack() {
-            @Override
-            public void Done(JSONObject result) {
-                if(result != null) {
-                    try {
-                        String status = result.getString("session_status");
-
-                        if(status.equals("paired")) {
-                            Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
-                            try {
-                                intent.putExtra("tutorLatitude", Double.valueOf(result.getString("tutorLatitude")));
-                                intent.putExtra("tutorLongitude", Double.valueOf(result.getString("tutorLongitude")));
-                                intent.putExtra("studentLatitude", temp.getLatitude());
-                                intent.putExtra("studentLongitude", temp.getLongitude());
-                                intent.putExtra("course", course);
-                                intent.putExtra("username", result.getString("tutorEmail"));
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            startActivity(intent);
-                            finish();
-                        } else if(status.equals("pending") || status.equals("active") ) {
-                            Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
-                            intent.putExtra("course", course);
-                            //intent.putExtra("status", "1");
-                            startActivity(intent);
-                            finish();
-                        }  else {
-                            Log.i("@UpdatingList","TWO");
-                            updateListView(getLocation());
-                        }
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    updateListView(getLocation());
-                }
-            }
-        });
-
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -427,6 +375,57 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+
+        temp = getLocation();
+        JSONObject obj = new JSONObject();
+        try{
+            obj.put("userEmail", _userEmail);
+            obj.put("userToken", _userToken);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ConnectionTask check_session_student = new ConnectionTask(obj);
+        check_session_student.check_session_status_student(new ConnectionTask.CallBack() {
+            @Override
+            public void Done(JSONObject result) {
+                if(result != null) {
+                    try {
+                        String status = result.getString("session_status");
+
+                        if(status.equals("paired")) {
+                            Intent intent = new Intent(getApplicationContext(), StudentMapActivity.class);
+                            try {
+                                intent.putExtra("tutorLatitude", Double.valueOf(result.getString("tutorLatitude")));
+                                intent.putExtra("tutorLongitude", Double.valueOf(result.getString("tutorLongitude")));
+                                intent.putExtra("studentLatitude", temp.getLatitude());
+                                intent.putExtra("studentLongitude", temp.getLongitude());
+                                intent.putExtra("course", course);
+                                intent.putExtra("username", result.getString("tutorEmail"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            startActivity(intent);
+                            finish();
+                        } else if(status.equals("pending") || status.equals("active") ) {
+                            Intent intent = new Intent(ImmediateStudentRequestActivity.this, StudentStudySession.class);
+                            intent.putExtra("course", course);
+                            //intent.putExtra("status", "1");
+                            startActivity(intent);
+                            finish();
+                        }  else {
+                            Log.i("@UpdatingList","TWO");
+                            updateListView(getLocation());
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    updateListView(getLocation());
+                }
+            }
+        });
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.

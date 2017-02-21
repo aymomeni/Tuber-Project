@@ -39,6 +39,13 @@ public class AcceptedRequestsFragment extends Fragment {
     private String course;
     Intent intent;
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        UpdateList();
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance) {
         View rootView = inflater.inflate(R.layout.available_requests_fragment_layout, container, false);
         if(container == null) {
@@ -113,8 +120,6 @@ public class AcceptedRequestsFragment extends Fragment {
         adapter.clear();
         // Attach the adapter to the recyclerview to populate items
         Requests_rv.setAdapter(adapter);
-
-        UpdateList();
         return rootView;
     }
 
@@ -167,12 +172,6 @@ public class AcceptedRequestsFragment extends Fragment {
 
                                 adapter.add(temp1);
 
-//                                requests.add(course + ": " + topic);
-//                                studentEmails.add(studentEmail);
-//                                courses.add(course);
-//                                topics.add(topic);
-//                                dateTimes.add(datetime);
-//                                durations.add(duration);
                             }
 
                         } else {

@@ -212,7 +212,7 @@ public class Studysession extends AppCompatActivity {
 
                                     if (from != null && from.equals("scheduling")) {
                                         AvailableAcceptedRequestPage.getInstance().finish();
-                                        TutoringRequestsPager.getInstance().finish();
+                                        //TutoringRequestsPager.getInstance().finish();
                                     }
 //                                    Log.i("@end_tutor_session", "session ended!");
                                 } else {

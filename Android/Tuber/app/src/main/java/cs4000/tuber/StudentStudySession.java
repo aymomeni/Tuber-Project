@@ -221,7 +221,7 @@ public class StudentStudySession extends Activity {
                         session_id = result.getString("tutorSessionID");
 
                         if(TutoringRequestPage.getInstance() != null) {TutoringRequestPage.getInstance().finish();}
-                        if(TutoringRequests.getInstance() != null) {TutoringRequests.getInstance().finish();}
+                        //if(TutoringRequests.getInstance() != null) {TutoringRequests.getInstance().finish();}
 
                     } else if(result != null) {
 
