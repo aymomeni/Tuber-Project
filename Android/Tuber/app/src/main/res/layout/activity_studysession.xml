@@ -31,7 +31,9 @@
         android:id="@+id/ratingBar"
         android:layout_above="@+id/session_switch"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="60dp" />
+        android:layout_marginBottom="60dp"
+        android:numStars="5"
+        android:theme="@style/RatingBar"/>
 
     <TextView
         android:layout_width="wrap_content"

@@ -23,7 +23,7 @@
     <color name="base">#aaaaaa</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
-
+    <color name="duskYellow">#FFD700</color>
     <color name="textColorWhileBG">#494949</color>
 
 </resources>
