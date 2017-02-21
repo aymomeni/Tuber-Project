@@ -230,8 +230,8 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 
 	public void remove_tutor_classes(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
-		this.execute("/removestudentclasses", jsonParam.toString());
-		Log.i("@removestudentclasses",jsonParam.toString());
+		this.execute("/removetutorclasses", jsonParam.toString());
+		Log.i("@removetutorclasses",jsonParam.toString());
 	}
 
 	public void enable_tutoring(ConnectionTask.CallBack taskListener) {

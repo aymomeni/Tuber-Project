@@ -126,6 +126,9 @@ public class ItemClickSupport {
                 if(view.findViewById(R.id.ic_message_closed) != null) {
                     view.findViewById(R.id.ic_message_closed).setOnClickListener(mOnClickListenerStudent);
                 }
+                if(view.findViewById(R.id.ic_red_minus) != null) {
+                    view.findViewById(R.id.ic_red_minus).setOnClickListener(mOnClickListenerStudent);
+                }
                 view.setOnClickListener(mOnClickListenerStudent);
             }
             if (mOnItemClickListenerTutor != null) {
@@ -140,6 +143,9 @@ public class ItemClickSupport {
                 }
                 if(view.findViewById(R.id.ic_message_closed) != null) {
                     view.findViewById(R.id.ic_message_closed).setOnClickListener(mOnClickListenerTutor);
+                }
+                if(view.findViewById(R.id.ic_red_minus) != null) {
+                    view.findViewById(R.id.ic_red_minus).setOnClickListener(mOnClickListenerTutor);
                 }
                 view.setOnClickListener(mOnClickListenerTutor);
             }

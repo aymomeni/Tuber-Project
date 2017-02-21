@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -33,32 +34,43 @@ import java.util.ArrayList;
 public class StudentCourseFragment extends Fragment {
 
     // will contain the courses a user is enrolled in
-    private ArrayList<RecyclerCourseObject> studentCourseDataSet;
+    private ArrayList<RecyclerCourseObject> studentCourseDataSet = new ArrayList<RecyclerCourseObject>();
+    RecyclerView recList;
+    RecyclerAdapter mAdapter;
     private SharedPreferences sharedPreferences;
+    private String _userEmail;
+    private String _userToken;
+    private String _studentClasses;
     private String TAG = "StudentCourseFragment";
 
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstance){
-
+        View rootView = inflater.inflate(R.layout.fragment_student_courses, container, false);
         if(container == null){
             return null;
         }
-        final View rootView = inflater.inflate(R.layout.fragment_student_courses, container, false);
 
-        RecyclerView recList = (RecyclerView)rootView.findViewById(R.id.recyclerViewStudent);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        _userEmail = sharedPreferences.getString("userEmail", "");
+        _userToken = sharedPreferences.getString("userToken", "");
+        _studentClasses = sharedPreferences.getString("userStudentCourses", "");
 
-        LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-
-        //GridLayoutManager gl= new GridLayoutmanager(context,6,GridLayoutManager.HORIZONTAL,reverseLayout);
-        //StaggeredGridLayoutManager sgl= new StaggeredGridLayoutManager(6, StaggeredGridLayoutManager.HORIZONTAL);
-        recList.setLayoutManager(llm);
+        recList = (RecyclerView)rootView.findViewById(R.id.recyclerViewStudent);
+        recList.setHasFixedSize(true);
+        recList.setItemAnimator(new SlideInUpAnimator());
 
         RecyclerView.ItemDecoration itemDecoration = new
                 DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
         recList.addItemDecoration(itemDecoration);
+
+//        LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
+//        llm.setOrientation(LinearLayoutManager.VERTICAL);
+//
+//        //GridLayoutManager gl= new GridLayoutmanager(context,6,GridLayoutManager.HORIZONTAL,reverseLayout);
+//        //StaggeredGridLayoutManager sgl= new StaggeredGridLayoutManager(6, StaggeredGridLayoutManager.HORIZONTAL);
+//        recList.setLayoutManager(llm);
 
 
         ItemClickSupport.addTo(recList).setOnItemClickListenerStudent(
@@ -96,6 +108,12 @@ public class StudentCourseFragment extends Fragment {
                                     //do something...
                                     Toast.makeText(getContext(), "listener Definition missing", Toast.LENGTH_SHORT).show();
 
+                                } else if(v.getId() == R.id.ic_red_minus) {
+
+                                    ArrayList<String> strarr = new ArrayList<String>();
+                                    strarr.add(studentCourseDataSet.get(pos).getCourse());
+
+                                    DeleteCourses(strarr, pos);
                                 }
 
 
@@ -109,17 +127,6 @@ public class StudentCourseFragment extends Fragment {
                     }
                 }
         );
-
-//        ItemClickSupport.addTo(recList).setOnItemClickListenerStudent(
-//                new ItemClickSupport.OnItemClickListenerStudent() {
-//                    @Override
-//                    public void onItemClicked(View v) {
-//                        Log.i("@TESTING","CLICKED2");
-//                        Toast.makeText(getContext(), "clicked!", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//        );
-
 
         FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.studentCourseAddFloatingButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -141,8 +148,13 @@ public class StudentCourseFragment extends Fragment {
                 builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String courseText = input.getText().toString(); //TODO: do something useful with course name
+                        String courseName = input.getText().toString(); //TODO: do something useful with course name
                         dialog.dismiss();
+
+                        ArrayList<String> strarr = new ArrayList<String>();
+                        strarr.add(courseName);
+
+                        AddCourses(strarr);
                     }
                 });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -156,36 +168,8 @@ public class StudentCourseFragment extends Fragment {
             }
         });
 
-
-        studentCourseDataSet = new ArrayList<RecyclerCourseObject>();
-
-//        for (int i = 0; i < 6; i++) {
-//            RecyclerCourseObject newoffer = new RecyclerCourseObject();
-//            switch (i%2) {
-//                case 0:
-//
-//                    newoffer.course = "CS 4400";
-//                    newoffer.subTitle = "Computer Systems";
-//                    newoffer.type = "one";
-//                    break;
-//                case 1:
-//                    newoffer = new RecyclerCourseObject();
-//                    newoffer.course = "CS 3500";
-//                    newoffer.subTitle = "Software Practice 1";
-//                    newoffer.type = "two"; // two
-//
-//                    break;
-//            }
-//
-//
-//            studentCourseDataSet.add(newoffer);
-//        }
-
-        // read course information from shared preferences, parse it and add it to an array.
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-
         try {
-            JSONArray array = new JSONArray(sharedPreferences.getString("userStudentCourses", ""));
+            JSONArray array = new JSONArray(_studentClasses);
 
 
             for(int i = 0; i < array.length(); i++) {
@@ -199,7 +183,6 @@ public class StudentCourseFragment extends Fragment {
 
                 studentCourseDataSet.add(newOffer);
 
-
             }
 
 
@@ -207,52 +190,100 @@ public class StudentCourseFragment extends Fragment {
             e.printStackTrace();
         }
 
+        // Create adapter passing in the sample user data
+        mAdapter = new RecyclerAdapter(studentCourseDataSet);
+        // Set layout manager to position the items
+        recList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-//        String studentClasses = sharedPreferences.getString("userStudentCourses", "");
-//
-//        Pattern p = Pattern.compile("\"(\\w+\\s*\\w+)\"");
-//        Matcher m = p.matcher(studentClasses);
-//        if (!m.matches()) {
-//            Log.i(TAG, "No existing courses.");
-//        }
-//
-//        while (m.find()) {
-//            RecyclerCourseObject newOffer = new RecyclerCourseObject();
-//            newOffer.setCourse(m.group(1));
-//            newOffer.setSubTitle("Subtitle");
-//            newOffer.setType("one");
-//
-//            studentCourseDataSet.add(newOffer);
-//        }
-
-
-//        for (int i = 0; i < 2; i++) {
-//            RecyclerCourseObject newoffer = new RecyclerCourseObject();
-//            switch (i%2) {
-//                case 0:
-//
-//                    newoffer.course = "CS 4400";
-//                    newoffer.subTitle = "Computer Systems";
-//                    newoffer.type = "one";
-//                    break;
-//                case 1:
-//                    newoffer = new RecyclerCourseObject();
-//                    newoffer.course = "CS 3500";
-//                    newoffer.subTitle = "Software Practice 1";
-//                    newoffer.type = "one"; // two
-//
-//                    break;
-//            }
-//
-//
-//            studentCourseDataSet.add(newoffer);
-//        }
-
-
-        RecyclerAdapter mAdapter = new RecyclerAdapter(studentCourseDataSet);
+        //mAdapter.clear();
+        // Attach the adapter to the recyclerview to populate items
         recList.setAdapter(mAdapter);
+
 
         return rootView;
     }
 
+    public void AddCourses(final ArrayList<String> courses) {
+
+        JSONArray courses_array = new JSONArray();
+        for(int i = 0; i < courses.size(); i++){
+            courses_array.put(courses.get(i));
+        }
+        Log.i("@courses_array",courses_array.toString());
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("userEmail", _userEmail);
+            obj.put("userToken", _userToken);
+            obj.put("classesToBeAdded", courses_array);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ConnectionTask task = new ConnectionTask(obj);
+        task.add_student_classes(new ConnectionTask.CallBack() {
+            @Override
+            public void Done(JSONObject result) {
+                if(result != null) {
+
+                    for(int i = 0; i < courses.size(); i++){
+                        RecyclerCourseObject newOffer = new RecyclerCourseObject();
+                        newOffer.setCourse(courses.get(i));
+                        newOffer.setSubTitle("Subtitle");
+                        newOffer.setType("one");
+
+                        mAdapter.add(newOffer);
+                    }
+                    if(mAdapter.getItemCount() >= 5) {
+                        recList.scrollToPosition(mAdapter.getItemCount() - 1);
+                    }
+                } else {
+                    Toast.makeText(getContext(), "adding courses failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void DeleteCourses(final ArrayList<String> courses, final int Pos) {
+
+        JSONArray courses_array = new JSONArray();
+        for(int i = 0; i < courses.size(); i++){
+            courses_array.put(courses.get(i));
+        }
+        Log.i("@courses_array",courses_array.toString());
+        JSONObject obj = new JSONObject();
+        try {
+            obj.put("userEmail", _userEmail);
+            obj.put("userToken", _userToken);
+            obj.put("classesToBeRemoved", courses_array);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ConnectionTask task = new ConnectionTask(obj);
+        task.remove_student_classes(new ConnectionTask.CallBack() {
+            @Override
+            public void Done(JSONObject result) {
+                if(result != null) {
+
+//                    for(int i = 0; i < courses.size(); i++){
+//                        RecyclerCourseObject newOffer = new RecyclerCourseObject();
+//                        newOffer.setCourse(courses.get(i));
+//                        newOffer.setSubTitle("Subtitle");
+//                        newOffer.setType("one");
+//
+//                        mAdapter.remove(newOffer);
+//                    }
+                    mAdapter.remove(Pos);
+
+
+                } else {
+                    Toast.makeText(getContext(), "removing courses failed!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public int getLastVisiblePos() {
+        LinearLayoutManager layoutManager = ((LinearLayoutManager)recList.getLayoutManager());
+        int findLastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+        return findLastCompletelyVisibleItemPosition;
+    }
 }

@@ -88,10 +88,11 @@
                         android:id="@+id/ic_red_minus"
                         android:layout_alignParentLeft="true"
                         android:layout_centerInParent="true"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/ic_red_minus" />
+                        android:src="@drawable/ic_red_minus"
+                        android:layout_height="25dp"
+                        android:layout_width="50dp"
+                        android:paddingRight="25dp" />
 
                     <ImageView
                         android:id="@+id/ic_offer_tutor_outline"
