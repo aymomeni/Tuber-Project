@@ -95,6 +95,7 @@
         <activity android:name=".UsersActivity" />
         <activity android:name=".TutoringRequestsPager" />
         <activity android:name=".HotspotActivity"/>
+        <activity android:name=".HotspotEntryMenuActivity"/>
         <activity android:name=".ClassTutorActivity"></activity>
     </application>
 

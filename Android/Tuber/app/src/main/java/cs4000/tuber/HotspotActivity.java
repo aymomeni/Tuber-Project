@@ -20,6 +20,11 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotspot);
 
+        // check shared preferences for joined boolean
+        // read in the data from the server and create Hotspot Objects
+
+
+
         SupportMapFragment map = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -43,5 +48,11 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
                 HotspotUtils.getNavigationBarWidth(this),
                 viewPager.getHeight() + HotspotUtils.getNavigationBarHeight(this));
     }
+
+
+
+
+
+
 
 }
