@@ -30,6 +30,7 @@ public class ClassStudentActivity extends Activity {
     public void class_option_study_hotspot_clicked(View view) {
         Log.i("StudyHotspot", getIntent().getStringExtra("course"));
         Intent intent = new Intent(ClassStudentActivity.this, HotspotActivity.class);
+        Intent intent = new Intent(ClassStudentActivity.this, HotspotEntryMenuActivity.class);
         intent.putExtra("course", getIntent().getStringExtra("course"));
         startActivity(intent);
 
