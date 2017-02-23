@@ -248,6 +248,4 @@ public class LoginActivityNew extends AppCompatActivity {
 
         return valid;
     }
-
-
 }

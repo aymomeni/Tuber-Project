@@ -7,6 +7,7 @@
     <color name="colorAccent_BlueGreen">#57bbb1</color>
     <color name="colorAccent_Orange">#ff9f4f</color>
     <color name="colorAccent_Red">#a52b2b</color>
+    <color name="colorAccent">#e95ba7</color>
 
     // added Jan 28 ALI
     <color name="primary">#bfbfbf</color>
