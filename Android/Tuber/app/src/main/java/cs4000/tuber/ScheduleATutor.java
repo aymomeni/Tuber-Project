@@ -1,23 +1,16 @@
 package cs4000.tuber;
 
-import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.icu.util.Calendar;
-import android.os.StrictMode;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -28,7 +21,7 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
 
     String _username;
     String _useToken;
-    String course = "CS 2420";
+    String course;
     String topic;
     String dateTime;
     String duration = "1";
@@ -76,6 +69,11 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
         _username = sharedPreferences.getString("userEmail", "");
         _useToken = sharedPreferences.getString("userToken", "");
 
+        intent = getIntent();
+
+        course = intent.getStringExtra("course");
+        Log.i("@course_check",course);
+
         topicTextBox = (EditText) findViewById(R.id.topiceditText2);
         submitButton = (Button) findViewById(R.id.submitButton);
 
@@ -111,9 +109,6 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
                     public void Done(JSONObject result) {
                         if(result != null) {
                             Toast.makeText(ScheduleATutor.this, "Your have submitted a scheduled tutor request", Toast.LENGTH_LONG).show();
-
-                            //Intent intent = new Intent(ScheduleATutor.this, TutorServicesActivity.class);
-                            //startActivity(intent);
                             finish();
 
                         } else {

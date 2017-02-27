@@ -1,6 +1,5 @@
 package cs4000.tuber;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,14 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AvailableRequestPage extends AppCompatActivity {
+public class AvailableAcceptedRequestPage extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     private String _userEmail;
@@ -27,6 +25,7 @@ public class AvailableRequestPage extends AppCompatActivity {
     private String topic;
     private String dateTime;
     private String duration;
+    private String type;
 
     TextView studetEmailTextView;
     TextView courseTextView;
@@ -35,10 +34,10 @@ public class AvailableRequestPage extends AppCompatActivity {
     TextView durationTextView;
     Button sessionButton;
 
-    public static AvailableRequestPage getInstance(){
+    public static AvailableAcceptedRequestPage getInstance(){
         return activity;
     }
-    static AvailableRequestPage activity;
+    static AvailableAcceptedRequestPage activity;
 
     boolean acceptedRequest = false;
 
@@ -58,10 +57,12 @@ public class AvailableRequestPage extends AppCompatActivity {
         _userToken = sharedPreferences.getString("userToken", "");
 
         course = intent.getStringExtra("course");
+        Log.i("@course_check",course);
         studentEmail = intent.getStringExtra("studentEmail");
         topic = intent.getStringExtra("topic");
         dateTime = intent.getStringExtra("dateTime");
         duration = intent.getStringExtra("duration");
+        type = intent.getStringExtra("type");
 
         studetEmailTextView = (TextView) findViewById(R.id.studentNameTextValue);
         courseTextView = (TextView) findViewById(R.id.courseTextValue2);
@@ -76,7 +77,6 @@ public class AvailableRequestPage extends AppCompatActivity {
         topicTextView.setText(topic);
         dateTimeTextView.setText(dateTime);
         durationTextView.setText(duration);
-
 
         sessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,15 +101,16 @@ public class AvailableRequestPage extends AppCompatActivity {
                             public void Done(JSONObject result) {
 
                                 if (result != null) {
-                                    TutoringRequestsTutor.getInstance().finish();
 
-                                    Toast.makeText(AvailableRequestPage.this, "You have accepted the resquest successfully. You can now view the session"
+                                    //TutoringRequestsPager.getInstance().finish();
+
+                                    Toast.makeText(AvailableAcceptedRequestPage.this, "You have accepted the resquest successfully. You can now view the session"
                                             , Toast.LENGTH_LONG).show();
                                     sessionButton.setText("VIEW SESSION");
 
                                     acceptedRequest = true;
                                 } else {
-                                    Toast.makeText(AvailableRequestPage.this, "Something went wrong! Try again"
+                                    Toast.makeText(AvailableAcceptedRequestPage.this, "Something went wrong! Try again"
                                             , Toast.LENGTH_LONG).show();
                                 }
 
@@ -117,7 +118,7 @@ public class AvailableRequestPage extends AppCompatActivity {
                         });
 
                     } else {
-                        Toast.makeText(AvailableRequestPage.this, "You can't accept a request that belongs to you"
+                        Toast.makeText(AvailableAcceptedRequestPage.this, "You can't accept a request that belongs to you"
                                 , Toast.LENGTH_LONG).show();
                     }
                 } else {
@@ -139,7 +140,7 @@ public class AvailableRequestPage extends AppCompatActivity {
                                 try {
 
                                     String status = result.getString("session_status");
-                                    Intent intent2 = new Intent(AvailableRequestPage.this, Studysession.class);
+                                    Intent intent2 = new Intent(AvailableAcceptedRequestPage.this, Studysession.class);
                                     if(status.equals("active")){ // only offered but looking to pair
                                         intent2.putExtra("status", "1");
                                     } else if (status.equals("pending")) { // session has ended
@@ -151,6 +152,7 @@ public class AvailableRequestPage extends AppCompatActivity {
                                     intent2.putExtra("dateTime", dateTime);
 //                                    Log.i("@from","Im HERE ");
                                     intent2.putExtra("from", "scheduling");
+                                    intent2.putExtra("course", course);
                                     startActivity(intent2);
                                     //finish();
                                 } catch (JSONException e) {
@@ -159,6 +161,12 @@ public class AvailableRequestPage extends AppCompatActivity {
 
                             } else {
 //                                Log.i("@check_session_status", "check session status failed!"); // has not offered yet
+                                Intent intent2 = new Intent(AvailableAcceptedRequestPage.this, Studysession.class);
+                                intent2.putExtra("status", "0");
+                                intent2.putExtra("dateTime", dateTime);
+                                intent2.putExtra("from", "scheduling");
+                                intent2.putExtra("course", course);
+                                startActivity(intent2);
                             }
                         }
                     });
@@ -168,5 +176,9 @@ public class AvailableRequestPage extends AppCompatActivity {
             }
         });
 
+        if(type.equals("accepted")){
+            sessionButton.setText("VIEW SESSION");
+            acceptedRequest = true;
+        }
     }
 }

@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.Activity;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
@@ -39,7 +38,8 @@ public class Studysession extends AppCompatActivity {
 
     private String _userEmail;
     private String _userToken;
-    private String _course = "CS 2420";
+
+    private String course;
     private String session_id;
     private String studentEmail;
 
@@ -52,15 +52,6 @@ public class Studysession extends AppCompatActivity {
     }
 
     private String from;
-//    public void onBackPressed()
-//    {
-//        super.onBackPressed();
-//        startActivity(new Intent(Studysession.this, TutorServicesActivity.class));
-//        finish();
-//    }
-
-
-
 
 
     @Override
@@ -84,7 +75,8 @@ public class Studysession extends AppCompatActivity {
         _userToken = sharedPreferences.getString("userToken", "");
 
         intent = getIntent();
-        _course = intent.getStringExtra("course");
+        course = intent.getStringExtra("course");
+        Log.i("@course_check",course);
 
         String state = intent.getStringExtra("status");
         from = intent.getStringExtra("from");
@@ -96,7 +88,9 @@ public class Studysession extends AppCompatActivity {
 
         if(state.equals("2")) {
             session_switch.setChecked(true);
+            session_switch.setClickable(false);
             status_light.setImageResource(R.drawable.yellow_light);
+            Check_sessionStart();
         }
 
         submitRating_button.setOnClickListener(new View.OnClickListener() {
@@ -113,8 +107,8 @@ public class Studysession extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                ConnectionTask rate_student = new ConnectionTask(obj);
-                rate_student.rate_student(new ConnectionTask.CallBack() {
+                ConnectionTask rate_student1 = new ConnectionTask(obj);
+                rate_student1.rate_student(new ConnectionTask.CallBack() {
                     @Override
                     public void Done(JSONObject result) {
                         if(result != null) {
@@ -144,7 +138,7 @@ public class Studysession extends AppCompatActivity {
                         try {
                             sesssion_info.put("userEmail", _userEmail);
                             sesssion_info.put("userToken", _userToken);
-                            sesssion_info.put("course", "CS 2420");
+                            sesssion_info.put("course", course);
 
 
                             //intent.putExtra("from", "scheduling");
@@ -160,6 +154,7 @@ public class Studysession extends AppCompatActivity {
                                         if (result != null) {
 //                                            Log.i("@start_scheduled_sessin", "session pending!");
                                             status_light.setImageResource(R.drawable.yellow_light);
+                                            session_switch.setClickable(false);
                                             Check_sessionStart();
 
                                         } else {
@@ -171,9 +166,6 @@ public class Studysession extends AppCompatActivity {
                                 });
 
                             } else {
-//                                Log.i("userEmail", _userEmail);
-//                                Log.i("userToken", _userToken);
-//                                Log.i("course", "CS 2420");
                                 ConnectionTask task = new ConnectionTask(sesssion_info);
                                 task.start_tutoring_session_tutor(new ConnectionTask.CallBack() {
                                     @Override
@@ -181,8 +173,8 @@ public class Studysession extends AppCompatActivity {
                                         if (result != null) {
 //                                            Log.i("@start_tutor_session", "session started!");
                                             status_light.setImageResource(R.drawable.yellow_light);
+                                            session_switch.setClickable(false);
                                             Check_sessionStart();
-
                                         } else {
                                             automated = true;
                                             session_switch.setChecked(false);
@@ -200,7 +192,7 @@ public class Studysession extends AppCompatActivity {
                         try {
                             sesssion_info.put("userEmail", _userEmail);
                             sesssion_info.put("userToken", _userToken);
-                            sesssion_info.put("course", "CS 2420");
+                            sesssion_info.put("course", course);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -218,14 +210,9 @@ public class Studysession extends AppCompatActivity {
                                         e.printStackTrace();
                                     }
 
-//                        "course": "CS 3500",
-//                        "sessionCost": 16.11,
-//                        "sessionEndTime": "01,31,2017 12:49:46 PM",
-//                        "sessionStartTime": "01,31,2017 11:45:19 AM",
-//                        "studentEmail": "brandontobin2@cox.net",
-//                        "userEmail": "brandontobin@cox.net"
                                     if (from != null && from.equals("scheduling")) {
-                                        AvailableRequestPage.getInstance().finish();
+                                        AvailableAcceptedRequestPage.getInstance().finish();
+                                        //TutoringRequestsPager.getInstance().finish();
                                     }
 //                                    Log.i("@end_tutor_session", "session ended!");
                                 } else {
@@ -279,8 +266,9 @@ public class Studysession extends AppCompatActivity {
                                         }
                                     }).show();
                             status_light.setImageResource(R.drawable.green_light);
+                            session_switch.setClickable(true);
                         } else {
-                            if(!exited) {
+                            if(!exited && session_switch.isChecked()) {
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {

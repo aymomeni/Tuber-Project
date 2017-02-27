@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_class"
+    android:id="@+id/activity_class_tutor"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="cs4000.tuber.ClassActivity"
+    tools:context="cs4000.tuber.ClassTutorActivity"
     android:background="@color/colorPrimary_White">
 
 
@@ -24,14 +24,15 @@
         >
 
         <ImageView
-            android:src="@drawable/ic_tutor_services"
-            android:id="@+id/classViewElement1"
+            android:src="@drawable/ic_offer_tutor"
+            android:id="@+id/classViewElement5"
             android:layout_width="match_parent"
             android:layout_height="110dp"
+            android:layout_below="@+id/classViewElement4"
             android:clickable="true"
-            android:onClick="class_option_tutorServices_clicked"
-            android:layout_marginTop="30dp"
-            />
+            android:onClick="class_option_offerToTutor_clicked"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp" />
 
         <ImageView
             android:src="@drawable/ic_study_hotspot"
@@ -39,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:layout_below="@+id/classViewElement1"
-            />
+            android:layout_marginBottom="10dp" />
 
         <ImageView
             android:src="@drawable/ic_discussion_forum"
@@ -47,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:layout_below="@+id/classViewElement2"
-            />
+            android:layout_marginBottom="10dp" />
 
 
         <ImageView
@@ -58,24 +59,15 @@
             android:layout_below="@+id/classViewElement3"
             />
 
-        <ImageView
-            android:src="@drawable/ic_offer_tutor"
-            android:id="@+id/classViewElement5"
-            android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:layout_below="@+id/classViewElement4"
-            android:clickable="true"
-            android:onClick="class_option_offerToTutor_clicked"
-            />
     </LinearLayout>
 
 
 
     <!--<ImageView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:src="@drawable/ic_tutor"-->
-        <!--android:id="@+id/imageView21"/>-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:src="@drawable/ic_tutor"-->
+    <!--android:id="@+id/imageView21"/>-->
 
 </RelativeLayout>
 

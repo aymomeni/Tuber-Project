@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,7 +24,6 @@ public class CourseViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_view);
 
-
         coursesListViewStudent = (ListView) findViewById(R.id.coursesListViewStudent);
         arrayAdapterStudent = new ArrayAdapter(this, android.R.layout.simple_list_item_1, _myCoursesArrListStudent);
         coursesListViewStudent.setAdapter(arrayAdapterStudent);
@@ -36,8 +34,8 @@ public class CourseViewActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
 
-                Intent intent = new Intent(getApplicationContext(), ClassActivity.class);
-                intent.putExtra("courseName", _myCoursesArrListStudent.get(i));
+                Intent intent = new Intent(getApplicationContext(), ClassStudentActivity.class);
+                intent.putExtra("course", _myCoursesArrListStudent.get(i));
                 startActivity(intent);
 
             }

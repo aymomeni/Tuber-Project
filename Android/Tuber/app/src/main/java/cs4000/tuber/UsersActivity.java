@@ -6,30 +6,29 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class PersonsActivity extends AppCompatActivity {
+public class UsersActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeContainer;
 
-    ArrayList<Person> persons = new ArrayList<Person>();
+    ArrayList<User> users = new ArrayList<User>();
 
-    PersonAdapter adapter;
+    UserAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_persons);
+        setContentView(R.layout.activity_users);
 
 
         // Lookup the recyclerview in activity layout
-        final RecyclerView Persons_rv = (RecyclerView) findViewById(R.id.persons_rv);
-        Persons_rv.setItemAnimator(new SlideInUpAnimator());
+        final RecyclerView Users_rv = (RecyclerView) findViewById(R.id.users_rv);
+        Users_rv.setItemAnimator(new SlideInUpAnimator());
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
 
         // Setup refresh listener which triggers new data loading
@@ -51,10 +50,10 @@ public class PersonsActivity extends AppCompatActivity {
 //        // Item devider
 //        RecyclerView.ItemDecoration itemDecoration = new
 //                DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
-//        Persons_rv.addItemDecoration(itemDecoration);
+//        Users_rv.addItemDecoration(itemDecoration);
 
         // onClick Listner
-        ItemClickSupport.addTo(Persons_rv).setOnItemClickListener(
+        ItemClickSupport.addTo(Users_rv).setOnItemClickListener(
                 new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -64,9 +63,9 @@ public class PersonsActivity extends AppCompatActivity {
 
                             //TextView temp = (TextView) v.findViewById(R.id.durationTextvalue);
                             //temp.setText("");
-                            //Person p = persons.get(position);
+                            //User p = users.get(position);
 
-                            adapter.add(new Person("Hello", 5.5));
+                            adapter.add(new User("Hello", 5.5));
                         }
 
                     }
@@ -74,28 +73,28 @@ public class PersonsActivity extends AppCompatActivity {
         );
 
         // Swipe detection
-        Persons_rv.setOnFlingListener(new RecyclerViewSwipeListener(true) {
+        Users_rv.setOnFlingListener(new RecyclerViewSwipeListener(true) {
             @Override
             public void onSwipeDown() {
-                Toast.makeText(PersonsActivity.this, "swipe down", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UsersActivity.this, "swipe down", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onSwipeUp() {
-                Toast.makeText(PersonsActivity.this, "swipe up", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UsersActivity.this, "swipe up", Toast.LENGTH_SHORT).show();
             }
         });
 
 
         // Initialize contacts
-        ArrayList<Person> persons1 = Person.createPersonsList(20);
+        ArrayList<User> persons1 = User.createPersonsList(20);
         // Create adapter passing in the sample user data
-        adapter = new PersonAdapter(this, persons);
+        adapter = new UserAdapter(this, users);
 
         adapter.addAll(persons1);
         // Set layout manager to position the items
-        Persons_rv.setLayoutManager(new LinearLayoutManager(this));
+        Users_rv.setLayoutManager(new LinearLayoutManager(this));
         // Attach the adapter to the recyclerview to populate items
-        Persons_rv.setAdapter(adapter);
+        Users_rv.setAdapter(adapter);
     }
 
     public void fetchTimelineAsync(int page) {

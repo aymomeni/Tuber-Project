@@ -9,6 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@layout/backrepeat"
     tools:context="cs4000.tuber.TutoringRequestPage">
 
     <TextView
@@ -19,7 +20,8 @@
         android:layout_alignParentStart="true"
         android:id="@+id/courseTextView"
         android:textSize="24sp"
-        android:layout_marginTop="60dp" />
+        android:layout_marginTop="60dp"
+        android:textColor="@color/oil" />
 
     <TextView
         android:text="Topic:"
@@ -29,7 +31,8 @@
         android:layout_below="@+id/courseTextView"
         android:layout_alignParentStart="true"
         android:textSize="24sp"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="40dp"
+        android:textColor="@color/oil" />
 
     <TextView
         android:text="Date and Time:"
@@ -39,7 +42,8 @@
         android:layout_alignParentStart="true"
         android:id="@+id/dateTimeTextView"
         android:textSize="24sp"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="40dp"
+        android:textColor="@color/oil" />
 
     <TextView
         android:text="Duration:"
@@ -49,7 +53,8 @@
         android:layout_alignParentStart="true"
         android:id="@+id/durationTextView"
         android:textSize="24sp"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="40dp"
+        android:textColor="@color/oil" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -58,7 +63,8 @@
         android:id="@+id/courseTextValue"
         android:textSize="24sp"
         android:layout_marginLeft="10dp"
-        android:layout_alignBaseline="@+id/courseTextView" />
+        android:layout_alignBaseline="@+id/courseTextView"
+        android:textColor="@color/oil" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -67,7 +73,8 @@
         android:id="@+id/topicTextValue"
         android:textSize="24sp"
         android:layout_marginLeft="10dp"
-        android:layout_alignBaseline="@+id/topicTextView" />
+        android:layout_alignBaseline="@+id/topicTextView"
+        android:textColor="@color/oil" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -76,7 +83,8 @@
         android:id="@+id/dateTimeTextValue"
         android:textSize="24sp"
         android:layout_marginLeft="10dp"
-        android:layout_alignBaseline="@+id/dateTimeTextView" />
+        android:layout_alignBaseline="@+id/dateTimeTextView"
+        android:textColor="@color/oil" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -106,7 +114,8 @@
         android:textSize="24sp"
         android:layout_marginLeft="10dp"
         android:layout_alignStart="@+id/sessionButton"
-        android:layout_alignBaseline="@+id/durationTextView" />
+        android:layout_alignBaseline="@+id/durationTextView"
+        android:textColor="@color/oil" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -117,6 +126,7 @@
         android:text="Awaiting to be paired"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginLeft="26dp" />
+        android:layout_marginLeft="26dp"
+        android:textColor="@color/oil" />
 
 </RelativeLayout>

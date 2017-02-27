@@ -67,20 +67,13 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
     private String _userEmail;
     private String _userToken;
-    private String _userCourse;
-    //private String _userLatitude;
-    //private String _userLongitude;
 
-    //private String session_status;
-    //private String studentEmail;
     private String studentLatitude;
     private String studentLongitude;
-    //private String tutorCourse;
     private String tutorLatitude;
     private String tutorLongitude;
-    //private String userEmail;
-    //private String userToken;
 
+    private String course;
 
     Handler handler = new Handler(); // used for polling
 
@@ -171,6 +164,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
 
                                         Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+                                        intent.putExtra("course", course);
                                         intent.putExtra("status", "0");
                                         startActivity(intent);
                                         finish();
@@ -309,7 +303,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                     try{
                         obj3.put("userEmail", _userEmail);
                         obj3.put("userToken", _userToken);
-                        obj3.put("tutorCourse", _userCourse);
+                        obj3.put("tutorCourse", course);
                         obj3.put("latitude", String.valueOf(lastKnownLocation.getLatitude()));
                         obj3.put("longitude", String.valueOf(lastKnownLocation.getLongitude()));
 
@@ -364,7 +358,11 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
         // user course should come from a message delivered by the prior activity
         _userEmail = sharedPreferences.getString("userEmail", "");
         _userToken = sharedPreferences.getString("userToken", "");
-        _userCourse = "CS 2420"; // TODO: must come from the message supplied by the intent driver
+
+        intent = getIntent();
+
+        course = intent.getStringExtra("course");
+        Log.i("@course_check",course);
 
 
         JSONObject obj2 = new JSONObject();
@@ -393,11 +391,13 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                             checkForUpdate2();
                         } else if(status.equals("pending")){
                             Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+                            intent.putExtra("course", course);
                             intent.putExtra("status", "2");
                             startActivity(intent);
                             finish();
                         } else if(status.equals("active")){ // in an active session
                             Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+                            intent.putExtra("course", course);
                             intent.putExtra("status", "1");
                             startActivity(intent);
                             finish();
@@ -529,6 +529,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                             @Override
                             public void run() {
                                 Intent intent = new Intent(ImmediateTutorServiceMapsActivity.this, Studysession.class);
+                                intent.putExtra("course", course);
                                 intent.putExtra("status", "0");
                                 startActivity(intent);
                                 finish();

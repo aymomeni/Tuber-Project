@@ -72,7 +72,7 @@ import java.net.URL;
 
 public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 	public interface CallBack {
-		public void Done(JSONObject result);
+		void Done(JSONObject result);
 	}
 
 	// This is the reference to the associated listener
@@ -230,8 +230,8 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 
 	public void remove_tutor_classes(ConnectionTask.CallBack taskListener) {
 		this.taskListener = taskListener;
-		this.execute("/removestudentclasses", jsonParam.toString());
-		Log.i("@removestudentclasses",jsonParam.toString());
+		this.execute("/removetutorclasses", jsonParam.toString());
+		Log.i("@removetutorclasses",jsonParam.toString());
 	}
 
 	public void enable_tutoring(ConnectionTask.CallBack taskListener) {

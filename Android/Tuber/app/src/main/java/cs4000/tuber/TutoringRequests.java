@@ -1,25 +1,15 @@
 package cs4000.tuber;
 
-import android.*;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.app.Activity;
 import android.preference.PreferenceManager;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -30,17 +20,6 @@ import java.util.ArrayList;
 
 public class TutoringRequests extends AppCompatActivity {
 
-    //ListView requestsListView;
-    //ArrayList<String> requests = new ArrayList<String>();
-    //ArrayList<String> tutorEmails = new ArrayList<String>();
-    //ArrayList<String> courses = new ArrayList<String>();
-    //ArrayList<String> topics = new ArrayList<String>();
-    //ArrayList<String> dateTimes = new ArrayList<String>();
-    //ArrayList<String> durations = new ArrayList<String>();
-    //ArrayList<Boolean> statuses = new ArrayList<Boolean>();
-
-    //ArrayAdapter arrayAdapter;
-
     private SwipeRefreshLayout swipeContainer;
 
     RecyclerView Requests_rv;
@@ -48,21 +27,23 @@ public class TutoringRequests extends AppCompatActivity {
     RequestsAdapter adapter;
 
 
-    public static TutoringRequests getInstance(){
-        return activity;
-    }
-    static TutoringRequests activity;
+//    public static TutoringRequests getInstance(){
+//        return activity;
+//    }
+//    static TutoringRequests activity;
 
     private SharedPreferences sharedPreferences;
     private String _userEmail;
     private String _userToken;
 
+    private String course;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_persons);
+        setContentView(R.layout.activity_users);
 
-        activity = this;
+        //activity = this;
 
         setTitle("My Scheduled Requests");
 
@@ -70,9 +51,16 @@ public class TutoringRequests extends AppCompatActivity {
         _userEmail = sharedPreferences.getString("userEmail", "");
         _userToken = sharedPreferences.getString("userToken", "");
 
-        Requests_rv = (RecyclerView) findViewById(R.id.persons_rv);
+        course = getIntent().getStringExtra("course");
+        Log.i("@course_check",course);
+
+        Requests_rv = (RecyclerView) findViewById(R.id.users_rv);
         Requests_rv.setHasFixedSize(true);
         Requests_rv.setItemAnimator(new SlideInUpAnimator());
+
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
+        Requests_rv.addItemDecoration(itemDecoration);
 
         swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -127,44 +115,45 @@ public class TutoringRequests extends AppCompatActivity {
         adapter.clear();
         // Attach the adapter to the recyclerview to populate items
         Requests_rv.setAdapter(adapter);
-
-        //requestsListView = (ListView) findViewById(R.id.requestsListId);
-
-        //requests.clear();
-        //requests.add("Getting scheduled requests...");
-
-        //arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, requests);
-
-        //requestsListView.setAdapter(arrayAdapter);
-
-
-//        requestsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//
-//                if(requests.size() > i && tutorEmails.size() > i && courses.size() > i && topics.size() > i
-//                        && dateTimes.size() > i && durations.size() > i && statuses.size() > i) {
-//
-//                    Intent intent = new Intent(getApplicationContext(), TutoringRequestPage.class);
-//
-//                    intent.putExtra("tutorEmail", tutorEmails.get(i));
-//                    intent.putExtra("topic", topics.get(i));
-//                    intent.putExtra("dateTime", dateTimes.get(i));
-//                    intent.putExtra("duration", durations.get(i));
-//                    intent.putExtra("isPaired", statuses.get(i));
-//                    intent.putExtra("course", courses.get(i));
-//
-//                    startActivity(intent);
-//                }
-//            }
-//        });
-
-
-        UpdateList();
-
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        JSONObject obj = new JSONObject();
+        try{
+            obj.put("userEmail", _userEmail);
+            obj.put("userToken", _userToken);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ConnectionTask check_session_student = new ConnectionTask(obj);
+        check_session_student.check_session_status_student(new ConnectionTask.CallBack() {
+            @Override
+            public void Done(JSONObject result) {
+                if(result != null) {
+                    try {
+                        String status = result.getString("session_status");
+                        if(status.equals("pending") || status.equals("active")) {
+                            Intent intent = new Intent(TutoringRequests.this, StudentStudySession.class);
+                            intent.putExtra("course", course);
+                            //intent.putExtra("status", "1");
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            UpdateList();
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    UpdateList();
+                }
+            }
+        });
+    }
 
     public void UpdateList() {
 
@@ -183,12 +172,6 @@ public class TutoringRequests extends AppCompatActivity {
                 if(result != null) {
 
                     adapter.clear();
-//                    tutorEmails.clear();
-//                    courses.clear();
-//                    topics.clear();
-//                    dateTimes.clear();
-//                    durations.clear();
-//                    statuses.clear();
 
                     try {
                         JSONArray array = result.getJSONArray("requests");
@@ -216,13 +199,6 @@ public class TutoringRequests extends AppCompatActivity {
 
                                 adapter.add(temp1);
 
-//                                requests.add(course + ": " + topic);
-//                                tutorEmails.add(tutorEmail);
-//                                courses.add(course);
-//                                topics.add(topic);
-//                                dateTimes.add(datetime);
-//                                durations.add(duration);
-//                                statuses.add(status);
                             }
 
                         } else {

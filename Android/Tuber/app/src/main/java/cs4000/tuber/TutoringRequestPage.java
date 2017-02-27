@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -55,6 +56,7 @@ public class TutoringRequestPage extends AppCompatActivity {
         _userToken = sharedPreferences.getString("userToken", "");
 
         course = intent.getStringExtra("course");
+        Log.i("@course_check",course);
         tutorEmail = intent.getStringExtra("tutorEmail");
         topic = intent.getStringExtra("topic");
         dateTime = intent.getStringExtra("dateTime");
@@ -84,6 +86,7 @@ public class TutoringRequestPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(TutoringRequestPage.this, StudentStudySession.class);
+                intent.putExtra("course", getIntent().getStringExtra("course"));
                 //intent.putExtra("status", "0");
                 startActivity(intent);
                 //finish();
