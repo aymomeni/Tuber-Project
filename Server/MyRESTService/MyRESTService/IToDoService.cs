@@ -91,6 +91,14 @@ namespace ToDoList
           BodyStyle = WebMessageBodyStyle.Bare)]
         ChangeUserPasswordResponseItem ChangeUserPassword(ChangeUserPasswordRequestItem data);
 
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+          UriTemplate = "/forgotpassword",
+          RequestFormat = WebMessageFormat.Json,
+          ResponseFormat = WebMessageFormat.Json,
+          BodyStyle = WebMessageBodyStyle.Bare)]
+        ForgotPasswordResponseItem ForgotPassword(ForgotPasswordRequestItem data);
+
         /// <summary>
         /// Accepts HTTP request to make a tutor available.
         /// </summary>

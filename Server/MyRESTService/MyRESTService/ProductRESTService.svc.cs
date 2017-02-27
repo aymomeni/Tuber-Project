@@ -9,6 +9,8 @@ using System.Device.Location;
 using System.Security.Cryptography;
 using System.Globalization;
 using PayPal.Api;
+using System.Web.Security;
+using System.Net.Mail;
 
 
 
@@ -530,6 +532,84 @@ namespace ToDoList
             }
         }
 
+        public ForgotPasswordResponseItem ForgotPassword(ForgotPasswordRequestItem item)
+        {
+            lock (this)
+            {
+                // Generate new password and store it as user's password
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    MySqlTransaction transaction = null;
+                    try
+                    {
+                        conn.Open();
+                        transaction = conn.BeginTransaction();
+
+                        MySqlCommand command = conn.CreateCommand();
+                        command.Transaction = transaction;
+
+                        // Generate the new temporary password
+                        String newPassword = Membership.GeneratePassword(6, 2);
+
+                        String newHashedPassword = computeHash(newPassword, null);
+
+                        // Store the new temporary password in the DB so user can log in
+                        command.CommandText = "UPDATE users SET password = ?newPassword WHERE email = ?userEmail";
+                        command.Parameters.AddWithValue("newPassword", newHashedPassword);
+                        command.Parameters.AddWithValue("userEmail", item.userEmail);
+
+                        if (command.ExecuteNonQuery() > 0)
+                        {
+                            // Send the email to the user with the new temporary password
+                            // Create the sending client
+                            SmtpClient client = new SmtpClient();
+                            client.Port = 25;
+                            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                            client.UseDefaultCredentials = false;
+                            client.Host = "smtp.gmail.com";
+                            client.Port = 587;
+                            client.EnableSsl = true;
+                            client.Credentials = new System.Net.NetworkCredential("cs4500tuber@gmail.com", "traflip53");
+
+                            // Create the mail object
+                            MailMessage mail = new MailMessage("forgot_password@tuber.com", item.userEmail);
+                            mail.IsBodyHtml = true;
+                            mail.Subject = "Tuber Forgot Password Recovery";
+                            mail.Body = "Your new temporary password is: " + newPassword + " <br /><br /> Please change it as soon as you login to the application. <br /><br /> Thanks, <br /> The Tuber Team";
+
+                            // Send the mail
+                            client.Send(mail);
+
+                            // Everything worked 
+                            transaction.Commit();
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                            return new ForgotPasswordResponseItem();
+                        }
+                        else
+                        {
+                            // Updating the user password failed
+                            transaction.Rollback();
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                            return new ForgotPasswordResponseItem();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        transaction.Rollback();
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                        throw e;
+                    }
+                    finally
+                    {
+                        if (conn != null)
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+        }
+
         public AddStudentClassesResponseItem AddStudentClasses(AddStudentClassesRequestItem item)
         {
             // Check that the user token is valid
@@ -585,7 +665,7 @@ namespace ToDoList
                                 break;
                             }
                         }
-                        
+
                         // Commit the changes
                         transaction.Commit();
 
@@ -948,7 +1028,7 @@ namespace ToDoList
                                 {
                                     returnedAverageRating = reader.GetDouble("averageRating");
                                 }
-                                
+
                             }
                         }
 
@@ -4012,9 +4092,9 @@ namespace ToDoList
             }
         }
 
-        
 
-        
+
+
 
         ////////////////////
         // Helper Functions 
@@ -4225,10 +4305,10 @@ namespace ToDoList
         public PayPalTestResponseItem PaypalTest()
         {
             // Skipped APIContext
-          
+
             throw new NotImplementedException();
         }
 
-        
+
     }
 }

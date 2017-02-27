@@ -220,8 +220,16 @@ namespace ToDoList
 
     }
 
+    public class ForgotPasswordRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+    }
 
+    public class ForgotPasswordResponseItem
+    {
 
+    }
 
 
     public class MakeTutorAvailableResponseItem
