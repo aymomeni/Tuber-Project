@@ -13,18 +13,18 @@ public class HotspotObjects {
     private String mCourse;
     private String mLongitude;
     private String mLatitude;
-    private int mHotspotID;
+    private String mHotspotID;
     private String mOwnerEmail;
-    private int mStudentCount;
+    private String mStudentCount;
 
     public HotspotObjects() {}
 
-    public String getmCourse() {
-        return mCourse;
-    }
-
     public void setmCourse(String mCourse) {
         this.mCourse = mCourse;
+    }
+
+    public String getmCourse() {
+        return mCourse;
     }
 
     public String getmLongitude() {
@@ -43,11 +43,11 @@ public class HotspotObjects {
         this.mLatitude = mLatitude;
     }
 
-    public int getmHotspotID() {
+    public String getmHotspotID() {
         return mHotspotID;
     }
 
-    public void setmHotspotID(int mHotspotID) {
+    public void setmHotspotID(String mHotspotID) {
         this.mHotspotID = mHotspotID;
     }
 
@@ -59,11 +59,11 @@ public class HotspotObjects {
         this.mOwnerEmail = mOwnerEmail;
     }
 
-    public int getmStudentCount() {
+    public String getmStudentCount() {
         return mStudentCount;
     }
 
-    public void setmStudentCount(int mStudentCount) {
+    public void setmStudentCount(String mStudentCount) {
         this.mStudentCount = mStudentCount;
     }
 
