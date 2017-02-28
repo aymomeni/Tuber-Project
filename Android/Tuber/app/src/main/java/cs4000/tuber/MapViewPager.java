@@ -223,6 +223,7 @@ public class MapViewPager extends FrameLayout implements OnMapReadyCallback {
                     CameraPosition cp = adapter.getCameraPositions(page).get(i);
                     if (cp != null) {
                         MarkerOptions mo = createMarkerOptions(cp, adapter.getMarkerTitle(page, i));
+                        mo.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_hotspot_book));
                         pageMarkers.add(map.addMarker(mo));
                     }
                     else pageMarkers.add(null);
