@@ -62,6 +62,10 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
             performSegue(withIdentifier: "tutorServices", sender: selectedOption)
             
         }
+        else if selectedOption == "Study Hotspot"
+        {
+            performSegue(withIdentifier: "studyHotspot", sender: selectedOption)
+        }
         else if selectedOption == "Offer To Tutor"
         {
             performSegue(withIdentifier: "offerToTutor", sender: selectedOption)

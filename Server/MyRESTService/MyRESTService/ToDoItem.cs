@@ -17,12 +17,6 @@ namespace ToDoList
 
         [DataMember]
         public string userPassword { get; set; }
-
-        //[DataMember]
-        //public ArrayList userCourses { get; set; }
-
-        //[DataMember]
-        //public string UserToken { get; set; }
     }
 
     public class CreateUserItem
@@ -104,6 +98,145 @@ namespace ToDoList
         public string longitude { get; set; }
     }
 
+
+
+    public class AddStudentClassesRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public List<String> classesToBeAdded { get; set; }
+    }
+
+    public class AddStudentClassesResponseItem
+    {
+        [DataMember]
+        public List<String> enrolledStudentClasses { get; set; }
+    }
+
+    public class RemoveStudentClassesRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public List<String> classesToBeRemoved { get; set; }
+    }
+
+    public class RemoveStudentClassesResponseItem
+    {
+        [DataMember]
+        public List<String> enrolledStudentClasses { get; set; }
+    }
+
+    public class AddTutorClassesRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public List<String> classesToBeAdded { get; set; }
+    }
+
+    public class AddTutorClassesResponseItem
+    {
+        [DataMember]
+        public List<String> enrolledTutorClasses { get; set; }
+    }
+
+    public class RemoveTutorClassesRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public List<String> classesToBeRemoved { get; set; }
+    }
+
+    public class RemoveTutorClassesResponseItem
+    {
+        [DataMember]
+        public List<String> enrolledTutorClasses { get; set; }
+    }
+
+    public class EnableTutoringRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class EnableTutoringResponseItem
+    {
+
+    }
+
+    public class DisableTutoringRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class DisableTutoringResponseItem
+    {
+
+    }
+
+    public class ChangeUserPasswordRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string currentPassword { get; set; }
+
+        [DataMember]
+        public string newPassword { get; set; }
+    }
+
+    public class ChangeUserPasswordResponseItem
+    {
+
+    }
+
+    public class ForgotPasswordRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+    }
+
+    public class ForgotPasswordResponseItem
+    {
+
+    }
+
+
+    public class MakeTutorAvailableResponseItem
+    {
+
+    }
+
     public class AvailableTutorUserItem
     {
         [DataMember]
@@ -122,6 +255,12 @@ namespace ToDoList
         public double distanceFromStudent { get; set; }
     }
 
+    public class FindAvailableTutorResponseItem
+    {
+        [DataMember]
+        public List<AvailableTutorUserItem> availableTutors { get; set; }
+    }
+
     public class DeleteTutorUserItem
     {
         [DataMember]
@@ -129,6 +268,11 @@ namespace ToDoList
 
         [DataMember]
         public string userToken { get; set; }
+    }
+
+    public class DeleteTutorResponseItem
+    {
+       
     }
 
     public class StudentTutorRequestItem
@@ -174,9 +318,6 @@ namespace ToDoList
 
         [DataMember]
         public string tutorLongitude { get; set; }
-
-        //[DataMember]
-        //public int session_status { get; set; }
     }
 
     // Sent to server to see if the tutor has been paired with a student for immediate tutor case
@@ -187,6 +328,12 @@ namespace ToDoList
 
         [DataMember]
         public string userToken { get; set; }
+
+        [DataMember]
+        public string latitude { get; set; }
+
+        [DataMember]
+        public string longitude { get; set; }
     }
 
     public class PairedStatusItem
@@ -204,22 +351,150 @@ namespace ToDoList
         public string tutorCourse { get; set; }
 
         [DataMember]
-        public string studentLatitude { get; set; }
+        public double studentLatitude { get; set; }
 
         [DataMember]
-        public string studentLongitude { get; set; }
+        public double studentLongitude { get; set; }
+
+        [DataMember]
+        public double tutorLatitude { get; set; }
+
+        [DataMember]
+        public double tutorLongitude { get; set; }
+
+        [DataMember]
+        public double distanceFromStudent { get; set; }
+    }
+
+    public class CheckSessionActiveStatusStudentRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }      
+
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string sessionStartTime { get; set; }
+    }
+
+    public class CheckSessionActiveStatusStudentResponseItem
+    {
+        [DataMember]
+        public string tutorSessionID { get; set; }
+
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string sessionStartTime { get; set; }
+
+        [DataMember]
+        public string sessionEndTime { get; set; }
+
+        [DataMember]
+        public double sessionCost { get; set; }
+    }
+
+    public class GetSessionStatusTutorRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class GetSessionStatusTutorResponseItem
+    {
+
+        [DataMember]
+        public string session_status { get; set; }
+    }
+
+    public class GetSessionStatusStudentRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class GetSessionStatusStudentResponseItem
+    {
+
+        [DataMember]
+        public string session_status { get; set; }
+    }
+
+    public class UpdateStudentLocationRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string latitude { get; set; }
+
+        [DataMember]
+        public string longitude { get; set; }
+    }
+
+    public class UpdateStudentLocationResponseItem
+    {
+        [DataMember]
+        public string tutorEmail { get; set; }
 
         [DataMember]
         public string tutorLatitude { get; set; }
 
         [DataMember]
         public string tutorLongitude { get; set; }
-
-        //[DataMember]
-        //public int session_status { get; set; }
     }
 
-    public class StartTutorSessionItem
+    public class UpdateTutorLocationRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string latitude { get; set; }
+
+        [DataMember]
+        public string longitude { get; set; }
+    }
+
+    public class UpdateTutorLocationResponseItem
+    {
+        [DataMember]
+        public string studentEmail { get; set; }
+
+        [DataMember]
+        public string studentLatitude { get; set; }
+
+        [DataMember]
+        public string studentLongitude { get; set; }
+    }
+
+    public class StartTutorSessionTutorItem
     {
         [DataMember]
         public string userEmail { get; set; }
@@ -229,6 +504,28 @@ namespace ToDoList
 
         [DataMember]
         public string course { get; set; }
+    }
+
+    public class StartTutorSessionTutorResponseItem
+    {
+        
+    }
+
+    public class StartTutorSessionStudentItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+    }
+
+    public class StartTutorSessionStudentResponseItem
+    {
+
     }
 
     public class EndTutorSessionRequestItem
@@ -245,6 +542,9 @@ namespace ToDoList
 
     public class EndTutorSessionResponseItem
     {
+        [DataMember]
+        public int tutorSessionID { get; set; }
+
         [DataMember]
         public string userEmail { get; set; }
 
@@ -264,6 +564,94 @@ namespace ToDoList
         public double sessionCost { get; set; }
     }
 
+    public class RateTutorItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string tutorSessionID { get; set; }
+
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string rating { get; set; }
+    }
+
+    public class RateTutorResponseItem
+    {
+        
+    }
+
+    public class RateStudentItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string tutorSessionID { get; set; }
+
+        [DataMember]
+        public string studentEmail { get; set; }
+
+        [DataMember]
+        public string rating { get; set; }
+    }
+
+    public class RateStudentResponseItem
+    {
+        
+    }
+
+    public class GetTutorRatingRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string tutorEmail { get; set; }
+    }
+
+    public class GetTutorRatingResponseItem
+    {
+        [DataMember]
+        public double ratingsCount { get; set; }
+
+        [DataMember]
+        public double ratingsAverage { get; set; }
+    }
+
+    public class GetStudentRatingRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string studentEmail { get; set; }
+    }
+
+    public class GetStudentRatingResponseItem
+    {
+        [DataMember]
+        public double ratingsCount { get; set; }
+
+        [DataMember]
+        public double ratingsAverage { get; set; }
+    }
+
     public class CreateStudyHotspotRequestItem
     {
         [DataMember]
@@ -280,6 +668,12 @@ namespace ToDoList
 
         [DataMember]
         public string longitude { get; set; }
+    }
+
+    public class CreateStudyHotspotResponseItem
+    {
+        [DataMember]
+        public string hotspotID { get; set; }
     }
 
     public class StudyHotspotItem
@@ -324,6 +718,12 @@ namespace ToDoList
         public double distanceToHotspot { get; set; }
     }
 
+    public class FindStudyHotspotReturnItem
+    {
+        [DataMember]
+        public List<AvailableStudyHotspotItem> studyHotspots { get; set; }
+    }
+
     public class StudyHotspotJoinItem
     {
         [DataMember]
@@ -333,7 +733,15 @@ namespace ToDoList
         public string userToken { get; set; }
 
         [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
         public string hotspotID { get; set; }
+    }
+
+    public class StudyHotspotJoinResponseItem
+    {
+        
     }
 
     public class StudyHotspotLeaveItem
@@ -343,6 +751,11 @@ namespace ToDoList
 
         [DataMember]
         public string userToken { get; set; }
+    }
+
+    public class StudyHotspotLeaveRequestItem
+    {
+        
     }
 
     public class StudyHotspotGetMemberItem
@@ -369,6 +782,12 @@ namespace ToDoList
         public string lastName { get; set; }
     }
 
+    public class StudyHotspotResponseItem
+    {
+        [DataMember]
+        public List<StudyHotspotMemberItem> hotspotMembers { get; set; }
+    }
+
     public class StudyHotspotDeleteItem
     {
         [DataMember]
@@ -379,6 +798,11 @@ namespace ToDoList
 
         [DataMember]
         public string hotspotID { get; set; }
+    }
+
+    public class StudyHotspotDeleteResponseItem
+    {
+        
     }
 
     public class ScheduleTutorItem
@@ -396,13 +820,15 @@ namespace ToDoList
         public string topic { get; set; }
 
         [DataMember]
-        public string date { get; set; }
-
-        [DataMember]
-        public string time { get; set; }
+        public string dateTime { get; set; }
 
         [DataMember]
         public string duration { get; set; }
+    }
+
+    public class ScheduleTutorResponseItem
+    {
+        
     }
 
     public class FindAllScheduleTutorRequestItem
@@ -415,18 +841,6 @@ namespace ToDoList
 
         [DataMember]
         public string course { get; set; }
-
-        //[DataMember]
-        //public string topic { get; set; }
-
-        //[DataMember]
-        //public string date { get; set; }
-
-        //[DataMember]
-        //public string time { get; set; }
-
-        //[DataMember]
-        //public string duration { get; set; }
     }
 
     public class ScheduleTutorRequestItem
@@ -441,16 +855,19 @@ namespace ToDoList
         public string topic { get; set; }
 
         [DataMember]
-        public string date { get; set; }
-
-        [DataMember]
-        public string time { get; set; }
+        public string dateTime { get; set; }
 
         [DataMember]
         public string duration { get; set; }
     }
 
-    public class AcceptStudentScheduleRequestItem
+    public class FindAllScheduleTutorResponseItem
+    {
+        [DataMember]
+        public List<ScheduleTutorRequestItem> tutorRequestItems { get; set; }
+    }
+
+        public class AcceptStudentScheduleRequestItem
     {
         [DataMember]
         public string userEmail { get; set; }
@@ -480,10 +897,7 @@ namespace ToDoList
         public string topic { get; set; }
 
         [DataMember]
-        public string date { get; set; }
-
-        [DataMember]
-        public string time { get; set; }
+        public string dateTime { get; set; }
 
         [DataMember]
         public string duration { get; set; }
@@ -491,12 +905,6 @@ namespace ToDoList
 
     public class PairedScheduledStatusItem
     {
-        //[DataMember]
-        //public string userEmail { get; set; }
-
-        //[DataMember]
-        //public string userToken { get; set; }
-
         [DataMember]
         public string studentEmail { get; set; }
 
@@ -510,10 +918,7 @@ namespace ToDoList
         public string topic { get; set; }
 
         [DataMember]
-        public string date { get; set; }
-
-        [DataMember]
-        public string time { get; set; }
+        public string dateTime { get; set; }
 
         [DataMember]
         public string duration { get; set; }
@@ -522,60 +927,205 @@ namespace ToDoList
         public Boolean isPaired { get; set; }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    [DataContract]
-    public class Product
+    public class CheckPairedStatusResponseItem
     {
         [DataMember]
-        public int ProductId { get; set; }
-        [DataMember]
-        public string Name { get; set; }
-        [DataMember]
-        public string CategoryName { get; set; }
-        [DataMember]
-        public int Price { get; set; }
+        public List<PairedScheduledStatusItem> requests { get; set; }
     }
 
-
-    public partial class Products
+    public class FindAllScheduleTutorAcceptedRequestItem
     {
-       private static readonly Products _instance = new Products();
-       
-       private Products() { } 
-       
-       public static Products Instance 
-       { 
-                get { return _instance; } 
-       } 
-        public List<Product> ProductList 
-        { 
-               get { return products; } 
-        } 
-        private List<Product> products = new List<Product>() 
-        { 
-                new Product() { ProductId = 1, Name = "Product 1", CategoryName = "Category 1", Price=10}, 
-                new Product() { ProductId = 1, Name = "Product 2", CategoryName = "Category 2", Price=5}, 
-                new Product() { ProductId = 1, Name = "Product 3", CategoryName = "Category 3", Price=15}, 
-                new Product() { ProductId = 1, Name = "Product 4", CategoryName = "Category 1", Price=9} 
-        }; 
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+    }
+
+    public class FindAllScheduleTutorAcceptedItem
+    {
+        [DataMember]
+        public string studentEmail { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string topic { get; set; }
+
+        [DataMember]
+        public string dateTime { get; set; }
+
+        [DataMember]
+        public string duration { get; set; }
+    }
+
+    public class FindAllScheduleTutorAcceptedResponsetItem
+    {
+        [DataMember]
+        public List<FindAllScheduleTutorAcceptedItem> tutorRequestItems { get; set; }
+    }
+
+    public class StartScheduledTutorSessionTutorItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string dateTime { get; set; }
+    }
+
+    public class StartScheduledTutorSessionTutorResponseItem
+    {
+        
+    }
+
+    public class StartScheduledTutorSessionStudentItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string dateTime { get; set; }
+    }
+
+    public class StartScheduledTutorSessionStudentResponseItem
+    {
+
+    }
+
+    public class ReportTutorGetTutorListRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class ReportTutorGetTutorListItem
+    {
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string tutorFirstName { get; set; }
+
+        [DataMember]
+        public string tutorLastName { get; set; }
+    }
+
+    public class ReportTutorGetTutorListResponseItem
+    {
+        [DataMember]
+        public List<ReportTutorGetTutorListItem> tutorList { get; set; }
+    }
+
+    public class ReportTutorGetSessionListRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string tutorFirstName { get; set; }
+
+        [DataMember]
+        public string tutorLastName { get; set; }
+    }
+
+    public class ReportTutorGetSessionListItem
+    {
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string tutorFirstName { get; set; }
+
+        [DataMember]
+        public string tutorLastName { get; set; }
+
+        [DataMember]
+        public string tutorSessionID { get; set; }
+
+        [DataMember]
+        public string course { get; set; }
+
+        [DataMember]
+        public string sessionStartTime { get; set; }
+
+        [DataMember]
+        public string sessionEndTime { get; set; }
+
+        [DataMember]
+        public string sessionCost { get; set; }
+    }
+
+    public class ReportTutorGetSessionListResponseItem
+    {
+        [DataMember]
+        public List<ReportTutorGetSessionListItem> tutorList { get; set; }
+    }
+
+    public class ReportTutorRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string tutorEmail { get; set; }
+
+        [DataMember]
+        public string tutorSessionID { get; set; }
+
+        [DataMember]
+        public string message { get; set; }
+    }
+
+    public class ReportTutorResponseItem
+    {
+        
+    }
+
+    
+
+
+
+
+
+
+
+
+    public class PayPalTestResponseItem
+    {
+        [DataMember]
+        public string string1 { get; set; }
+
+        [DataMember]
+        public string string2 { get; set; }
     }
 }
 

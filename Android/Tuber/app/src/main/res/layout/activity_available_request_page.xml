@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_available_request_page"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@layout/backrepeat"
+    tools:context="cs4000.tuber.AvailableAcceptedRequestPage">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/studentNameTextValue"
+        android:layout_marginTop="50dp"
+        android:textSize="30sp"
+        android:textColor="@color/oil" />
+
+    <TextView
+        android:text="Course:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/studentNameTextValue"
+        android:layout_alignParentStart="true"
+        android:id="@+id/courseTextView2"
+        android:textSize="24sp"
+        android:layout_marginTop="60dp"
+        android:textColor="@color/oil" />
+
+    <TextView
+        android:text="Topic:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/topicTextView2"
+        android:layout_below="@+id/courseTextView2"
+        android:layout_alignParentStart="true"
+        android:textSize="24sp"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/oil" />
+
+    <TextView
+        android:text="Date and Time:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topicTextView2"
+        android:layout_alignParentStart="true"
+        android:id="@+id/dateTimeTextView2"
+        android:textSize="24sp"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/oil" />
+
+    <TextView
+        android:text="Duration:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dateTimeTextView2"
+        android:layout_alignParentStart="true"
+        android:id="@+id/durationTextView2"
+        android:textSize="24sp"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/oil" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/courseTextView2"
+        android:id="@+id/courseTextValue2"
+        android:textSize="24sp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBaseline="@+id/courseTextView2"
+        android:textColor="@color/oil" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/topicTextView2"
+        android:id="@+id/topicTextValue2"
+        android:textSize="24sp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBaseline="@+id/topicTextView2"
+        android:textColor="@color/oil" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/dateTimeTextView2"
+        android:id="@+id/dateTimeTextValue2"
+        android:textSize="24sp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignBaseline="@+id/dateTimeTextView2"
+        android:textColor="@color/oil" />
+
+    <Button
+        android:text="Accept Request"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/sessionButton2"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:enabled="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/durationTextvalue2"
+        android:textSize="24sp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignStart="@+id/sessionButton2"
+        android:layout_alignBaseline="@+id/durationTextView2"
+        android:textColor="@color/oil" />
+
+</RelativeLayout>

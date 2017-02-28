@@ -26,6 +26,18 @@
         android:layout_marginEnd="38dp"
         android:layout_marginBottom="23dp"
         android:id="@+id/acceptTutorButton"
-        android:onClick="acceptTutorService"/>
+        android:onClick="acceptTutorService" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/acceptTutorButton"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="13dp"
+        android:id="@+id/infoTextViewStudent"
+        android:textSize="18sp"
+        android:textColor="@color/colorAccent_Red"
+        android:textStyle="normal|bold" />
 
 </RelativeLayout>
