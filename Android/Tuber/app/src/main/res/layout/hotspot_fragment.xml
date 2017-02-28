@@ -25,19 +25,35 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/body"
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="32dp"
-            android:paddingBottom="48dp"
-            android:paddingLeft="56dp"
-            android:paddingRight="24dp"
-            android:lineSpacingExtra="3dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/iron"
-            android:text="@string/lorem_ipsum"
-            tools:ignore="RtlHardcoded" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="32dp"
+                android:paddingBottom="30dp"
+                android:paddingLeft="56dp"
+                android:paddingRight="24dp"
+                android:lineSpacingExtra="3dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@color/iron"
+                android:text="@string/lorem_ipsum"
+                tools:ignore="RtlHardcoded" />
+
+            <Button
+                android:paddingLeft="56dp"
+                android:paddingRight="24dp"
+                android:layout_below="@id/body"
+                android:text="Join Hotspot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/joinHotspotButton"/>
+
+        </RelativeLayout>
 
     </ScrollView>
 
