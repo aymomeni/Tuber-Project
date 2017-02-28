@@ -11,6 +11,7 @@ using System.Globalization;
 using PayPal.Api;
 using System.Web.Security;
 using System.Net.Mail;
+using System.IO;
 
 
 
@@ -4092,7 +4093,91 @@ namespace ToDoList
             }
         }
 
+        ////////////////////////
+        // Messaging Functions 
+        ///////////////////////
 
+        public SendMessageResponseItem SendMessage(SendMessageRequestItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    // Get token of person you are sending message to
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            String returnedFirebaseToken = "";
+
+                            MySqlCommand command = conn.CreateCommand();
+
+                            command.CommandText = "SELECT token FROM firebase_tokens WHERE email = ?recipientEmail";
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    returnedFirebaseToken = reader.GetString("email");
+                                }
+                            }
+
+                            if (returnedFirebaseToken == "" || returnedFirebaseToken == null)
+                            {
+                                // The user you are trying to send the message to does not have a firebase token on file.
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                                return new SendMessageResponseItem();
+                            }
+                            else
+                            {
+                                // Set up post request
+                                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://fcm.googleapis.com/fcm/send");
+                                httpWebRequest.Method = "POST";
+
+                                // Set up headers
+                                WebHeaderCollection headers = httpWebRequest.Headers;
+                                headers.Add("Authorization", "key=AAAA-w0mo_Q:APA91bGZO2IQDKvjJculAn8v9tqm3lIU0VBFoKZXpfFFfXr7lPq3bnF89BxXvGasUzcwlKWp8rBazrnvwXGoFDRmBF3Cx4G4W6iWa-eHMJj6OKHXrF7wf6kaDBwfBYcAINb4I_DL6m3D");
+
+                                httpWebRequest.Headers = headers;
+                                httpWebRequest.ContentType = "application/json";
+
+                                // Send the post requeset
+                                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                                {
+                                    string json = "{\"notification\": { \"body\": " + item.message + ", \"title\": \"Brandon's Notification\", \"sound\": \"default\", \"priority\": \"high\",}, \"data\": { \"id\": 1}, \"to\": " + returnedFirebaseToken + "}";
+
+                                    streamWriter.Write(json);
+                                    streamWriter.Flush();
+                                    streamWriter.Close();
+                                }
+
+                                // Receive the response -- Need to parse response to make sure nothing failed
+                                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                                {
+                                    var result = streamReader.ReadToEnd();
+                                }
+
+                                return new SendMessageResponseItem();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                    }
+                }
+                else
+                {
+                    // User's email & token combo is not valid
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new SendMessageResponseItem();
+                }
+            }
+        }
 
 
 

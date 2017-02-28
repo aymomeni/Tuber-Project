@@ -366,7 +366,13 @@ namespace ToDoList
            BodyStyle = WebMessageBodyStyle.Bare)]
         ReportTutorResponseItem ReportTutor(ReportTutorRequestItem data);
 
-        
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/sendmessage",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        SendMessageResponseItem SendMessage(SendMessageRequestItem data);
 
 
 

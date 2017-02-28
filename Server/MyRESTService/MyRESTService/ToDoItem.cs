@@ -1111,9 +1111,25 @@ namespace ToDoList
     }
 
     
+    public class SendMessageRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
 
+        [DataMember]
+        public string userToken { get; set; }
 
+        [DataMember]
+        public string recipientEmail { get; set; }
 
+        [DataMember]
+        public string message { get; set; }
+    }
+
+    public class SendMessageResponseItem
+    {
+
+    }
 
 
 
