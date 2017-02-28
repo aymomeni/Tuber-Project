@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		557510411E500B9E0069FD5C /* ServerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557510401E500B9E0069FD5C /* ServerRequest.swift */; };
 		559766F81E31533D00C4DE0C /* Registration2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 559766F71E31533D00C4DE0C /* Registration2ViewController.swift */; };
 		55A327011E2EE34B007B725E /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55A327001E2EE34B007B725E /* RegistrationViewController.swift */; };
 		9709067B1DF6B93400C68561 /* ClassListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067A1DF6B93400C68561 /* ClassListViewController.swift */; };
@@ -51,6 +52,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		557510401E500B9E0069FD5C /* ServerRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerRequest.swift; sourceTree = "<group>"; };
 		559766F71E31533D00C4DE0C /* Registration2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Registration2ViewController.swift; sourceTree = "<group>"; };
 		55A327001E2EE34B007B725E /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		9709067A1DF6B93400C68561 /* ClassListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassListViewController.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				97EEACCA1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift */,
 				97EEACCE1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift */,
 				97EEACD01DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift */,
+				557510401E500B9E0069FD5C /* ServerRequest.swift */,
 			);
 			path = Tuber;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 			files = (
 				97EEACD11DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011F1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift in Sources */,
+				557510411E500B9E0069FD5C /* ServerRequest.swift in Sources */,
 				9714011B1DF528490099A8DB /* LoginViewController.swift in Sources */,
 				971400EF1DF527D60099A8DB /* ViewController.swift in Sources */,
 				559766F81E31533D00C4DE0C /* Registration2ViewController.swift in Sources */,
