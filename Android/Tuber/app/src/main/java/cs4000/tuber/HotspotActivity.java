@@ -19,6 +19,8 @@ import android.util.Log;
 
 import com.google.android.gms.maps.SupportMapFragment;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -106,6 +108,11 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
         }
 
         mLastKnownLocation = getMyLocation();
+        try {
+            getHotspotObjects();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
         SupportMapFragment map = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
@@ -127,13 +134,34 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
     /*
      * returns a list of currently available HotspotObjects (Students that created a hotspot)
      */
-    private List<HotspotObjects> getHotspotObjects() {
+    private List<HotspotObjects> getHotspotObjects() throws JSONException {
 
 
-        mConnectionTask = new ConnectionTask(new JSONObject());
+        // filling JSON object
+        JSONObject me = new JSONObject();
+        me.put("userEmail", mUserEmail);
+        me.put("userToken", mUserToken);
+        me.put("course", mCourse);
+        me.put("latitude", "" + mLastKnownLocation.getLatitude());
+        me.put("longitude", "" + mLastKnownLocation.getLongitude());
+
+
+        mConnectionTask = new ConnectionTask(me);
         mConnectionTask.find_study_hotspots(new ConnectionTask.CallBack() {
             @Override
             public void Done(JSONObject result) {
+
+                if(result != null) {
+
+                    try{
+                        parseJSONFindHotspotsReturnList(result);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                } else {
+                    // TODO: Does null mean no Hotspots?
+                }
 
             }
         });
@@ -147,6 +175,59 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
 
         return null;
     }
+
+
+    /**
+     * Parses the result json array of find hotspots
+     *
+     * Returns : 200 OK
+     * {
+     * "studyHotspots": [
+     * {
+     * "course": "CS 4000",
+     * "distanceToHotspot": 0.00005229515916537725,
+     * "hotspotID": "11",
+     * "latitude": 40.867701,
+     * "longitude": 111.8452,
+     * "ownerEmail": "brandontobin@cox.net",
+     * "student_count": "1"
+     * },
+     * ],
+     * }
+     * @param result
+     * @return
+     */
+    private List<HotspotObjects> parseJSONFindHotspotsReturnList(JSONObject result) throws JSONException {
+
+        JSONArray jsonMainArr = null;
+        try {
+
+            jsonMainArr = result.getJSONArray("studyHotspots");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < jsonMainArr.length(); i++) {
+
+            JSONObject childJSONObject = jsonMainArr.getJSONObject(i);
+            String course = childJSONObject.getString("course");
+            double distanceToHotspot = childJSONObject.getDouble("distanceToHotspot");
+            String hotspotID = childJSONObject.getString("hotspotID");
+            double latitude = childJSONObject.getDouble("latitude");
+            double longitude = childJSONObject.getDouble("longitude");
+            String ownerEmail = childJSONObject.getString("ownerEmail");
+            String student_count = childJSONObject.getString("student_count");
+
+            Log.i("HS_JSON OBJECT RETURN: ", course + " " + distanceToHotspot + " " + hotspotID + " " + latitude + " " +
+            longitude + " " + ownerEmail + " " + student_count);
+
+        }
+
+
+        return null;
+    }
+
+
 
 
 

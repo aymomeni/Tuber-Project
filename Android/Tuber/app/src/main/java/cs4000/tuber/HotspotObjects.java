@@ -9,38 +9,30 @@ package cs4000.tuber;
  */
 public class HotspotObjects {
 
-
     private String mCourse;
-    private String mLongitude;
-    private String mLatitude;
+    private double mdistanceToHotspot;
     private String mHotspotID;
+    private double mLongitude;
+    private double mLatitude;
     private String mOwnerEmail;
     private String mStudentCount;
 
     public HotspotObjects() {}
 
-    public void setmCourse(String mCourse) {
-        this.mCourse = mCourse;
-    }
-
     public String getmCourse() {
         return mCourse;
     }
 
-    public String getmLongitude() {
-        return mLongitude;
+    public void setmCourse(String mCourse) {
+        this.mCourse = mCourse;
     }
 
-    public void setmLongitude(String mLongitude) {
-        this.mLongitude = mLongitude;
+    public double getMdistanceToHotspot() {
+        return mdistanceToHotspot;
     }
 
-    public String getmLatitude() {
-        return mLatitude;
-    }
-
-    public void setmLatitude(String mLatitude) {
-        this.mLatitude = mLatitude;
+    public void setMdistanceToHotspot(double mdistanceToHotspot) {
+        this.mdistanceToHotspot = mdistanceToHotspot;
     }
 
     public String getmHotspotID() {
@@ -49,6 +41,22 @@ public class HotspotObjects {
 
     public void setmHotspotID(String mHotspotID) {
         this.mHotspotID = mHotspotID;
+    }
+
+    public double getmLongitude() {
+        return mLongitude;
+    }
+
+    public void setmLongitude(double mLongitude) {
+        this.mLongitude = mLongitude;
+    }
+
+    public double getmLatitude() {
+        return mLatitude;
+    }
+
+    public void setmLatitude(double mLatitude) {
+        this.mLatitude = mLatitude;
     }
 
     public String getmOwnerEmail() {
@@ -66,6 +74,5 @@ public class HotspotObjects {
     public void setmStudentCount(String mStudentCount) {
         this.mStudentCount = mStudentCount;
     }
-
 
 }
