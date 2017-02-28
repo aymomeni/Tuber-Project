@@ -9,6 +9,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+/**
+ * Created by Ali on 2/20/2017.
+ */
+
 public class HotspotEntryMenuActivity extends AppCompatActivity {
 
 
@@ -16,6 +20,7 @@ public class HotspotEntryMenuActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotspot_entry_menu);
@@ -29,7 +34,6 @@ public class HotspotEntryMenuActivity extends AppCompatActivity {
 
 
     }
-
 
 
     // when join hotspot is clicked

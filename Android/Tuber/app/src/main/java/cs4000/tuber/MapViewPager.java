@@ -1,9 +1,21 @@
 package cs4000.tuber;
 
-/**
- * Created by Ali on 2/20/2017.
- */
 
+/*
+ * Copyright (C) 2016 Miguel Ángel Moreno
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 
 import android.content.Context;
@@ -65,8 +77,7 @@ public class MapViewPager extends FrameLayout implements OnMapReadyCallback {
     }
 
 
-    // ALi Update:
-    // begin new code:
+    // Ali Update:
     private int width_screen = getResources().getDisplayMetrics().widthPixels;
     private int height_screen = getResources().getDisplayMetrics().heightPixels;
 
@@ -212,6 +223,7 @@ public class MapViewPager extends FrameLayout implements OnMapReadyCallback {
                     CameraPosition cp = adapter.getCameraPositions(page).get(i);
                     if (cp != null) {
                         MarkerOptions mo = createMarkerOptions(cp, adapter.getMarkerTitle(page, i));
+                        mo.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_hotspot_book));
                         pageMarkers.add(map.addMarker(mo));
                     }
                     else pageMarkers.add(null);
