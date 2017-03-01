@@ -4335,6 +4335,61 @@ namespace ToDoList
             }
         }
 
+        public GetUsersResponseItem GetUsers(GetUsersRequestItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    // Get all of the users
+                    List<UserMessagingItem> users = new List<UserMessagingItem>();
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+
+                            // Find all the messages associated with the two users specified
+                            command.CommandText = "SELECT email, first_name, last_name FROM users";
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    UserMessagingItem user = new UserMessagingItem();
+                                    user.email = reader.GetString("email");
+                                    user.firstName = reader.GetString("first_name");
+                                    user.lastName = reader.GetString("last_name");
+                                    
+                                    users.Add(user);
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                    }
+
+                    // Return messages
+                    GetUsersResponseItem usersResponse = new GetUsersResponseItem();
+                    usersResponse.users = users;
+                    return usersResponse;
+                }
+                else
+                {
+                    // User's email & token combo is not valid
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new GetUsersResponseItem();
+                }
+            }
+        }
+
 
 
         ////////////////////

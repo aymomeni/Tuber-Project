@@ -382,6 +382,14 @@ namespace ToDoList
             BodyStyle = WebMessageBodyStyle.Bare)]
         GetMessageConversationResponseItem GetMessageConversation(GetMessageConversationRequestItem data);
 
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/getusers",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        GetUsersResponseItem GetUsers(GetUsersRequestItem data);
+
 
 
         [OperationContract]
