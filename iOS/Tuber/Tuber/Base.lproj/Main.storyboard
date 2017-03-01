@@ -50,18 +50,18 @@
                                 <rect key="frame" x="149" y="454" width="76" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
-                                <state key="normal" title="Login"/>
+                                <state key="normal" title="login"/>
                                 <connections>
-                                    <action selector="loginButtonPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ImR-jh-XR7"/>
+                                    <action selector="loginButtonPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="slH-Ot-kWu"/>
                                 </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <connections>
-                        <outlet property="emailTextField" destination="REe-Mb-ltL" id="V4B-07-i9W"/>
-                        <outlet property="errorLabel" destination="3SV-z3-HmD" id="gp2-lc-BaN"/>
-                        <outlet property="passwordTextField" destination="WhH-Ii-42b" id="e7U-UU-UG6"/>
+                        <outlet property="emailTextField" destination="REe-Mb-ltL" id="N8s-Ri-lhT"/>
+                        <outlet property="errorLabel" destination="3SV-z3-HmD" id="hHP-xL-Pi2"/>
+                        <outlet property="passwordTextField" destination="WhH-Ii-42b" id="ZUD-RS-JW5"/>
                         <segue destination="ep6-u1-JFW" kind="show" identifier="loginSuccess" id="JXQ-uf-IvU"/>
                     </connections>
                 </viewController>
@@ -1036,8 +1036,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="w3u-QR-4nb"/>
+        <segue reference="5ig-Um-xfQ"/>
         <segue reference="U4Z-ty-pm8"/>
         <segue reference="bTA-8i-ZD6"/>
-        <segue reference="D0B-Yk-HHt"/>
     </inferredMetricsTieBreakers>
 </document>

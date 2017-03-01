@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		557A02361E674BA6002B0741 /* Registration2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A02331E674BA6002B0741 /* Registration2ViewController.swift */; };
+		557A02371E674BA6002B0741 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A02341E674BA6002B0741 /* RegistrationViewController.swift */; };
+		557A02381E674BA6002B0741 /* ServerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A02351E674BA6002B0741 /* ServerRequest.swift */; };
 		9709067B1DF6B93400C68561 /* ClassListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067A1DF6B93400C68561 /* ClassListViewController.swift */; };
 		9709067D1DF6BAF500C68561 /* ClassTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */; };
 		971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971400EC1DF527D60099A8DB /* AppDelegate.swift */; };
@@ -53,6 +56,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		557A02331E674BA6002B0741 /* Registration2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Registration2ViewController.swift; sourceTree = "<group>"; };
+		557A02341E674BA6002B0741 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
+		557A02351E674BA6002B0741 /* ServerRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerRequest.swift; sourceTree = "<group>"; };
 		9709067A1DF6B93400C68561 /* ClassListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassListViewController.swift; sourceTree = "<group>"; };
 		9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassTableViewCell.swift; sourceTree = "<group>"; };
 		971400E91DF527D60099A8DB /* Tuber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tuber.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,6 +153,9 @@
 				97A072E21E324FA900D91130 /* ImmediateTutorRequestViewController.swift */,
 				9714011A1DF528490099A8DB /* LoginViewController.swift */,
 				9714011C1DF52C130099A8DB /* ScheduleTutorViewController.swift */,
+				557A02331E674BA6002B0741 /* Registration2ViewController.swift */,
+				557A02341E674BA6002B0741 /* RegistrationViewController.swift */,
+				557A02351E674BA6002B0741 /* ServerRequest.swift */,
 				9714011E1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift */,
 				9709067A1DF6B93400C68561 /* ClassListViewController.swift */,
 				9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */,
@@ -253,7 +262,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Tuber;
 				TargetAttributes = {
 					971400E81DF527D60099A8DB = {
@@ -338,13 +347,16 @@
 				97EEACCF1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */,
 				971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */,
+				557A02371E674BA6002B0741 /* RegistrationViewController.swift in Sources */,
 				97A072E31E324FA900D91130 /* ImmediateTutorRequestViewController.swift in Sources */,
 				971CE55E1E431BBF00CB2324 /* HotspotInitialViewController.swift in Sources */,
 				97EEACC71DF8FDDC007F23B1 /* OfferTutorTableViewController.swift in Sources */,
 				97EEACCB1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift in Sources */,
 				971A55B91E4D1E3B009D8E38 /* StudentViewScheduleTableViewController.swift in Sources */,
 				97D6B3D41DF7EC9C0093479E /* ClassOptionsTableViewCell.swift in Sources */,
+				557A02381E674BA6002B0741 /* ServerRequest.swift in Sources */,
 				97D6B3DA1DF80BDA0093479E /* TutorServicesTableViewCell.swift in Sources */,
+				557A02361E674BA6002B0741 /* Registration2ViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,6 +429,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -466,6 +479,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
