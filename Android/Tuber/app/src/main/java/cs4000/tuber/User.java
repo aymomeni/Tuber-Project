@@ -13,6 +13,8 @@ public class User {
     private String lastName;
     private Double distance;
 
+    private String type = "default";
+
     private Double Longitude;
     private Double Latitudes;
 
@@ -80,5 +82,13 @@ public class User {
 
     public void setLatitudes(Double latitudes) {
         Latitudes = latitudes;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

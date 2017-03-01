@@ -246,6 +246,30 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 		Log.i("@disabletutoring",jsonParam.toString());
 	}
 
+	public void change_user_password(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/changeuserpassword", jsonParam.toString());
+		Log.i("@changeuserpassword",jsonParam.toString());
+	}
+
+	public void forgot_password(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/forgotpassword", jsonParam.toString());
+		Log.i("@forgotpassword",jsonParam.toString());
+	}
+
+	public void get_tutor_rating(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/gettutorrating", jsonParam.toString());
+		Log.i("@gettutorrating",jsonParam.toString());
+	}
+
+	public void get_student_rating(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/getstudentrating", jsonParam.toString());
+		Log.i("@getstudentrating",jsonParam.toString());
+	}
+
 	/************************************************************
 	 *  IMMEDIATE TUTOR FUNCTIONS                               *
 	 ************************************************************/
@@ -940,5 +964,26 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 		this.taskListener = taskListener;
 		this.execute("/reporttutor", jsonParam.toString());
 		Log.i("@reporttutor",jsonParam.toString());
+	}
+
+	/************************************************************
+	 *  REPORT TUTOR FUNCTIONS                                  *
+	 ************************************************************/
+	public void send_message(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/sendmessage", jsonParam.toString());
+		Log.i("@sendmessage",jsonParam.toString());
+	}
+
+	public void get_conversation(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/getmessageconversation", jsonParam.toString());
+		Log.i("@getmessageconversation",jsonParam.toString());
+	}
+
+	public void get_users(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/getusers", jsonParam.toString());
+		Log.i("@getusers",jsonParam.toString());
 	}
 }
