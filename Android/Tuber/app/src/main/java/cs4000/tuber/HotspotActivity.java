@@ -1,6 +1,7 @@
 package cs4000.tuber;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -23,6 +24,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +32,10 @@ import java.util.List;
  * Created by Ali on 2/20/2017.
  */
 
+/**
+ * Entry activity for Study hotspot. Populates and retrieves hotspot data from server and
+ * initiates HotspotActivity -> map view pager
+ */
 public class HotspotActivity extends AppCompatActivity implements MapViewPager.Callback {
 
     private ViewPager viewPager;
@@ -40,6 +46,8 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
     private String mUserEmail;
     private String mUserToken;
     private String mCourse;
+    private List<HotspotObjects> mDataSet;
+    private ProgressDialog mProgressDialog;
 
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
@@ -64,6 +72,7 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
             @Override
             public void onLocationChanged(Location location) {
                 // some kind of update of things?
+                // ask if still part of hotspot? cancel hotspot?
             }
 
             @Override
@@ -82,7 +91,7 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
             }
         };
 
-        // Checking for GPS permissions
+        // Checking for GPS permissions to retrieve own location
         if (Build.VERSION.SDK_INT < 23) {
 
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mLocationListener);
@@ -97,17 +106,21 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
 
                 // else we have permission
                 mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,  mLocationListener);
-
                 // gets last knwon location else it'll update the location based on the current location
                 mLastKnownLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 if (mLastKnownLocation != null) {
                     Log.i(TAG, "my Latitude: " + mLastKnownLocation.getLatitude()  + " Longitude: " + mLastKnownLocation.getLongitude());
+                } else {
+                    Log.e(TAG, "Error retrieving own location.");
+                    // TODO: should not allow further access if no location permission
                 }
             }
         }
 
         mLastKnownLocation = getMyLocation();
+
+
         try {
             getHotspotObjects();
         } catch (JSONException e) {
@@ -115,27 +128,33 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
         }
 
 
-        SupportMapFragment map = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
 
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPager.setPageMargin(HotspotUtils.dp(this, 18));
-        HotspotUtils.setMargins(viewPager, 0, 0, 0, HotspotUtils.getNavigationBarHeight(this));
-
-        mvp = new MapViewPager.Builder(this)
-                .mapFragment(map)
-                .viewPager(viewPager)
-                .position(2)
-                .adapter(new HotspotAdapter(getSupportFragmentManager()))
-                .callback(this)
-                .build();
+//        SupportMapFragment map = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
+//
+//        viewPager = (ViewPager) findViewById(R.id.viewPager);
+//        viewPager.setPageMargin(HotspotUtils.dp(this, 18));
+//        HotspotUtils.setMargins(viewPager, 0, 0, 0, HotspotUtils.getNavigationBarHeight(this));
+//
+//        mvp = new MapViewPager.Builder(this)
+//                .mapFragment(map)
+//                .viewPager(viewPager)
+//                .position(2)
+//                .adapter(new HotspotAdapter(getSupportFragmentManager(), mDataSet))
+//                .callback(this)
+//                .build();
     }
 
 
     /*
      * returns a list of currently available HotspotObjects (Students that created a hotspot)
      */
-    private List<HotspotObjects> getHotspotObjects() throws JSONException {
+    private void getHotspotObjects() throws JSONException {
 
+        mProgressDialog = new ProgressDialog(HotspotActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMessage("Looking for hotspots...");
+        mProgressDialog.show();
 
         // filling JSON object
         JSONObject me = new JSONObject();
@@ -145,40 +164,28 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
         me.put("latitude", "" + mLastKnownLocation.getLatitude());
         me.put("longitude", "" + mLastKnownLocation.getLongitude());
 
-
         mConnectionTask = new ConnectionTask(me);
         mConnectionTask.find_study_hotspots(new ConnectionTask.CallBack() {
             @Override
             public void Done(JSONObject result) {
 
                 if(result != null) {
-
-                    try{
-                        parseJSONFindHotspotsReturnList(result);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+                    parseJSONFindHotspotsReturnList(result);
+                    mProgressDialog.dismiss();
                 } else {
+                    Log.e(TAG, "Null response from server");
                     // TODO: Does null mean no Hotspots?
                 }
 
             }
         });
 
-        // userEmail
-        // userToken
-        // course
-        // latitude
-        // longitude
-
-
-        return null;
+        return;
     }
 
 
     /**
-     * Parses the result json array of find hotspots
+     * Parses the result json array of find_hotspots
      *
      * Returns : 200 OK
      * {
@@ -197,7 +204,7 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
      * @param result
      * @return
      */
-    private List<HotspotObjects> parseJSONFindHotspotsReturnList(JSONObject result) throws JSONException {
+    private List<HotspotObjects> parseJSONFindHotspotsReturnList(JSONObject result) {
 
         JSONArray jsonMainArr = null;
         try {
@@ -207,27 +214,56 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        if(jsonMainArr.length() == 0) {
+            // no hotspots
+            //TODO: what to do when there is no hotspots?
+        }
+        mDataSet = new ArrayList<HotspotObjects>();
+
         for (int i = 0; i < jsonMainArr.length(); i++) {
 
-            JSONObject childJSONObject = jsonMainArr.getJSONObject(i);
-            String course = childJSONObject.getString("course");
-            double distanceToHotspot = childJSONObject.getDouble("distanceToHotspot");
-            String hotspotID = childJSONObject.getString("hotspotID");
-            double latitude = childJSONObject.getDouble("latitude");
-            double longitude = childJSONObject.getDouble("longitude");
-            String ownerEmail = childJSONObject.getString("ownerEmail");
-            String student_count = childJSONObject.getString("student_count");
+            try {
+                HotspotObjects tempStudyHotspotObject = new HotspotObjects();
 
-            Log.i("HS_JSON OBJECT RETURN: ", course + " " + distanceToHotspot + " " + hotspotID + " " + latitude + " " +
-            longitude + " " + ownerEmail + " " + student_count);
+                JSONObject childJSONObject = jsonMainArr.getJSONObject(i);
+                tempStudyHotspotObject.setmCourse(childJSONObject.getString("course"));
+
+                tempStudyHotspotObject.setMdistanceToHotspot(childJSONObject.getDouble("distanceToHotspot"));
+                tempStudyHotspotObject.setmHotspotID(childJSONObject.getString("hotspotID"));
+                tempStudyHotspotObject.setmLatitude(childJSONObject.getDouble("latitude"));
+                tempStudyHotspotObject.setmLongitude(childJSONObject.getDouble("longitude"));
+                tempStudyHotspotObject.setmOwnerEmail(childJSONObject.getString("ownerEmail"));
+                tempStudyHotspotObject.setmStudentCount(childJSONObject.getString("student_count"));
+
+                mDataSet.add(tempStudyHotspotObject);
+
+                Log.i("HS_JSON OBJECT RETURN: ", tempStudyHotspotObject.getmCourse() + " " + tempStudyHotspotObject.getMdistanceToHotspot() + " " + tempStudyHotspotObject.getmHotspotID() + " " + tempStudyHotspotObject.getmLatitude() + " " +
+                        tempStudyHotspotObject.getmLongitude() + " " + tempStudyHotspotObject.getmOwnerEmail() + " " + tempStudyHotspotObject.getmStudentCount());
+
+            } catch(JSONException e){
+                e.printStackTrace();
+                Log.e(TAG, "ERROR parsing returned hotspot JSON");
+            }
 
         }
 
+        SupportMapFragment map = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
+
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager.setPageMargin(HotspotUtils.dp(this, 18));
+        HotspotUtils.setMargins(viewPager, 0, 0, 0, HotspotUtils.getNavigationBarHeight(this));
+
+        mvp = new MapViewPager.Builder(this)
+                .mapFragment(map)
+                .viewPager(viewPager)
+                .position(2)
+                .adapter(new HotspotAdapter(getSupportFragmentManager(), mDataSet))
+                .callback(this)
+                .build();
 
         return null;
     }
-
-
 
 
 

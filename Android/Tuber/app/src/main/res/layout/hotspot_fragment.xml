@@ -13,18 +13,20 @@
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize"
         android:minHeight="?android:attr/actionBarSize"
-        android:background="?colorPrimary"
+        android:background="@color/colorAccent_Green"
+        android:titleTextColor="@color/colorPrimary_Grey"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:navigationIcon="@drawable/ic_close_hotspot"
         app:contentInsetStart="0dp"
         app:titleMarginStart="0dp"
-        app:popupTheme="@style/ThemeOverlay.AppCompat" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <ScrollView
-        android:id="@+id/scroll"
+    <android.support.v7.widget.CardView
+        android:id="@+id/hotspot_fragment_card_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/colorPrimary_White"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -35,38 +37,40 @@
                 android:id="@+id/body"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="32dp"
+                android:paddingTop="30dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="24dp"
                 android:lineSpacingExtra="3dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/iron"
+                android:textColor="@color/primary_darker"
                 android:text="@string/lorem_ipsum"
                 tools:ignore="RtlHardcoded"
                 android:layout_alignParentTop="true"
                 android:layout_toEndOf="@+id/imageView2"
                 />
 
-            <Button
-                android:layout_below="@id/body"
-                android:text="Join Hotspot"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/joinHotspotButton"/>
-
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/user"
                 android:id="@+id/imageView2"
-                android:layout_marginStart="37dp"
-                android:layout_marginTop="44dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true"/>
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="40dp"
+                android:layout_alignParentLeft="true"
+                />
 
+            <Button
+                android:id="@+id/hotspot_pager_join_button"
+                android:text="@string/hotspot_fragment_button_join"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
         </RelativeLayout>
 
-    </ScrollView>
+    </android.support.v7.widget.CardView>
+
 
 </LinearLayout>
