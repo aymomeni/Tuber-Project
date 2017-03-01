@@ -85,7 +85,7 @@ class ServerRequest
         request.httpMethod = "POST"
         
         //creating the post parameter by concatenating the keys and values from text field
-        let postParameters = "{\"userEmail\":\"" + email + "\",\"userPassword\":\"" + password + "\"}"
+        let postParameters = "{\"userEmail\":\"" + email + "\",\"userPassword\":\"" + password + "\",\"firebaseToken\":\"" + "" + "\"}";
         
         //adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
@@ -105,9 +105,7 @@ class ServerRequest
             }
             
             let r = response as? HTTPURLResponse
-            
             //parsing the response
-            
             if (r?.statusCode == 200)
             {
                 do {
