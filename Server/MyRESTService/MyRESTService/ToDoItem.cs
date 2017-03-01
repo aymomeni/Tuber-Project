@@ -1128,9 +1128,52 @@ namespace ToDoList
 
     public class SendMessageResponseItem
     {
-        [DataMember]
-        public string test { get; set; }
+        
     }
+
+    public class GetMessageConversationRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+
+        [DataMember]
+        public string recipientEmail { get; set; }
+    }
+
+    public class MessageItem
+    {
+        [DataMember]
+        public string messageID { get; set; }
+
+        [DataMember]
+        public string toEmail { get; set; }
+
+        [DataMember]
+        public string fromEmail { get; set; }
+
+        [DataMember]
+        public string time { get; set; }
+
+        [DataMember]
+        public string message { get; set; }
+    }
+
+    public class GetMessageConversationResponseItem
+    {
+        [DataMember]
+        public List<MessageItem> messages { get; set; }
+    }
+
+
+
+
+
+
+
+
 
 
 

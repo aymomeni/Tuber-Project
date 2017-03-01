@@ -2859,16 +2859,16 @@ namespace ToDoList
                                         // Make sure student is less than 5 miles from the hotspot before adding it to the return list
                                         //if (distanceToHotspot < 8046.72)
                                         //{
-                                            AvailableStudyHotspotItem hotspot = new AvailableStudyHotspotItem();
-                                            hotspot.hotspotID = returnedHotspotID;
-                                            hotspot.ownerEmail = returnedOwnerEmail;
-                                            hotspot.course = returnedCourseName;
-                                            hotspot.latitude = returnedHotspotLatitude;
-                                            hotspot.longitude = returnedHotspotLongitude;
-                                            hotspot.student_count = returnedStudentCount;
-                                            hotspot.distanceToHotspot = distanceToHotspot / 1609.34;
+                                        AvailableStudyHotspotItem hotspot = new AvailableStudyHotspotItem();
+                                        hotspot.hotspotID = returnedHotspotID;
+                                        hotspot.ownerEmail = returnedOwnerEmail;
+                                        hotspot.course = returnedCourseName;
+                                        hotspot.latitude = returnedHotspotLatitude;
+                                        hotspot.longitude = returnedHotspotLongitude;
+                                        hotspot.student_count = returnedStudentCount;
+                                        hotspot.distanceToHotspot = distanceToHotspot / 1609.34;
 
-                                            availableHotspots.Add(hotspot);
+                                        availableHotspots.Add(hotspot);
                                         //}
                                     }
                                 }
@@ -4190,7 +4190,7 @@ namespace ToDoList
                                     transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new SendMessageResponseItem();
-                                }                 
+                                }
                             }
                         }
                         catch (Exception e)
@@ -4216,6 +4216,68 @@ namespace ToDoList
                     // User's email & token combo is not valid
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                     return new SendMessageResponseItem();
+                }
+            }
+        }
+
+        public GetMessageConversationResponseItem GetMessageConversation(GetMessageConversationRequestItem item)
+        {
+            lock (this)
+            {
+                // Check that the user token is valid
+                if (checkUserToken(item.userEmail, item.userToken))
+                {
+                    // Get all of the messages between the two users sepcified
+                    List<MessageItem> messages = new List<MessageItem>();
+
+                    using (MySqlConnection conn = new MySqlConnection(connectionString))
+                    {
+                        try
+                        {
+                            conn.Open();
+
+                            MySqlCommand command = conn.CreateCommand();
+
+                            // Find all the messages associated with the two users specified
+                            command.CommandText = "SELECT * FROM messages WHERE (toEmail = ?toEmail1 AND fromEmail = ?fromEmail1) OR (toEmail = ?toEmail2 AND fromEmail = ?fromEmail2) ORDER BY time ASC";
+                            command.Parameters.AddWithValue("toEmail1", item.recipientEmail);
+                            command.Parameters.AddWithValue("fromEmail1", item.userEmail);
+                            command.Parameters.AddWithValue("toEmail2", item.userEmail);
+                            command.Parameters.AddWithValue("fromEmail2", item.recipientEmail);
+
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    MessageItem message = new MessageItem();
+                                    message.messageID = reader.GetString("message_id");
+                                    message.toEmail = reader.GetString("toEmail");
+                                    message.fromEmail = reader.GetString("fromEmail");
+                                    message.time = reader.GetString("time");
+                                    message.message = reader.GetString("message");
+
+                                    messages.Add(message);
+                                }
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                            throw e;
+                        }
+                    }
+
+                    // Return messages
+                    GetMessageConversationResponseItem messageConversation = new GetMessageConversationResponseItem();
+                    messageConversation.messages = messages;
+                    return messageConversation;
+                }
+                else
+                {
+                    // User's email & token combo is not valid
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                    return new GetMessageConversationResponseItem();
                 }
             }
         }
