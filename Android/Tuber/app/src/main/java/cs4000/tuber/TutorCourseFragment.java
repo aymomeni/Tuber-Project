@@ -8,7 +8,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -25,8 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by Ali on 2/17/2017.
@@ -95,8 +91,9 @@ public class TutorCourseFragment extends Fragment {
 
                                 } else if(v.getId() == R.id.ic_message_closed) {
 
-                                    //do something...
-                                    Toast.makeText(getContext(), "listener Definition missing", Toast.LENGTH_SHORT).show();
+                                    Log.i("Messaging", "getting users list");
+                                    Intent intent = new Intent(getContext(), UsersListActivity.class);
+                                    startActivity(intent);
 
                                 } else if(v.getId() == R.id.ic_red_minus) {
 

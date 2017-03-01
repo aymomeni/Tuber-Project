@@ -56,7 +56,7 @@ public class MessagingActivity extends AppCompatActivity {
 
         intent = getIntent();
         msg_body = intent.getStringExtra("MessageBody");
-        Log.i("@MessageActivity",msg_body);
+        //Log.i("@MessageActivity",msg_body);
 
 
         broadcastReceiver = new BroadcastReceiver() {
@@ -70,11 +70,6 @@ public class MessagingActivity extends AppCompatActivity {
 //            Log.i("@MyFirebaseID",SharedPrefManager.getInstance(MainActivity.this).getToken());
             registerReceiver(broadcastReceiver, new IntentFilter("BROADCAST_ID"));
         }
-
-
-
-
-
 
 
         hasLoadedMore = false;

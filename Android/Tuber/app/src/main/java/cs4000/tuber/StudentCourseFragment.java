@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -105,8 +103,9 @@ public class StudentCourseFragment extends Fragment {
 
                                 } else if(v.getId() == R.id.ic_message_closed) {
 
-                                    //do something...
-                                    Toast.makeText(getContext(), "listener Definition missing", Toast.LENGTH_SHORT).show();
+                                    Log.i("Messaging", "getting users list");
+                                    Intent intent = new Intent(getContext(), UsersListActivity.class);
+                                    startActivity(intent);
 
                                 } else if(v.getId() == R.id.ic_red_minus) {
 

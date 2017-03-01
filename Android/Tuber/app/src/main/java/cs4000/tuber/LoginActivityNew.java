@@ -118,6 +118,8 @@ public class LoginActivityNew extends AppCompatActivity {
 
             userLoginJSON.put("userEmail", _userEmail);
             userLoginJSON.put("userPassword", _userPassword);
+            userLoginJSON.put("firebaseToken", SharedPrefManager.getInstance(getApplicationContext()).getFCMToken());
+            Log.d("myFirebaseiD", "Refreshed token: " + SharedPrefManager.getInstance(getApplicationContext()).getFCMToken());
 
         }catch(JSONException e){
 //            Log.i(TAG, "JSON Exception filling the object");
