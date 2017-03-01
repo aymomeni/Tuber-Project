@@ -4353,7 +4353,7 @@ namespace ToDoList
 
                             MySqlCommand command = conn.CreateCommand();
 
-                            // Find all the messages associated with the two users specified
+                            // Get all of the user's emails and names
                             command.CommandText = "SELECT email, first_name, last_name FROM users";
 
                             using (MySqlDataReader reader = command.ExecuteReader())
