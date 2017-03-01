@@ -1128,7 +1128,8 @@ namespace ToDoList
 
     public class SendMessageResponseItem
     {
-
+        [DataMember]
+        public string test { get; set; }
     }
 
 

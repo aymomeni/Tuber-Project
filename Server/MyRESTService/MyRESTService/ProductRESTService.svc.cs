@@ -4107,20 +4107,25 @@ namespace ToDoList
                     // Get token of person you are sending message to
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
+
                         try
                         {
                             conn.Open();
+                            transaction = conn.BeginTransaction();
 
                             String returnedFirebaseToken = "";
 
                             MySqlCommand command = conn.CreateCommand();
-
+                            command.Transaction = transaction;
                             command.CommandText = "SELECT token FROM firebase_tokens WHERE email = ?recipientEmail";
+                            command.Parameters.AddWithValue("recipientEmail", item.recipientEmail);
+
                             using (MySqlDataReader reader = command.ExecuteReader())
                             {
                                 while (reader.Read())
                                 {
-                                    returnedFirebaseToken = reader.GetString("email");
+                                    returnedFirebaseToken = reader.GetString("token");
                                 }
                             }
 
@@ -4132,41 +4137,75 @@ namespace ToDoList
                             }
                             else
                             {
-                                // Set up post request
-                                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://fcm.googleapis.com/fcm/send");
-                                httpWebRequest.Method = "POST";
+                                // Get correct time to store into the DB
+                                DateTime serverTime = DateTime.Now;
+                                DateTime utcTime = serverTime.ToUniversalTime();
+                                TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById("Mountain Standard Time");
+                                DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, timeZone);
 
-                                // Set up headers
-                                WebHeaderCollection headers = httpWebRequest.Headers;
-                                headers.Add("Authorization", "key=AAAA-w0mo_Q:APA91bGZO2IQDKvjJculAn8v9tqm3lIU0VBFoKZXpfFFfXr7lPq3bnF89BxXvGasUzcwlKWp8rBazrnvwXGoFDRmBF3Cx4G4W6iWa-eHMJj6OKHXrF7wf6kaDBwfBYcAINb4I_DL6m3D");
+                                // Insert message into the messages table
+                                command.CommandText = "INSERT INTO messages (toEmail, fromEmail, time, message) VALUES (?toEmail, ?fromEmail, ?time, ?message);";
+                                command.Parameters.AddWithValue("toEmail", item.recipientEmail);
+                                command.Parameters.AddWithValue("fromEmail", item.userEmail);
+                                command.Parameters.AddWithValue("time", localTime);
+                                command.Parameters.AddWithValue("message", item.message);
 
-                                httpWebRequest.Headers = headers;
-                                httpWebRequest.ContentType = "application/json";
-
-                                // Send the post requeset
-                                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                                if (command.ExecuteNonQuery() > 0)
                                 {
-                                    string json = "{\"notification\": { \"body\": " + item.message + ", \"title\": \"Brandon's Notification\", \"sound\": \"default\", \"priority\": \"high\",}, \"data\": { \"id\": 1}, \"to\": " + returnedFirebaseToken + "}";
+                                    // Storing message in database was successful so try to send the message
+                                    // Set up post request
+                                    var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://fcm.googleapis.com/fcm/send");
+                                    httpWebRequest.Method = "POST";
 
-                                    streamWriter.Write(json);
-                                    streamWriter.Flush();
-                                    streamWriter.Close();
+                                    // Set up headers
+                                    WebHeaderCollection headers = httpWebRequest.Headers;
+                                    headers.Add("Authorization", "key=AAAA-w0mo_Q:APA91bGZO2IQDKvjJculAn8v9tqm3lIU0VBFoKZXpfFFfXr7lPq3bnF89BxXvGasUzcwlKWp8rBazrnvwXGoFDRmBF3Cx4G4W6iWa-eHMJj6OKHXrF7wf6kaDBwfBYcAINb4I_DL6m3D");
+
+                                    httpWebRequest.Headers = headers;
+                                    httpWebRequest.ContentType = "application/json";
+
+                                    // Send the post requeset
+                                    using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                                    {
+                                        string json = "{\"notification\": { \"body\": \"" + item.message + "\", \"title\": \"Brandon's Notification\", \"sound\": \"default\", \"priority\": \"high\",}, \"data\": { \"id\": 1}, \"to\": \"" + returnedFirebaseToken + "\"}";
+
+                                        streamWriter.Write(json);
+                                        streamWriter.Flush();
+                                        streamWriter.Close();
+                                    }
+
+                                    // Receive the response -- Need to parse response to make sure nothing failed
+                                    var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                                    {
+                                        var result = streamReader.ReadToEnd();
+                                    }
+
+                                    transaction.Commit();
+                                    return new SendMessageResponseItem();
                                 }
-
-                                // Receive the response -- Need to parse response to make sure nothing failed
-                                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                                else
                                 {
-                                    var result = streamReader.ReadToEnd();
-                                }
-
-                                return new SendMessageResponseItem();
+                                    transaction.Rollback();
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new SendMessageResponseItem();
+                                }                 
                             }
                         }
                         catch (Exception e)
                         {
-                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
-                            throw e;
+                            transaction.Rollback();
+
+                            if (e.ToString().Contains("400"))
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotAcceptable;
+                                throw e;
+                            }
+                            else
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                                throw e;
+                            }
                         }
                     }
                 }
