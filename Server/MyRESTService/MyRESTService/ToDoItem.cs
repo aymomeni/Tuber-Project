@@ -17,6 +17,9 @@ namespace ToDoList
 
         [DataMember]
         public string userPassword { get; set; }
+
+        [DataMember]
+        public string firebaseToken { get; set; }
     }
 
     public class CreateUserItem
@@ -68,6 +71,9 @@ namespace ToDoList
 
         [DataMember]
         public string userToken { get; set; }
+
+        [DataMember]
+        public string firebaseToken { get; set; }
     }
 
     public class MakeUserItem
@@ -1167,7 +1173,32 @@ namespace ToDoList
         public List<MessageItem> messages { get; set; }
     }
 
+    public class GetUsersRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
 
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class UserMessagingItem
+    {
+        [DataMember]
+        public string email { get; set; }
+
+        [DataMember]
+        public string firstName { get; set; }
+
+        [DataMember]
+        public string lastName { get; set; }
+    }
+
+    public class GetUsersResponseItem
+    {
+        [DataMember]
+        public List<UserMessagingItem> users { get; set; }
+    }
 
 
 
