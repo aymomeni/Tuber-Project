@@ -39,7 +39,7 @@ class RegistrationViewController: UIViewController {
         
         performSegue(withIdentifier: "toSecondScreen", sender: toPass)
     }
-    
+   /*
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toSecondScreen"
         {
@@ -49,7 +49,7 @@ class RegistrationViewController: UIViewController {
             }
         }
     }
-
+*/
     /*
     // MARK: - Navigation
 

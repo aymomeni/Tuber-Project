@@ -262,7 +262,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0810;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Tuber;
 				TargetAttributes = {
 					971400E81DF527D60099A8DB = {
@@ -347,12 +347,9 @@
 				97EEACCF1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */,
 				971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */,
-<<<<<<< HEAD
 				557A02371E674BA6002B0741 /* RegistrationViewController.swift in Sources */,
-=======
 				97A072E31E324FA900D91130 /* ImmediateTutorRequestViewController.swift in Sources */,
 				971CE55E1E431BBF00CB2324 /* HotspotInitialViewController.swift in Sources */,
->>>>>>> 79be2c2c9c451a961763be52016ce0d2fa545edf
 				97EEACC71DF8FDDC007F23B1 /* OfferTutorTableViewController.swift in Sources */,
 				97EEACCB1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift in Sources */,
 				971A55B91E4D1E3B009D8E38 /* StudentViewScheduleTableViewController.swift in Sources */,
@@ -432,6 +429,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -481,6 +479,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
