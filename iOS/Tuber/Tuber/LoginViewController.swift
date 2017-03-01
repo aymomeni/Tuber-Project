@@ -139,12 +139,13 @@ class LoginViewController: UIViewController
         var responseCode:Int;
         responseCode = -1;
         var JSON:NSDictionary?;
-        
+        let postParameters = "{\"userEmail\":\"" + emailTextField.text! + "\",\"userPassword\":\"" + passwordTextField.text! + "\",\"firebaseToken\":\"" + "" + "\"}";
         //(responseCode,myJSON) = sr.verifyUser(email: emailTextField.text!, password:passwordTextField.text!);
         //sr.verifyUser(email: emailTextField.text!, password:passwordTextField.text!) 
         //creating the post parameter by concatenating the keys and values from text field
         //var postParameters = "{\"userEmail\":\"" + emailTextField.text! + "\",\"userPassword\":\"" + passwordTextField.text! + "\"}";
-        //var url = "http://tuber-test.cloudapp.net/ProductRESTService.svc/verifyuser";
+        let url = "http://tuber-test.cloudapp.net/ProductRESTService.svc/verifyuser";
+        /*
         sr.verifyUser(email: emailTextField.text!, password: passwordTextField.text!)
         {
             res,myJSON in
@@ -173,7 +174,8 @@ class LoginViewController: UIViewController
                 }
 
         }
-        /*
+        */
+        
         sr.runRequest(inputJSON: postParameters, server: url)
         {
             res,myJSON in
@@ -201,7 +203,7 @@ class LoginViewController: UIViewController
                     }
                 }
             }
-         */
+         
         }
     }
 }
