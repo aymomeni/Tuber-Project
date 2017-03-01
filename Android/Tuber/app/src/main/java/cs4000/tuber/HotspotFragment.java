@@ -35,6 +35,7 @@ public class HotspotFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.hotspot_fragment, container, false);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+
         return view;
     }
 
@@ -47,8 +48,8 @@ public class HotspotFragment extends Fragment {
         ViewCompat.setElevation(getView(), 10f);
         ViewCompat.setElevation(toolbar, 4f);
 
-        toolbar.setTitle(HotspotAdapter.PAGE_TITLES[index]);
-        toolbar.inflateMenu(R.menu.fragment_hotspot);
+        toolbar.setTitle(HotspotAdapter.getmDataSet().get(index).getmOwnerEmail());
+        toolbar.inflateMenu(R.menu.hotspot_pager_toolbar_options);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

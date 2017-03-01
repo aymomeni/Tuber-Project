@@ -25,9 +25,9 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:paddingTop="4dp"
-            android:paddingLeft="36dp"
-            android:paddingRight="36dp"
-            android:paddingBottom="18dp"
+            android:paddingLeft="25dp"
+            android:paddingRight="25dp"
+            android:paddingBottom="0dp"
             android:clipToPadding="false"
             android:overScrollMode="never" />
 
