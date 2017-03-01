@@ -2857,8 +2857,8 @@ namespace ToDoList
                                         double distanceToHotspot = studentCoord.GetDistanceTo(hotspotCoord);
 
                                         // Make sure student is less than 5 miles from the hotspot before adding it to the return list
-                                        if (distanceToHotspot < 8046.72)
-                                        {
+                                        //if (distanceToHotspot < 8046.72)
+                                        //{
                                             AvailableStudyHotspotItem hotspot = new AvailableStudyHotspotItem();
                                             hotspot.hotspotID = returnedHotspotID;
                                             hotspot.ownerEmail = returnedOwnerEmail;
@@ -2869,7 +2869,7 @@ namespace ToDoList
                                             hotspot.distanceToHotspot = distanceToHotspot / 1609.34;
 
                                             availableHotspots.Add(hotspot);
-                                        }
+                                        //}
                                     }
                                 }
                             }
@@ -4186,6 +4186,7 @@ namespace ToDoList
                                 }
                                 else
                                 {
+                                    // Storing message in database failed
                                     transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new SendMessageResponseItem();
@@ -4198,6 +4199,7 @@ namespace ToDoList
 
                             if (e.ToString().Contains("400"))
                             {
+                                // Google rejected the message
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotAcceptable;
                                 throw e;
                             }
