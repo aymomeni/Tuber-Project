@@ -10,8 +10,8 @@
     <color name="colorAccent">#e95ba7</color>
 
     // added Jan 28 ALI
-    <color name="primary">#bfbfbf</color>
-    <color name="primary_dark">#9b9b9b</color>
+    <color name="primary">#9c9c9c</color>
+    <color name="primary_dark">#797979</color>
     <color name="primary_darker">#717171</color>
     <color name="accent">#FFFFFF</color>
 
