@@ -17,6 +17,9 @@ namespace ToDoList
 
         [DataMember]
         public string userPassword { get; set; }
+
+        [DataMember]
+        public string firebaseToken { get; set; }
     }
 
     public class CreateUserItem
@@ -68,6 +71,9 @@ namespace ToDoList
 
         [DataMember]
         public string userToken { get; set; }
+
+        [DataMember]
+        public string firebaseToken { get; set; }
     }
 
     public class MakeUserItem

@@ -127,11 +127,13 @@ namespace ToDoList
 
                         if (!verifyHash(item.userPassword, returnedUserPassword))
                         {
+                            // Password does not match what is stored in the DB
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
                             return new VerifiedUserItem();
                         }
                         else
                         {
+                            // Get courses the user is currently enrolled in
                             ArrayList studentCourses = new ArrayList();
                             command.CommandText = "select name from student_courses where email = ?email";
                             command.Parameters.AddWithValue("email", returnedUserEmail);
@@ -144,6 +146,7 @@ namespace ToDoList
                                 }
                             }
 
+                            // Get courses that user is currently able to tutor
                             ArrayList tutorCourses = new ArrayList();
                             command.CommandText = "select name from tutor_courses where email = ?email";
 
@@ -179,6 +182,109 @@ namespace ToDoList
                                     command.CommandText = "INSERT INTO sessions VALUES (?userEmail, ?userToken)";
                                     command.Parameters.AddWithValue("userToken", userToken);
 
+                                    if (command.ExecuteNonQuery() <= 0)
+                                    {
+                                        // Inserting new session token failed
+                                        transaction.Rollback();
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                        return new VerifiedUserItem();
+                                    }
+                                }
+                                else
+                                {
+                                    transaction.Rollback();
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new VerifiedUserItem();
+                                }
+                            }
+                            else
+                            {
+                                command.CommandText = "INSERT INTO sessions VALUES (?userEmail, ?userToken)";
+                                command.Parameters.AddWithValue("userToken", userToken);
+
+                                if (command.ExecuteNonQuery() <= 0)
+                                {
+                                    transaction.Rollback();
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                    return new VerifiedUserItem();
+                                }
+                            }
+
+                            // Check to see if firebase token was provided, if not, skip this ---- DELETE ME WHEN EVERYONE  GETS MESSAGING WORKING!!!!!!!!!!!
+                            if (item.firebaseToken != "" || item.firebaseToken.Length != 0)
+                            {
+                                // Verify the user doesn't already have a firebase token, if they do, delete it and store new firebase token.
+                                String existingFirebaseEmail = "";
+                                String existingFirebaseToken = "";
+
+                                command.CommandText = "SELECT email, token FROM firebase_tokens WHERE email = ?email";
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        existingFirebaseEmail = reader.GetString("email");
+                                        existingFirebaseToken = reader.GetString("token");
+                                    }
+                                }
+
+                                if (existingFirebaseEmail == item.userEmail && existingFirebaseToken.Equals(item.firebaseToken))
+                                {
+                                    VerifiedUserItem user = new VerifiedUserItem();
+                                    user.userEmail = returnedUserEmail;
+                                    user.userPassword = returnedUserPassword;
+                                    user.userStudentCourses = studentCourses;
+                                    user.userTutorCourses = tutorCourses;
+                                    user.userToken = userToken;
+                                    user.firebaseToken = existingFirebaseToken;
+
+                                    transaction.Commit();
+                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                    return user;
+                                }
+                                else if (existingFirebaseEmail == item.userEmail && !(existingFirebaseToken.Equals(item.firebaseToken)))
+                                {
+                                    command.CommandText = "DELETE FROM firebase_tokens WHERE email = ?userEmail";
+
+                                    if (command.ExecuteNonQuery() >= 0)
+                                    {
+                                        command.CommandText = "INSERT INTO firebase_tokens VALUES (?userEmail, ?firebaseToken)";
+                                        command.Parameters.AddWithValue("firebaseToken", item.firebaseToken);
+
+                                        if (command.ExecuteNonQuery() > 0)
+                                        {
+                                            VerifiedUserItem user = new VerifiedUserItem();
+                                            user.userEmail = returnedUserEmail;
+                                            user.userPassword = returnedUserPassword;
+                                            user.userStudentCourses = studentCourses;
+                                            user.userTutorCourses = tutorCourses;
+                                            user.userToken = userToken;
+                                            user.firebaseToken = item.firebaseToken;
+
+                                            transaction.Commit();
+                                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                            return user;
+                                        }
+                                        else
+                                        {
+                                            transaction.Rollback();
+                                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                            return new VerifiedUserItem();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        transaction.Rollback();
+                                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
+                                        return new VerifiedUserItem();
+                                    }
+                                }
+
+                                else
+                                {
+                                    command.CommandText = "INSERT INTO firebase_tokens VALUES (?userEmail, ?firebaseToken)";
+                                    command.Parameters.AddWithValue("firebaseToken", item.firebaseToken);
+
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         VerifiedUserItem user = new VerifiedUserItem();
@@ -199,70 +305,17 @@ namespace ToDoList
                                         return new VerifiedUserItem();
                                     }
                                 }
-                                else
-                                {
-                                    transaction.Rollback();
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
-                                    return new VerifiedUserItem();
-                                }
                             }
-                            //if (existingSessionEmail == item.userEmail)
-                            //{
-                            //    command.CommandText = "DELETE FROM sessions WHERE email = ?userEmail";
-
-                            //    if (command.ExecuteNonQuery() >= 0)
-                            //    {
-                            //        command.CommandText = "INSERT INTO sessions VALUES (?userEmail, ?userToken)";
-                            //        command.Parameters.AddWithValue("userToken", userToken);
-
-                            //        if (command.ExecuteNonQuery() > 0)
-                            //        {
-                            //            VerifiedUserItem user = new VerifiedUserItem();
-                            //            user.userEmail = returnedUserEmail;
-                            //            user.userPassword = returnedUserPassword;
-                            //            user.userStudentCourses = studentCourses;
-                            //            user.userTutorCourses = tutorCourses;
-                            //            user.userToken = userToken;
-
-                            //            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                            //            return user;
-                            //        }
-                            //        else
-                            //        {
-                            //            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
-                            //            return new VerifiedUserItem();
-                            //        }
-                            //    }
-                            //    else
-                            //    {
-                            //        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
-                            //        return new VerifiedUserItem();
-                            //    }
-                            //}
                             else
                             {
-                                command.CommandText = "INSERT INTO sessions VALUES (?userEmail, ?userToken)";
-                                command.Parameters.AddWithValue("userToken", userToken);
+                                VerifiedUserItem user = new VerifiedUserItem();
+                                user.userEmail = returnedUserEmail;
+                                user.userPassword = returnedUserPassword;
+                                user.userStudentCourses = studentCourses;
+                                user.userTutorCourses = tutorCourses;
+                                user.userToken = userToken;
 
-                                if (command.ExecuteNonQuery() > 0)
-                                {
-                                    VerifiedUserItem user = new VerifiedUserItem();
-                                    user.userEmail = returnedUserEmail;
-                                    user.userPassword = returnedUserPassword;
-                                    user.userStudentCourses = studentCourses;
-                                    user.userTutorCourses = tutorCourses;
-                                    user.userToken = userToken;
-
-                                    transaction.Commit();
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-                                    return user;
-                                }
-                                else
-                                {
-                                    transaction.Rollback();
-                                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
-                                    return new VerifiedUserItem();
-                                }
+                                return user;
                             }
                         }
                     }
