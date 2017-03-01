@@ -14,23 +14,12 @@ namespace ToDoList
     public interface IToDoService
     {
         [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Xml,
-                                   BodyStyle = WebMessageBodyStyle.Bare,
-                                   UriTemplate = "GetProductList/")]
-        List<Product> GetProductList();
-
-        /// <summary>
-        /// Accepts HTTP request to create new users in the databse.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
-        [OperationContract]
         [WebInvoke(Method = "POST",
-            UriTemplate = "/makeuser",
+            UriTemplate = "/createuser",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        MakeUserItem MakeUser(UserItem data);
+        MakeUserItem CreateUser(CreateUserItem data);
 
         /// <summary>
         /// Accepts HTTP request to verify user credentials received match what is in the database 
@@ -44,7 +33,71 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        UserItem VerifyUser(UserItem data);
+        VerifiedUserItem VerifyUser(UserItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/addstudentclasses",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        AddStudentClassesResponseItem AddStudentClasses(AddStudentClassesRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/removestudentclasses",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        RemoveStudentClassesResponseItem RemoveStudentClasses(RemoveStudentClassesRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/addtutorclasses",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        AddTutorClassesResponseItem AddTutorClasses(AddTutorClassesRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/removetutorclasses",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        RemoveTutorClassesResponseItem RemoveTutorClasses(RemoveTutorClassesRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/enabletutoring",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        EnableTutoringResponseItem EnableTutoring(EnableTutoringRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+          UriTemplate = "/disabletutoring",
+          RequestFormat = WebMessageFormat.Json,
+          ResponseFormat = WebMessageFormat.Json,
+          BodyStyle = WebMessageBodyStyle.Bare)]
+        DisableTutoringResponseItem DisableTutoring(DisableTutoringRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+          UriTemplate = "/changeuserpassword",
+          RequestFormat = WebMessageFormat.Json,
+          ResponseFormat = WebMessageFormat.Json,
+          BodyStyle = WebMessageBodyStyle.Bare)]
+        ChangeUserPasswordResponseItem ChangeUserPassword(ChangeUserPasswordRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+          UriTemplate = "/forgotpassword",
+          RequestFormat = WebMessageFormat.Json,
+          ResponseFormat = WebMessageFormat.Json,
+          BodyStyle = WebMessageBodyStyle.Bare)]
+        ForgotPasswordResponseItem ForgotPassword(ForgotPasswordRequestItem data);
 
         /// <summary>
         /// Accepts HTTP request to make a tutor available.
@@ -55,7 +108,296 @@ namespace ToDoList
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
-        void MakeTutorAvailable(TutorUserItem data);
+        MakeTutorAvailableResponseItem MakeTutorAvailable(TutorUserItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+        UriTemplate = "/deletetutoravailable",
+        RequestFormat = WebMessageFormat.Json,
+        ResponseFormat = WebMessageFormat.Json,
+        BodyStyle = WebMessageBodyStyle.Bare)]
+        DeleteTutorResponseItem DeleteTutorAvailable(DeleteTutorUserItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/findavailabletutors",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        FindAvailableTutorResponseItem FindAvailableTutors(TutorUserItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/pairstudenttutor",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StudentTutorPairedItem PairStudentTutor(StudentTutorRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/checkpairedstatus",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        PairedStatusItem CheckPairedStatus(CheckPairedStatusItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/checksessionactivestatusstudent",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        CheckSessionActiveStatusStudentResponseItem CheckSessionActiveStatusStudent(CheckSessionActiveStatusStudentRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/getsessionstatustutor",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        GetSessionStatusTutorResponseItem GetSessionStatusTutor(GetSessionStatusTutorRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/getsessionstatusstudent",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        GetSessionStatusStudentResponseItem GetSessionStatusStudent(GetSessionStatusStudentRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/starttutorsessiontutor",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StartTutorSessionTutorResponseItem StartTutorSessionTutor(StartTutorSessionTutorItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/starttutorsessionstudent",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StartTutorSessionStudentResponseItem StartTutorSessionStudent(StartTutorSessionStudentItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/endtutorsession",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        EndTutorSessionResponseItem EndTutorSession(EndTutorSessionRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/updatestudentlocation",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        UpdateStudentLocationResponseItem UpdateStudentLocation(UpdateStudentLocationRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/updatetutorlocation",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        UpdateTutorLocationResponseItem UpdateTutorLocation(UpdateTutorLocationRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/ratetutor",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        RateTutorResponseItem RateTutor(RateTutorItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/ratestudent",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        RateStudentResponseItem RateStudent(RateStudentItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/gettutorrating",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        GetTutorRatingResponseItem GetTutorRating(GetTutorRatingRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/getstudentrating",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        GetStudentRatingResponseItem GetStudentRating(GetStudentRatingRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/createstudyhotspot",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        CreateStudyHotspotResponseItem CreateStudyHotspot(CreateStudyHotspotRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/findstudyhotspots",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        FindStudyHotspotReturnItem FindStudyHotspots(StudyHotspotItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/joinstudyhotspot",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StudyHotspotJoinResponseItem JoinStudyHotspot(StudyHotspotJoinItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/leavestudyhotspot",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StudyHotspotLeaveRequestItem LeaveStudyHotspot(StudyHotspotLeaveItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/getstudyhotspotmembers",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StudyHotspotResponseItem GetStudyHotspotMembers(StudyHotspotGetMemberItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/deletestudyhotspot",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StudyHotspotDeleteResponseItem DeleteStudyHotspot(StudyHotspotDeleteItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/scheduletutor",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        ScheduleTutorResponseItem ScheduleTutor(ScheduleTutorItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/findallscheduletutorrequests",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        FindAllScheduleTutorResponseItem FindAllScheduleTutorRequests(FindAllScheduleTutorRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/acceptstudentscheduledrequest",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        AcceptStudentScheduleRequestResponseItem AcceptStudentScheduledRequest(AcceptStudentScheduleRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/checkscheduledpairedstatus",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        CheckPairedStatusResponseItem CheckScheduledPairedStatus(CheckPairedStatusItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/findallscheduletutoracceptedrequests",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        FindAllScheduleTutorAcceptedResponsetItem FindAllScheduleTutorAcceptedRequests(FindAllScheduleTutorAcceptedRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/startscheduledtutorsessiontutor",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StartScheduledTutorSessionTutorResponseItem StartScheduledTutorSessionTutor(StartScheduledTutorSessionTutorItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/startscheduledtutorsessionstudent",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        StartScheduledTutorSessionStudentResponseItem StartScheduledTutorSessionStudent(StartScheduledTutorSessionStudentItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/reporttutorgettutorlist",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        ReportTutorGetTutorListResponseItem ReportTutorGetTutorList(ReportTutorGetTutorListRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/reporttutorgetsessionlist",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        ReportTutorGetSessionListResponseItem ReportTutorGetSessionList(ReportTutorGetSessionListRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+           UriTemplate = "/reporttutor",
+           RequestFormat = WebMessageFormat.Json,
+           ResponseFormat = WebMessageFormat.Json,
+           BodyStyle = WebMessageBodyStyle.Bare)]
+        ReportTutorResponseItem ReportTutor(ReportTutorRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/sendmessage",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        SendMessageResponseItem SendMessage(SendMessageRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/getmessageconversation",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        GetMessageConversationResponseItem GetMessageConversation(GetMessageConversationRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+            UriTemplate = "/getusers",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        GetUsersResponseItem GetUsers(GetUsersRequestItem data);
+
+
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
+          UriTemplate = "/paypaltest",
+          RequestFormat = WebMessageFormat.Json,
+          ResponseFormat = WebMessageFormat.Json,
+          BodyStyle = WebMessageBodyStyle.Bare)]
+        PayPalTestResponseItem PaypalTest();
     }
 }
-

@@ -12,7 +12,8 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
 
     @IBOutlet weak var classTableView: UITableView!
     
-    var classes = ["CS 4400", "CS 3100", "CS 4150"]
+//    var classes = ["CS 4400", "CS 3100", "CS 4150"]
+    var classes = UserDefaults.standard.object(forKey: "userStudentCourses") as! Array<String>
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +27,7 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //TODO: DB query, how many classes enrolled
-        return 3
+        return classes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,6 +42,7 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
         let currentCell = tableView.cellForRow(at: indexPath!)! as! ClassTableViewCell
+        UserDefaults.standard.set(currentCell.classNameLabel.text! as String?, forKey: "selectedCourse")
         selectedClass.className = currentCell.classNameLabel.text!
         performSegue(withIdentifier: "selectClass", sender: nil)
     }

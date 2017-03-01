@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      android:minHeight="?attr/actionBarSize"
+      android:background="@color/colorPrimary_Grey"
+    >
+
+    <!--<Image-->
+        <!--android:id="@+id/actionbar_tuberlogo"-->
+        <!--android:title="@string/actionbar_tuberlogo"-->
+        <!--android:orderInCategory="1"-->
+        <!--android:icon="@drawable/ic_tuber_logo_medium"-->
+        <!--app:showAsAction="always"-->
+        <!--/>-->
+
+    <item
+        android:id="@+id/products"
+        android:orderInCategory="100"
+        android:title="@string/myProfile"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/actionbar_settings"
+        android:orderInCategory="100"
+        android:title="@string/settings"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/actionbar_contact_us"
+        android:orderInCategory="100"
+        android:title="@string/help"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/actionbar_about_us"
+        android:orderInCategory="100"
+        android:title="@string/about"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/actionbar_logOut"
+        android:orderInCategory="100"
+        android:title="@string/logOut"
+        app:showAsAction="never"/>
+
+
+</menu>

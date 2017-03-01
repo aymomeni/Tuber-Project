@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MyRESTService.Azure" generation="1" functional="0" release="0" Id="9da0f5f2-2c65-4684-996c-60d056f861b7" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
+<serviceModel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MyRESTService.Azure" generation="1" functional="0" release="0" Id="77c0c716-c31a-4aab-a97f-9c489ffb9424" dslVersion="1.2.0.0" xmlns="http://schemas.microsoft.com/dsltools/RDSM">
   <groups>
     <group name="MyRESTService.AzureGroup" generation="1" functional="0" release="0">
       <componentports>
@@ -10,6 +10,11 @@
         </inPort>
       </componentports>
       <settings>
+        <aCS name="MyRESTService:APPINSIGHTS_INSTRUMENTATIONKEY" defaultValue="">
+          <maps>
+            <mapMoniker name="/MyRESTService.Azure/MyRESTService.AzureGroup/MapMyRESTService:APPINSIGHTS_INSTRUMENTATIONKEY" />
+          </maps>
+        </aCS>
         <aCS name="MyRESTService:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="">
           <maps>
             <mapMoniker name="/MyRESTService.Azure/MyRESTService.AzureGroup/MapMyRESTService:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
@@ -29,6 +34,11 @@
         </lBChannel>
       </channels>
       <maps>
+        <map name="MapMyRESTService:APPINSIGHTS_INSTRUMENTATIONKEY" kind="Identity">
+          <setting>
+            <aCSMoniker name="/MyRESTService.Azure/MyRESTService.AzureGroup/MyRESTService/APPINSIGHTS_INSTRUMENTATIONKEY" />
+          </setting>
+        </map>
         <map name="MapMyRESTService:Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" kind="Identity">
           <setting>
             <aCSMoniker name="/MyRESTService.Azure/MyRESTService.AzureGroup/MyRESTService/Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" />
@@ -42,11 +52,12 @@
       </maps>
       <components>
         <groupHascomponents>
-          <role name="MyRESTService" generation="1" functional="0" release="0" software="C:\Users\brand\Desktop\MyRESTService\MyRESTService.Azure\csx\Release\roles\MyRESTService" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaIISHost.exe " memIndex="-1" hostingEnvironment="frontendadmin" hostingEnvironmentVersion="2">
+          <role name="MyRESTService" generation="1" functional="0" release="0" software="C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\csx\Release\roles\MyRESTService" entryPoint="base\x64\WaHostBootstrapper.exe" parameters="base\x64\WaIISHost.exe " memIndex="-1" hostingEnvironment="frontendadmin" hostingEnvironmentVersion="2">
             <componentports>
               <inPort name="Endpoint1" protocol="http" portRanges="80" />
             </componentports>
             <settings>
+              <aCS name="APPINSIGHTS_INSTRUMENTATIONKEY" defaultValue="" />
               <aCS name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" defaultValue="" />
               <aCS name="__ModelData" defaultValue="&lt;m role=&quot;MyRESTService&quot; xmlns=&quot;urn:azure:m:v1&quot;&gt;&lt;r name=&quot;MyRESTService&quot;&gt;&lt;e name=&quot;Endpoint1&quot; /&gt;&lt;/r&gt;&lt;/m&gt;" />
             </settings>
@@ -70,9 +81,9 @@
     </group>
   </groups>
   <implements>
-    <implementation Id="cabff887-a203-4990-9954-e2651a56a0a4" ref="Microsoft.RedDog.Contract\ServiceContract\MyRESTService.AzureContract@ServiceDefinition">
+    <implementation Id="ed3de92c-f1ee-4921-a106-e5c2c061ea79" ref="Microsoft.RedDog.Contract\ServiceContract\MyRESTService.AzureContract@ServiceDefinition">
       <interfacereferences>
-        <interfaceReference Id="6268c0bd-faa7-4d6a-a1ce-8c65da3e7e78" ref="Microsoft.RedDog.Contract\Interface\MyRESTService:Endpoint1@ServiceDefinition">
+        <interfaceReference Id="81d42249-112e-4097-84eb-4353e3bac6a8" ref="Microsoft.RedDog.Contract\Interface\MyRESTService:Endpoint1@ServiceDefinition">
           <inPort>
             <inPortMoniker name="/MyRESTService.Azure/MyRESTService.AzureGroup/MyRESTService:Endpoint1" />
           </inPort>

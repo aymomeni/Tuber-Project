@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1078257427444",
+    "firebase_url": "https://tuber-43770.firebaseio.com",
+    "project_id": "tuber-43770",
+    "storage_bucket": "tuber-43770.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1078257427444:android:b2a4caf8dc11650f",
+        "android_client_info": {
+          "package_name": "cs4000.tuber"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1078257427444-chsvoq340pccik08ic1i8poquacbti86.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cs4000.tuber",
+            "certificate_hash": "143aeb415dd4ca257f03da8cec0c43d0bd84295f"
+          }
+        },
+        {
+          "client_id": "1078257427444-0pg48p7jctsq9j76bmk1tmdn1idq6qmb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8fGGgsxPotVuAgkKj1GS2wP41O2_qy5c"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1078257427444-0pg48p7jctsq9j76bmk1tmdn1idq6qmb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

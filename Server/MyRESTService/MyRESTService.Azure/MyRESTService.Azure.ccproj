@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>2.9</ProductVersion>
-    <ProjectGuid>071e1c51-8fb7-4c4f-90e0-4509c0e4ff70</ProjectGuid>
+    <ProjectGuid>65528133-32e2-409c-a03a-d2dc3bf48bf3</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MyRESTService.Azure</RootNamespace>
@@ -49,9 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MyRESTServiceContent\" />
+    <Folder Include="Profiles" />
+    <Folder Include="WebRole1Content\" />
   </ItemGroup>
   <ItemGroup>
     <DiagnosticsConfiguration Include="MyRESTServiceContent\diagnostics.wadcfgx" />
+    <DiagnosticsConfiguration Include="WebRole1Content\diagnostics.wadcfgx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PublishProfile Include="Profiles\tuber-testProduction.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
