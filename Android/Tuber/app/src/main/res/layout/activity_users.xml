@@ -5,7 +5,7 @@
     android:id="@+id/activity_users"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@layout/backrepeat"
+    android:background="@drawable/backrepeat"
     tools:context="cs4000.tuber.UsersActivity">
 
 

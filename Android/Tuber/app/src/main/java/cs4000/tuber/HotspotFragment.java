@@ -9,14 +9,17 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
-public class HotspotFragment extends Fragment {
+public class HotspotFragment extends Fragment implements View.OnClickListener {
 
     private Toolbar toolbar;
     private int index;
+    private Button mJoinButton;
 
     public HotspotFragment() { }
 
@@ -35,7 +38,8 @@ public class HotspotFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.hotspot_fragment, container, false);
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-
+        mJoinButton = (Button) view.findViewById(R.id.hotspot_pager_join_button);
+        mJoinButton.setOnClickListener(this);
         return view;
     }
 
@@ -56,6 +60,19 @@ public class HotspotFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
+    }
+
+    @Override
+    public void onClick(View v) {
+        //do what you want to do when button is clicked
+        switch (v.getId()) {
+            case R.id.hotspot_pager_join_button:
+                Log.i("HotspotFragOnClick", "Clicked " + v.getId());
+                break;
+//            case R.id.textView_settings:
+//                switchFragment(SettingsFragment.TAG);
+//                break;
+        }
     }
 
 }
