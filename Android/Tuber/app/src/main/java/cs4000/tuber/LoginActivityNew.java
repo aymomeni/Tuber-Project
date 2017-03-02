@@ -50,15 +50,16 @@ public class LoginActivityNew extends AppCompatActivity {
         setContentView(R.layout.activity_login_new);
         ButterKnife.inject(this);
 
-        if(_userToken != null || !_userToken.equals("")){
-            Intent intent = new Intent(getApplicationContext(), CourseViewActivityNew.class);
-            startActivityForResult(intent, REQUEST_SIGNUP);
-        }
-
         // finding out if last login was successful and if it was we enter in email and password automatically
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _lastLoginSuccess = sharedPreferences.getBoolean("lastLoginSuccess", false);
         getSupportActionBar().hide();
+
+
+        if(sharedPreferences.getString("userToken", null) != null){
+            Intent intent = new Intent(getApplicationContext(), CourseViewActivityNew.class);
+            startActivityForResult(intent, REQUEST_SIGNUP);
+        }
 
         if(_lastLoginSuccess){
 
