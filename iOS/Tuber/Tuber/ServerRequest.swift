@@ -15,10 +15,9 @@ class ServerRequest
     {
     }
     
+    //IMPORTANT:pass in the JSON object as string!!
     func runRequest(inputJSON: String, server:String, completionHandler: @escaping (_ res:Int,_ JSON :NSDictionary) -> ())
     {
-        //URL to our web service
-        
         //created NSURL
         let requestURL = NSURL(string: server)
         
@@ -30,7 +29,6 @@ class ServerRequest
         
         //creating the post parameter by concatenating the keys and values from text field
                 //adding the parameters to request body
-        //request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.httpBody = inputJSON.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -50,7 +48,6 @@ class ServerRequest
             let r = response as? HTTPURLResponse
             
             //parsing the response
-            
             if (r?.statusCode == 200)
             {
                 do {
@@ -70,6 +67,7 @@ class ServerRequest
     }
     
     //func verifyUser(email: String, password: String, completionHandler: @escaping (_ res:Int,_ JSON NSDictionary) -> (Int,NSDictionary))
+    /*
     func verifyUser(email: String, password: String, completionHandler: @escaping (_ res:Int,_ JSON :NSDictionary) -> ())
     {
         
@@ -85,7 +83,7 @@ class ServerRequest
         request.httpMethod = "POST"
         
         //creating the post parameter by concatenating the keys and values from text field
-        let postParameters = "{\"userEmail\":\"" + email + "\",\"userPassword\":\"" + password + "\"}"
+        let postParameters = "{\"userEmail\":\"" + email + "\",\"userPassword\":\"" + password + "\",\"firebaseToken\":\"" + "" + "\"}";
         
         //adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
@@ -105,9 +103,7 @@ class ServerRequest
             }
             
             let r = response as? HTTPURLResponse
-            
             //parsing the response
-            
             if (r?.statusCode == 200)
             {
                 do {
@@ -124,4 +120,5 @@ class ServerRequest
         //executing the task
         task.resume();
     }
+ */
 }
