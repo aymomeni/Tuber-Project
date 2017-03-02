@@ -57,6 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:layout_below="@+id/classViewElement3"
+            android:onClick="class_option_class_option_messageing_clicked"
             />
 
     </LinearLayout>

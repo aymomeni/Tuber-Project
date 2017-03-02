@@ -22,4 +22,11 @@ public class ClassTutorActivity extends Activity {
         intent.putExtra("course", getIntent().getStringExtra("course"));
         startActivity(intent);
     }
+
+    public void class_option_messageing__clicked(View view) {
+        Log.i("Messaging", "getting users list");
+        Intent intent = new Intent(ClassTutorActivity.this, UsersListActivity.class);
+        startActivity(intent);
+
+    }
 }

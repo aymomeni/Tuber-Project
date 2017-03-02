@@ -9,7 +9,7 @@
         <!-- Messaging Style. -->
         <item name="backgroundColor">@color/background_white</item>
         <item name="timestampTextColor">@color/text_black</item>
-        <item name="localBubbleBackground">@color/background_blue</item>
+        <item name="localBubbleBackground">@color/colorAccent_blue2</item>
         <item name="localBubbleTextColor">@color/text_white</item>
         <item name="externalBubbleBackground">@color/background_gray</item>
         <item name="externalBubbleTextColor">@color/text_black</item>

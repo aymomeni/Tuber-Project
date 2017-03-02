@@ -45,7 +45,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getData().size() > 0 && remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
-            sendNotification(remoteMessage.getNotification().getBody());
+            Log.d(TAG, "Message Notification: " + remoteMessage.getNotification().getTag());
+            sendNotification(remoteMessage);
             Intent intent = new Intent("BROADCAST_ID");
             intent.putExtra("Message",remoteMessage.getNotification().getBody());
             getApplication().sendBroadcast(intent);
@@ -65,11 +66,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     /**
      * Create and show a simple notification containing the received FCM message.
      *
-     * @param messageBody FCM message body received.
+     * @param remoteMessage FCM message body received.
      */
-    private void sendNotification(String messageBody) {
+    private void sendNotification(RemoteMessage remoteMessage) {
+        String messageBody = remoteMessage.getNotification().getBody();
         Intent intent = new Intent(this, MessagingActivity.class);
         intent.putExtra("MessageBody",messageBody);
+        //intent.putExtra("recipientEmail","u0000003@utah.edu");
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -77,7 +80,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.ic_stat_ic_notification)
-                .setContentTitle("FCM Message")
+                .setContentTitle(remoteMessage.getNotification().getTitle())
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
