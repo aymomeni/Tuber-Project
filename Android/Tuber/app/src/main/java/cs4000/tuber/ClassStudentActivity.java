@@ -33,7 +33,7 @@ public class ClassStudentActivity extends Activity {
 
     }
 
-    public void class_option_messageing__clicked(View view) {
+    public void class_option_messageing_clicked(View view) {
         Log.i("Messaging", "getting users list");
         Intent intent = new Intent(ClassStudentActivity.this, UsersListActivity.class);
         startActivity(intent);
