@@ -153,7 +153,7 @@ public class StudentStudySession extends Activity {
                                                 e.printStackTrace();
                                             }
                                             ConnectionTask task2 = new ConnectionTask(obj3);
-                                            task2.start_tutoring_session_student(new ConnectionTask.CallBack() {
+                                            task2.start_scheduled_tutor_session_student(new ConnectionTask.CallBack() {
                                                 @Override
                                                 public void Done(JSONObject result) {
                                                     if(result != null) {

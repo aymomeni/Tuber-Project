@@ -150,11 +150,20 @@ public class UserAdapter extends
         // Get the data model based on position
         User user = users.get(position);
 
-        // Set item views based on your views and data model
-        TextView textView1 = viewHolder.userName;
-        textView1.setText(user.getUserEmail());
+        if(user.getType().equals("default")){
+            // Set item views based on your views and data model
+            TextView textView1 = viewHolder.userName;
+            textView1.setText(user.getUserEmail());
 
-        TextView textView2 = viewHolder.userDistance;
-        textView2.setText(String.valueOf(user.getDistance()) + " miles");
+            TextView textView2 = viewHolder.userDistance;
+            textView2.setText(String.valueOf(user.getDistance()) + " miles");
+        } else {
+            // Set item views based on your views and data model
+            TextView textView1 = viewHolder.userName;
+            textView1.setText(user.getUserEmail());
+
+            TextView textView2 = viewHolder.userDistance;
+            textView2.setText(user.getFirstName() + " " + user.getLastName());
+        }
     }
 }
