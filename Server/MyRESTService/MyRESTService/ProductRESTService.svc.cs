@@ -22,10 +22,10 @@ namespace ToDoList
     public class ProductRESTService : IToDoService
     {
         // Active CADE DB
-        public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
+        //public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
 
         // Developmental DB
-        //public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
+        public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
 
 
         //////////////////////
@@ -101,6 +101,8 @@ namespace ToDoList
 
                 String returnedUserEmail = "";
                 String returnedUserPassword = "";
+                String returnedUserFirstName = "";
+                String returnedUserLastName = "";
 
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
@@ -113,7 +115,7 @@ namespace ToDoList
 
                         MySqlCommand command = conn.CreateCommand();
                         command.Transaction = transaction;
-                        command.CommandText = "select email, password from users where email = ?userEmail";
+                        command.CommandText = "select email, password, first_name, last_name from users where email = ?userEmail";
                         command.Parameters.AddWithValue("userEmail", item.userEmail);
 
                         using (MySqlDataReader reader = command.ExecuteReader())
@@ -122,6 +124,8 @@ namespace ToDoList
                             {
                                 returnedUserEmail = reader.GetString("email");
                                 returnedUserPassword = reader.GetString("password");
+                                returnedUserFirstName = reader.GetString("first_name");
+                                returnedUserLastName = reader.GetString("last_name");
                             }
                         }
 
@@ -232,11 +236,13 @@ namespace ToDoList
                                 {
                                     VerifiedUserItem user = new VerifiedUserItem();
                                     user.userEmail = returnedUserEmail;
-                                    user.userPassword = returnedUserPassword;
+                                    //user.userPassword = returnedUserPassword;
                                     user.userStudentCourses = studentCourses;
                                     user.userTutorCourses = tutorCourses;
                                     user.userToken = userToken;
                                     user.firebaseToken = existingFirebaseToken;
+                                    user.userFirstName = returnedUserFirstName;
+                                    user.userLastName = returnedUserLastName;
 
                                     transaction.Commit();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
@@ -255,11 +261,13 @@ namespace ToDoList
                                         {
                                             VerifiedUserItem user = new VerifiedUserItem();
                                             user.userEmail = returnedUserEmail;
-                                            user.userPassword = returnedUserPassword;
+                                            //user.userPassword = returnedUserPassword;
                                             user.userStudentCourses = studentCourses;
                                             user.userTutorCourses = tutorCourses;
                                             user.userToken = userToken;
                                             user.firebaseToken = item.firebaseToken;
+                                            user.userFirstName = returnedUserFirstName;
+                                            user.userLastName = returnedUserLastName;
 
                                             transaction.Commit();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
@@ -289,10 +297,12 @@ namespace ToDoList
                                     {
                                         VerifiedUserItem user = new VerifiedUserItem();
                                         user.userEmail = returnedUserEmail;
-                                        user.userPassword = returnedUserPassword;
+                                        //user.userPassword = returnedUserPassword;
                                         user.userStudentCourses = studentCourses;
                                         user.userTutorCourses = tutorCourses;
                                         user.userToken = userToken;
+                                        user.userFirstName = returnedUserFirstName;
+                                        user.userLastName = returnedUserLastName;
 
                                         transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
@@ -310,10 +320,12 @@ namespace ToDoList
                             {
                                 VerifiedUserItem user = new VerifiedUserItem();
                                 user.userEmail = returnedUserEmail;
-                                user.userPassword = returnedUserPassword;
+                                //user.userPassword = returnedUserPassword;
                                 user.userStudentCourses = studentCourses;
                                 user.userTutorCourses = tutorCourses;
                                 user.userToken = userToken;
+                                user.userFirstName = returnedUserFirstName;
+                                user.userLastName = returnedUserLastName;
 
                                 return user;
                             }
@@ -4190,6 +4202,21 @@ namespace ToDoList
                             }
                             else
                             {
+                                // Get user's first and last name for message
+                                String returnedRecipientFirstName = "";
+                                String returnedRecipientLastName = "";
+
+                                command.CommandText = "SELECT first_name, last_name FROM users WHERE email = ?recipientEmail";
+
+                                using (MySqlDataReader reader = command.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                    {
+                                        returnedRecipientFirstName = reader.GetString("first_name");
+                                        returnedRecipientLastName = reader.GetString("last_name");
+                                    }
+                                }
+
                                 // Get correct time to store into the DB
                                 DateTime serverTime = DateTime.Now;
                                 DateTime utcTime = serverTime.ToUniversalTime();
@@ -4220,7 +4247,7 @@ namespace ToDoList
                                     // Send the post requeset
                                     using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                                     {
-                                        string json = "{\"notification\": { \"body\": \"" + item.message + "\", \"title\": \"Brandon's Notification\", \"sound\": \"default\", \"priority\": \"high\",}, \"data\": { \"id\": 1}, \"to\": \"" + returnedFirebaseToken + "\"}";
+                                        string json = "{\"notification\": { \"body\": \"" + item.message + "\", \"title\": \"Tuber User Message\", \"sound\": \"default\", \"priority\": \"high\", \"tag\": \"" + item.recipientEmail + ", " + returnedRecipientFirstName + ", " + returnedRecipientLastName + "\"}, \"data\": { \"id\": 1}, \"to\": \"" + returnedFirebaseToken + "\"}";
 
                                         streamWriter.Write(json);
                                         streamWriter.Flush();
