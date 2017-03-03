@@ -22,10 +22,10 @@ namespace ToDoList
     public class ProductRESTService : IToDoService
     {
         // Active CADE DB
-        //public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
+        public const string connectionString = "Server=maria.eng.utah.edu;Port=3306;Database=tuber;UID=tobin;Password=traflip53";
 
         // Developmental DB
-        public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
+        //public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
 
 
         //////////////////////
@@ -326,6 +326,8 @@ namespace ToDoList
                                 user.userToken = userToken;
                                 user.userFirstName = returnedUserFirstName;
                                 user.userLastName = returnedUserLastName;
+
+                                transaction.Commit();
 
                                 return user;
                             }
@@ -4202,18 +4204,19 @@ namespace ToDoList
                             }
                             else
                             {
-                                // Get user's first and last name for message
-                                String returnedRecipientFirstName = "";
-                                String returnedRecipientLastName = "";
+                                // Get sender's first and last name for message
+                                String returnedFirstName = "";
+                                String returnedLastName = "";
 
-                                command.CommandText = "SELECT first_name, last_name FROM users WHERE email = ?recipientEmail";
+                                command.CommandText = "SELECT first_name, last_name FROM users WHERE email = ?senderEmail";
+                                command.Parameters.AddWithValue("senderEmail", item.userEmail);
 
                                 using (MySqlDataReader reader = command.ExecuteReader())
                                 {
                                     while (reader.Read())
                                     {
-                                        returnedRecipientFirstName = reader.GetString("first_name");
-                                        returnedRecipientLastName = reader.GetString("last_name");
+                                        returnedFirstName = reader.GetString("first_name");
+                                        returnedLastName = reader.GetString("last_name");
                                     }
                                 }
 
@@ -4247,7 +4250,7 @@ namespace ToDoList
                                     // Send the post requeset
                                     using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                                     {
-                                        string json = "{\"notification\": { \"body\": \"" + item.message + "\", \"title\": \"Tuber User Message\", \"sound\": \"default\", \"priority\": \"high\", \"tag\": \"" + item.recipientEmail + ", " + returnedRecipientFirstName + ", " + returnedRecipientLastName + "\"}, \"data\": { \"id\": 1}, \"to\": \"" + returnedFirebaseToken + "\"}";
+                                        string json = "{\"notification\": { \"body\": \"" + item.message + "\", \"title\": \"Tuber User Message\", \"sound\": \"default\", \"priority\": \"high\", \"tag\": \"" + item.userEmail + ", " + returnedFirstName + ", " + returnedLastName + "\"}, \"data\": { \"id\": 1}, \"to\": \"" + returnedFirebaseToken + "\"}";
 
                                         streamWriter.Write(json);
                                         streamWriter.Flush();
