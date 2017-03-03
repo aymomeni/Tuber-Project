@@ -43,7 +43,7 @@ public class MessagingActivity extends AppCompatActivity {
     private String _lastName;
 
 
-    private String recipientEmail;
+    private static String recipientEmail;
     private String recipientFirstName;
     private String recipientLastName;
 
@@ -58,6 +58,11 @@ public class MessagingActivity extends AppCompatActivity {
     private boolean hasLoadedMore;
 
     Intent intent;
+    static boolean active = false;
+
+    public static String getRecipientEmail(){
+        return recipientEmail;
+    }
 
 //    private static Message getRandomMessage() {
 //        Message message;
@@ -84,10 +89,17 @@ public class MessagingActivity extends AppCompatActivity {
 //    }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
     protected void onStop()
     {
-        unregisterReceiver(broadcastReceiver);
         super.onStop();
+        unregisterReceiver(broadcastReceiver);
+        active = false;
     }
 
     @Override
@@ -101,14 +113,23 @@ public class MessagingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_messaging);
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        _userEmail = sharedPreferences.getString("userEmail", "");
-        _userToken = sharedPreferences.getString("userToken", "");
+        _userEmail = sharedPreferences.getString("userEmail", null);
+        _userToken = sharedPreferences.getString("userToken", null);
+        _firstName = sharedPreferences.getString("userFirstName", null);;
+        _lastName = sharedPreferences.getString("userLastName", null);
+
+        if(_userEmail == null){
+            Intent intent2 = new Intent(getApplicationContext(), LoginActivityNew.class);
+            startActivity(intent2);
+            finish();
+        }
 
 
         intent = getIntent();
         recipientEmail = intent.getStringExtra("recipientEmail");
         recipientFirstName = intent.getStringExtra("recipientFirstname");
         recipientLastName = intent.getStringExtra("recipientLastname");
+        Log.i("@MessageActivity",recipientEmail);
 
         //msg_body = intent.getStringExtra("MessageBody");
         //Log.i("@MessageActivity",msg_body);
@@ -118,17 +139,18 @@ public class MessagingActivity extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 Bundle extras = intent.getExtras();
-                Log.i("@Broadcaster Here", extras.getString("Message"));
+                if(recipientEmail.equals(extras.getString("recipientEmail"))){
+                    Log.i("@Broadcaster Here", extras.getString("Message"));
 
-                TextMessage textMessage = new TextMessage();
-                textMessage.setText(extras.getString("Message"));
-                textMessage.setAvatarUrl("http://betterpropertiesauburn.com/wp-content/uploads/2015/11/ad516503a11cd5ca435acc9bb6523536-1.png");
-                textMessage.setDisplayName(recipientFirstName + " " + recipientLastName);
-                textMessage.setUserId("LP");
-                textMessage.setDate(new Date().getTime());
-                textMessage.setSource(MessageSource.EXTERNAL_USER);
-                slyceMessagingFragment.addNewMessage(textMessage);
-
+                    TextMessage textMessage = new TextMessage();
+                    textMessage.setText(extras.getString("Message"));
+                    textMessage.setAvatarUrl("http://betterpropertiesauburn.com/wp-content/uploads/2015/11/ad516503a11cd5ca435acc9bb6523536-1.png");
+                    textMessage.setDisplayName(recipientFirstName + " " + recipientLastName);
+                    textMessage.setUserId("LP");
+                    textMessage.setDate(new Date().getTime());
+                    textMessage.setSource(MessageSource.EXTERNAL_USER);
+                    slyceMessagingFragment.addNewMessage(textMessage);
+                }
             }
         };
         if(SharedPrefManager.getInstance((this)).getFCMToken() != null) {
@@ -142,7 +164,7 @@ public class MessagingActivity extends AppCompatActivity {
 
         slyceMessagingFragment = (SlyceMessagingFragment) getFragmentManager().findFragmentById(R.id.fragment_for_slyce_messaging);
         slyceMessagingFragment.setDefaultAvatarUrl("http://betterpropertiesauburn.com/wp-content/uploads/2015/11/ad516503a11cd5ca435acc9bb6523536-1.png");
-        slyceMessagingFragment.setDefaultDisplayName(_userEmail);
+        slyceMessagingFragment.setDefaultDisplayName(_firstName + " " + _lastName);
         slyceMessagingFragment.setDefaultUserId("uhtnaeohnuoenhaeuonthhntouaetnheuontheuo");
 
 
@@ -266,7 +288,7 @@ public class MessagingActivity extends AppCompatActivity {
                                     TextMessage textMessage = new TextMessage();
                                     textMessage.setText(message); // +  ": " + latin[(int) (Math.random() * 10)]);
                                     textMessage.setAvatarUrl("http://betterpropertiesauburn.com/wp-content/uploads/2015/11/ad516503a11cd5ca435acc9bb6523536-1.png");
-                                    textMessage.setDisplayName(_userEmail);
+                                    textMessage.setDisplayName(_firstName + " " + _lastName);
                                     textMessage.setUserId("MP");
                                     textMessage.setDate(date.getTime());
                                     textMessage.setSource(MessageSource.LOCAL_USER);

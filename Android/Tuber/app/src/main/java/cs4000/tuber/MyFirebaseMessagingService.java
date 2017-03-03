@@ -46,10 +46,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
             Log.d(TAG, "Message Notification: " + remoteMessage.getNotification().getTag());
-            sendNotification(remoteMessage);
+            String[] TagStr = remoteMessage.getNotification().getTag().split(", ");
             Intent intent = new Intent("BROADCAST_ID");
             intent.putExtra("Message",remoteMessage.getNotification().getBody());
+            intent.putExtra("recipientEmail",TagStr[0]);
             getApplication().sendBroadcast(intent);
+
+
+
+            if(!MessagingActivity.active || !MessagingActivity.getRecipientEmail().equals(TagStr[0])){
+                sendNotification(remoteMessage, TagStr);
+            }
         }
 
 //        // Check if message contains a notification payload.
@@ -68,11 +75,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      *
      * @param remoteMessage FCM message body received.
      */
-    private void sendNotification(RemoteMessage remoteMessage) {
+    private void sendNotification(RemoteMessage remoteMessage, String[] TagStr) {
         String messageBody = remoteMessage.getNotification().getBody();
+        String recipientEmail = TagStr[0];
+        Log.i("@OnReceived Here:From", remoteMessage.getNotification().getTag().toString());
+        String recipientFirstname = TagStr[1];
+        String recipientLastname = TagStr[2];
         Intent intent = new Intent(this, MessagingActivity.class);
         intent.putExtra("MessageBody",messageBody);
-        //intent.putExtra("recipientEmail","u0000003@utah.edu");
+        intent.putExtra("recipientEmail",recipientEmail);
+        intent.putExtra("recipientFirstname",recipientFirstname);
+        intent.putExtra("recipientLastname",recipientLastname);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
