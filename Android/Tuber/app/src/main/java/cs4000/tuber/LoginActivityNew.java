@@ -29,6 +29,8 @@ public class LoginActivityNew extends AppCompatActivity {
     private static final int REQUEST_SIGNUP = 0;
     private String _userEmail = "";
     private String _userPassword = "";
+    private String _userFirstName = "";
+    private String _userLastName = "";
     private String _userToken = "";
     private String _userStudentCourses = "";
     private String _userTutorCourses = "";
@@ -48,11 +50,16 @@ public class LoginActivityNew extends AppCompatActivity {
         setContentView(R.layout.activity_login_new);
         ButterKnife.inject(this);
 
-
         // finding out if last login was successful and if it was we enter in email and password automatically
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _lastLoginSuccess = sharedPreferences.getBoolean("lastLoginSuccess", false);
         getSupportActionBar().hide();
+
+
+        if(sharedPreferences.getString("userToken", null) != null){
+            Intent intent = new Intent(getApplicationContext(), CourseViewActivityNew.class);
+            startActivityForResult(intent, REQUEST_SIGNUP);
+        }
 
         if(_lastLoginSuccess){
 
@@ -135,6 +142,8 @@ public class LoginActivityNew extends AppCompatActivity {
                         // for some reason the password is messed up when it comes from the server
 //			_userEmail = result.getString("userToken").toString();
 //			_userPassword = result.getString("userPassword").toString();
+                        _userFirstName = result.getString("userFirstName");;
+                        _userLastName = result.getString("userLastName");
                         _userToken = result.getString("userToken");
                         _userStudentCourses =  result.getString("userStudentCourses");
                         _userTutorCourses = result.getString("userTutorCourses");
@@ -195,6 +204,8 @@ public class LoginActivityNew extends AppCompatActivity {
 
             SharedPreferences.Editor sPref = sharedPreferences.edit();
             sPref.putString("userEmail", _userEmail);
+            sPref.putString("userFirstName", _userFirstName);
+            sPref.putString("userLastName", _userLastName);
             sPref.putString("userPassword", _userPassword);
             sPref.putString("userToken", _userToken);
             sPref.putString("userStudentCourses", _userStudentCourses);
@@ -203,6 +214,8 @@ public class LoginActivityNew extends AppCompatActivity {
             sPref.commit();
 
             Log.i(TAG, "userEmail: " + _userEmail);
+            Log.i(TAG, "userFirstName: " + _userFirstName);
+            Log.i(TAG, "userLastName: " + _userLastName);
             Log.i(TAG, "userPassword: " + _userPassword);
             Log.i(TAG, "userToken: " + _userToken);
             Log.i(TAG, "userStudentCourses: " + _userStudentCourses);

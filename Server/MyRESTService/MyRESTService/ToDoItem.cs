@@ -64,6 +64,12 @@ namespace ToDoList
         public string userPassword { get; set; }
 
         [DataMember]
+        public string userFirstName { get; set; }
+
+        [DataMember]
+        public string userLastName { get; set; }
+
+        [DataMember]
         public ArrayList userStudentCourses { get; set; }
 
         [DataMember]

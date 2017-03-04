@@ -8,6 +8,7 @@
     <color name="colorAccent_Orange">#ff9f4f</color>
     <color name="colorAccent_Red">#a52b2b</color>
     <color name="colorAccent">#e95ba7</color>
+    <color name="colorAccent_blue2">#02b2e2</color>
 
     // added Jan 28 ALI
     <color name="primary">#9c9c9c</color>

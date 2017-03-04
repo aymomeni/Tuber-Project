@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,7 +68,10 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
         //do what you want to do when button is clicked
         switch (v.getId()) {
             case R.id.hotspot_pager_join_button:
-                Log.i("HotspotFragOnClick", "Clicked " + v.getId());
+
+                ViewPager vp = (ViewPager) (v.getParent().getParent().getParent().getParent());
+
+                Log.i("HotspotFragOnClick", "Clicked " + vp.getCurrentItem());
                 break;
 //            case R.id.textView_settings:
 //                switchFragment(SettingsFragment.TAG);
