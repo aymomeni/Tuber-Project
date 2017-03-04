@@ -10,12 +10,13 @@ import UIKit
 
 class RegistrationViewController: UIViewController {
 
-    @IBOutlet weak var email: UITextField!
-    @IBOutlet weak var FName: UITextField!
-    @IBOutlet weak var LName: UITextField!
-    @IBOutlet weak var password: UITextField!
-    @IBOutlet weak var passwordConfirm: UITextField!
-    @IBOutlet weak var DOBpicker: UIDatePicker!
+    //@IBOutlet weak var email: UITextField!
+    //@IBOutlet weak var FName: UITextField!
+    //@IBOutlet weak var LName: UITextField!
+    //@IBOutlet weak var password: UITextField!
+    //@IBOutlet weak var passwordConfirm: UITextField!
+    //@IBOutlet weak var DOBpicker: UIDatePicker!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
