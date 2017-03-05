@@ -110,7 +110,7 @@ class Registration2ViewController: UIViewController,UIPickerViewDataSource,UIPic
                     print(defaults.object(forKey: "userToken")!)
                     
                     OperationQueue.main.addOperation{
-                        self.performSegue(withIdentifier: "loginSuccess", sender: nil)
+                        self.performSegue(withIdentifier: "registrationDone", sender: nil)
                     }
                 }
             }

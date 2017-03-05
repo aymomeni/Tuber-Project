@@ -975,7 +975,7 @@
                                 <state key="normal" title="Done"/>
                                 <connections>
                                     <action selector="done:" destination="m57-AS-r9i" eventType="touchUpInside" id="cMs-Yl-HwZ"/>
-                                    <segue destination="ep6-u1-JFW" kind="show" id="g1V-38-82r"/>
+                                    <segue destination="ep6-u1-JFW" kind="show" identifier="registrationDone" id="g1V-38-82r"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gVE-vE-WY3">
