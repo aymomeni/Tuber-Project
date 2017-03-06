@@ -10,6 +10,7 @@
 		557A02361E674BA6002B0741 /* Registration2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A02331E674BA6002B0741 /* Registration2ViewController.swift */; };
 		557A02371E674BA6002B0741 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A02341E674BA6002B0741 /* RegistrationViewController.swift */; };
 		557A02381E674BA6002B0741 /* ServerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A02351E674BA6002B0741 /* ServerRequest.swift */; };
+		93CFD9DD506671794D296C28 /* Pods_TuberUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D98FA225CF12659D2BFD1C56 /* Pods_TuberUITests.framework */; };
 		9709067B1DF6B93400C68561 /* ClassListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067A1DF6B93400C68561 /* ClassListViewController.swift */; };
 		9709067D1DF6BAF500C68561 /* ClassTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */; };
 		971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971400EC1DF527D60099A8DB /* AppDelegate.swift */; };
@@ -26,6 +27,9 @@
 		971CE55E1E431BBF00CB2324 /* HotspotInitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971CE55D1E431BBF00CB2324 /* HotspotInitialViewController.swift */; };
 		971CE5601E496CD800CB2324 /* ActiveSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971CE55F1E496CD800CB2324 /* ActiveSessionViewController.swift */; };
 		971CE5621E499D2000CB2324 /* ActiveHotspotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971CE5611E499D2000CB2324 /* ActiveHotspotViewController.swift */; };
+		976DC37E1E6D6FF100F1ACE6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 976DC37D1E6D6FF100F1ACE6 /* GoogleService-Info.plist */; };
+		9784AC021E6814F200691377 /* ReportTutorListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9784AC011E6814F200691377 /* ReportTutorListTableViewController.swift */; };
+		9784AC041E68152600691377 /* ReportTutorListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9784AC031E68152600691377 /* ReportTutorListTableViewCell.swift */; };
 		97A072E31E324FA900D91130 /* ImmediateTutorRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A072E21E324FA900D91130 /* ImmediateTutorRequestViewController.swift */; };
 		97D6B3D41DF7EC9C0093479E /* ClassOptionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D31DF7EC9C0093479E /* ClassOptionsTableViewCell.swift */; };
 		97D6B3D61DF7ECF10093479E /* ClassOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */; };
@@ -36,6 +40,8 @@
 		97EEACCD1DF902CD007F23B1 /* TutorViewScheduleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EEACCC1DF902CD007F23B1 /* TutorViewScheduleTableViewController.swift */; };
 		97EEACCF1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EEACCE1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift */; };
 		97EEACD11DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97EEACD01DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift */; };
+		A5F44CB43E360D39B5B9C449 /* Pods_TuberTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A38B90AC0E26E4C663BD3443 /* Pods_TuberTests.framework */; };
+		ABAC3F8959CAF0AC33B9C56F /* Pods_Tuber.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A74A08A0EFBA1D5ABDF30C2 /* Pods_Tuber.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,9 +62,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0FE22EC60A51E47C07947B15 /* Pods-Tuber.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tuber.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tuber/Pods-Tuber.debug.xcconfig"; sourceTree = "<group>"; };
+		15BD1D3BBE146A72696B3B8B /* Pods-Tuber.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tuber.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tuber/Pods-Tuber.release.xcconfig"; sourceTree = "<group>"; };
+		2633882F1A6CFB02CB09FA79 /* Pods-TuberTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuberTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TuberTests/Pods-TuberTests.debug.xcconfig"; sourceTree = "<group>"; };
 		557A02331E674BA6002B0741 /* Registration2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Registration2ViewController.swift; sourceTree = "<group>"; };
 		557A02341E674BA6002B0741 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		557A02351E674BA6002B0741 /* ServerRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerRequest.swift; sourceTree = "<group>"; };
+		8A74A08A0EFBA1D5ABDF30C2 /* Pods_Tuber.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tuber.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9709067A1DF6B93400C68561 /* ClassListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassListViewController.swift; sourceTree = "<group>"; };
 		9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassTableViewCell.swift; sourceTree = "<group>"; };
 		971400E91DF527D60099A8DB /* Tuber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tuber.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +91,9 @@
 		971CE55D1E431BBF00CB2324 /* HotspotInitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotspotInitialViewController.swift; sourceTree = "<group>"; };
 		971CE55F1E496CD800CB2324 /* ActiveSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSessionViewController.swift; sourceTree = "<group>"; };
 		971CE5611E499D2000CB2324 /* ActiveHotspotViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveHotspotViewController.swift; sourceTree = "<group>"; };
+		976DC37D1E6D6FF100F1ACE6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		9784AC011E6814F200691377 /* ReportTutorListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTutorListTableViewController.swift; sourceTree = "<group>"; };
+		9784AC031E68152600691377 /* ReportTutorListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTutorListTableViewCell.swift; sourceTree = "<group>"; };
 		97A072E21E324FA900D91130 /* ImmediateTutorRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImmediateTutorRequestViewController.swift; sourceTree = "<group>"; };
 		97D6B3D31DF7EC9C0093479E /* ClassOptionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassOptionsTableViewCell.swift; sourceTree = "<group>"; };
 		97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassOptionsViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +104,11 @@
 		97EEACCC1DF902CD007F23B1 /* TutorViewScheduleTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorViewScheduleTableViewController.swift; sourceTree = "<group>"; };
 		97EEACCE1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfirmedAppointmentTutorViewController.swift; sourceTree = "<group>"; };
 		97EEACD01DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnconfirmedAppointmentTutorViewController.swift; sourceTree = "<group>"; };
+		A38B90AC0E26E4C663BD3443 /* Pods_TuberTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TuberTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9064E8B616EB0A131683CC8 /* Pods-TuberUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuberUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TuberUITests/Pods-TuberUITests.release.xcconfig"; sourceTree = "<group>"; };
+		D98FA225CF12659D2BFD1C56 /* Pods_TuberUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TuberUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9823554DB09E810976BAC59 /* Pods-TuberUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuberUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TuberUITests/Pods-TuberUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F4BF1AD4A6D4158E61B1E2DD /* Pods-TuberTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TuberTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TuberTests/Pods-TuberTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +116,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABAC3F8959CAF0AC33B9C56F /* Pods_Tuber.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5F44CB43E360D39B5B9C449 /* Pods_TuberTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,12 +132,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93CFD9DD506671794D296C28 /* Pods_TuberUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		13338A8A6847489BE7C3203B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0FE22EC60A51E47C07947B15 /* Pods-Tuber.debug.xcconfig */,
+				15BD1D3BBE146A72696B3B8B /* Pods-Tuber.release.xcconfig */,
+				2633882F1A6CFB02CB09FA79 /* Pods-TuberTests.debug.xcconfig */,
+				F4BF1AD4A6D4158E61B1E2DD /* Pods-TuberTests.release.xcconfig */,
+				E9823554DB09E810976BAC59 /* Pods-TuberUITests.debug.xcconfig */,
+				D9064E8B616EB0A131683CC8 /* Pods-TuberUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		971400E01DF527D60099A8DB = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +160,7 @@
 				9714010B1DF527D60099A8DB /* TuberUITests */,
 				971400EA1DF527D60099A8DB /* Products */,
 				97B8E0081DF5632D001EEC79 /* Frameworks */,
+				13338A8A6847489BE7C3203B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -150,6 +185,7 @@
 				971400F31DF527D60099A8DB /* Assets.xcassets */,
 				971400F51DF527D60099A8DB /* LaunchScreen.storyboard */,
 				971400F81DF527D60099A8DB /* Info.plist */,
+				976DC37D1E6D6FF100F1ACE6 /* GoogleService-Info.plist */,
 				97A072E21E324FA900D91130 /* ImmediateTutorRequestViewController.swift */,
 				9714011A1DF528490099A8DB /* LoginViewController.swift */,
 				9714011C1DF52C130099A8DB /* ScheduleTutorViewController.swift */,
@@ -170,6 +206,8 @@
 				97EEACCE1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift */,
 				97EEACD01DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift */,
 				971CE55F1E496CD800CB2324 /* ActiveSessionViewController.swift */,
+				9784AC011E6814F200691377 /* ReportTutorListTableViewController.swift */,
+				9784AC031E68152600691377 /* ReportTutorListTableViewCell.swift */,
 			);
 			path = Tuber;
 			sourceTree = "<group>";
@@ -195,6 +233,9 @@
 		97B8E0081DF5632D001EEC79 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8A74A08A0EFBA1D5ABDF30C2 /* Pods_Tuber.framework */,
+				A38B90AC0E26E4C663BD3443 /* Pods_TuberTests.framework */,
+				D98FA225CF12659D2BFD1C56 /* Pods_TuberUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -206,9 +247,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 971401111DF527D60099A8DB /* Build configuration list for PBXNativeTarget "Tuber" */;
 			buildPhases = (
+				3E76BDEDC8E22DB3DDBDAFE6 /* [CP] Check Pods Manifest.lock */,
 				971400E51DF527D60099A8DB /* Sources */,
 				971400E61DF527D60099A8DB /* Frameworks */,
 				971400E71DF527D60099A8DB /* Resources */,
+				70513FE99E7D6C63A31AD330 /* [CP] Embed Pods Frameworks */,
+				80A18CB1FE9BEADE5E170E55 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -223,9 +267,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 971401141DF527D60099A8DB /* Build configuration list for PBXNativeTarget "TuberTests" */;
 			buildPhases = (
+				67A33A65BA72B29484D9DD0C /* [CP] Check Pods Manifest.lock */,
 				971400F91DF527D60099A8DB /* Sources */,
 				971400FA1DF527D60099A8DB /* Frameworks */,
 				971400FB1DF527D60099A8DB /* Resources */,
+				8CF27B3294C54F71E79A9240 /* [CP] Embed Pods Frameworks */,
+				EBED6E0F88BBA6B9B4125FEE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -241,9 +288,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 971401171DF527D60099A8DB /* Build configuration list for PBXNativeTarget "TuberUITests" */;
 			buildPhases = (
+				CD6C2A9A3D3A65F83DA368FD /* [CP] Check Pods Manifest.lock */,
 				971401041DF527D60099A8DB /* Sources */,
 				971401051DF527D60099A8DB /* Frameworks */,
 				971401061DF527D60099A8DB /* Resources */,
+				7C487A12481A3B178C5C579C /* [CP] Embed Pods Frameworks */,
+				4D82697C505F6773839A2997 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -307,6 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				971400F71DF527D60099A8DB /* LaunchScreen.storyboard in Resources */,
+				976DC37E1E6D6FF100F1ACE6 /* GoogleService-Info.plist in Resources */,
 				971400F41DF527D60099A8DB /* Assets.xcassets in Resources */,
 				971400F21DF527D60099A8DB /* Main.storyboard in Resources */,
 			);
@@ -328,11 +379,150 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3E76BDEDC8E22DB3DDBDAFE6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4D82697C505F6773839A2997 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TuberUITests/Pods-TuberUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		67A33A65BA72B29484D9DD0C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		70513FE99E7D6C63A31AD330 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tuber/Pods-Tuber-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7C487A12481A3B178C5C579C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TuberUITests/Pods-TuberUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		80A18CB1FE9BEADE5E170E55 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tuber/Pods-Tuber-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8CF27B3294C54F71E79A9240 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TuberTests/Pods-TuberTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CD6C2A9A3D3A65F83DA368FD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		EBED6E0F88BBA6B9B4125FEE /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-TuberTests/Pods-TuberTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		971400E51DF527D60099A8DB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9784AC041E68152600691377 /* ReportTutorListTableViewCell.swift in Sources */,
 				97EEACD11DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011F1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift in Sources */,
 				9714011B1DF528490099A8DB /* LoginViewController.swift in Sources */,
@@ -347,6 +537,7 @@
 				97EEACCF1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */,
 				971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */,
+				9784AC021E6814F200691377 /* ReportTutorListTableViewController.swift in Sources */,
 				557A02371E674BA6002B0741 /* RegistrationViewController.swift in Sources */,
 				97A072E31E324FA900D91130 /* ImmediateTutorRequestViewController.swift in Sources */,
 				971CE55E1E431BBF00CB2324 /* HotspotInitialViewController.swift in Sources */,
@@ -506,6 +697,7 @@
 		};
 		971401121DF527D60099A8DB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0FE22EC60A51E47C07947B15 /* Pods-Tuber.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -522,6 +714,7 @@
 		};
 		971401131DF527D60099A8DB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 15BD1D3BBE146A72696B3B8B /* Pods-Tuber.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -538,6 +731,7 @@
 		};
 		971401151DF527D60099A8DB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2633882F1A6CFB02CB09FA79 /* Pods-TuberTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -552,6 +746,7 @@
 		};
 		971401161DF527D60099A8DB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F4BF1AD4A6D4158E61B1E2DD /* Pods-TuberTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -566,6 +761,7 @@
 		};
 		971401181DF527D60099A8DB /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E9823554DB09E810976BAC59 /* Pods-TuberUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = TuberUITests/Info.plist;
@@ -579,6 +775,7 @@
 		};
 		971401191DF527D60099A8DB /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D9064E8B616EB0A131683CC8 /* Pods-TuberUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = TuberUITests/Info.plist;

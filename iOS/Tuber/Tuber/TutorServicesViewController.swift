@@ -12,8 +12,12 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
 
     @IBOutlet weak var servicesTableView: UITableView!
 
-    var icons = [#imageLiteral(resourceName: "immediaterequest"), #imageLiteral(resourceName: "scheduletutor"), #imageLiteral(resourceName: "viewschedule")]
-    var names = ["Immediate Request", "Schedule Tutor", "View Schedule"]
+    var icons = [#imageLiteral(resourceName: "immediaterequest"), #imageLiteral(resourceName: "scheduletutor"), #imageLiteral(resourceName: "viewschedule"), #imageLiteral(resourceName: "viewschedule")]
+    var names = ["Immediate Request", "Schedule Tutor", "View Schedule", "Report Tutor"]
+    
+    var tutorFirstNames: [String] = []
+    var tutorLastNames: [String] = []
+    var tutorEmails: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +32,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return 4
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -57,14 +61,105 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
             performSegue(withIdentifier: "scheduleTutor", sender: selectedOption)
             
         }
-        else
+        else if selectedOption == "View Schedule"
         {
             print("view student schedule")
             prepStudentSchedule()
         }
+        else{
+            print("report tutor")
+            prepTutorList()
+        }
+        
         
     }
     
+    func prepTutorList()
+    {
+        let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/reporttutorgettutorlist";
+        
+        //created NSURL
+        let requestURL = NSURL(string: server)
+        
+        //creating NSMutableURLRequest
+        let request = NSMutableURLRequest(url: requestURL! as URL)
+        
+        //setting the method to post
+        request.httpMethod = "POST"
+        
+        let defaults = UserDefaults.standard
+        let email = UserDefaults.standard.object(forKey: "userEmail") as? String
+        let token = UserDefaults.standard.object(forKey: "userToken") as? String
+        let postParameters = "{\"userEmail\":\"" + email! + "\",\"userToken\":\"" + token! + "\"}";
+        
+        
+        //adding the parameters to request body
+        request.httpBody = postParameters.data(using: String.Encoding.utf8)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        print(postParameters)
+        
+        //creating a task to send the post request
+        let task = URLSession.shared.dataTask(with: request as URLRequest){
+            data, response, error in
+            
+            if error != nil{
+                print("error is \(error)")
+                return;
+            }
+            
+            let r = response as? HTTPURLResponse
+            print(r?.statusCode)
+            
+            //parsing the response
+            do {
+                //print(response)
+                let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                
+                //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
+                if let arrJSON = hotspots["tutorList"] {
+                    if (arrJSON.count > 0) {
+                        for index in 0...arrJSON.count-1 {
+                            
+                            let aObject = arrJSON[index] as! [String : AnyObject]
+                            
+                            print(aObject)
+                            
+                            var name = aObject["tutorFirstName"] as! String
+                            name += " "
+                            name += aObject["tutorLastName"] as! String
+                            
+                            self.tutorFirstNames.append(aObject["tutorFirstName"] as! String)
+                            self.tutorLastNames.append(aObject["tutorLastName"] as! String)
+                            self.tutorEmails.append(aObject["tutorEmail"] as! String)
+                            
+                        }
+                    }
+                }
+//                print(self.tutorNames)
+//                print(self.tutorEmails)
+                
+                OperationQueue.main.addOperation{
+                    var toSend = [[String]]()
+                    toSend.append(self.tutorFirstNames)
+                    toSend.append(self.tutorLastNames)
+                    toSend.append(self.tutorEmails)
+                    
+//                    print(toSend.count)
+                    
+                    //                    print(toSend)
+                    self.performSegue(withIdentifier: "reportTutor", sender: toSend)
+                }
+            } catch {
+                print(error)
+            }
+            
+        }
+        //executing the task
+        task.resume()
+    }
+
     func prepStudentSchedule()
     {
         //created NSURL
@@ -175,6 +270,23 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                 destination.dates = appointmentInfo[0]
                 destination.duration = appointmentInfo[1]
                 destination.subjects = appointmentInfo[2]
+                //destination.passed = sender as? String
+            }
+        }
+        else if segue.identifier == "reportTutor"
+        {
+            let tutorInfo = sender as! [[String]]
+            print(tutorInfo[0])
+            print(tutorInfo[1])
+            print(tutorInfo[2])
+
+            
+            if let destination = segue.destination as? ReportTutorListTableViewController
+            {
+                destination.tutorFirstNames = tutorInfo[0]
+                destination.tutorLastNames = tutorInfo[1]
+                destination.tutorEmails = tutorInfo[2]
+                print("arrays set")
                 //destination.passed = sender as? String
             }
         }
