@@ -6,17 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary_Grey</item>
         <item name="colorPrimaryDark">@color/colorPrimary_White</item>
         <item name="colorAccent">@color/colorAccent_Orange</item>
-        <!-- Messaging Style. -->
-        <item name="backgroundColor">@color/background_white</item>
-        <item name="timestampTextColor">@color/text_black</item>
-        <item name="localBubbleBackground">@color/background_blue</item>
-        <item name="localBubbleTextColor">@color/text_white</item>
-        <item name="externalBubbleBackground">@color/background_gray</item>
-        <item name="externalBubbleTextColor">@color/text_black</item>
-        <item name="snackbarBackground">@color/background_gray_darkest</item>
-        <item name="snackbarTitleColor">@color/text_black</item>
-        <item name="snackbarButtonColor">@color/text_blue</item>
-
     </style>
 
     <style name="AppTheme.Blue" parent="Theme.AppCompat">
@@ -38,6 +27,18 @@
         <item name="colorAccent">@color/white</item>
         <item name="android:textColorPrimary">@color/iron</item>
         <item name="android:background">@color/primary</item>
+    </style>
+
+    <style name="MyTheme">
+        <item name="backgroundColor">@color/background_white</item>
+        <item name="timestampTextColor">@color/text_black</item>
+        <item name="localBubbleBackground">@color/colorAccent_blue2</item>
+        <item name="localBubbleTextColor">@color/text_white</item>
+        <item name="externalBubbleBackground">@color/background_gray</item>
+        <item name="externalBubbleTextColor">@color/text_black</item>
+        <item name="snackbarBackground">@color/background_gray_darkest</item>
+        <item name="snackbarTitleColor">@color/text_black</item>
+        <item name="snackbarButtonColor">@color/text_blue</item>
     </style>
 
     <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
