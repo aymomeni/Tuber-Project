@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E154a" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E175b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -984,6 +984,52 @@
             </objects>
             <point key="canvasLocation" x="3702" y="-789"/>
         </scene>
+        <!--Hotspot Detail View Controller-->
+        <scene sceneID="oLk-jc-PhG">
+            <objects>
+                <viewController id="UvJ-GV-d3h" customClass="HotspotDetailViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Snc-kK-bnf"/>
+                        <viewControllerLayoutGuide type="bottom" id="Lq4-QK-cAZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Uhh-ad-kgm" customClass="hotspot">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="SrC-o3-6dX">
+                                <rect key="frame" x="16" y="133" width="343" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Members:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Gz-3s-HeS">
+                                <rect key="frame" x="16" y="104" width="77" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEw-xw-3yb">
+                                <rect key="frame" x="143" y="487" width="88" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Join Hotspot"/>
+                                <connections>
+                                    <action selector="joinButtonPress:" destination="UvJ-GV-d3h" eventType="touchUpInside" id="iJZ-bO-ZNW"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="memberListTextView" destination="SrC-o3-6dX" id="TH2-Ae-GkG"/>
+                        <segue destination="Hk3-0u-4b7" kind="show" identifier="joinHotspot" id="fpl-Kl-NNA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="16D-sm-kOQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2204" y="-1534.1829085457273"/>
+        </scene>
         <!--Hotspot Initial View Controller-->
         <scene sceneID="ISa-Yj-ba1">
             <objects>
@@ -998,11 +1044,11 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="gPJ-AW-Cc6">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="598"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ON-O9-gbL">
                                 <rect key="frame" x="117" y="616" width="140" height="31"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <autoresizingMask key="autoresizingMask"/>
                                 <state key="normal" title="Create New Hotspot"/>
                                 <connections>
                                     <action selector="createNewHotspot:" destination="G8h-R2-j4Q" eventType="touchUpInside" id="cI9-zQ-nSt"/>
@@ -1014,6 +1060,7 @@
                     <connections>
                         <outlet property="mapview" destination="gPJ-AW-Cc6" id="Efk-Dv-rke"/>
                         <segue destination="Hk3-0u-4b7" kind="show" identifier="createHotspot" id="UUA-cR-Rft"/>
+                        <segue destination="UvJ-GV-d3h" kind="show" identifier="viewHotspotDetail" id="6e3-Xh-LxG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5v6-wp-js7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1051,6 +1098,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="deletebutton" destination="7dp-OD-3im" id="TZu-et-MTh"/>
+                        <outlet property="messageLabel" destination="cLe-5J-8va" id="XVw-4H-J3m"/>
                         <segue destination="G8h-R2-j4Q" kind="show" identifier="reloadMap" id="D0B-Yk-HHt"/>
                     </connections>
                 </viewController>
@@ -1149,7 +1198,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="83"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pbd-uy-ajI" id="Ooj-6w-y8j">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="82"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="82.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date/Time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ClB-On-3K3">
@@ -1277,7 +1326,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="83"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="j0N-gQ-KFq" id="2bY-Vk-h7O">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="82"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="82.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c2v-cF-TDe">
@@ -1319,10 +1368,11 @@
         <image name="viewschedule" width="260" height="260"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="D0B-Yk-HHt"/>
         <segue reference="4VI-aA-F8d"/>
-        <segue reference="U4Z-ty-pm8"/>
-        <segue reference="bTA-8i-ZD6"/>
         <segue reference="JXQ-uf-IvU"/>
+        <segue reference="D0B-Yk-HHt"/>
+        <segue reference="fpl-Kl-NNA"/>
+        <segue reference="bTA-8i-ZD6"/>
+        <segue reference="U4Z-ty-pm8"/>
     </inferredMetricsTieBreakers>
 </document>

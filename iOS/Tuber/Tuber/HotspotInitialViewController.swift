@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate {
+class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
 
     @IBOutlet weak var mapview: MKMapView!
     
@@ -57,6 +57,8 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.requestWhenInUseAuthorization()
         manager.startUpdatingLocation()
+        
+        self.mapview.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -206,18 +208,112 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
     }
     
     // When user taps on the disclosure button you can perform a segue to navigate to another view controller
-    func mapView(mapView: MKMapView!, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView{
-            print(view.annotation?.title) // annotation's title
-            print(view.annotation?.subtitle) // annotation's subttitle
             
-            //Perform a segue here to navigate to another viewcontroller
-            // On tapping the disclosure button you will get here
+            var detailParams: [String] = []
+            
+            detailParams.append((view.annotation?.subtitle!)!)
+            detailParams.append("anne@cox.net")
+            
+            self.performSegue(withIdentifier: "viewHotspotDetail", sender: detailParams)
+            
+//            print(view.annotation?.title! as Any) // annotation's title
+//            let hotspotID = view.annotation?.subtitle! as Any
+//            
+//            let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/getstudyhotspotmembers"
+//            
+//            //created NSURL
+//            let requestURL = NSURL(string: server)
+//            
+//            //creating NSMutableURLRequest
+//            let request = NSMutableURLRequest(url: requestURL! as URL)
+//            
+//            //setting the method to post
+//            request.httpMethod = "POST"
+//            
+//            let defaults = UserDefaults.standard
+//            
+//            //getting values from text fields
+//            let userEmail = defaults.object(forKey: "userEmail") as! String
+//            let userToken = defaults.object(forKey: "userToken") as! String
+//            
+//            //creating the post parameter by concatenating the keys and values from text field
+//            let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"studyHotspotID\":\"\(hotspotID)\"}"
+//            
+//            //adding the parameters to request body
+//            request.httpBody = postParameters.data(using: String.Encoding.utf8)
+//            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+//            request.addValue("application/json", forHTTPHeaderField: "Accept")
+//            
+//            print(postParameters)
+//            
+//            //creating a task to send the post request
+//            let task = URLSession.shared.dataTask(with: request as URLRequest){
+//                data, response, error in
+//                
+//                if error != nil{
+//                    print("error is \(error)")
+//                    return;
+//                }
+//                
+//                //parsing the response
+//                do {
+//                    //print(response)
+//                    let members = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+//                    
+//                    //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
+//                    if let arrJSON = members["studyHotspots"] {
+//                        if (arrJSON.count > 0) {
+//                            for index in 0...arrJSON.count-1 {
+//                                
+//                                let aObject = arrJSON[index] as! [String : AnyObject]
+//                                
+//                                print(aObject)
+//                                
+//                                self.ownerEmail.append(aObject["ownerEmail"] as! String)
+//                                self.hotspotID.append(aObject["hotspotID"] as! String)
+//                                self.latitude.append(aObject["latitude"] as! Double)
+//                                self.longitude.append(aObject["longitude"] as! Double)
+//                                
+//                            }
+//                        }
+//                    }
+//                    print(self.ownerEmail)
+//                    print(self.hotspotID)
+//                    
+//                    OperationQueue.main.addOperation{
+//                        self.performSegue(withIdentifier: "viewHotspotDetail", sender: nil)
+//                    }
+//                    
+//                } catch {
+//                    print(error)
+//                }
+//                
+//            }
+//            //executing the task
+//            task.resume()
+            
         }
     }
     
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        var view = mapView.dequeueReusableAnnotationView(withIdentifier: "AnnotationView Id")
+//        if view == nil{
+//            view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "AnnotationView Id")
+//            view!.canShowCallout = true
+//        } else {
+//            view!.annotation = annotation
+//        }
+//        
+//        view?.leftCalloutAccessoryView = nil
+//        view?.rightCalloutAccessoryView = UIButton(type: UIButtonType.detailDisclosure)
+//        
+//        return view
+//    }
+
     // Here we add disclosure button inside annotation window
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         print("viewForannotation")
         if annotation is MKUserLocation {
@@ -245,11 +341,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
     
     func createAnnotations()
     {
-        
-        let annotationView = MKAnnotationView()
-        let detailButton: UIButton = UIButton(type: UIButtonType.detailDisclosure) as UIButton
-        annotationView.rightCalloutAccessoryView = detailButton
-        
         var annotations = [MKPointAnnotation]()
         
         if (ownerEmail.count > 0){
@@ -266,6 +357,19 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate 
         mapview.addAnnotations(annotations)
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "viewHotspotDetail"
+        {
+            let appointmentInfo = sender as! [String]
+            print(appointmentInfo[0])
+            print(appointmentInfo[1])
+            
+            if let destination = segue.destination as? HotspotDetailViewController
+            {
+                destination.hotspotID = appointmentInfo[0]
+                destination.memberList = appointmentInfo[1]
+            }
+        }
+    }
 
 }

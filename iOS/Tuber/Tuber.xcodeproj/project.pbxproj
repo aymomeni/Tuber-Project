@@ -31,6 +31,7 @@
 		9784AC021E6814F200691377 /* ReportTutorListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9784AC011E6814F200691377 /* ReportTutorListTableViewController.swift */; };
 		9784AC041E68152600691377 /* ReportTutorListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9784AC031E68152600691377 /* ReportTutorListTableViewCell.swift */; };
 		97A072E31E324FA900D91130 /* ImmediateTutorRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A072E21E324FA900D91130 /* ImmediateTutorRequestViewController.swift */; };
+		97BC68A81E70182400AD012A /* HotspotDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BC68A71E70182400AD012A /* HotspotDetailViewController.swift */; };
 		97D6B3D41DF7EC9C0093479E /* ClassOptionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D31DF7EC9C0093479E /* ClassOptionsTableViewCell.swift */; };
 		97D6B3D61DF7ECF10093479E /* ClassOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */; };
 		97D6B3D81DF801630093479E /* TutorServicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97D6B3D71DF801630093479E /* TutorServicesViewController.swift */; };
@@ -95,6 +96,7 @@
 		9784AC011E6814F200691377 /* ReportTutorListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTutorListTableViewController.swift; sourceTree = "<group>"; };
 		9784AC031E68152600691377 /* ReportTutorListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTutorListTableViewCell.swift; sourceTree = "<group>"; };
 		97A072E21E324FA900D91130 /* ImmediateTutorRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImmediateTutorRequestViewController.swift; sourceTree = "<group>"; };
+		97BC68A71E70182400AD012A /* HotspotDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotspotDetailViewController.swift; sourceTree = "<group>"; };
 		97D6B3D31DF7EC9C0093479E /* ClassOptionsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassOptionsTableViewCell.swift; sourceTree = "<group>"; };
 		97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassOptionsViewController.swift; sourceTree = "<group>"; };
 		97D6B3D71DF801630093479E /* TutorServicesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorServicesViewController.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				971CE55F1E496CD800CB2324 /* ActiveSessionViewController.swift */,
 				9784AC011E6814F200691377 /* ReportTutorListTableViewController.swift */,
 				9784AC031E68152600691377 /* ReportTutorListTableViewCell.swift */,
+				97BC68A71E70182400AD012A /* HotspotDetailViewController.swift */,
 			);
 			path = Tuber;
 			sourceTree = "<group>";
@@ -523,6 +526,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9784AC041E68152600691377 /* ReportTutorListTableViewCell.swift in Sources */,
+				97BC68A81E70182400AD012A /* HotspotDetailViewController.swift in Sources */,
 				97EEACD11DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011F1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift in Sources */,
 				9714011B1DF528490099A8DB /* LoginViewController.swift in Sources */,
