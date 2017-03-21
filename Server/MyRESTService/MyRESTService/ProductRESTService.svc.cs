@@ -1154,7 +1154,6 @@ namespace ToDoList
                     try
                     {
                         conn.Open();
-
                         MySqlCommand command = conn.CreateCommand();
 
                         // Get the rating of the student specified
@@ -1175,7 +1174,6 @@ namespace ToDoList
                                 {
                                     returnedAverageRating = reader.GetDouble("averageRating");
                                 }
-
                             }
                         }
 
