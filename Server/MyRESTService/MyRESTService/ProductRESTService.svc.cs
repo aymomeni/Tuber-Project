@@ -1538,11 +1538,13 @@ namespace ToDoList
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
-
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Check that the tutor is still available 
                             command.CommandText = "SELECT * FROM available_tutors WHERE email = ?tutorEmail";
@@ -1578,6 +1580,7 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Return the paired object
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         StudentTutorPairedItem paired = new StudentTutorPairedItem();
                                         paired.userEmail = item.userEmail;
@@ -1593,6 +1596,7 @@ namespace ToDoList
                                     else
                                     {
                                         // Inserting into tutor_session_pairing table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                         return new StudentTutorPairedItem();
                                     }
@@ -1600,6 +1604,7 @@ namespace ToDoList
                                 else
                                 {
                                     // Deleting from the available_tutors table failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new StudentTutorPairedItem();
                                 }
@@ -1614,6 +1619,13 @@ namespace ToDoList
                         catch (Exception e)
                         {
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
