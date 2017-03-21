@@ -1241,11 +1241,13 @@ namespace ToDoList
                     {
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
 
                                 // Verify the user is able to tutor the course specified 
                                 command.CommandText = "SELECT * FROM tutor_courses WHERE email = ?userEmail AND name = ?tutorCourse";
@@ -1271,12 +1273,14 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Insertion happend as expected
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return new MakeTutorAvailableResponseItem();
                                     }
                                     else
                                     {
                                         // Something went wrong inserting user into available_tutors
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                                         return new MakeTutorAvailableResponseItem();
                                     }
@@ -1290,7 +1294,16 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
