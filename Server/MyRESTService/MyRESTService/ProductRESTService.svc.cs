@@ -1073,7 +1073,6 @@ namespace ToDoList
                     try
                     {
                         conn.Open();
-
                         MySqlCommand command = conn.CreateCommand();
 
                         // Get the rating of the tutor specified
@@ -1094,7 +1093,6 @@ namespace ToDoList
                                 {
                                     returnedAverageRating = reader.GetDouble("averageRating");
                                 }
-
                             }
                         }
 
