@@ -1341,11 +1341,13 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
 
                                 // Verify the user to be deleted is in the available_tutors table
                                 command.CommandText = "SELECT email FROM available_tutors WHERE email = ?userEmail";
@@ -1367,12 +1369,14 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() >= 0)
                                     {
                                         // Deletion happened as expected
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return new DeleteTutorResponseItem();
                                     }
                                     else
                                     {
                                         // Something went wrong deleting user from available_tutors
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new DeleteTutorResponseItem();
                                     }
@@ -1386,7 +1390,16 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
