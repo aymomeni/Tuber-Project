@@ -379,7 +379,6 @@ namespace ToDoList
                         {
                             conn.Open();
                             transaction = conn.BeginTransaction();
-
                             MySqlCommand command = conn.CreateCommand();
                             command.Transaction = transaction;
 
