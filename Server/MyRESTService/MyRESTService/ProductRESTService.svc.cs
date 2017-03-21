@@ -614,13 +614,13 @@ namespace ToDoList
                     {
                         conn.Open();
                         transaction = conn.BeginTransaction();
-
                         MySqlCommand command = conn.CreateCommand();
                         command.Transaction = transaction;
 
                         // Generate the new temporary password
                         String newPassword = Membership.GeneratePassword(6, 2);
-
+                        
+                        // Hash the new temporary password
                         String newHashedPassword = computeHash(newPassword, null);
 
                         // Store the new temporary password in the DB so user can log in
