@@ -41,11 +41,14 @@ namespace ToDoList
                 // Store user information in DB
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
+                    MySqlTransaction transaction = null;
                     try
                     {
                         conn.Open();
-
+                        transaction = conn.BeginTransaction();
                         MySqlCommand command = conn.CreateCommand();
+                        command.Transaction = transaction;
+
                         command.CommandText = "INSERT INTO users VALUES (?userEmail, ?hashValue, ?userFirstName, ?userLastName, ?userBillingAddress, ?userBillingCity, ?userBillingState, ?userBillingCCNumber, ?userBillingCCExpDate, ?userBillingCCV, 0)";
                         command.Parameters.AddWithValue("userEmail", item.userEmail);
                         command.Parameters.AddWithValue("hashValue", hashValue);
@@ -65,21 +68,30 @@ namespace ToDoList
                             user.userPassword = item.userPassword;
 
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-
+                            transaction.Commit();
                             return user;
                         }
                         else
                         {
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                            transaction.Rollback();
                             return new MakeUserItem();
                         }
                     }
                     catch (Exception e)
                     {
+                        transaction.Rollback();
                         MakeUserItem user = new MakeUserItem();
                         user.userEmail = e.ToString();
                         return user;
                         throw e;
+                    }
+                    finally
+                    {
+                        if (conn != null)
+                        {
+                            conn.Close();
+                        }
                     }
                 }
             }
