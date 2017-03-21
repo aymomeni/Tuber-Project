@@ -1441,7 +1441,6 @@ namespace ToDoList
                         try
                         {
                             conn.Open();
-
                             MySqlCommand command = conn.CreateCommand();
 
                             // Verify student is in the class provided
@@ -1501,6 +1500,13 @@ namespace ToDoList
                         {
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
 
