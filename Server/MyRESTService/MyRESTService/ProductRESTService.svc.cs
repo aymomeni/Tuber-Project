@@ -110,7 +110,6 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 String returnedUserEmail = "";
                 String returnedUserPassword = "";
                 String returnedUserFirstName = "";
@@ -119,14 +118,13 @@ namespace ToDoList
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     MySqlTransaction transaction = null;
-
                     try
                     {
                         conn.Open();
                         transaction = conn.BeginTransaction();
-
                         MySqlCommand command = conn.CreateCommand();
                         command.Transaction = transaction;
+
                         command.CommandText = "select email, password, first_name, last_name from users where email = ?userEmail";
                         command.Parameters.AddWithValue("userEmail", item.userEmail);
 
@@ -248,7 +246,6 @@ namespace ToDoList
                                 {
                                     VerifiedUserItem user = new VerifiedUserItem();
                                     user.userEmail = returnedUserEmail;
-                                    //user.userPassword = returnedUserPassword;
                                     user.userStudentCourses = studentCourses;
                                     user.userTutorCourses = tutorCourses;
                                     user.userToken = userToken;
@@ -273,7 +270,6 @@ namespace ToDoList
                                         {
                                             VerifiedUserItem user = new VerifiedUserItem();
                                             user.userEmail = returnedUserEmail;
-                                            //user.userPassword = returnedUserPassword;
                                             user.userStudentCourses = studentCourses;
                                             user.userTutorCourses = tutorCourses;
                                             user.userToken = userToken;
@@ -299,7 +295,6 @@ namespace ToDoList
                                         return new VerifiedUserItem();
                                     }
                                 }
-
                                 else
                                 {
                                     command.CommandText = "INSERT INTO firebase_tokens VALUES (?userEmail, ?firebaseToken)";
@@ -309,7 +304,6 @@ namespace ToDoList
                                     {
                                         VerifiedUserItem user = new VerifiedUserItem();
                                         user.userEmail = returnedUserEmail;
-                                        //user.userPassword = returnedUserPassword;
                                         user.userStudentCourses = studentCourses;
                                         user.userTutorCourses = tutorCourses;
                                         user.userToken = userToken;
@@ -332,7 +326,6 @@ namespace ToDoList
                             {
                                 VerifiedUserItem user = new VerifiedUserItem();
                                 user.userEmail = returnedUserEmail;
-                                //user.userPassword = returnedUserPassword;
                                 user.userStudentCourses = studentCourses;
                                 user.userTutorCourses = tutorCourses;
                                 user.userToken = userToken;
@@ -340,7 +333,7 @@ namespace ToDoList
                                 user.userLastName = returnedUserLastName;
 
                                 transaction.Commit();
-
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                 return user;
                             }
                         }
