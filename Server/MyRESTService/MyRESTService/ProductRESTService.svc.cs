@@ -3698,7 +3698,6 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
@@ -3738,6 +3737,13 @@ namespace ToDoList
                             {
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
 
