@@ -3250,12 +3250,15 @@ namespace ToDoList
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
+                            transaction = conn.BeginTransaction();
+                            MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Get the ID of the hotspot the user is leaving
-                            MySqlCommand command = conn.CreateCommand();
                             command.CommandText = "SELECT hotspot_id FROM study_hotspots_members WHERE email = ?email";
                             command.Parameters.AddWithValue("email", item.userEmail);
 
@@ -3291,12 +3294,14 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() > 0)
                                 {
                                     // Deleting user from study hotspot successful
+                                    transaction.Commit();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     return new StudyHotspotLeaveRequestItem();
                                 }
                                 else
                                 {
                                     // Updating study hotspot count failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new StudyHotspotLeaveRequestItem();
                                 }
@@ -3304,13 +3309,23 @@ namespace ToDoList
                             else
                             {
                                 // Deleting user from study_hotspots_members table failed
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
                                 return new StudyHotspotLeaveRequestItem();
                             }
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
