@@ -2707,11 +2707,13 @@ namespace ToDoList
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
-
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Check to make sure the student hasn't already rated the tutor
                             command.CommandText = "SELECT tutorEmail FROM tutor_ratings WHERE tutor_session_id = ?tutorSessionID";
@@ -2750,12 +2752,14 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Rating added successfully
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return new RateTutorResponseItem();
                                     }
                                     else
                                     {
                                         // Insert rating into tutor_ratings table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ExpectationFailed;
                                         return new RateTutorResponseItem();
                                     }
@@ -2776,10 +2780,18 @@ namespace ToDoList
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
                     }
-
                 }
                 else
                 {
