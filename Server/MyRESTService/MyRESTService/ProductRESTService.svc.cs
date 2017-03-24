@@ -4641,7 +4641,6 @@ namespace ToDoList
                             command.Parameters.AddWithValue("toEmail2", item.userEmail);
                             command.Parameters.AddWithValue("fromEmail2", item.recipientEmail);
 
-
                             using (MySqlDataReader reader = command.ExecuteReader())
                             {
                                 while (reader.Read())
@@ -4661,6 +4660,13 @@ namespace ToDoList
                         {
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
 
