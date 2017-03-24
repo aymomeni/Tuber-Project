@@ -3042,7 +3042,6 @@ namespace ToDoList
 
                         var studentCoord = new GeoCoordinate(Convert.ToDouble(item.latitude), Convert.ToDouble(item.longitude));
 
-
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
                             try
@@ -3091,6 +3090,13 @@ namespace ToDoList
                             {
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
 
