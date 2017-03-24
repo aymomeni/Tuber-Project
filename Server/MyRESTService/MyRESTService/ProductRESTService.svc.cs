@@ -3998,11 +3998,13 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
 
                                 // Get information from tutor_requests_accepted table
                                 command.CommandText = "SELECT student_email, tutor_email, course, topic, duration FROM tutor_requests_accepted WHERE tutor_email = ?tutorEmail  AND course = ?course AND date_time = ?dateTime";
@@ -4039,12 +4041,14 @@ namespace ToDoList
                                         if (command.ExecuteNonQuery() > 0)
                                         {
                                             // Tutor session started successfully
+                                            transaction.Commit();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                             return new StartScheduledTutorSessionTutorResponseItem();
                                         }
                                         else
                                         {
                                             // Insert into tutor_sessions_active table failed
+                                            transaction.Rollback();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                             return new StartScheduledTutorSessionTutorResponseItem();
                                         }
@@ -4052,6 +4056,7 @@ namespace ToDoList
                                     else
                                     {
                                         // Deleting from tutor_requests_accepted table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new StartScheduledTutorSessionTutorResponseItem();
                                     }
@@ -4065,8 +4070,16 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
