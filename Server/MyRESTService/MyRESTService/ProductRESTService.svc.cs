@@ -3135,12 +3135,15 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
-                                // Check to see if hotspot still exists 
+                                transaction = conn.BeginTransaction(); 
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
+
+                                // Check to see if hotspot still exists
                                 command.CommandText = "SELECT hotspot_id FROM study_hotspots WHERE hotspot_id = ?hotspotID";
                                 command.Parameters.AddWithValue("hotspotID", item.hotspotID);
 
@@ -3178,12 +3181,14 @@ namespace ToDoList
                                         if (command.ExecuteNonQuery() > 0)
                                         {
                                             // Adding user to study hotspot successful 
+                                            transaction.Commit();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                             return new StudyHotspotJoinResponseItem();
                                         }
                                         else
                                         {
                                             // Updating student count failed
+                                            transaction.Rollback();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                             return new StudyHotspotJoinResponseItem();
                                         }
@@ -3191,6 +3196,7 @@ namespace ToDoList
                                     else
                                     {
                                         // Inserting user into study_hotspots_members table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new StudyHotspotJoinResponseItem();
                                     }
@@ -3204,7 +3210,16 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
