@@ -2919,6 +2919,9 @@ namespace ToDoList
             }
         }
 
+        ////////////////////////////
+        // Study Hotspot Functions 
+        ///////////////////////////
         public CreateStudyHotspotResponseItem CreateStudyHotspot(CreateStudyHotspotRequestItem item)
         {
             lock (this)
@@ -3539,6 +3542,10 @@ namespace ToDoList
             }
         }
 
+
+        ////////////////////////////
+        // Schedule Tutor Functions 
+        ///////////////////////////
         public ScheduleTutorResponseItem ScheduleTutor(ScheduleTutorItem item)
         {
             lock (this)
@@ -3552,11 +3559,14 @@ namespace ToDoList
                         // Store student's tutor request in DB
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
+
                                 command.CommandText = "INSERT INTO tutor_requests VALUES (?studentEmail, ?course, ?topic, ?dateTime, ?duration)";
                                 command.Parameters.AddWithValue("studentEmail", item.userEmail);
                                 command.Parameters.AddWithValue("course", item.course);
@@ -3567,20 +3577,30 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() > 0)
                                 {
                                     // Student's request stored successfully
+                                    transaction.Commit();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     return new ScheduleTutorResponseItem();
                                 }
                                 else
                                 {
                                     // Student's request failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                     return new ScheduleTutorResponseItem();
                                 }
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
