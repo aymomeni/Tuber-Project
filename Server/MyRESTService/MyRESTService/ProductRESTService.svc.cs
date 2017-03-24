@@ -2137,12 +2137,19 @@ namespace ToDoList
                                 GetSessionStatusStudentResponseItem sessionStatus = new GetSessionStatusStudentResponseItem();
                                 sessionStatus.session_status = "paired";
                                 return sessionStatus;
-
                             }
                         }
                         catch (Exception e)
                         {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
