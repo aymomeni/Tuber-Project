@@ -3440,12 +3440,15 @@ namespace ToDoList
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
+                            transaction = conn.BeginTransaction();
+                            MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Check to see if the user owns the hotspot 
-                            MySqlCommand command = conn.CreateCommand();
                             command.CommandText = "SELECT owner_email FROM study_hotspots WHERE hotspot_id = ?hotspotID";
                             command.Parameters.AddWithValue("hotspotID", item.hotspotID);
 
@@ -3493,12 +3496,14 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() > 0)
                                 {
                                     // Deleting the study hotspot was successful
+                                    transaction.Commit();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     return new StudyHotspotDeleteResponseItem();
                                 }
                                 else
                                 {
                                     // Deleting the study hotspot failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new StudyHotspotDeleteResponseItem();
                                 }
@@ -3512,8 +3517,16 @@ namespace ToDoList
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
