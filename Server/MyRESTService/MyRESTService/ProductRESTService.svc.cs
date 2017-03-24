@@ -2933,11 +2933,13 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
 
                                 // Insert the hotspot into the study_hotspots table
                                 command.CommandText = "INSERT INTO study_hotspots (owner_email, course_name, latitude, longitude, student_count) VALUES (?owner_email, ?course_name, ?latitude, ?longitude, 1)";
@@ -2949,7 +2951,6 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() > 0)
                                 {
                                     // Retreive the new hotspot_id
-                                    //command.CommandText = "SELECT hotspot_id FROM study_hotspots WHERE owner_email = ?owner_email";
                                     command.CommandText = "SELECT LAST_INSERT_ID() as hotspot_id FROM study_hotspots";
                                     using (MySqlDataReader reader = command.ExecuteReader())
                                     {
@@ -2967,15 +2968,16 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Hotspot created successfully
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         CreateStudyHotspotResponseItem hotspot = new CreateStudyHotspotResponseItem();
                                         hotspot.hotspotID = returnedHotspotID;
                                         return hotspot;
-                                        //return new CreateStudyHotspotResponseItem();
                                     }
                                     else
                                     {
                                         // Creator assigned to hotspot in hotspots_members table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new CreateStudyHotspotResponseItem();
                                     }
@@ -2983,13 +2985,23 @@ namespace ToDoList
                                 else
                                 {
                                     // Insertion of hotspot into study_hotspots table failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new CreateStudyHotspotResponseItem();
                                 }
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
