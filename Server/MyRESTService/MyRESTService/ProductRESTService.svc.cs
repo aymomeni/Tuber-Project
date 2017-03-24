@@ -2300,11 +2300,14 @@ namespace ToDoList
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
-
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
+
                             command.CommandText = "SELECT * FROM tutor_sessions_pending WHERE studentEmail = ?studentEmail";
                             command.Parameters.AddWithValue("studentEmail", item.userEmail);
 
@@ -2334,12 +2337,14 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Everything went as planned
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return new StartTutorSessionStudentResponseItem();
                                     }
                                     else
                                     {
                                         // Inserting into tutor_sessions_active table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                         return new StartTutorSessionStudentResponseItem();
                                     }
@@ -2347,6 +2352,7 @@ namespace ToDoList
                                 else
                                 {
                                     // Deleting from tutor_sessions_pending failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new StartTutorSessionStudentResponseItem();
                                 }
@@ -2360,8 +2366,16 @@ namespace ToDoList
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
