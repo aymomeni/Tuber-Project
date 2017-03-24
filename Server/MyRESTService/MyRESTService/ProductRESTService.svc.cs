@@ -4482,16 +4482,15 @@ namespace ToDoList
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
                         MySqlTransaction transaction = null;
-
                         try
                         {
-                            conn.Open();
-                            transaction = conn.BeginTransaction();
-
                             String returnedFirebaseToken = "";
 
+                            conn.Open();
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
                             command.Transaction = transaction;
+
                             command.CommandText = "SELECT token FROM firebase_tokens WHERE email = ?recipientEmail";
                             command.Parameters.AddWithValue("recipientEmail", item.recipientEmail);
 
@@ -4597,6 +4596,13 @@ namespace ToDoList
                             {
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
                             }
                         }
                     }
