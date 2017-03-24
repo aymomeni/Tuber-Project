@@ -4384,11 +4384,13 @@ namespace ToDoList
                     // Insert report into reported_tutor table
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
-
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Store user report in reported_tutors table
                             command.CommandText = "INSERT INTO reported_tutors VALUES (?tutorSessionID, ?studentEmail, ?tutorEmail, ?message, ?reportDate)";
@@ -4420,12 +4422,14 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Reporting tutor & deactivating tutor succeeded
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return new ReportTutorResponseItem();
                                     }
                                     else
                                     {
                                         // Reporting tutor succeeded, but deactivating tutor failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotModified;
                                         return new ReportTutorResponseItem();
                                     }
@@ -4433,6 +4437,7 @@ namespace ToDoList
                                 else
                                 {
                                     // Reporting tutor & no deactivating tutor succeeded
+                                    transaction.Commit();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     return new ReportTutorResponseItem();
                                 }
@@ -4440,12 +4445,15 @@ namespace ToDoList
                             else
                             {
                                 // Inserting student's report for tutor failed
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                 return new ReportTutorResponseItem();
                             }
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
                     }
