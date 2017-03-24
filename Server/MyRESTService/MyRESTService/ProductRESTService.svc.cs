@@ -4723,6 +4723,13 @@ namespace ToDoList
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
                     }
 
                     // Return messages
