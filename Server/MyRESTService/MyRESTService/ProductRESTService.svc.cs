@@ -2188,9 +2188,9 @@ namespace ToDoList
                             {
                                 conn.Open();
                                 transaction = conn.BeginTransaction();
-
                                 MySqlCommand command = conn.CreateCommand();
                                 command.Transaction = transaction;
+
                                 command.CommandText = "SELECT * FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
                                 command.Parameters.AddWithValue("tutorEmail", item.userEmail);
 
