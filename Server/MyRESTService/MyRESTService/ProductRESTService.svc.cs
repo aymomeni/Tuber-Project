@@ -3786,11 +3786,14 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
+
                                 // Get selected student request information 
                                 command.CommandText = "SELECT student_email, course, topic, DATE_FORMAT(date_time, '%Y-%m-%d %T') as date_time, duration FROM tutor_requests WHERE student_email = ?studentEmail AND course = ?course";
                                 command.Parameters.AddWithValue("studentEmail", item.studentEmail);
@@ -3828,6 +3831,7 @@ namespace ToDoList
                                         if (command.ExecuteNonQuery() > 0)
                                         {
                                             // Pairing of the student and tutor scheduled request was successful
+                                            transaction.Commit();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                             AcceptStudentScheduleRequestResponseItem paired = new AcceptStudentScheduleRequestResponseItem();
                                             paired.student_email = item.studentEmail;
@@ -3842,6 +3846,7 @@ namespace ToDoList
                                         else
                                         {
                                             // Insert pairing into tutor_requests_accepted table failed
+                                            transaction.Rollback();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                             return new AcceptStudentScheduleRequestResponseItem();
                                         }
@@ -3849,6 +3854,7 @@ namespace ToDoList
                                     else
                                     {
                                         // Deleting from tutor_requests table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new AcceptStudentScheduleRequestResponseItem();
                                     }
@@ -3862,8 +3868,16 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
