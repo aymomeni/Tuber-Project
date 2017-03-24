@@ -2544,11 +2544,13 @@ namespace ToDoList
                 {
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
-
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Insert student's new location into the tutor_sessions_pairing table
                             command.CommandText = "UPDATE tutor_sessions_pairing SET studentLatitude = ?studentLatitude, studentLongitude = ?studentLongitude WHERE studentEmail = ?studentEmail";
@@ -2573,21 +2575,31 @@ namespace ToDoList
                                     }
                                 }
 
+                                transaction.Commit();
                                 return locationResponse;
                             }
                             else
                             {
                                 // Updating the student's location in the tutor_sessions_pairing table failed
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                                 return new UpdateStudentLocationResponseItem();
                             }
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
                     }
-
                 }
                 else
                 {
