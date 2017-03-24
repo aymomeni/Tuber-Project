@@ -1851,7 +1851,15 @@ namespace ToDoList
                         }
                         catch (Exception e)
                         {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                     //}
