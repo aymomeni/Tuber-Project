@@ -4207,6 +4207,9 @@ namespace ToDoList
         }
 
 
+        ///////////////////////////
+        // Report Tutor Functions 
+        //////////////////////////
         public ReportTutorGetTutorListResponseItem ReportTutorGetTutorList(ReportTutorGetTutorListRequestItem item)
         {
             lock (this)
@@ -4278,6 +4281,13 @@ namespace ToDoList
                         {
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
 
