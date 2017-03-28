@@ -71,6 +71,10 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
         {
             performSegue(withIdentifier: "offerToTutor", sender: selectedOption)
         }
+        else if selectedOption == "Messaging"
+        {
+            performSegue(withIdentifier: "goToMessage", sender: selectedOption)
+        }
         
     }
     
