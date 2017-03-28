@@ -38,6 +38,18 @@ class RegistrationViewController: UIViewController {
         toPass.append(Lname.text!);
         toPass.append(password.text!);
         toPass.append(format.string(from:DOBpicker.date));
-        performSegue(withIdentifier: "toSecondScreen", sender: toPass)
+        performSegue(withIdentifier: "toSecondScreen", sender: toPass);
     }
+    /*
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toSecondScreen"
+        {
+            if let destination = segue.destination as? Registration2ViewController
+            {
+                destination.passedInfo = sender as! [String]
+            }
+            
+        }
+    }
+     */
 }

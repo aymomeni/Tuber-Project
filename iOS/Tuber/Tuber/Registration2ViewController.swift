@@ -14,7 +14,7 @@ class Registration2ViewController: UIViewController,UIPickerViewDataSource,UIPic
     let pickerData = ["Master", "Visa"];
     var cardType = "";
     
-    var passedInfo = [String()]
+    var passedInfo = [String()];
     
     @IBOutlet weak var cardNumber: UITextField!
     @IBOutlet weak var CVV: UITextField!
