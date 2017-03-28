@@ -14,6 +14,7 @@ class ReportTutorListTableViewCell: UITableViewCell {
     @IBOutlet weak var tutorNameLabel: UILabel!
     
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var datetimeLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
