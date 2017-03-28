@@ -10,6 +10,8 @@ import UIKit
 
 class ActiveHotspotViewController: UIViewController {
 
+    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var deletebutton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -39,9 +41,6 @@ class ActiveHotspotViewController: UIViewController {
         //getting values from text fields
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
-//        let course = defaults.object(forKey: "selectedCourse") as! String
-        //        let latitude = String(describing: location?.coordinate.latitude)
-        //        let longitude = String(describing: location?.coordinate.longitude)
         
         //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\"}"

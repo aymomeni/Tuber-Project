@@ -41,11 +41,14 @@ namespace ToDoList
                 // Store user information in DB
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
+                    MySqlTransaction transaction = null;
                     try
                     {
                         conn.Open();
-
+                        transaction = conn.BeginTransaction();
                         MySqlCommand command = conn.CreateCommand();
+                        command.Transaction = transaction;
+
                         command.CommandText = "INSERT INTO users VALUES (?userEmail, ?hashValue, ?userFirstName, ?userLastName, ?userBillingAddress, ?userBillingCity, ?userBillingState, ?userBillingCCNumber, ?userBillingCCExpDate, ?userBillingCCV, 0)";
                         command.Parameters.AddWithValue("userEmail", item.userEmail);
                         command.Parameters.AddWithValue("hashValue", hashValue);
@@ -65,21 +68,30 @@ namespace ToDoList
                             user.userPassword = item.userPassword;
 
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
-
+                            transaction.Commit();
                             return user;
                         }
                         else
                         {
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
+                            transaction.Rollback();
                             return new MakeUserItem();
                         }
                     }
                     catch (Exception e)
                     {
+                        transaction.Rollback();
                         MakeUserItem user = new MakeUserItem();
                         user.userEmail = e.ToString();
                         return user;
                         throw e;
+                    }
+                    finally
+                    {
+                        if (conn != null)
+                        {
+                            conn.Close();
+                        }
                     }
                 }
             }
@@ -98,7 +110,6 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 String returnedUserEmail = "";
                 String returnedUserPassword = "";
                 String returnedUserFirstName = "";
@@ -107,14 +118,13 @@ namespace ToDoList
                 using (MySqlConnection conn = new MySqlConnection(connectionString))
                 {
                     MySqlTransaction transaction = null;
-
                     try
                     {
                         conn.Open();
                         transaction = conn.BeginTransaction();
-
                         MySqlCommand command = conn.CreateCommand();
                         command.Transaction = transaction;
+
                         command.CommandText = "select email, password, first_name, last_name from users where email = ?userEmail";
                         command.Parameters.AddWithValue("userEmail", item.userEmail);
 
@@ -236,7 +246,6 @@ namespace ToDoList
                                 {
                                     VerifiedUserItem user = new VerifiedUserItem();
                                     user.userEmail = returnedUserEmail;
-                                    //user.userPassword = returnedUserPassword;
                                     user.userStudentCourses = studentCourses;
                                     user.userTutorCourses = tutorCourses;
                                     user.userToken = userToken;
@@ -261,7 +270,6 @@ namespace ToDoList
                                         {
                                             VerifiedUserItem user = new VerifiedUserItem();
                                             user.userEmail = returnedUserEmail;
-                                            //user.userPassword = returnedUserPassword;
                                             user.userStudentCourses = studentCourses;
                                             user.userTutorCourses = tutorCourses;
                                             user.userToken = userToken;
@@ -287,7 +295,6 @@ namespace ToDoList
                                         return new VerifiedUserItem();
                                     }
                                 }
-
                                 else
                                 {
                                     command.CommandText = "INSERT INTO firebase_tokens VALUES (?userEmail, ?firebaseToken)";
@@ -297,7 +304,6 @@ namespace ToDoList
                                     {
                                         VerifiedUserItem user = new VerifiedUserItem();
                                         user.userEmail = returnedUserEmail;
-                                        //user.userPassword = returnedUserPassword;
                                         user.userStudentCourses = studentCourses;
                                         user.userTutorCourses = tutorCourses;
                                         user.userToken = userToken;
@@ -320,7 +326,6 @@ namespace ToDoList
                             {
                                 VerifiedUserItem user = new VerifiedUserItem();
                                 user.userEmail = returnedUserEmail;
-                                //user.userPassword = returnedUserPassword;
                                 user.userStudentCourses = studentCourses;
                                 user.userTutorCourses = tutorCourses;
                                 user.userToken = userToken;
@@ -328,7 +333,7 @@ namespace ToDoList
                                 user.userLastName = returnedUserLastName;
 
                                 transaction.Commit();
-
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                 return user;
                             }
                         }
@@ -374,7 +379,6 @@ namespace ToDoList
                         {
                             conn.Open();
                             transaction = conn.BeginTransaction();
-
                             MySqlCommand command = conn.CreateCommand();
                             command.Transaction = transaction;
 
@@ -459,7 +463,6 @@ namespace ToDoList
                         {
                             conn.Open();
                             transaction = conn.BeginTransaction();
-
                             MySqlCommand command = conn.CreateCommand();
                             command.Transaction = transaction;
 
@@ -529,7 +532,6 @@ namespace ToDoList
                         {
                             conn.Open();
                             transaction = conn.BeginTransaction();
-
                             MySqlCommand command = conn.CreateCommand();
                             command.Transaction = transaction;
 
@@ -612,13 +614,13 @@ namespace ToDoList
                     {
                         conn.Open();
                         transaction = conn.BeginTransaction();
-
                         MySqlCommand command = conn.CreateCommand();
                         command.Transaction = transaction;
 
                         // Generate the new temporary password
                         String newPassword = Membership.GeneratePassword(6, 2);
-
+                        
+                        // Hash the new temporary password
                         String newHashedPassword = computeHash(newPassword, null);
 
                         // Store the new temporary password in the DB so user can log in
@@ -692,7 +694,6 @@ namespace ToDoList
                     {
                         conn.Open();
                         transaction = conn.BeginTransaction();
-
                         MySqlCommand command = conn.CreateCommand();
                         command.Transaction = transaction;
 
@@ -792,7 +793,6 @@ namespace ToDoList
                     {
                         conn.Open();
                         transaction = conn.BeginTransaction();
-
                         MySqlCommand command = conn.CreateCommand();
                         command.Transaction = transaction;
 
@@ -877,7 +877,6 @@ namespace ToDoList
                         {
                             conn.Open();
                             transaction = conn.BeginTransaction();
-
                             MySqlCommand command = conn.CreateCommand();
                             command.Transaction = transaction;
 
@@ -987,7 +986,6 @@ namespace ToDoList
                         {
                             conn.Open();
                             transaction = conn.BeginTransaction();
-
                             MySqlCommand command = conn.CreateCommand();
                             command.Transaction = transaction;
 
@@ -1075,7 +1073,6 @@ namespace ToDoList
                     try
                     {
                         conn.Open();
-
                         MySqlCommand command = conn.CreateCommand();
 
                         // Get the rating of the tutor specified
@@ -1096,7 +1093,6 @@ namespace ToDoList
                                 {
                                     returnedAverageRating = reader.GetDouble("averageRating");
                                 }
-
                             }
                         }
 
@@ -1158,7 +1154,6 @@ namespace ToDoList
                     try
                     {
                         conn.Open();
-
                         MySqlCommand command = conn.CreateCommand();
 
                         // Get the rating of the student specified
@@ -1179,7 +1174,6 @@ namespace ToDoList
                                 {
                                     returnedAverageRating = reader.GetDouble("averageRating");
                                 }
-
                             }
                         }
 
@@ -1247,11 +1241,13 @@ namespace ToDoList
                     {
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
 
                                 // Verify the user is able to tutor the course specified 
                                 command.CommandText = "SELECT * FROM tutor_courses WHERE email = ?userEmail AND name = ?tutorCourse";
@@ -1277,12 +1273,14 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Insertion happend as expected
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return new MakeTutorAvailableResponseItem();
                                     }
                                     else
                                     {
                                         // Something went wrong inserting user into available_tutors
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                                         return new MakeTutorAvailableResponseItem();
                                     }
@@ -1296,7 +1294,16 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
@@ -1334,11 +1341,13 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
 
                                 // Verify the user to be deleted is in the available_tutors table
                                 command.CommandText = "SELECT email FROM available_tutors WHERE email = ?userEmail";
@@ -1360,12 +1369,14 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() >= 0)
                                     {
                                         // Deletion happened as expected
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return new DeleteTutorResponseItem();
                                     }
                                     else
                                     {
                                         // Something went wrong deleting user from available_tutors
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new DeleteTutorResponseItem();
                                     }
@@ -1379,7 +1390,16 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
@@ -1421,7 +1441,6 @@ namespace ToDoList
                         try
                         {
                             conn.Open();
-
                             MySqlCommand command = conn.CreateCommand();
 
                             // Verify student is in the class provided
@@ -1482,6 +1501,13 @@ namespace ToDoList
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
                     }
 
                     // Return list of available tutors
@@ -1512,11 +1538,13 @@ namespace ToDoList
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
-
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Check that the tutor is still available 
                             command.CommandText = "SELECT * FROM available_tutors WHERE email = ?tutorEmail";
@@ -1552,6 +1580,7 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Return the paired object
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         StudentTutorPairedItem paired = new StudentTutorPairedItem();
                                         paired.userEmail = item.userEmail;
@@ -1567,6 +1596,7 @@ namespace ToDoList
                                     else
                                     {
                                         // Inserting into tutor_session_pairing table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                         return new StudentTutorPairedItem();
                                     }
@@ -1574,6 +1604,7 @@ namespace ToDoList
                                 else
                                 {
                                     // Deleting from the available_tutors table failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new StudentTutorPairedItem();
                                 }
@@ -1588,6 +1619,13 @@ namespace ToDoList
                         catch (Exception e)
                         {
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
@@ -1614,11 +1652,13 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
 
                                 // Check to see if the tutor is still in the available_tutors table
                                 command.CommandText = "SELECT * FROM available_tutors WHERE email = ?userEmail";
@@ -1683,20 +1723,29 @@ namespace ToDoList
 
                                     if (command.ExecuteNonQuery() > 0)
                                     {
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return new PairedStatusItem();
                                     }
                                     else
                                     {
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                         return new PairedStatusItem();
                                     }
-
                                 }
                             }
                             catch (Exception e)
                             {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
@@ -1802,7 +1851,15 @@ namespace ToDoList
                         }
                         catch (Exception e)
                         {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                     //}
@@ -1954,6 +2011,13 @@ namespace ToDoList
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
                             }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
+                            }
                         }
                     }
                     else
@@ -2073,12 +2137,19 @@ namespace ToDoList
                                 GetSessionStatusStudentResponseItem sessionStatus = new GetSessionStatusStudentResponseItem();
                                 sessionStatus.session_status = "paired";
                                 return sessionStatus;
-
                             }
                         }
                         catch (Exception e)
                         {
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
@@ -2117,9 +2188,9 @@ namespace ToDoList
                             {
                                 conn.Open();
                                 transaction = conn.BeginTransaction();
-
                                 MySqlCommand command = conn.CreateCommand();
                                 command.Transaction = transaction;
+
                                 command.CommandText = "SELECT * FROM tutor_sessions_pairing WHERE tutorEmail = ?tutorEmail";
                                 command.Parameters.AddWithValue("tutorEmail", item.userEmail);
 
@@ -2229,11 +2300,14 @@ namespace ToDoList
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
-
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
+
                             command.CommandText = "SELECT * FROM tutor_sessions_pending WHERE studentEmail = ?studentEmail";
                             command.Parameters.AddWithValue("studentEmail", item.userEmail);
 
@@ -2263,12 +2337,14 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Everything went as planned
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return new StartTutorSessionStudentResponseItem();
                                     }
                                     else
                                     {
                                         // Inserting into tutor_sessions_active table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                         return new StartTutorSessionStudentResponseItem();
                                     }
@@ -2276,6 +2352,7 @@ namespace ToDoList
                                 else
                                 {
                                     // Deleting from tutor_sessions_pending failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new StartTutorSessionStudentResponseItem();
                                 }
@@ -2289,8 +2366,16 @@ namespace ToDoList
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
@@ -2459,11 +2544,13 @@ namespace ToDoList
                 {
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
-
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Insert student's new location into the tutor_sessions_pairing table
                             command.CommandText = "UPDATE tutor_sessions_pairing SET studentLatitude = ?studentLatitude, studentLongitude = ?studentLongitude WHERE studentEmail = ?studentEmail";
@@ -2488,21 +2575,31 @@ namespace ToDoList
                                     }
                                 }
 
+                                transaction.Commit();
                                 return locationResponse;
                             }
                             else
                             {
                                 // Updating the student's location in the tutor_sessions_pairing table failed
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                                 return new UpdateStudentLocationResponseItem();
                             }
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
                     }
-
                 }
                 else
                 {
@@ -2525,11 +2622,13 @@ namespace ToDoList
                     {
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
 
                                 // Insert tutors's new location into the tutor_sessions_pairing table
                                 command.CommandText = "UPDATE tutor_sessions_pairing SET tutorLatitude = ?tutorLatitude, tutorLongitude = ?tutorLongitude WHERE tutorEmail = ?tutorEmail";
@@ -2554,18 +2653,29 @@ namespace ToDoList
                                         }
                                     }
 
+                                    transaction.Commit();
                                     return locationResponse;
                                 }
                                 else
                                 {
                                     // Updating the tutor's location in the tutor_sessions_pairing table failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                                     return new UpdateTutorLocationResponseItem();
                                 }
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
@@ -2597,11 +2707,13 @@ namespace ToDoList
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
-
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Check to make sure the student hasn't already rated the tutor
                             command.CommandText = "SELECT tutorEmail FROM tutor_ratings WHERE tutor_session_id = ?tutorSessionID";
@@ -2640,12 +2752,14 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Rating added successfully
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return new RateTutorResponseItem();
                                     }
                                     else
                                     {
                                         // Insert rating into tutor_ratings table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ExpectationFailed;
                                         return new RateTutorResponseItem();
                                     }
@@ -2666,10 +2780,18 @@ namespace ToDoList
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
                     }
-
                 }
                 else
                 {
@@ -2695,11 +2817,13 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
 
                                 // Check to make sure the tutor hasn't already rated the student
                                 command.CommandText = "SELECT studentEmail FROM student_ratings WHERE tutor_session_id = ?tutorSessionID";
@@ -2738,12 +2862,14 @@ namespace ToDoList
                                         if (command.ExecuteNonQuery() > 0)
                                         {
                                             // Rating added successfully
+                                            transaction.Commit();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                             return new RateStudentResponseItem();
                                         }
                                         else
                                         {
                                             // Insert rating into tutor_ratings table failed
+                                            transaction.Rollback();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ExpectationFailed;
                                             return new RateStudentResponseItem();
                                         }
@@ -2764,7 +2890,16 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
@@ -2784,6 +2919,9 @@ namespace ToDoList
             }
         }
 
+        ////////////////////////////
+        // Study Hotspot Functions 
+        ///////////////////////////
         public CreateStudyHotspotResponseItem CreateStudyHotspot(CreateStudyHotspotRequestItem item)
         {
             lock (this)
@@ -2798,11 +2936,13 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
 
                                 // Insert the hotspot into the study_hotspots table
                                 command.CommandText = "INSERT INTO study_hotspots (owner_email, course_name, latitude, longitude, student_count) VALUES (?owner_email, ?course_name, ?latitude, ?longitude, 1)";
@@ -2814,7 +2954,6 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() > 0)
                                 {
                                     // Retreive the new hotspot_id
-                                    //command.CommandText = "SELECT hotspot_id FROM study_hotspots WHERE owner_email = ?owner_email";
                                     command.CommandText = "SELECT LAST_INSERT_ID() as hotspot_id FROM study_hotspots";
                                     using (MySqlDataReader reader = command.ExecuteReader())
                                     {
@@ -2832,15 +2971,16 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Hotspot created successfully
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         CreateStudyHotspotResponseItem hotspot = new CreateStudyHotspotResponseItem();
                                         hotspot.hotspotID = returnedHotspotID;
                                         return hotspot;
-                                        //return new CreateStudyHotspotResponseItem();
                                     }
                                     else
                                     {
                                         // Creator assigned to hotspot in hotspots_members table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new CreateStudyHotspotResponseItem();
                                     }
@@ -2848,13 +2988,23 @@ namespace ToDoList
                                 else
                                 {
                                     // Insertion of hotspot into study_hotspots table failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new CreateStudyHotspotResponseItem();
                                 }
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
@@ -2894,7 +3044,6 @@ namespace ToDoList
                         List<AvailableStudyHotspotItem> availableHotspots = new List<AvailableStudyHotspotItem>();
 
                         var studentCoord = new GeoCoordinate(Convert.ToDouble(item.latitude), Convert.ToDouble(item.longitude));
-
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
@@ -2945,6 +3094,13 @@ namespace ToDoList
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
                             }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
+                            }
                         }
 
                         // Return study hotspots
@@ -2982,12 +3138,15 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
-                                // Check to see if hotspot still exists 
+                                transaction = conn.BeginTransaction(); 
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
+
+                                // Check to see if hotspot still exists
                                 command.CommandText = "SELECT hotspot_id FROM study_hotspots WHERE hotspot_id = ?hotspotID";
                                 command.Parameters.AddWithValue("hotspotID", item.hotspotID);
 
@@ -3025,12 +3184,14 @@ namespace ToDoList
                                         if (command.ExecuteNonQuery() > 0)
                                         {
                                             // Adding user to study hotspot successful 
+                                            transaction.Commit();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                             return new StudyHotspotJoinResponseItem();
                                         }
                                         else
                                         {
                                             // Updating student count failed
+                                            transaction.Rollback();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                             return new StudyHotspotJoinResponseItem();
                                         }
@@ -3038,6 +3199,7 @@ namespace ToDoList
                                     else
                                     {
                                         // Inserting user into study_hotspots_members table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new StudyHotspotJoinResponseItem();
                                     }
@@ -3051,7 +3213,16 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
@@ -3082,12 +3253,15 @@ namespace ToDoList
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
+                            transaction = conn.BeginTransaction();
+                            MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Get the ID of the hotspot the user is leaving
-                            MySqlCommand command = conn.CreateCommand();
                             command.CommandText = "SELECT hotspot_id FROM study_hotspots_members WHERE email = ?email";
                             command.Parameters.AddWithValue("email", item.userEmail);
 
@@ -3123,12 +3297,14 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() > 0)
                                 {
                                     // Deleting user from study hotspot successful
+                                    transaction.Commit();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     return new StudyHotspotLeaveRequestItem();
                                 }
                                 else
                                 {
                                     // Updating study hotspot count failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new StudyHotspotLeaveRequestItem();
                                 }
@@ -3136,13 +3312,23 @@ namespace ToDoList
                             else
                             {
                                 // Deleting user from study_hotspots_members table failed
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Gone;
                                 return new StudyHotspotLeaveRequestItem();
                             }
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
@@ -3220,6 +3406,13 @@ namespace ToDoList
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
                     }
 
                     // Return study hotspot members' names
@@ -3250,12 +3443,15 @@ namespace ToDoList
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
+                            transaction = conn.BeginTransaction();
+                            MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Check to see if the user owns the hotspot 
-                            MySqlCommand command = conn.CreateCommand();
                             command.CommandText = "SELECT owner_email FROM study_hotspots WHERE hotspot_id = ?hotspotID";
                             command.Parameters.AddWithValue("hotspotID", item.hotspotID);
 
@@ -3303,12 +3499,14 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() > 0)
                                 {
                                     // Deleting the study hotspot was successful
+                                    transaction.Commit();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     return new StudyHotspotDeleteResponseItem();
                                 }
                                 else
                                 {
                                     // Deleting the study hotspot failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new StudyHotspotDeleteResponseItem();
                                 }
@@ -3322,8 +3520,16 @@ namespace ToDoList
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
                 }
@@ -3336,6 +3542,10 @@ namespace ToDoList
             }
         }
 
+
+        ////////////////////////////
+        // Schedule Tutor Functions 
+        ///////////////////////////
         public ScheduleTutorResponseItem ScheduleTutor(ScheduleTutorItem item)
         {
             lock (this)
@@ -3349,11 +3559,14 @@ namespace ToDoList
                         // Store student's tutor request in DB
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
+
                                 command.CommandText = "INSERT INTO tutor_requests VALUES (?studentEmail, ?course, ?topic, ?dateTime, ?duration)";
                                 command.Parameters.AddWithValue("studentEmail", item.userEmail);
                                 command.Parameters.AddWithValue("course", item.course);
@@ -3364,20 +3577,30 @@ namespace ToDoList
                                 if (command.ExecuteNonQuery() > 0)
                                 {
                                     // Student's request stored successfully
+                                    transaction.Commit();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     return new ScheduleTutorResponseItem();
                                 }
                                 else
                                 {
                                     // Student's request failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                     return new ScheduleTutorResponseItem();
                                 }
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
@@ -3401,7 +3624,6 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
@@ -3442,6 +3664,13 @@ namespace ToDoList
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
                             }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
+                            }
                         }
 
                         // Return the requests to the  tutor
@@ -3469,7 +3698,6 @@ namespace ToDoList
         {
             lock (this)
             {
-
                 // Check that the user token is valid
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
@@ -3509,6 +3737,13 @@ namespace ToDoList
                             {
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
 
@@ -3551,11 +3786,14 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
+
                                 // Get selected student request information 
                                 command.CommandText = "SELECT student_email, course, topic, DATE_FORMAT(date_time, '%Y-%m-%d %T') as date_time, duration FROM tutor_requests WHERE student_email = ?studentEmail AND course = ?course";
                                 command.Parameters.AddWithValue("studentEmail", item.studentEmail);
@@ -3593,6 +3831,7 @@ namespace ToDoList
                                         if (command.ExecuteNonQuery() > 0)
                                         {
                                             // Pairing of the student and tutor scheduled request was successful
+                                            transaction.Commit();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                             AcceptStudentScheduleRequestResponseItem paired = new AcceptStudentScheduleRequestResponseItem();
                                             paired.student_email = item.studentEmail;
@@ -3607,6 +3846,7 @@ namespace ToDoList
                                         else
                                         {
                                             // Insert pairing into tutor_requests_accepted table failed
+                                            transaction.Rollback();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                             return new AcceptStudentScheduleRequestResponseItem();
                                         }
@@ -3614,6 +3854,7 @@ namespace ToDoList
                                     else
                                     {
                                         // Deleting from tutor_requests table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new AcceptStudentScheduleRequestResponseItem();
                                     }
@@ -3627,8 +3868,16 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
@@ -3712,6 +3961,13 @@ namespace ToDoList
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
                     }
                 }
                 else
@@ -3742,11 +3998,13 @@ namespace ToDoList
 
                         using (MySqlConnection conn = new MySqlConnection(connectionString))
                         {
+                            MySqlTransaction transaction = null;
                             try
                             {
                                 conn.Open();
-
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
+                                command.Transaction = transaction;
 
                                 // Get information from tutor_requests_accepted table
                                 command.CommandText = "SELECT student_email, tutor_email, course, topic, duration FROM tutor_requests_accepted WHERE tutor_email = ?tutorEmail  AND course = ?course AND date_time = ?dateTime";
@@ -3783,12 +4041,14 @@ namespace ToDoList
                                         if (command.ExecuteNonQuery() > 0)
                                         {
                                             // Tutor session started successfully
+                                            transaction.Commit();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                             return new StartScheduledTutorSessionTutorResponseItem();
                                         }
                                         else
                                         {
                                             // Insert into tutor_sessions_active table failed
+                                            transaction.Rollback();
                                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                             return new StartScheduledTutorSessionTutorResponseItem();
                                         }
@@ -3796,6 +4056,7 @@ namespace ToDoList
                                     else
                                     {
                                         // Deleting from tutor_requests_accepted table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                         return new StartScheduledTutorSessionTutorResponseItem();
                                     }
@@ -3809,8 +4070,16 @@ namespace ToDoList
                             }
                             catch (Exception e)
                             {
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                                 throw e;
+                            }
+                            finally
+                            {
+                                if (conn != null)
+                                {
+                                    conn.Close();
+                                }
                             }
                         }
                     }
@@ -3844,11 +4113,13 @@ namespace ToDoList
 
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
-
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Get information from tutor_sessions_pending table
                             command.CommandText = "SELECT * FROM tutor_sessions_pending WHERE studentEmail = ?studentEmail AND course = ?course";
@@ -3883,12 +4154,14 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Tutor session started successfully
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return new StartScheduledTutorSessionStudentResponseItem();
                                     }
                                     else
                                     {
                                         // Insert into tutor_sessions_active table failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                         return new StartScheduledTutorSessionStudentResponseItem();
                                     }
@@ -3896,6 +4169,7 @@ namespace ToDoList
                                 else
                                 {
                                     // Deleting from tutor_requests_pending table failed
+                                    transaction.Rollback();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Conflict;
                                     return new StartScheduledTutorSessionStudentResponseItem();
                                 }
@@ -3909,8 +4183,16 @@ namespace ToDoList
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
 
@@ -3925,6 +4207,9 @@ namespace ToDoList
         }
 
 
+        ///////////////////////////
+        // Report Tutor Functions 
+        //////////////////////////
         public ReportTutorGetTutorListResponseItem ReportTutorGetTutorList(ReportTutorGetTutorListRequestItem item)
         {
             lock (this)
@@ -3997,6 +4282,13 @@ namespace ToDoList
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
                     }
 
 
@@ -4064,6 +4356,13 @@ namespace ToDoList
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
                     }
                 }
                 else
@@ -4085,11 +4384,13 @@ namespace ToDoList
                     // Insert report into reported_tutor table
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
+                        MySqlTransaction transaction = null;
                         try
                         {
                             conn.Open();
-
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
+                            command.Transaction = transaction;
 
                             // Store user report in reported_tutors table
                             command.CommandText = "INSERT INTO reported_tutors VALUES (?tutorSessionID, ?studentEmail, ?tutorEmail, ?message, ?reportDate)";
@@ -4121,12 +4422,14 @@ namespace ToDoList
                                     if (command.ExecuteNonQuery() > 0)
                                     {
                                         // Reporting tutor & deactivating tutor succeeded
+                                        transaction.Commit();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                         return new ReportTutorResponseItem();
                                     }
                                     else
                                     {
                                         // Reporting tutor succeeded, but deactivating tutor failed
+                                        transaction.Rollback();
                                         WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotModified;
                                         return new ReportTutorResponseItem();
                                     }
@@ -4134,6 +4437,7 @@ namespace ToDoList
                                 else
                                 {
                                     // Reporting tutor & no deactivating tutor succeeded
+                                    transaction.Commit();
                                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                                     return new ReportTutorResponseItem();
                                 }
@@ -4141,12 +4445,15 @@ namespace ToDoList
                             else
                             {
                                 // Inserting student's report for tutor failed
+                                transaction.Rollback();
                                 WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.BadRequest;
                                 return new ReportTutorResponseItem();
                             }
                         }
                         catch (Exception e)
                         {
+                            transaction.Rollback();
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
                         }
                     }
@@ -4175,16 +4482,15 @@ namespace ToDoList
                     using (MySqlConnection conn = new MySqlConnection(connectionString))
                     {
                         MySqlTransaction transaction = null;
-
                         try
                         {
-                            conn.Open();
-                            transaction = conn.BeginTransaction();
-
                             String returnedFirebaseToken = "";
 
+                            conn.Open();
+                            transaction = conn.BeginTransaction();
                             MySqlCommand command = conn.CreateCommand();
                             command.Transaction = transaction;
+
                             command.CommandText = "SELECT token FROM firebase_tokens WHERE email = ?recipientEmail";
                             command.Parameters.AddWithValue("recipientEmail", item.recipientEmail);
 
@@ -4292,6 +4598,13 @@ namespace ToDoList
                                 throw e;
                             }
                         }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
+                        }
                     }
                 }
                 else
@@ -4328,7 +4641,6 @@ namespace ToDoList
                             command.Parameters.AddWithValue("toEmail2", item.userEmail);
                             command.Parameters.AddWithValue("fromEmail2", item.recipientEmail);
 
-
                             using (MySqlDataReader reader = command.ExecuteReader())
                             {
                                 while (reader.Read())
@@ -4348,6 +4660,13 @@ namespace ToDoList
                         {
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
 
@@ -4403,6 +4722,13 @@ namespace ToDoList
                         {
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
                             throw e;
+                        }
+                        finally
+                        {
+                            if (conn != null)
+                            {
+                                conn.Close();
+                            }
                         }
                     }
 
