@@ -19,15 +19,16 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        /*
         self.title = ClassListViewController.selectedClass.className
         
         self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(title: "< Courses", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ClassOptionsViewController.back(sender:)))
         self.navigationItem.leftBarButtonItem = newBackButton
+        */
     }
     
-    func back(sender: UIBarButtonItem) {
+    func back(_ sender: UIBarButtonItem) {
         _ = navigationController?.popToRootViewController(animated: true)
     }
 

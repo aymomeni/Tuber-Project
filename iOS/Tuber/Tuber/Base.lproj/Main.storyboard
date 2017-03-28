@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E175b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -825,10 +825,10 @@
             </objects>
             <point key="canvasLocation" x="321" y="36"/>
         </scene>
-        <!--View Controller-->
+        <!--Registration View Controller-->
         <scene sceneID="XYI-wM-mWp">
             <objects>
-                <viewController id="aMD-OZ-UhG" sceneMemberID="viewController">
+                <viewController id="aMD-OZ-UhG" customClass="RegistrationViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9AJ-WP-msa"/>
                         <viewControllerLayoutGuide type="bottom" id="4Lh-J4-LDZ"/>
@@ -895,10 +895,10 @@
             </objects>
             <point key="canvasLocation" x="-42.399999999999999" y="743.47826086956525"/>
         </scene>
-        <!--View Controller-->
+        <!--Registration2 View Controller-->
         <scene sceneID="0se-DG-mVv">
             <objects>
-                <viewController id="m57-AS-r9i" sceneMemberID="viewController">
+                <viewController id="m57-AS-r9i" customClass="Registration2ViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0rg-SL-d1F"/>
                         <viewControllerLayoutGuide type="bottom" id="LUe-GH-Ryr"/>
@@ -1368,11 +1368,11 @@
         <image name="viewschedule" width="260" height="260"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="4VI-aA-F8d"/>
-        <segue reference="JXQ-uf-IvU"/>
+        <segue reference="w3u-QR-4nb"/>
+        <segue reference="g1V-38-82r"/>
         <segue reference="D0B-Yk-HHt"/>
         <segue reference="fpl-Kl-NNA"/>
-        <segue reference="bTA-8i-ZD6"/>
         <segue reference="U4Z-ty-pm8"/>
+        <segue reference="bTA-8i-ZD6"/>
     </inferredMetricsTieBreakers>
 </document>

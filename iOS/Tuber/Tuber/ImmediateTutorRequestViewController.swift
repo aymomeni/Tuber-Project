@@ -56,7 +56,7 @@ class ImmediateTutorRequestViewController: UIViewController, CLLocationManagerDe
     @IBAction func beginTutoring(_ sender: Any) {
         
         //created NSURL
-        let requestURL = NSURL(string: makeTutorAvailable)
+        let requestURL = URL(string: makeTutorAvailable)
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)

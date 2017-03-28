@@ -40,7 +40,7 @@ class RegistrationViewController: UIViewController {
         toPass.append(format.string(from:DOBpicker.date));
         performSegue(withIdentifier: "toSecondScreen", sender: toPass);
     }
-    /*
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toSecondScreen"
         {
@@ -51,5 +51,5 @@ class RegistrationViewController: UIViewController {
             
         }
     }
-     */
+    
 }

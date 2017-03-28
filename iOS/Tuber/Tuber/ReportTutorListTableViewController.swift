@@ -59,17 +59,17 @@ class ReportTutorListTableViewController: UITableViewController {
         
 //        let selectedOption = currentCell.tutorNameLabel.text
         
-        prepTutorSessions(tutorFirstName: tutorFirstNames[(indexPath?.row)!], tutorLastName: tutorLastNames[(indexPath?.row)!], tutorEmail: tutorEmails[(indexPath?.row)!])
+        prepTutorSessions(tutorFirstNames[(indexPath?.row)!], tutorLastName: tutorLastNames[(indexPath?.row)!], tutorEmail: tutorEmails[(indexPath?.row)!])
 //        prepTutorSessions(name: selectedOption!, tutorEmail: tutorEmails[(indexPath?.row)!])
         
     }
     
-    func prepTutorSessions(tutorFirstName: String, tutorLastName: String, tutorEmail: String)
+    func prepTutorSessions(_ tutorFirstName: String, tutorLastName: String, tutorEmail: String)
     {
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/reporttutorgetsessionlist";
         
         //created NSURL
-        let requestURL = NSURL(string: server)
+        let requestURL = URL(string: server)
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)

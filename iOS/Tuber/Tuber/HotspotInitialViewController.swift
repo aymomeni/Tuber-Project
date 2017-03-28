@@ -43,7 +43,7 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         
         if (!haveLocation)
         {
-            findHotspots(latitude: String(location!.coordinate.latitude), longitude: String(location!.coordinate.longitude))
+            findHotspots(String(location!.coordinate.latitude), longitude: String(location!.coordinate.longitude))
             self.haveLocation = true
         }
     }
@@ -72,7 +72,7 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/createstudyhotspot"
         
         //created NSURL
-        let requestURL = NSURL(string: server)
+        let requestURL = URL(string: server)
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
@@ -128,12 +128,12 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
     }
     
     
-    func findHotspots(latitude: String, longitude: String)
+    func findHotspots(_ latitude: String, longitude: String)
     {
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/findstudyhotspots"
         
         //created NSURL
-        let requestURL = NSURL(string: server)
+        let requestURL = URL(string: server)
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)

@@ -31,7 +31,7 @@ class HotspotDetailViewController: UIViewController {
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/joinstudyhotspot"
         
         //created NSURL
-        let requestURL = NSURL(string: server)
+        let requestURL = URL(string: server)
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
