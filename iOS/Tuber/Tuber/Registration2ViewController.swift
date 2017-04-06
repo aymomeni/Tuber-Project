@@ -11,7 +11,6 @@ class Registration2ViewController: UIViewController,UIPickerViewDataSource,UIPic
 {
     //@IBOutlet weak var picker: UIPickerView!
     
-    var defaults = UserDefaults.standard;
     let pickerData = ["Master", "Visa"];
     var cardType = "";
     
@@ -47,7 +46,7 @@ class Registration2ViewController: UIViewController,UIPickerViewDataSource,UIPic
     //MARK: Data Sources
     func numberOfComponentsInPickerView(in pickerView: UIPickerView) -> Int
     {
-        return pickerData.count;
+        return 1;
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
@@ -58,19 +57,16 @@ class Registration2ViewController: UIViewController,UIPickerViewDataSource,UIPic
     //MARK: Delegates
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
     {
-        cardType = pickerData[row];
         return pickerData[row];
     }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-    {
-    }
+    
     @IBAction func done(_ sender: Any) {
         let format = DateFormatter();
         format.dateFormat = "yyyy-MM-dd";
         
-        var url = "http://tuber-test.cloudapp.net/ProductRESTService.svc/createuser";
+        let url = "http://tuber-test.cloudapp.net/ProductRESTService.svc/createuser";
         //creating the post parameter by concatenating the keys and values from text field
-        var postParameters = "{\"userEmail\":\"" + passedInfo[1] +
+        let postParameters = "{\"userEmail\":\"" + passedInfo[1] +
             "\",\"userPassword\":\"" + passedInfo[4] +
             "\",\"userFirstName\":\"" + passedInfo[2] +
             "\",\"userLastName\":\"" + passedInfo[3] +
@@ -94,64 +90,15 @@ class Registration2ViewController: UIViewController,UIPickerViewDataSource,UIPic
             if (responseCode == 200)
             {
                 //parsing the json
-                if let parseJSON = JSON {
-                    
-                    
-                    self.defaults.set(parseJSON["userEmail"] as! String?, forKey: "userEmail")
-                    self.defaults.synchronize()
-                    
-                    //                    defaults.set(parseJSON["userStudentCourses"] as! Array<String>?, forKey: "userStudentCourses")
-                    //                    defaults.set(parseJSON["userToken"] as! String?, forKey: "userToken")
-                    //                    defaults.set(parseJSON["userTutorCourses"] as! Array<String>?, forKey: "userTutorCourses")
-                    //                    defaults.synchronize()
-                    //
-                    //                    print("Added to defaults")
-                    //
-                    //                    print(defaults.object(forKey: "userToken")!)
-                    //
-                    //}
-                }
-                
-            }
-            
-            
-            
-
-    }
-        
-        responseCode = -1;
-        let em = UserDefaults.standard.object(forKey: "userEmail") as! String;
-        postParameters = "{\"userEmail\":\"" + em + "\",\"userPassword\":\"" + self.passedInfo[4] + "\",\"firebaseToken\":\"" + "" + "\"}";
-        url = "http://tuber-test.cloudapp.net/ProductRESTService.svc/verifyuser";
-        
-        sr.runRequest(inputJSON: postParameters, server: url)
-        {
-            res,myJSON in
-            JSON = myJSON;
-            responseCode = res;
-            if (responseCode == 200)
-            {
                 //parsing the json
                 if let parseJSON = JSON {
                     
-                    
-                    self.defaults.set(parseJSON["userStudentCourses"] as! Array<String>?, forKey: "userStudentCourses")
-                    self.defaults.set(parseJSON["userToken"] as! String?, forKey: "userToken")
-                    self.defaults.set(parseJSON["userTutorCourses"] as! Array<String>?, forKey: "userTutorCourses")
-                    self.defaults.synchronize()
-                    
-                    print("Added to defaults")
-                    
-                    print(self.defaults.object(forKey: "userToken")!)
-                    
-                    OperationQueue.main.addOperation{
-                        self.performSegue(withIdentifier: "registrationDone", sender: nil)
+                OperationQueue.main.addOperation{
+                    self.performSegue(withIdentifier: "regDone", sender: nil)
                     }
                 }
             }
-            
-        }
-        
+    }
         
 }
 }

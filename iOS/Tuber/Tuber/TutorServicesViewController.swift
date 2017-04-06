@@ -21,8 +21,9 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,8 +71,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
             print("report tutor")
             prepTutorList()
         }
-        
-        
     }
     
     func prepTutorList()
