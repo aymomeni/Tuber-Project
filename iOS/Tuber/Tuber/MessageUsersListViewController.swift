@@ -1,56 +1,52 @@
 //
-//  ClassOptionsViewController.swift
+//  MessageUsersListViewController.swift
 //  Tuber
 //
-//  Created by Anne on 12/7/16.
-//  Copyright © 2016 Tuber. All rights reserved.
+//  Created by Anne on 3/28/17.
+//  Copyright © 2017 Tuber. All rights reserved.
 //
 
 import UIKit
+import JSQMessagesViewController
 
-class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class MessageUsersListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    @IBOutlet weak var optionTableView: UITableView!
     
-    //var passed: String!
-    
-    var icons = [#imageLiteral(resourceName: "tutorservices"), #imageLiteral(resourceName: "studyhotspot"), #imageLiteral(resourceName: "discussion"), #imageLiteral(resourceName: "messaging"), #imageLiteral(resourceName: "offertutor")]
-    var names = ["Tutor Services", "Study Hotspot", "Discussion Forum", "Messaging", "Offer To Tutor"]
+    @IBOutlet weak var usersTableView: UITableView!
     
     var emails: [String] = []
     var firstNames: [String] = []
     var lastNames: [String] = []
     
+    var messages = [JSQMessage]()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
-         self.title = ClassListViewController.selectedClass.className
-         
-         self.navigationItem.hidesBackButton = true
-         let newBackButton = UIBarButtonItem(title: "< Courses", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ClassOptionsViewController.back(sender:)))
-         self.navigationItem.leftBarButtonItem = newBackButton
-         */
+
+        self.usersTableView.delegate = self
+        self.usersTableView.dataSource = self
+        print(emails.count)
+        // Do any additional setup after loading the view.
     }
-    
-    func back(_ sender: UIBarButtonItem) {
-        _ = navigationController?.popToRootViewController(animated: true)
-    }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+        
         // Dispose of any resources that can be recreated.
     }
     
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return emails.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "classOptions", for: indexPath) as! ClassOptionsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "messageUsersList", for: indexPath) as! MessageUsersListTableViewCell
         
-        cell.optionIconImageView.image = icons[indexPath.row]
-        cell.optionNameLabel.text = names[indexPath.row]
+        cell.userNameLabel.text = emails[indexPath.row]
+        
+//        cell.optionIconImageView.image = icons[indexPath.row]
+//        cell.optionNameLabel.text = names[indexPath.row]
         
         return cell
     }
@@ -58,35 +54,35 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
         
-        let currentCell = tableView.cellForRow(at: indexPath!)! as! ClassOptionsTableViewCell
+        let currentCell = tableView.cellForRow(at: indexPath!)! as! MessageUsersListTableViewCell
         
-        let selectedOption = currentCell.optionNameLabel.text
+        let selectedOption = currentCell.userNameLabel.text
+        print(selectedOption)
         
-        if selectedOption == "Tutor Services"
-        {
-            performSegue(withIdentifier: "tutorServices", sender: selectedOption)
-            
-        }
-        else if selectedOption == "Study Hotspot"
-        {
-            performSegue(withIdentifier: "studyHotspot", sender: selectedOption)
-        }
-        else if selectedOption == "Offer To Tutor"
-        {
-            performSegue(withIdentifier: "offerToTutor", sender: selectedOption)
-        }
-        else if selectedOption == "Messaging"
-        {
-            prepUserList()
-            //            performSegue(withIdentifier: "messageUsers", sender: selectedOption)
-        }
+//        if selectedOption == "Tutor Services"
+//        {
+//            performSegue(withIdentifier: "tutorServices", sender: selectedOption)
+//            
+//        }
+//        else if selectedOption == "Study Hotspot"
+//        {
+//            performSegue(withIdentifier: "studyHotspot", sender: selectedOption)
+//        }
+//        else if selectedOption == "Offer To Tutor"
+//        {
+//            performSegue(withIdentifier: "offerToTutor", sender: selectedOption)
+//        }
+//        else if selectedOption == "Messaging"
+//        {
+//            performSegue(withIdentifier: "goToMessage", sender: selectedOption)
+//        }
         
     }
     
-    func prepUserList()
+    func prepConversation(email: String)
     {
         //created NSURL
-        let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/getusers")
+        let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/getmessageconversation")
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
@@ -100,7 +96,7 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
         let userToken = defaults.object(forKey: "userToken") as! String
         
         //creating the post parameter by concatenating the keys and values from text field
-        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\"}"
+        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"recipientEmail\":\"\(email)\"}"
         
         print(postParameters)
         
@@ -162,31 +158,16 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
         }
         //executing the task
         task.resume()
-        
     }
-    
-    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "messageUsers"
-        {
-            let appointmentInfo = sender as! [[String]]
-            print(appointmentInfo[0])
-            //            print(appointmentInfo[1])
-            //            print(appointmentInfo[2])
-            
-            if let destination = segue.destination as? MessageUsersListViewController
-            {
-                destination.emails = []
-                destination.firstNames = []
-                destination.lastNames = []
-                
-                destination.emails = appointmentInfo[0]
-                destination.firstNames = appointmentInfo[1]
-                destination.lastNames = appointmentInfo[2]
-                
-                print("performing segue")
-                //destination.passed = sender as? String
-            }
-        }
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
     }
+    */
+
 }
