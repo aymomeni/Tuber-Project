@@ -72,7 +72,7 @@ public class HotspotAdapter extends MapViewPager.MultiAdapter {
         mCameraPostions = new ArrayList<CameraPosition>();
 
         for(int i = 0; i < mDataSet.size(); i++){
-            CameraPosition temp = CameraPosition.fromLatLngZoom(new LatLng(mDataSet.get(i).getmLatitude(), mDataSet.get(i).getmLongitude()), 13f);
+            CameraPosition temp = CameraPosition.fromLatLngZoom(new LatLng(mDataSet.get(i).getmLatitude(), mDataSet.get(i).getmLongitude()), 15f);
             mCameraPostions.add(temp);
         }
         // camera positions
