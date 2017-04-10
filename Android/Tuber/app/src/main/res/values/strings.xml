@@ -122,6 +122,9 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="toolbar_option1_more">more</string>
+    <string name="hotspot_topic">Topic: </string>
+    <string name="hotspot_id">Hotspot ID: </string>
+    <string name="hotspot_student_count">Students: </string>
     <string name="toolbar_option2_message">message</string>
     <string name="hotspot_fragment_button_join">join hotspot</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
