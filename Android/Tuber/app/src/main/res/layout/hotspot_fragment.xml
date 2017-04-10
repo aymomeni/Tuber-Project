@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_toEndOf="@+id/imageView2"
-                android:paddingTop="30dp"
+                android:paddingTop="15dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="24dp"

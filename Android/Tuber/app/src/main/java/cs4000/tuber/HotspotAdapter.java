@@ -16,15 +16,15 @@ import java.util.List;
 public class HotspotAdapter extends MapViewPager.MultiAdapter {
 
 
-    private static List<HotspotObjects> mDataSet;
+    private static List<HotspotObject> mDataSet;
     private static List<CameraPosition> mCameraPostions;
 
 
-    public static List<HotspotObjects> getmDataSet() {
+    public static List<HotspotObject> getmDataSet() {
         return mDataSet;
     }
 
-    public static void setmDataSet(List<HotspotObjects> dataSet) {
+    public static void setmDataSet(List<HotspotObject> dataSet) {
         mDataSet = dataSet;
     }
 
@@ -65,7 +65,7 @@ public class HotspotAdapter extends MapViewPager.MultiAdapter {
 
 
 
-    public HotspotAdapter(FragmentManager fm, List<HotspotObjects> dataSet) {
+    public HotspotAdapter(FragmentManager fm, List<HotspotObject> dataSet) {
         super(fm);
 
         this.mDataSet = dataSet;

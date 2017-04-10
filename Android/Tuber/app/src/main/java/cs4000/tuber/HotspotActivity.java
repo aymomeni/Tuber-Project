@@ -46,7 +46,7 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
     private String mUserEmail;
     private String mUserToken;
     private String mCourse;
-    private List<HotspotObjects> mDataSet;
+    private List<HotspotObject> mDataSet;
     private ProgressDialog mProgressDialog;
 
     private LocationManager mLocationManager;
@@ -146,7 +146,7 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
 
 
     /*
-     * returns a list of currently available HotspotObjects (Students that created a hotspot)
+     * returns a list of currently available HotspotObject (Students that created a hotspot)
      */
     private void getHotspotObjects() throws JSONException {
 
@@ -161,9 +161,13 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
         me.put("userEmail", mUserEmail);
         me.put("userToken", mUserToken);
         me.put("course", mCourse);
-        me.put("latitude", "" + mLastKnownLocation.getLatitude());
-        me.put("longitude", "" + mLastKnownLocation.getLongitude());
-
+        try {
+            me.put("latitude", "" + mLastKnownLocation.getLatitude());
+            me.put("longitude", "" + mLastKnownLocation.getLongitude());
+        } catch (NullPointerException e) {
+            me.put("latitude", "" + 0.0);
+            me.put("longitude", "" + 0.0);
+        }
         mConnectionTask = new ConnectionTask(me);
         mConnectionTask.find_study_hotspots(new ConnectionTask.CallBack() {
             @Override
@@ -204,7 +208,7 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
      * @param result
      * @return
      */
-    private List<HotspotObjects> parseJSONFindHotspotsReturnList(JSONObject result) {
+    private List<HotspotObject> parseJSONFindHotspotsReturnList(JSONObject result) {
 
         JSONArray jsonMainArr = null;
         try {
@@ -218,13 +222,14 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
         if(jsonMainArr.length() == 0) {
             // no hotspots
             //TODO: what to do when there is no hotspots?
+            // create study hotspot
         }
-        mDataSet = new ArrayList<HotspotObjects>();
+        mDataSet = new ArrayList<HotspotObject>();
 
         for (int i = 0; i < jsonMainArr.length(); i++) {
 
             try {
-                HotspotObjects tempStudyHotspotObject = new HotspotObjects();
+                HotspotObject tempStudyHotspotObject = new HotspotObject();
 
                 JSONObject childJSONObject = jsonMainArr.getJSONObject(i);
                 tempStudyHotspotObject.setmCourse(childJSONObject.getString("course"));
@@ -309,6 +314,8 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
 
         return mLastKnownLocation;
     }
+
+
 
 
 }
