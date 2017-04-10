@@ -165,6 +165,7 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
             me.put("latitude", "" + mLastKnownLocation.getLatitude());
             me.put("longitude", "" + mLastKnownLocation.getLongitude());
         } catch (NullPointerException e) {
+            e.printStackTrace();
             me.put("latitude", "" + 0.0);
             me.put("longitude", "" + 0.0);
         }
