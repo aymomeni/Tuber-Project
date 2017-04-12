@@ -3126,6 +3126,103 @@ namespace ToDoList
             }
         }
 
+        public UserHotspotStatusResponseItem UserHotspotStatus(UserHotspotStatusRequestItem item)
+        {
+            // Check that the user token is valid
+            if (checkUserToken(item.userEmail, item.userToken))
+            {
+                String returnedHotspotID = "";
+
+                using (MySqlConnection conn = new MySqlConnection(connectionString))
+                {
+                    try
+                    {
+                        conn.Open();
+                        MySqlCommand command = conn.CreateCommand();
+
+                        // Check to see if user is in a hotspot
+                        command.CommandText = "SELECT hotspot_id FROM study_hotspots_members WHERE email = ?email";
+                        command.Parameters.AddWithValue("email", item.userEmail);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                returnedHotspotID = reader.GetString("hotspot_id");
+                            }
+                        }
+
+                        if (returnedHotspotID != "")
+                        {
+                            // The user is in a hotspot, get hotspot info
+                            command.CommandText = "SELECT * FROM study_hotspots WHERE hotspot_id = ?hotspotID";
+                            command.Parameters.AddWithValue("hotspotID", returnedHotspotID);
+
+                            AvailableStudyHotspotItem hotspot = new AvailableStudyHotspotItem();
+
+                            using (MySqlDataReader reader = command.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    hotspot.hotspotID = returnedHotspotID;
+                                    hotspot.ownerEmail = reader.GetString("owner_email");
+                                    hotspot.course = reader.GetString("course_name");
+                                    hotspot.topic = reader.GetString("topic");
+                                    hotspot.latitude = reader.GetDouble("latitude");
+                                    hotspot.longitude = reader.GetDouble("longitude");
+                                    hotspot.student_count = reader.GetString("student_count");
+                                }
+                            }
+
+                            // Check to see if user owns the hotspot
+                            if (hotspot.ownerEmail == item.userEmail)
+                            {
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                UserHotspotStatusResponseItem hotspotResponse = new UserHotspotStatusResponseItem();
+                                hotspotResponse.hotspotStatus = "owner";
+                                hotspotResponse.hotspot = hotspot;
+                                return hotspotResponse;
+                            }
+                            else
+                            {
+                                // User is in a hotspot, but does not own it
+                                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                                UserHotspotStatusResponseItem hotspotResponse = new UserHotspotStatusResponseItem();
+                                hotspotResponse.hotspotStatus = "member";
+                                hotspotResponse.hotspot = hotspot;
+                                return hotspotResponse;
+                            }
+                        }
+                        else
+                        {
+                            // User is not in a hotspot
+                            WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
+                            return new UserHotspotStatusResponseItem();
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
+                        WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.ServiceUnavailable;
+                        throw e;
+                    }
+                    finally
+                    {
+                        if (conn != null)
+                        {
+                            conn.Close();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                // User's email & token combo is not valid
+                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Unauthorized;
+                return new UserHotspotStatusResponseItem();
+            }
+        }
+
         public StudyHotspotJoinResponseItem JoinStudyHotspot(StudyHotspotJoinItem item)
         {
             lock (this)

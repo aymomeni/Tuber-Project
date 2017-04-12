@@ -256,6 +256,14 @@ namespace ToDoList
 
         [OperationContract]
         [WebInvoke(Method = "POST",
+            UriTemplate = "/userhotspotstatus",
+            RequestFormat = WebMessageFormat.Json,
+            ResponseFormat = WebMessageFormat.Json,
+            BodyStyle = WebMessageBodyStyle.Bare)]
+        UserHotspotStatusResponseItem UserHotspotStatus(UserHotspotStatusRequestItem data);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST",
             UriTemplate = "/joinstudyhotspot",
             RequestFormat = WebMessageFormat.Json,
             ResponseFormat = WebMessageFormat.Json,

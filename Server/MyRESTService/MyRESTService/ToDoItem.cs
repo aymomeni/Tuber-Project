@@ -742,6 +742,24 @@ namespace ToDoList
         public List<AvailableStudyHotspotItem> studyHotspots { get; set; }
     }
 
+    public class UserHotspotStatusRequestItem
+    {
+        [DataMember]
+        public string userEmail { get; set; }
+
+        [DataMember]
+        public string userToken { get; set; }
+    }
+
+    public class UserHotspotStatusResponseItem
+    {
+        [DataMember]
+        public string hotspotStatus { get; set; }
+
+        [DataMember]
+        public AvailableStudyHotspotItem hotspot { get; set; }
+    }
+
     public class StudyHotspotJoinItem
     {
         [DataMember]
