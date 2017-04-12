@@ -3036,6 +3036,7 @@ namespace ToDoList
                         String returnedHotspotID = "";
                         String returnedOwnerEmail = "";
                         String returnedCourseName = "";
+                        String returnedTopic = "";
                         Double returnedHotspotLatitude = 0;
                         Double returnedHotspotLongitude = 0;
                         String returnedStudentCount = "";
@@ -3063,6 +3064,7 @@ namespace ToDoList
                                         returnedHotspotID = reader.GetString("hotspot_id");
                                         returnedOwnerEmail = reader.GetString("owner_email");
                                         returnedCourseName = reader.GetString("course_name");
+                                        returnedTopic = reader.GetString("topic");
                                         returnedHotspotLatitude = reader.GetDouble("latitude");
                                         returnedHotspotLongitude = reader.GetDouble("longitude");
                                         returnedStudentCount = reader.GetString("student_count");
@@ -3078,6 +3080,7 @@ namespace ToDoList
                                         hotspot.hotspotID = returnedHotspotID;
                                         hotspot.ownerEmail = returnedOwnerEmail;
                                         hotspot.course = returnedCourseName;
+                                        hotspot.topic = returnedTopic;
                                         hotspot.latitude = returnedHotspotLatitude;
                                         hotspot.longitude = returnedHotspotLongitude;
                                         hotspot.student_count = returnedStudentCount;

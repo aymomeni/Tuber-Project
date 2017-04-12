@@ -721,6 +721,9 @@ namespace ToDoList
         public string course { get; set; }
 
         [DataMember]
+        public string topic { get; set; }
+
+        [DataMember]
         public double latitude { get; set; }
 
         [DataMember]
