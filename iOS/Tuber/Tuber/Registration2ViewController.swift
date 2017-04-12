@@ -9,20 +9,20 @@ import UIKit
 
 class Registration2ViewController: UIViewController,UIPickerViewDataSource,UIPickerViewDelegate
 {
-    @IBOutlet weak var picker: UIPickerView!
+    //@IBOutlet weak var picker: UIPickerView!
     
     let pickerData = ["Master", "Visa"];
     var cardType = "";
     
-    var passedInfo = [String()]
-    
+    @IBOutlet weak var picker: UIPickerView!
+    var passedInfo = [String()];
     @IBOutlet weak var cardNumber: UITextField!
     @IBOutlet weak var CVV: UITextField!
-    @IBOutlet weak var year: UITextField!
     @IBOutlet weak var month: UITextField!
-    
+    @IBOutlet weak var year: UITextField!
     @IBOutlet weak var doneButton: UIButton!
     
+   // @IBOutlet weak var doneButton: UIButton!
     @available(iOS 2.0, *)
     func numberOfComponents(in pickerView: UIPickerView) -> Int
     {
@@ -35,7 +35,6 @@ class Registration2ViewController: UIViewController,UIPickerViewDataSource,UIPic
         super.viewDidLoad()
         picker.dataSource = self;
         picker.delegate = self;
-        
         print(passedInfo)
     }
     
@@ -49,6 +48,7 @@ class Registration2ViewController: UIViewController,UIPickerViewDataSource,UIPic
     {
         return 1;
     }
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
     {
         return pickerData.count;
@@ -57,13 +57,8 @@ class Registration2ViewController: UIViewController,UIPickerViewDataSource,UIPic
     //MARK: Delegates
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String?
     {
-        cardType = pickerData[row];
         return pickerData[row];
     }
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int)
-    {
-    }
-    
     
     @IBAction func done(_ sender: Any) {
         let format = DateFormatter();
@@ -95,30 +90,15 @@ class Registration2ViewController: UIViewController,UIPickerViewDataSource,UIPic
             if (responseCode == 200)
             {
                 //parsing the json
+                //parsing the json
                 if let parseJSON = JSON {
                     
-                    let defaults = UserDefaults.standard
-                    
-                    defaults.set(parseJSON["userEmail"] as! String?, forKey: "userEmail")
-                    defaults.set(parseJSON["userStudentCourses"] as! Array<String>?, forKey: "userStudentCourses")
-                    defaults.set(parseJSON["userToken"] as! String?, forKey: "userToken")
-                    defaults.set(parseJSON["userTutorCourses"] as! Array<String>?, forKey: "userTutorCourses")
-                    defaults.synchronize()
-                    
-                    print("Added to defaults")
-                    
-                    print(defaults.object(forKey: "userToken")!)
-                    
-                    OperationQueue.main.addOperation{
-                        self.performSegue(withIdentifier: "registrationDone", sender: nil)
+                OperationQueue.main.addOperation{
+                    self.performSegue(withIdentifier: "regDone", sender: nil)
                     }
                 }
             }
-            
-        }
-
     }
-    
-    
         
+}
 }

@@ -139,7 +139,7 @@ class OfferTutorTableViewController: UITableViewController {
         
 //        let semaphore = DispatchSemaphore(value: 0)
         //created NSURL
-        let requestURL = NSURL(string: server + "findallscheduletutoracceptedrequests")
+        let requestURL = URL(string: server + "findallscheduletutoracceptedrequests")
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
@@ -225,7 +225,7 @@ class OfferTutorTableViewController: UITableViewController {
         
         
         //created NSURL
-        let requestURL = NSURL(string: server + "findallscheduletutorrequests")
+        let requestURL = URL(string: server + "findallscheduletutorrequests")
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)

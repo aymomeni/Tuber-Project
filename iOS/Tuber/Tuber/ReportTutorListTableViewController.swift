@@ -19,6 +19,9 @@ class ReportTutorListTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        sessionStartTime = []
+        sessionID = []
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -59,17 +62,16 @@ class ReportTutorListTableViewController: UITableViewController {
         
 //        let selectedOption = currentCell.tutorNameLabel.text
         
-        prepTutorSessions(tutorFirstName: tutorFirstNames[(indexPath?.row)!], tutorLastName: tutorLastNames[(indexPath?.row)!], tutorEmail: tutorEmails[(indexPath?.row)!])
-//        prepTutorSessions(name: selectedOption!, tutorEmail: tutorEmails[(indexPath?.row)!])
-        
+        prepTutorSessions(tutorFirstNames[(indexPath?.row)!], tutorLastName: tutorLastNames[(indexPath?.row)!], tutorEmail: tutorEmails[(indexPath?.row)!])
+//        prepTutorSessions(name: selectedOption!, tutorEmail: tutorEmails[(indexPath?.row)!])        prepTutorSessions(tutorFirstName: tutorFirstNames[(indexPath?.row)!], tutorLastName: tutorLastNames[(indexPath?.row)!], tutorEmail: tutorEmails[(indexPath?.row)!])        
     }
     
-    func prepTutorSessions(tutorFirstName: String, tutorLastName: String, tutorEmail: String)
+    func prepTutorSessions(_ tutorFirstName: String, tutorLastName: String, tutorEmail: String)
     {
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/reporttutorgetsessionlist";
         
         //created NSURL
-        let requestURL = NSURL(string: server)
+        let requestURL = URL(string: server)
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
@@ -136,7 +138,7 @@ class ReportTutorListTableViewController: UITableViewController {
                     print(toSend.count)
                     
                     //                    print(toSend)
-                    self.performSegue(withIdentifier: "reportTutor", sender: toSend)
+                    self.performSegue(withIdentifier: "viewTutorSessions", sender: toSend)
                 }
             } catch {
                 print(error)
@@ -150,33 +152,20 @@ class ReportTutorListTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "viewTutorSessions"
         {
-            let appointmentInfo = sender as! [[[String]]]
+            let appointmentInfo = sender as! [[String]]
             print(appointmentInfo[0])
             print(appointmentInfo[1])
             print(appointmentInfo[2])
             
-            if let destination = segue.destination as? StudentViewScheduleTableViewController
+            if let destination = segue.destination as? ReportTutorSessionsTableViewController
             {
-                destination.dates = appointmentInfo[0]
-                destination.duration = appointmentInfo[1]
-                destination.subjects = appointmentInfo[2]
-                //destination.passed = sender as? String
-            }
-        }
-        else if segue.identifier == "reportTutor"
-        {
-            let tutorInfo = sender as! [[String]]
-            print(tutorInfo[0])
-            print(tutorInfo[1])
-            print(tutorInfo[2])
-            
-            
-            if let destination = segue.destination as? ReportTutorListTableViewController
-            {
-                destination.tutorFirstNames = tutorInfo[0]
-                destination.tutorLastNames = tutorInfo[1]
-                destination.tutorEmails = tutorInfo[2]
-                print("arrays set")
+                destination.postParameters = []
+                destination.sessionStartTime = []
+                destination.sessionID = []
+                
+                destination.postParameters = appointmentInfo[0]
+                destination.sessionStartTime = appointmentInfo[1] 
+                destination.sessionID = appointmentInfo[2] 
                 //destination.passed = sender as? String
             }
         }

@@ -62,7 +62,7 @@ class UnconfirmedAppointmentTutorViewController: UIViewController {
         print(newDate) //New formatted Date string
         
         //created NSURL
-        let requestURL = NSURL(string: server + "startscheduledtutorsession")
+        let requestURL = URL(string: server + "startscheduledtutorsession")
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
@@ -118,7 +118,7 @@ class UnconfirmedAppointmentTutorViewController: UIViewController {
     func acceptRequest()
     {
         //created NSURL
-        let requestURL = NSURL(string: server + "acceptstudentscheduledrequest")
+        let requestURL = URL(string: server + "acceptstudentscheduledrequest")
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)

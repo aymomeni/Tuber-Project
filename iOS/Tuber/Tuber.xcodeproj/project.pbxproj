@@ -10,6 +10,7 @@
 		557A02361E674BA6002B0741 /* Registration2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A02331E674BA6002B0741 /* Registration2ViewController.swift */; };
 		557A02371E674BA6002B0741 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A02341E674BA6002B0741 /* RegistrationViewController.swift */; };
 		557A02381E674BA6002B0741 /* ServerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A02351E674BA6002B0741 /* ServerRequest.swift */; };
+		55C962221E96FC74001DF879 /* ListTutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C962211E96FC74001DF879 /* ListTutorViewController.swift */; };
 		93CFD9DD506671794D296C28 /* Pods_TuberUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D98FA225CF12659D2BFD1C56 /* Pods_TuberUITests.framework */; };
 		9709067B1DF6B93400C68561 /* ClassListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067A1DF6B93400C68561 /* ClassListViewController.swift */; };
 		9709067D1DF6BAF500C68561 /* ClassTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */; };
@@ -27,6 +28,11 @@
 		971CE55E1E431BBF00CB2324 /* HotspotInitialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971CE55D1E431BBF00CB2324 /* HotspotInitialViewController.swift */; };
 		971CE5601E496CD800CB2324 /* ActiveSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971CE55F1E496CD800CB2324 /* ActiveSessionViewController.swift */; };
 		971CE5621E499D2000CB2324 /* ActiveHotspotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971CE5611E499D2000CB2324 /* ActiveHotspotViewController.swift */; };
+		972BC6691E8A3BC9001FF9C6 /* ReportTutorSessionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972BC6681E8A3BC9001FF9C6 /* ReportTutorSessionsTableViewController.swift */; };
+		972BC66B1E8A437E001FF9C6 /* ReportTutorFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972BC66A1E8A437E001FF9C6 /* ReportTutorFormViewController.swift */; };
+		972BC66D1E8ADE00001FF9C6 /* MessageWindowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972BC66C1E8ADE00001FF9C6 /* MessageWindowViewController.swift */; };
+		972BC6731E9702C4001FF9C6 /* MessageUsersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972BC6721E9702C4001FF9C6 /* MessageUsersListViewController.swift */; };
+		972BC6751E9702D1001FF9C6 /* MessageUsersListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 972BC6741E9702D1001FF9C6 /* MessageUsersListTableViewCell.swift */; };
 		976DC37E1E6D6FF100F1ACE6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 976DC37D1E6D6FF100F1ACE6 /* GoogleService-Info.plist */; };
 		9784AC021E6814F200691377 /* ReportTutorListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9784AC011E6814F200691377 /* ReportTutorListTableViewController.swift */; };
 		9784AC041E68152600691377 /* ReportTutorListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9784AC031E68152600691377 /* ReportTutorListTableViewCell.swift */; };
@@ -69,6 +75,7 @@
 		557A02331E674BA6002B0741 /* Registration2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Registration2ViewController.swift; sourceTree = "<group>"; };
 		557A02341E674BA6002B0741 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		557A02351E674BA6002B0741 /* ServerRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerRequest.swift; sourceTree = "<group>"; };
+		55C962211E96FC74001DF879 /* ListTutorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTutorViewController.swift; sourceTree = "<group>"; };
 		8A74A08A0EFBA1D5ABDF30C2 /* Pods_Tuber.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tuber.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9709067A1DF6B93400C68561 /* ClassListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassListViewController.swift; sourceTree = "<group>"; };
 		9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassTableViewCell.swift; sourceTree = "<group>"; };
@@ -92,6 +99,11 @@
 		971CE55D1E431BBF00CB2324 /* HotspotInitialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotspotInitialViewController.swift; sourceTree = "<group>"; };
 		971CE55F1E496CD800CB2324 /* ActiveSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveSessionViewController.swift; sourceTree = "<group>"; };
 		971CE5611E499D2000CB2324 /* ActiveHotspotViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveHotspotViewController.swift; sourceTree = "<group>"; };
+		972BC6681E8A3BC9001FF9C6 /* ReportTutorSessionsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTutorSessionsTableViewController.swift; sourceTree = "<group>"; };
+		972BC66A1E8A437E001FF9C6 /* ReportTutorFormViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTutorFormViewController.swift; sourceTree = "<group>"; };
+		972BC66C1E8ADE00001FF9C6 /* MessageWindowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageWindowViewController.swift; sourceTree = "<group>"; };
+		972BC6721E9702C4001FF9C6 /* MessageUsersListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageUsersListViewController.swift; sourceTree = "<group>"; };
+		972BC6741E9702D1001FF9C6 /* MessageUsersListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageUsersListTableViewCell.swift; sourceTree = "<group>"; };
 		976DC37D1E6D6FF100F1ACE6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9784AC011E6814F200691377 /* ReportTutorListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTutorListTableViewController.swift; sourceTree = "<group>"; };
 		9784AC031E68152600691377 /* ReportTutorListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTutorListTableViewCell.swift; sourceTree = "<group>"; };
@@ -182,6 +194,8 @@
 				971400EC1DF527D60099A8DB /* AppDelegate.swift */,
 				971400EE1DF527D60099A8DB /* ViewController.swift */,
 				971400F01DF527D60099A8DB /* Main.storyboard */,
+				972BC6681E8A3BC9001FF9C6 /* ReportTutorSessionsTableViewController.swift */,
+				972BC66A1E8A437E001FF9C6 /* ReportTutorFormViewController.swift */,
 				971CE5611E499D2000CB2324 /* ActiveHotspotViewController.swift */,
 				971CE55D1E431BBF00CB2324 /* HotspotInitialViewController.swift */,
 				971400F31DF527D60099A8DB /* Assets.xcassets */,
@@ -198,8 +212,11 @@
 				9709067A1DF6B93400C68561 /* ClassListViewController.swift */,
 				9709067C1DF6BAF500C68561 /* ClassTableViewCell.swift */,
 				97D6B3D51DF7ECF10093479E /* ClassOptionsViewController.swift */,
+				972BC6721E9702C4001FF9C6 /* MessageUsersListViewController.swift */,
+				972BC6741E9702D1001FF9C6 /* MessageUsersListTableViewCell.swift */,
 				97D6B3D31DF7EC9C0093479E /* ClassOptionsTableViewCell.swift */,
 				97D6B3D71DF801630093479E /* TutorServicesViewController.swift */,
+				55C962211E96FC74001DF879 /* ListTutorViewController.swift */,
 				97D6B3D91DF80BDA0093479E /* TutorServicesTableViewCell.swift */,
 				97EEACC61DF8FDDC007F23B1 /* OfferTutorTableViewController.swift */,
 				97EEACCC1DF902CD007F23B1 /* TutorViewScheduleTableViewController.swift */,
@@ -211,6 +228,7 @@
 				9784AC011E6814F200691377 /* ReportTutorListTableViewController.swift */,
 				9784AC031E68152600691377 /* ReportTutorListTableViewCell.swift */,
 				97BC68A71E70182400AD012A /* HotspotDetailViewController.swift */,
+				972BC66C1E8ADE00001FF9C6 /* MessageWindowViewController.swift */,
 			);
 			path = Tuber;
 			sourceTree = "<group>";
@@ -320,15 +338,18 @@
 				TargetAttributes = {
 					971400E81DF527D60099A8DB = {
 						CreatedOnToolsVersion = 8.1;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
 					971400FC1DF527D60099A8DB = {
 						CreatedOnToolsVersion = 8.1;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 971400E81DF527D60099A8DB;
 					};
 					971401071DF527D60099A8DB = {
 						CreatedOnToolsVersion = 8.1;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 971400E81DF527D60099A8DB;
 					};
@@ -526,7 +547,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9784AC041E68152600691377 /* ReportTutorListTableViewCell.swift in Sources */,
+				972BC6731E9702C4001FF9C6 /* MessageUsersListViewController.swift in Sources */,
 				97BC68A81E70182400AD012A /* HotspotDetailViewController.swift in Sources */,
+				972BC66D1E8ADE00001FF9C6 /* MessageWindowViewController.swift in Sources */,
+				55C962221E96FC74001DF879 /* ListTutorViewController.swift in Sources */,
 				97EEACD11DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011F1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift in Sources */,
 				9714011B1DF528490099A8DB /* LoginViewController.swift in Sources */,
@@ -540,12 +564,15 @@
 				97D6B3D61DF7ECF10093479E /* ClassOptionsViewController.swift in Sources */,
 				97EEACCF1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */,
+				972BC6691E8A3BC9001FF9C6 /* ReportTutorSessionsTableViewController.swift in Sources */,
 				971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */,
+				972BC6751E9702D1001FF9C6 /* MessageUsersListTableViewCell.swift in Sources */,
 				9784AC021E6814F200691377 /* ReportTutorListTableViewController.swift in Sources */,
 				557A02371E674BA6002B0741 /* RegistrationViewController.swift in Sources */,
 				97A072E31E324FA900D91130 /* ImmediateTutorRequestViewController.swift in Sources */,
 				971CE55E1E431BBF00CB2324 /* HotspotInitialViewController.swift in Sources */,
 				97EEACC71DF8FDDC007F23B1 /* OfferTutorTableViewController.swift in Sources */,
+				972BC66B1E8A437E001FF9C6 /* ReportTutorFormViewController.swift in Sources */,
 				97EEACCB1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift in Sources */,
 				971A55B91E4D1E3B009D8E38 /* StudentViewScheduleTableViewController.swift in Sources */,
 				97D6B3D41DF7EC9C0093479E /* ClassOptionsTableViewCell.swift in Sources */,
@@ -704,14 +731,17 @@
 			baseConfigurationReference = 0FE22EC60A51E47C07947B15 /* Pods-Tuber.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Tuber/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Tuber;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = YES;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -721,14 +751,17 @@
 			baseConfigurationReference = 15BD1D3BBE146A72696B3B8B /* Pods-Tuber.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = Tuber/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Tuber;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = YES;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

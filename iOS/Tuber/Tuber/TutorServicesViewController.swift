@@ -21,8 +21,9 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
+        
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -70,8 +71,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
             print("report tutor")
             prepTutorList()
         }
-        
-        
     }
     
     func prepTutorList()
@@ -79,7 +78,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/reporttutorgettutorlist";
         
         //created NSURL
-        let requestURL = NSURL(string: server)
+        let requestURL = URL(string: server)
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
@@ -163,7 +162,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
     func prepStudentSchedule()
     {
         //created NSURL
-        let requestURL = NSURL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/checkscheduledpairedstatus")
+        let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/checkscheduledpairedstatus")
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)

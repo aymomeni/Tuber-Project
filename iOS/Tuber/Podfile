@@ -9,6 +9,7 @@ target 'Tuber' do
 
   pod 'Firebase/Core’
   pod 'Firebase/Messaging’
+  pod ‘JSQMessagesViewController’
 
 
   target 'TuberTests' do

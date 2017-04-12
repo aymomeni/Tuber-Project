@@ -16,10 +16,10 @@ class ServerRequest
     }
     
     //IMPORTANT:pass in the JSON object as string!!
-    func runRequest(inputJSON: String, server:String, completionHandler: @escaping (_ res:Int,_ JSON :NSDictionary) -> ())
+    func runRequest( inputJSON: String, server:String, completionHandler: @escaping (_ res:Int,_ JSON :NSDictionary) -> ())
     {
         //created NSURL
-        let requestURL = NSURL(string: server)
+        let requestURL = URL(string: server)
         
         //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)

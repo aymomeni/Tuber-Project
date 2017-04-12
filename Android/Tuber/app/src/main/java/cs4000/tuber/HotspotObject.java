@@ -7,7 +7,7 @@ package cs4000.tuber;
 /**
  * Represents instances of the study hotspot students
  */
-public class HotspotObjects {
+public class HotspotObject {
 
     private String mCourse;
     private double mdistanceToHotspot;
@@ -17,7 +17,7 @@ public class HotspotObjects {
     private String mOwnerEmail;
     private String mStudentCount;
 
-    public HotspotObjects() {}
+    public HotspotObject() {}
 
     public String getmCourse() {
         return mCourse;

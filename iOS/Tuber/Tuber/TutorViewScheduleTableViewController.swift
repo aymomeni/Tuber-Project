@@ -19,7 +19,7 @@ class TutorViewScheduleTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        /*
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
         
         self.navigationController?.willMove(toParentViewController: OfferTutorTableViewController())
@@ -27,9 +27,10 @@ class TutorViewScheduleTableViewController: UITableViewController {
         self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(TutorViewScheduleTableViewController.back(sender:)))
         self.navigationItem.leftBarButtonItem = newBackButton
+        */
     }
     
-    func back(sender: UIBarButtonItem) {
+    func back(_ sender: UIBarButtonItem) {
         navigationController!.popToViewController(navigationController!.viewControllers[2], animated: false)
     }
 

@@ -33,22 +33,21 @@
             android:layout_height="match_parent">
 
 
-            <TextView
-                android:id="@+id/body"
+            <ListView
+                android:id="@+id/hotspot_fragment_text_list_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_toEndOf="@+id/imageView2"
+                android:paddingTop="15dp"
                 android:paddingBottom="10dp"
                 android:paddingLeft="30dp"
                 android:paddingRight="24dp"
                 android:lineSpacingExtra="3dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/primary_darker"
-                android:text="@string/lorem_ipsum"
-                tools:ignore="RtlHardcoded"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/imageView2"
-                />
+                >
+
+
+            </ListView>
 
             <ImageView
                 android:layout_width="wrap_content"
