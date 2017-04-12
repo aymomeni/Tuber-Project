@@ -389,15 +389,5 @@ namespace ToDoList
             ResponseFormat = WebMessageFormat.Json,
             BodyStyle = WebMessageBodyStyle.Bare)]
         GetUsersResponseItem GetUsers(GetUsersRequestItem data);
-
-
-
-        [OperationContract]
-        [WebInvoke(Method = "POST",
-          UriTemplate = "/paypaltest",
-          RequestFormat = WebMessageFormat.Json,
-          ResponseFormat = WebMessageFormat.Json,
-          BodyStyle = WebMessageBodyStyle.Bare)]
-        PayPalTestResponseItem PaypalTest();
     }
 }

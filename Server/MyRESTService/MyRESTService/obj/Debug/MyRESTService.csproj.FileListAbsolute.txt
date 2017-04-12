@@ -70,6 +70,7 @@ C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.Az
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.Data.Edm.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.Data.OData.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.Data.Services.Client.dll
+C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.Web.Administration.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.WindowsAzure.Diagnostics.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.WindowsAzure.Storage.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\MySql.Data.dll
@@ -121,7 +122,4 @@ C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\zh-Hans\Syst
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\zh-Hant\System.Spatial.resources.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.pdb
-C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\obj\Debug\MyRESTService.csprojResolveAssemblyReference.cache
-C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Microsoft.Web.Administration.dll
-C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\PayPal.dll
-C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\PayPal.xml
+C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\bin\Braintree.dll

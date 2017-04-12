@@ -15,7 +15,7 @@
     </EntryPoint>
   </Runtime>
   <Properties>
-    <Property name="TargetFrameworkVersion" value="v4.5" />
+    <Property name="TargetFrameworkVersion" value="v4.5.2" />
     <Property name="RoleType" value="Web" />
     <Property name="RoleName" value="MyRESTService" />
     <Property name="ProjectName" value="MyRESTService" />
@@ -23,7 +23,7 @@
     <Property name="Platform" value="AnyCPU" />
     <Property name="SetConfiguration" value="Configuration=Debug" />
     <Property name="SetPlatform" value="Platform=AnyCPU" />
-    <Property name="RoleTargetFramework" value="v4.5" />
+    <Property name="RoleTargetFramework" value="v4.5.2" />
     <Property name="OutputDir" value="C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\obj\Debug\MyRESTService\" />
     <Property name="EntryPoint" value="MyRESTService.dll" />
     <Property name="SourceDir" value="C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService\" />

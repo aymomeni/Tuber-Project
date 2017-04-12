@@ -8,11 +8,9 @@ using MySql.Data.MySqlClient;
 using System.Device.Location;
 using System.Security.Cryptography;
 using System.Globalization;
-using PayPal.Api;
 using System.Web.Security;
 using System.Net.Mail;
 using System.IO;
-
 
 
 namespace ToDoList
@@ -26,7 +24,7 @@ namespace ToDoList
 
         // Developmental DB
         //public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
-
+    
 
         //////////////////////
         // Account Functions 
@@ -4946,14 +4944,5 @@ namespace ToDoList
                 }
             }
         }
-
-        public PayPalTestResponseItem PaypalTest()
-        {
-            // Skipped APIContext
-
-            throw new NotImplementedException();
-        }
-
-
     }
 }
