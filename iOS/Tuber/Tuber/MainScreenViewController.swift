@@ -25,12 +25,12 @@ class MainScreenViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor(red: 30.0/255.0, green: 30.0/255.0, blue: 30.0/255.0, alpha: 1.0)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        self.navigationController?.navigationBar.barStyle = UIBarStyle.black
-        self.navigationController?.navigationBar.tintColor = UIColor.white
+//        self.navigationController?.navigationBar.barStyle = UIBarStyle.black
+        self.navigationController?.navigationBar.tintColor = UIColor.black //sidebuttons
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.orange]
         
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "<-", style: UIBarButtonItemStyle.done, target: self, action: #selector(MainScreenViewController.didTapGoToLeft))
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "->", style: UIBarButtonItemStyle.done, target: self, action: #selector(MainScreenViewController.didTapGoToRight))
+//        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "<-", style: UIBarButtonItemStyle.done, target: self, action: #selector(MainScreenViewController.didTapGoToLeft))
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "->", style: UIBarButtonItemStyle.done, target: self, action: #selector(MainScreenViewController.didTapGoToRight))
         
         // MARK: - Scroll menu setup
         
@@ -48,16 +48,20 @@ class MainScreenViewController: UIViewController {
         
         // Customize menu (Optional)
         let parameters: [CAPSPageMenuOption] = [
-            .scrollMenuBackgroundColor(UIColor(red: 30.0/255.0, green: 30.0/255.0, blue: 30.0/255.0, alpha: 1.0)),
-            .viewBackgroundColor(UIColor(red: 20.0/255.0, green: 20.0/255.0, blue: 20.0/255.0, alpha: 1.0)),
+            .scrollMenuBackgroundColor(UIColor.white), //color of scrollmenu
+//            .scrollMenuBackgroundColor(UIColor(red: 30.0/255.0, green: 30.0/255.0, blue: 30.0/255.0, alpha: 1.0)),
+            .viewBackgroundColor(UIColor.white), //color of extra backgroud of the views
+//            .viewBackgroundColor(UIColor(red: 20.0/255.0, green: 20.0/255.0, blue: 20.0/255.0, alpha: 1.0)),
             .selectionIndicatorColor(UIColor.orange),
-            .bottomMenuHairlineColor(UIColor(red: 70.0/255.0, green: 70.0/255.0, blue: 80.0/255.0, alpha: 1.0)),
+            .bottomMenuHairlineColor(UIColor.white), //separation between page menu and view
+//            .bottomMenuHairlineColor(UIColor(red: 70.0/255.0, green: 70.0/255.0, blue: 80.0/255.0, alpha: 1.0)),
             .menuItemFont(UIFont(name: "HelveticaNeue", size: 13.0)!),
             .menuHeight(40.0),
             .menuItemWidth(90.0),
             .centerMenuItems(true),
             .addBottomMenuShadow(true),
-            .menuShadowColor(UIColor.white),
+            .selectedMenuItemLabelColor(UIColor.blue),
+//            .menuShadowColor(UIColor.blue),
             .menuShadowRadius(4)
         ]
         
