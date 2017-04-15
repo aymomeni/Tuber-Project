@@ -8,16 +8,16 @@
 
 import UIKit
 
-class ClassListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ClassListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CAPSPageMenuDelegate {
 
     @IBOutlet weak var classTableView: UITableView!
     
-//    var classes = ["CS 4400", "CS 3100", "CS 4150"]
+    var pageMenu : CAPSPageMenu?
+    
     var classes = UserDefaults.standard.object(forKey: "userStudentCourses") as! Array<String>
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
 
     override func didReceiveMemoryWarning() {
