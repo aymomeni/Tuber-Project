@@ -153,7 +153,8 @@ public class UserAdapter extends
         if(user.getType().equals("default")){
             // Set item views based on your views and data model
             TextView textView1 = viewHolder.userName;
-            textView1.setText(user.getUserEmail());
+            //textView1.setText(user.getUserEmail());
+            textView1.setText(user.getFirstName() + " " + user.getLastName());
 
             TextView textView2 = viewHolder.userDistance;
             textView2.setText(String.valueOf(user.getDistance()) + " miles");

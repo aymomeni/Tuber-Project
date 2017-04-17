@@ -49,7 +49,7 @@ C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\obj\Releas
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\obj\Release\MyRESTService\bin\zh-Hant\Microsoft.Data.Services.Client.resources.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\obj\Release\MyRESTService\bin\zh-Hant\System.Spatial.resources.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\obj\Release\MyRESTService\bin\Microsoft.Web.Administration.dll
-C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\obj\Release\MyRESTService\bin\PayPal.dll
+C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\obj\Release\MyRESTService\bin\Braintree.dll
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\obj\Release\MyRESTService\packages.config
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\obj\Release\MyRESTService\ProductRESTService.svc
 C:\Users\brand\Desktop\Tuber\Server\MyRESTService\MyRESTService.Azure\obj\Release\MyRESTService\Service1.svc
