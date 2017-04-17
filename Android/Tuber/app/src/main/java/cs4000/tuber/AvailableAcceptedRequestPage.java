@@ -22,6 +22,8 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
 
     private String course;
     private String studentEmail;
+    private String studentFirstName;
+    private String studentLastName;
     private String topic;
     private String dateTime;
     private String duration;
@@ -59,6 +61,8 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
         course = intent.getStringExtra("course");
         Log.i("@course_check",course);
         studentEmail = intent.getStringExtra("studentEmail");
+        studentFirstName = intent.getStringExtra("studentFirstName");
+        studentLastName = intent.getStringExtra("studentLastName");
         topic = intent.getStringExtra("topic");
         dateTime = intent.getStringExtra("dateTime");
         duration = intent.getStringExtra("duration");
@@ -72,7 +76,7 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
         sessionButton = (Button) findViewById(R.id.sessionButton2);
 
 
-        studetEmailTextView.setText(studentEmail);
+        studetEmailTextView.setText(studentFirstName + " " + studentLastName);
         courseTextView.setText(course);
         topicTextView.setText(topic);
         dateTimeTextView.setText(dateTime);

@@ -20,6 +20,8 @@ public class TutoringRequestPage extends AppCompatActivity {
 
     private String course;
     private String tutorEmail;
+    private String tutorFirstName;
+    private String tutorLastName;
     private String topic;
     private String dateTime;
     private String duration;
@@ -58,6 +60,8 @@ public class TutoringRequestPage extends AppCompatActivity {
         course = intent.getStringExtra("course");
         Log.i("@course_check",course);
         tutorEmail = intent.getStringExtra("tutorEmail");
+        tutorFirstName = intent.getStringExtra("tutorFirstName");
+        tutorLastName = intent.getStringExtra("tutorLastName");
         topic = intent.getStringExtra("topic");
         dateTime = intent.getStringExtra("dateTime");
         duration = intent.getStringExtra("duration");
@@ -72,7 +76,7 @@ public class TutoringRequestPage extends AppCompatActivity {
         status_icon = (ImageView) findViewById(R.id.statusImageView);
 
         if(status){
-            tutorEmailTextView.setText(tutorEmail);
+            tutorEmailTextView.setText(tutorFirstName + " " + tutorLastName);
             status_icon.setImageResource(R.drawable.green_light);
             sessionButton.setEnabled(true);
         }
