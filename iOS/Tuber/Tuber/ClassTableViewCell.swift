@@ -11,6 +11,10 @@ import UIKit
 class ClassTableViewCell: UITableViewCell {
 
     @IBOutlet weak var classNameLabel: UILabel!
+    @IBOutlet weak var messageButton: UIButton!
+    @IBOutlet weak var immediateButton: UIButton!
+    @IBOutlet weak var scheduledButton: UIButton!
+    @IBOutlet weak var hotspotButton: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

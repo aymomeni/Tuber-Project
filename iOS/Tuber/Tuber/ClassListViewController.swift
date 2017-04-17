@@ -35,6 +35,7 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         
         //TODO: DB query,
         cell.classNameLabel.text = classes[indexPath.row]
+//        cell.
         
         return cell
     }
