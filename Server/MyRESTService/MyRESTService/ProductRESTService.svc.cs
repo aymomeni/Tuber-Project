@@ -4083,7 +4083,7 @@ namespace ToDoList
                             }
 
                             // Check tutor_requests_accepted table for accepted requests
-                            command.CommandText = "SELECT tutor_requests_accepted.student_email, tutor_requests_accepted.tutor_email, tutor_requests_accepted.course, tutor_requests_accepted.topic, DATE_FORMAT(tutor_requests_accepted.date_time, '%Y-%m-%d %T') as date_time, tutor_requests_accepted.duration, users.first_name, users.last_name FROM tutor_requests_accepted, users WHERE tutor_requests_accepted.student_email = users.email AND student_email = ?userEmail";
+                            command.CommandText = "SELECT tutor_requests_accepted.student_email, tutor_requests_accepted.tutor_email, tutor_requests_accepted.course, tutor_requests_accepted.topic, DATE_FORMAT(tutor_requests_accepted.date_time, '%Y-%m-%d %T') as date_time, tutor_requests_accepted.duration, users.first_name, users.last_name FROM tutor_requests_accepted, users WHERE tutor_requests_accepted.tutor_email = users.email AND student_email = ?userEmail";
 
                             using (MySqlDataReader reader = command.ExecuteReader())
                             {
