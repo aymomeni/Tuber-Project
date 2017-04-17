@@ -255,6 +255,18 @@ namespace ToDoList
         public string userEmail { get; set; }
 
         [DataMember]
+        public string firstName { get; set; }
+
+        [DataMember]
+        public string lastName { get; set; }
+
+        [DataMember]
+        public double ratingCount { get; set; }
+
+        [DataMember]
+        public double averageRating { get; set; }
+
+        [DataMember]
         public string tutorCourse { get; set; }
 
         [DataMember]
@@ -885,6 +897,12 @@ namespace ToDoList
         public string studentEmail { get; set; }
 
         [DataMember]
+        public string firstName { get; set; }
+
+        [DataMember]
+        public string lastName { get; set; }
+
+        [DataMember]
         public string course { get; set; }
 
         [DataMember]
@@ -948,6 +966,12 @@ namespace ToDoList
         public string tutorEmail { get; set; }
 
         [DataMember]
+        public string firstName { get; set; }
+
+        [DataMember]
+        public string lastName { get; set; }
+
+        [DataMember]
         public string course { get; set; }
 
         [DataMember]
@@ -985,6 +1009,12 @@ namespace ToDoList
     {
         [DataMember]
         public string studentEmail { get; set; }
+
+        [DataMember]
+        public string firstName { get; set; }
+
+        [DataMember]
+        public string lastName { get; set; }
 
         [DataMember]
         public string course { get; set; }

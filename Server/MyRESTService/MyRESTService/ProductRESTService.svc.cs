@@ -24,7 +24,7 @@ namespace ToDoList
 
         // Developmental DB
         //public const string connectionString = "Server=sql3.freemysqlhosting.net;Port=3306;Database=sql3153117;UID=sql3153117;Password=vjbaNtDruW";
-    
+
 
         //////////////////////
         // Account Functions 
@@ -617,7 +617,7 @@ namespace ToDoList
 
                         // Generate the new temporary password
                         String newPassword = Membership.GeneratePassword(6, 2);
-                        
+
                         // Hash the new temporary password
                         String newHashedPassword = computeHash(newPassword, null);
 
@@ -1426,6 +1426,8 @@ namespace ToDoList
                 {
                     String returnedStudentEmail = "";
                     String returnedTutorEmail = "";
+                    String returnedTutorFirstName = "";
+                    String returnedTutorLastName = "";
                     String returnedCourseName = "";
                     Double returnedTutorLatitude = 0;
                     Double returnedTutorLongitude = 0;
@@ -1456,13 +1458,15 @@ namespace ToDoList
                             // If student is in class provided, return list of available tutors
                             if (returnedStudentEmail == item.userEmail)
                             {
-                                command.CommandText = "SELECT * FROM available_tutors WHERE course = ?courseName";
+                                command.CommandText = "SELECT * FROM available_tutors, users WHERE available_tutors.email = users.email AND course = ?courseName";
 
                                 using (MySqlDataReader reader = command.ExecuteReader())
                                 {
                                     while (reader.Read())
                                     {
                                         returnedTutorEmail = reader.GetString("email");
+                                        returnedTutorFirstName = reader.GetString("first_name");
+                                        returnedTutorLastName = reader.GetString("last_name");
                                         returnedCourseName = reader.GetString("course");
                                         returnedTutorLatitude = reader.GetDouble("latitude");
                                         returnedTutorLongitude = reader.GetDouble("longitude");
@@ -1475,8 +1479,11 @@ namespace ToDoList
                                         // Only return tutors that are less than 5 miles from the student
                                         //if (distanceToTutor < 8046.72)
                                         //{
+
                                         AvailableTutorUserItem tutor = new AvailableTutorUserItem();
                                         tutor.userEmail = returnedTutorEmail;
+                                        tutor.firstName = returnedTutorFirstName;
+                                        tutor.lastName = returnedTutorLastName;
                                         tutor.tutorCourse = returnedCourseName;
                                         tutor.latitude = returnedTutorLatitude;
                                         tutor.longitude = returnedTutorLongitude;
@@ -1486,6 +1493,46 @@ namespace ToDoList
                                         //}
                                     }
                                 }
+
+                                // Get all tutor ratings
+                                double returnedRatingCount = -1;
+                                double returnedAverageRating = -1;
+
+                                for (int i = 0; i < availableTutors.Count; i++)
+                                {
+                                    command.CommandText = "SELECT COUNT(*) as count, ROUND(AVG(rating), 1) as averageRating FROM tutor_ratings WHERE tutorEmail = ?tutorEmail";
+                                    command.Parameters.Clear();
+                                    command.Parameters.AddWithValue("tutorEmail", availableTutors[i].userEmail);
+
+                                    using (MySqlDataReader reader = command.ExecuteReader())
+                                    {
+                                        while (reader.Read())
+                                        {
+                                            returnedRatingCount = reader.GetDouble("count");
+
+                                            if (reader.IsDBNull(reader.GetOrdinal("averageRating")))
+                                            {
+                                                continue;
+                                            }
+                                            else
+                                            {
+                                                returnedAverageRating = reader.GetDouble("averageRating");
+                                            }
+                                        }
+                                    }
+
+                                    if (returnedRatingCount == 0)
+                                    {
+                                        availableTutors[i].ratingCount = returnedRatingCount;
+                                        availableTutors[i].averageRating = 5;
+                                    }
+                                    else
+                                    {
+                                        availableTutors[i].ratingCount = returnedRatingCount;
+                                        availableTutors[i].averageRating = returnedAverageRating;
+                                    }
+                                }
+
                             }
                             else
                             {
@@ -3241,7 +3288,7 @@ namespace ToDoList
                             try
                             {
                                 conn.Open();
-                                transaction = conn.BeginTransaction(); 
+                                transaction = conn.BeginTransaction();
                                 MySqlCommand command = conn.CreateCommand();
                                 command.Transaction = transaction;
 
@@ -3740,7 +3787,7 @@ namespace ToDoList
                                 MySqlCommand command = conn.CreateCommand();
 
                                 // Retrieve all tutor requests for the specified course
-                                command.CommandText = "SELECT student_email, course, topic, DATE_FORMAT(date_time, '%Y-%m-%d %T') as date_time, duration FROM tutor_requests WHERE course = ?courseName";
+                                command.CommandText = "SELECT tutor_requests.student_email, tutor_requests.course, tutor_requests.topic, DATE_FORMAT(tutor_requests.date_time, '%Y-%m-%d %T') as date_time, tutor_requests.duration, users.first_name, users.last_name FROM tutor_requests, users WHERE tutor_requests.student_email = users.email AND course = ?courseName";
                                 command.Parameters.AddWithValue("courseName", item.course);
 
                                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -3749,6 +3796,8 @@ namespace ToDoList
                                     {
                                         ScheduleTutorRequestItem request = new ScheduleTutorRequestItem();
                                         request.studentEmail = reader.GetString("student_email");
+                                        request.firstName = reader.GetString("first_name");
+                                        request.lastName = reader.GetString("last_name");
                                         request.course = reader.GetString("course");
                                         request.topic = reader.GetString("topic");
                                         request.dateTime = reader.GetString("date_time");
@@ -3814,7 +3863,7 @@ namespace ToDoList
                                 MySqlCommand command = conn.CreateCommand();
 
                                 // Retrieve all tutor requests for the specified course
-                                command.CommandText = "SELECT student_email, tutor_email, course, topic, DATE_FORMAT(date_time, '%Y-%m-%d %T') as date_time, duration FROM tutor_requests_accepted WHERE course = ?courseName";
+                                command.CommandText = "SELECT tutor_requests_accepted.student_email, tutor_requests_accepted.tutor_email, tutor_requests_accepted.course, tutor_requests_accepted.topic, DATE_FORMAT(tutor_requests_accepted.date_time, '%Y-%m-%d %T') as date_time, tutor_requests_accepted.duration, users.first_name, users.last_name FROM tutor_requests_accepted, users WHERE tutor_requests_accepted.student_email = users.email AND course = ?courseName";
                                 command.Parameters.AddWithValue("courseName", item.course);
 
                                 using (MySqlDataReader reader = command.ExecuteReader())
@@ -3823,6 +3872,8 @@ namespace ToDoList
                                     {
                                         FindAllScheduleTutorAcceptedItem request = new FindAllScheduleTutorAcceptedItem();
                                         request.studentEmail = reader.GetString("student_email");
+                                        request.firstName = reader.GetString("first_name");
+                                        request.lastName = reader.GetString("last_name");
                                         request.course = reader.GetString("course");
                                         request.topic = reader.GetString("topic");
                                         request.dateTime = reader.GetString("date_time");
@@ -4032,7 +4083,7 @@ namespace ToDoList
                             }
 
                             // Check tutor_requests_accepted table for accepted requests
-                            command.CommandText = "SELECT student_email, tutor_email, course, topic, DATE_FORMAT(date_time, '%Y-%m-%d %T') as date_time, duration FROM tutor_requests_accepted WHERE student_email = ?userEmail";
+                            command.CommandText = "SELECT tutor_requests_accepted.student_email, tutor_requests_accepted.tutor_email, tutor_requests_accepted.course, tutor_requests_accepted.topic, DATE_FORMAT(tutor_requests_accepted.date_time, '%Y-%m-%d %T') as date_time, tutor_requests_accepted.duration, users.first_name, users.last_name FROM tutor_requests_accepted, users WHERE tutor_requests_accepted.student_email = users.email AND student_email = ?userEmail";
 
                             using (MySqlDataReader reader = command.ExecuteReader())
                             {
@@ -4041,6 +4092,8 @@ namespace ToDoList
                                     PairedScheduledStatusItem statusItem = new PairedScheduledStatusItem();
                                     statusItem.studentEmail = reader.GetString("student_email");
                                     statusItem.tutorEmail = reader.GetString("tutor_email");
+                                    statusItem.firstName = reader.GetString("first_name");
+                                    statusItem.lastName = reader.GetString("last_name");
                                     statusItem.course = reader.GetString("course");
                                     statusItem.topic = reader.GetString("topic");
                                     statusItem.dateTime = reader.GetString("date_time");
@@ -4812,7 +4865,7 @@ namespace ToDoList
                                     user.email = reader.GetString("email");
                                     user.firstName = reader.GetString("first_name");
                                     user.lastName = reader.GetString("last_name");
-                                    
+
                                     users.Add(user);
                                 }
                             }
