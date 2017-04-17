@@ -98,6 +98,8 @@ public class AvailableRequestsFragment extends Fragment {
                                 Intent intent = new Intent(getContext(), AvailableAcceptedRequestPage.class);
 
                                 intent.putExtra("studentEmail", requests.get(position).getStudentEmail());
+                                intent.putExtra("studentFirstName", requests.get(position).getStudentFirstName());
+                                intent.putExtra("studentLastName", requests.get(position).getStudentLastName());
                                 intent.putExtra("topic", requests.get(position).getTopic());
                                 intent.putExtra("dateTime", requests.get(position).getDateTime());
                                 intent.putExtra("duration", requests.get(position).getDuration());
@@ -163,11 +165,15 @@ public class AvailableRequestsFragment extends Fragment {
                                 datetime = datetime.substring(0,16);
                                 String duration = temp.getString("duration");
                                 String studentEmail = temp.getString("studentEmail");
+                                String studentFirstName = temp.getString("firstName");
+                                String studentLastName = temp.getString("lastName");
                                 String topic = temp.getString("topic");
 
 
                                 Request temp1 = new Request(course, topic);
                                 temp1.setStudentEmail(studentEmail);
+                                temp1.setStudentFirstName(studentFirstName);
+                                temp1.setStudentLastName(studentLastName);
                                 temp1.setCourse(course);
                                 temp1.setDateTime(datetime);
                                 temp1.setDuration(duration);

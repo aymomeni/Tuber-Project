@@ -93,6 +93,8 @@ public class TutoringRequests extends AppCompatActivity {
                                 Intent intent = new Intent(getApplicationContext(), TutoringRequestPage.class);
 
                                 intent.putExtra("tutorEmail", requests.get(position).getTutorEmail());
+                                intent.putExtra("tutorFirstName", requests.get(position).getTutorFirstName());
+                                intent.putExtra("tutorLastName", requests.get(position).getTutorLastName());
                                 intent.putExtra("topic", requests.get(position).getTopic());
                                 intent.putExtra("dateTime", requests.get(position).getDateTime());
                                 intent.putExtra("duration", requests.get(position).getDuration());
@@ -188,10 +190,14 @@ public class TutoringRequests extends AppCompatActivity {
                                 String duration = temp.getString("duration");
                                 Boolean status = temp.getBoolean("isPaired");
                                 String tutorEmail = temp.getString("tutorEmail");
+                                String tutorFirstName = temp.getString("firstName");
+                                String tutorLastName = temp.getString("lastName");
                                 String topic = temp.getString("topic");
 
                                 Request temp1 = new Request(course, topic);
                                 temp1.setTutorEmail(tutorEmail);
+                                temp1.setTutorFirstName(tutorFirstName);
+                                temp1.setTutorLastName(tutorLastName);
                                 temp1.setCourse(course);
                                 temp1.setDateTime(datetime);
                                 temp1.setDuration(duration);
