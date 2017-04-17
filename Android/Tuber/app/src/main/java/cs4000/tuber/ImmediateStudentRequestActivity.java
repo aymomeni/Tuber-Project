@@ -283,6 +283,8 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                                     temp1.setLongitude(Double.parseDouble(longitude));
                                     adapter.add(temp1);
 
+                                    Log.i("@UpdatingList", temp.toString());
+
                                 }
 
                             } else {

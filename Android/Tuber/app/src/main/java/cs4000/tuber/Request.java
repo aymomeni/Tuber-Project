@@ -11,6 +11,8 @@ public class Request {
 
     private String tutorEmail;
     private String studentEmail;
+    private String studentFirstName;
+    private String studentLastName;
     private String dateTime;
     private String duration;
     private boolean status = false;
@@ -75,5 +77,21 @@ public class Request {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public String getStudentFirstName() {
+        return studentFirstName;
+    }
+
+    public void setStudentFirstName(String studentFirstName) {
+        this.studentFirstName = studentFirstName;
+    }
+
+    public String getStudentLastName() {
+        return studentLastName;
+    }
+
+    public void setStudentLastName(String studentLastName) {
+        this.studentLastName = studentLastName;
     }
 }

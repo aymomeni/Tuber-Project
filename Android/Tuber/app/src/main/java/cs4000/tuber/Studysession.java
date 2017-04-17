@@ -42,6 +42,7 @@ public class Studysession extends AppCompatActivity {
     private String course;
     private String session_id;
     private String studentEmail;
+    private String cost;
 
     Handler handler = new Handler();
 
@@ -205,6 +206,7 @@ public class Studysession extends AppCompatActivity {
                                     try {
                                         session_id = result.getString("tutorSessionID");
                                         studentEmail = result.getString("studentEmail");
+                                        cost = result.getString("sessionCost");
 
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -229,6 +231,24 @@ public class Studysession extends AppCompatActivity {
                         ratingText.setVisibility(View.VISIBLE);
                         rating_bar.setVisibility(View.VISIBLE);
                         submitRating_button.setVisibility(View.VISIBLE);
+
+
+                        //
+//                        final AlertDialog dialog = new AlertDialog.Builder(Studysession.this)
+//                                .setTitle("Session Ended")
+//                                .setMessage("The cost of the session is: $"+ cost)
+//                                .setCancelable(false)
+//                                .setPositiveButton("Acknowledge", new DialogInterface.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(DialogInterface dialog, int which) {
+//                                        dialog.cancel();
+//                                    }
+//                                }).show();
+
+                        Toast.makeText(getBaseContext(),
+                                "The cost of the session is: $"+ cost,
+                                Toast.LENGTH_LONG).show();
+
                     }
                 }
                 automated = false;

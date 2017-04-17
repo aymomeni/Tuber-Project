@@ -9,8 +9,8 @@ import java.util.ArrayList;
 public class User {
 
     private String userEmail;
-    private String firstName;
-    private String lastName;
+    private String firstName = "Joe";
+    private String lastName = "Jesus";
     private Double distance;
 
     private String type = "default";
