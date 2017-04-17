@@ -28,6 +28,7 @@ public class StudentStudySession extends Activity {
 
     private String session_id;
     private String sessionStartTime;
+    private String cost;
 
     private String tutorEmail;
     private String course;
@@ -215,10 +216,23 @@ public class StudentStudySession extends Activity {
                 try {
                     if(result != null && !result.get("tutorSessionID").equals(null)) {
 
+                        cost = result.getString("sessionCost");
+
                         rate_tutor.setEnabled(true);
-                        Toast.makeText(getBaseContext(),
-                                "Tutor ended the session, you can now rate him",
-                                Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getBaseContext(),
+//                                "Tutor ended the session, you can now rate him",
+//                                Toast.LENGTH_LONG).show();
+
+                        final AlertDialog dialog = new AlertDialog.Builder(StudentStudySession.this)
+                                .setTitle("Session Ended")
+                                .setMessage("Tutor ended the session, you can now rate him. Session Cost is: $"+ cost)
+                                .setCancelable(false)
+                                .setPositiveButton("Acknowledge", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                    }
+                                }).show();
 
                         session_id = result.getString("tutorSessionID");
 

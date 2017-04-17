@@ -25,12 +25,23 @@ PODS:
   - JSQMessagesViewController (7.3.4):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
+  - PageMenu (1.2.9)
   - Protobuf (3.2.0)
 
 DEPENDENCIES:
   - Firebase/Core
   - Firebase/Messaging
   - JSQMessagesViewController
+  - PageMenu (from `https://github.com/orazz/PageMenu.git`)
+
+EXTERNAL SOURCES:
+  PageMenu:
+    :git: https://github.com/orazz/PageMenu.git
+
+CHECKOUT OPTIONS:
+  PageMenu:
+    :commit: ace3d8d095c9c165113d3ac797f317fe7faecbae
+    :git: https://github.com/orazz/PageMenu.git
 
 SPEC CHECKSUMS:
   Firebase: 85a581fb04e44f63ae9f4fbc8d6dabf4a4c18653
@@ -41,8 +52,9 @@ SPEC CHECKSUMS:
   GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
   JSQMessagesViewController: 39fed975e3c9f8eba7292071e29eeb541d105e66
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  PageMenu: ba19ff267f7a19e444e93c20a7847b78954a7011
   Protobuf: 745f59e122e5de98d4d7ef291e264a0eef80f58e
 
-PODFILE CHECKSUM: e5f3737c5026408038cb7c6ac2eaa35e0ce4e98d
+PODFILE CHECKSUM: e244510aaca3e003e937734232a3c42d0a833bd5
 
 COCOAPODS: 1.2.0

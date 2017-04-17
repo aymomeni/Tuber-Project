@@ -601,6 +601,12 @@ public class ConnectionTask extends AsyncTask<String, Void, JSONObject> {
 		Log.i("@findstudyhotspots",jsonParam.toString());
 	}
 
+	public void user_hotspot_status(ConnectionTask.CallBack taskListener) {
+		this.taskListener = taskListener;
+		this.execute("/userhotspotstatus", jsonParam.toString());
+		Log.i("@userhotspotstatus",jsonParam.toString());
+	}
+
 	/**
 	 * @Send POST
 	 * {

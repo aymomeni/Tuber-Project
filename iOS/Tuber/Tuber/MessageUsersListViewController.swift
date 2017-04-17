@@ -59,23 +59,7 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
         let selectedOption = currentCell.userNameLabel.text
         print(selectedOption)
         
-//        if selectedOption == "Tutor Services"
-//        {
-//            performSegue(withIdentifier: "tutorServices", sender: selectedOption)
-//            
-//        }
-//        else if selectedOption == "Study Hotspot"
-//        {
-//            performSegue(withIdentifier: "studyHotspot", sender: selectedOption)
-//        }
-//        else if selectedOption == "Offer To Tutor"
-//        {
-//            performSegue(withIdentifier: "offerToTutor", sender: selectedOption)
-//        }
-//        else if selectedOption == "Messaging"
-//        {
-//            performSegue(withIdentifier: "goToMessage", sender: selectedOption)
-//        }
+        prepConversation(email: selectedOption!)
         
     }
     
@@ -120,36 +104,34 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
                 print(response)
                 let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
                 
+                var messages = [JSQMessage]()
+                
                 //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
-                if let arrJSON = hotspots["users"] {
+                if let arrJSON = hotspots["messages"] {
                     if (arrJSON.count > 0) {
                         for index in 0...arrJSON.count-1 {
                             
-                            let aObject = arrJSON[index] as! [String : AnyObject]
+//                           let aObject = arrJSON[index] as! [NSObject : AnyObject]
+                            let aObject = arrJSON.objectAt(index) as! [String : AnyObject]
+//                            let currentQuestionDict =
+//                                myQuestionsArray!.objectAtIndex(count) as! [NSObject:AnyObject]
                             
-                            print(aObject)
+                            print(aObject["fromEmail"] as! String)
                             
-                            
-                            self.emails.append(aObject["email"] as! String)
-                            self.firstNames.append(aObject["firstName"] as! String)
-                            self.lastNames.append(aObject["lastName"] as! String)
+                            messages.append(JSQMessage(senderId: aObject["fromEmail"] as! String, displayName: aObject["fromEmail"] as! String, text: aObject["message"] as! String))
                             
                         }
                     }
                 }
                 
                 OperationQueue.main.addOperation{
+                    var toPass = MessageInfo()
+                    toPass.recipient = email
+                    toPass.messages = messages
                     
-                    var toSend = [[String]]()
-                    
-                    toSend.append(self.emails)
-                    toSend.append(self.firstNames)
-                    toSend.append(self.lastNames)
-                    
-                    print(toSend.count)
                     
                     //                    print(toSend)
-                    self.performSegue(withIdentifier: "messageUsers", sender: toSend)
+                    self.performSegue(withIdentifier: "goToMessage", sender: toPass)
                 }
             } catch {
                 print(error)
@@ -160,14 +142,29 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
         task.resume()
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
+        if segue.identifier == "goToMessage"
+        {
+            let params = sender as! MessageInfo
+            
+            if let destination = segue.destination as? MessageWindowViewController
+            {
 
+                destination.recipientEmail = ""
+                destination.messages = [JSQMessage]()
+                
+                destination.recipientEmail = params.recipient
+                destination.messages = params.messages
+                
+                print("performing segue")
+                //destination.passed = sender as? String
+            }
+        }
+    }
+
+}
+
+struct MessageInfo {
+    var recipient = ""
+    var messages = [JSQMessage]()
 }
