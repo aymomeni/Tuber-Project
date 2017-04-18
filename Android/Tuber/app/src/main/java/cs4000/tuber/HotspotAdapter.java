@@ -2,6 +2,7 @@ package cs4000.tuber;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -115,7 +116,8 @@ public class HotspotAdapter extends MapViewPager.MultiAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mDataSet.get(position).getmOwnerEmail();
+        Log.i("HOTSPOTADAPTER", mDataSet.get(position).getmTopic());
+        return mDataSet.get(position).getmTopic();
     }
 
 //    @Override

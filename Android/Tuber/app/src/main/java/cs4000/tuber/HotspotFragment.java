@@ -76,7 +76,7 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
         ViewCompat.setElevation(getView(), 10f);
         ViewCompat.setElevation(toolbar, 4f);
 
-        toolbar.setTitle(getmDataSet().get(index).getmOwnerEmail());
+        toolbar.setTitle(getmDataSet().get(index).getmTopic());
         toolbar.inflateMenu(R.menu.hotspot_pager_toolbar_options);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +94,7 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
 
         if(getmDataSet().size() > 0){
 
-            listElements.add("Class: " + getmDataSet().get(index).getmCourse() + "\n" + "Location Description: " + getmDataSet().get(index).getmLocationDiscription() + "\n" + "Study Topic: " + getmDataSet().get(index).getmTopic() + "\n" + "Distance: ~" + String.format("%.1f", getmDataSet().get(index).getMdistanceToHotspot()) + " miles" + "\n" +"Student Count: " + getmDataSet().get(index).getmStudentCount() + "\n");
+            listElements.add("Class: " + getmDataSet().get(index).getmCourse() + "\n" + "Email: " + getmDataSet().get(index).getmOwnerEmail() + "\n" + "Location Description: " + getmDataSet().get(index).getmLocationDiscription() + "\n" + "Distance: ~" + String.format("%.1f", getmDataSet().get(index).getMdistanceToHotspot()) + " miles" + "\n" +"Student Count: " + getmDataSet().get(index).getmStudentCount() + "\n");
             mListAdapter = new ArrayAdapter<String>(getContext(), R.layout.hotspot_fragment_text_elements, listElements);
 
             mHotspotInformationListView = (ListView) this.mFragmentView.findViewById(R.id.hotspot_fragment_text_list_view);
@@ -111,7 +111,14 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
             case R.id.hotspot_pager_join_button:
 
                 ViewPager vp = (ViewPager) (v.getParent().getParent().getParent().getParent());
-
+                if(mJoinButton.getText().equals("Leave Hotspot")) {
+                    try {
+                        leaveStudyHotspot();
+                        return;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
                 Log.i("HotspotFragOnClick", "Clicked " + vp.getCurrentItem());
                 Log.i("HSDataElement", getmDataSet().get(vp.getCurrentItem()).getmOwnerEmail());
                 try{
@@ -183,7 +190,7 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
             public void Done(JSONObject result) {
 
                 if(result != null) {
-                    mJoinButton.setText("Leave Hotspot");
+                    mJoinButton.setText("Join Hotspot");
                     // more needs to happen if join or leave
                     mProgressDialog.dismiss();
                 } else {
