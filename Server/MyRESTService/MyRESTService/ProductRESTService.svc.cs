@@ -3221,6 +3221,7 @@ namespace ToDoList
                                     hotspot.topic = reader.GetString("topic");
                                     hotspot.latitude = reader.GetDouble("latitude");
                                     hotspot.longitude = reader.GetDouble("longitude");
+                                    hotspot.locationDescription = reader.GetString("location_description");
                                     hotspot.student_count = reader.GetString("student_count");
                                 }
                             }
