@@ -3087,6 +3087,7 @@ namespace ToDoList
                         String returnedTopic = "";
                         Double returnedHotspotLatitude = 0;
                         Double returnedHotspotLongitude = 0;
+                        String returnedLocationDescription = "";
                         String returnedStudentCount = "";
 
                         List<AvailableStudyHotspotItem> availableHotspots = new List<AvailableStudyHotspotItem>();
@@ -3115,6 +3116,7 @@ namespace ToDoList
                                         returnedTopic = reader.GetString("topic");
                                         returnedHotspotLatitude = reader.GetDouble("latitude");
                                         returnedHotspotLongitude = reader.GetDouble("longitude");
+                                        returnedLocationDescription = reader.GetString("location_description");
                                         returnedStudentCount = reader.GetString("student_count");
 
                                         var hotspotCoord = new GeoCoordinate(returnedHotspotLatitude, returnedHotspotLongitude);
@@ -3131,6 +3133,7 @@ namespace ToDoList
                                         hotspot.topic = returnedTopic;
                                         hotspot.latitude = returnedHotspotLatitude;
                                         hotspot.longitude = returnedHotspotLongitude;
+                                        hotspot.locationDescription = returnedLocationDescription;
                                         hotspot.student_count = returnedStudentCount;
                                         hotspot.distanceToHotspot = distanceToHotspot / 1609.34;
 

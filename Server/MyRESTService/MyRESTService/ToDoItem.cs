@@ -744,6 +744,8 @@ namespace ToDoList
         [DataMember]
         public double longitude { get; set; }
 
+        public string locationDescription { get; set; }
+
         [DataMember]
         public string student_count { get; set; }
 
