@@ -2990,12 +2990,13 @@ namespace ToDoList
                                 command.Transaction = transaction;
 
                                 // Insert the hotspot into the study_hotspots table
-                                command.CommandText = "INSERT INTO study_hotspots (owner_email, course_name, topic, latitude, longitude, student_count) VALUES (?owner_email, ?course_name, ?topic, ?latitude, ?longitude, 1)";
+                                command.CommandText = "INSERT INTO study_hotspots (owner_email, course_name, topic, latitude, longitude, location_description, student_count) VALUES (?owner_email, ?course_name, ?topic, ?latitude, ?longitude, ?locationDescription, 1)";
                                 command.Parameters.AddWithValue("owner_email", item.userEmail);
                                 command.Parameters.AddWithValue("course_name", item.course);
                                 command.Parameters.AddWithValue("topic", item.topic);
                                 command.Parameters.AddWithValue("latitude", item.latitude);
                                 command.Parameters.AddWithValue("longitude", item.longitude);
+                                command.Parameters.AddWithValue("locationDescription", item.locationDescription);
 
                                 if (command.ExecuteNonQuery() > 0)
                                 {

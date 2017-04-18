@@ -695,6 +695,9 @@ namespace ToDoList
 
         [DataMember]
         public string longitude { get; set; }
+
+        [DataMember]
+        public string locationDescription { get; set; }
     }
 
     public class CreateStudyHotspotResponseItem
