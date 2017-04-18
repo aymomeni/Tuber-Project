@@ -76,7 +76,8 @@ public class TutoringRequestPage extends AppCompatActivity {
         status_icon = (ImageView) findViewById(R.id.statusImageView);
 
         if(status){
-            tutorEmailTextView.setText(tutorFirstName + " " + tutorLastName);
+            String temp = tutorFirstName + " " + tutorLastName;
+            tutorEmailTextView.setText(getPadding(17 - temp.length()) + temp);
             status_icon.setImageResource(R.drawable.green_light);
             sessionButton.setEnabled(true);
         }
@@ -96,5 +97,13 @@ public class TutoringRequestPage extends AppCompatActivity {
                 //finish();
             }
         });
+    }
+
+    private String getPadding(int x){
+        String res = "";
+        for(int i = 0; i < x; i++){
+            res += " ";
+        }
+        return res;
     }
 }
