@@ -40,7 +40,7 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
 
     private ViewPager viewPager;
     private MapViewPager mvp;
-    private String TAG = "HotspotActivity";
+    private String mTAG = "HotspotActivity";
     private SharedPreferences sharedPreferences;
     private ConnectionTask mConnectionTask;
     private String mUserEmail;
@@ -110,9 +110,9 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
                 mLastKnownLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
                 if (mLastKnownLocation != null) {
-                    Log.i(TAG, "my Latitude: " + mLastKnownLocation.getLatitude()  + " Longitude: " + mLastKnownLocation.getLongitude());
+                    Log.i(mTAG, "my Latitude: " + mLastKnownLocation.getLatitude()  + " Longitude: " + mLastKnownLocation.getLongitude());
                 } else {
-                    Log.e(TAG, "Error retrieving own location.");
+                    Log.e(mTAG, "Error retrieving own location.");
                     // TODO: should not allow further access if no location permission
                 }
             }
@@ -178,7 +178,7 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
                     parseJSONFindHotspotsReturnList(result);
                     mProgressDialog.dismiss();
                 } else {
-                    Log.e(TAG, "Null response from server");
+                    Log.e(mTAG, "Null response from server");
                     // TODO: Does null mean no Hotspots?
                 }
 
@@ -226,10 +226,10 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
             // create study hotspot
         }
         mDataSet = new ArrayList<HotspotObject>();
-
+        Log.i("HS_JSON OBJECT L: ", ""+jsonMainArr.length());
         for (int i = 0; i < jsonMainArr.length(); i++) {
-
             try {
+
                 HotspotObject tempStudyHotspotObject = new HotspotObject();
 
                 JSONObject childJSONObject = jsonMainArr.getJSONObject(i);
@@ -237,6 +237,8 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
 
                 tempStudyHotspotObject.setMdistanceToHotspot(childJSONObject.getDouble("distanceToHotspot"));
                 tempStudyHotspotObject.setmHotspotID(childJSONObject.getString("hotspotID"));
+                tempStudyHotspotObject.setmTopic(childJSONObject.getString("topic"));
+                tempStudyHotspotObject.setmLocationDiscription(childJSONObject.getString("locationDescription"));
                 tempStudyHotspotObject.setmLatitude(childJSONObject.getDouble("latitude"));
                 tempStudyHotspotObject.setmLongitude(childJSONObject.getDouble("longitude"));
                 tempStudyHotspotObject.setmOwnerEmail(childJSONObject.getString("ownerEmail"));
@@ -249,7 +251,7 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
 
             } catch(JSONException e){
                 e.printStackTrace();
-                Log.e(TAG, "ERROR parsing returned hotspot JSON");
+                Log.e(mTAG, "ERROR parsing returned hotspot JSON");
             }
 
         }

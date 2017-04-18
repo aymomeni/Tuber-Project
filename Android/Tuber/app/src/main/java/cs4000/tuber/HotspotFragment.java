@@ -94,7 +94,7 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
 
         if(getmDataSet().size() > 0){
 
-            listElements.add("User: <Name> " + "\n" + "Location Description: <Location Description>" + "\n" + "Study Topic: <Study Topic>" + "\n" + "Distance: ~" + String.format("%.1f", getmDataSet().get(index).getMdistanceToHotspot()) + " miles" + "\n" +"Student Count: " + getmDataSet().get(index).getmStudentCount() + "\n");
+            listElements.add("Class: " + getmDataSet().get(index).getmCourse() + "\n" + "Location Description: " + getmDataSet().get(index).getmLocationDiscription() + "\n" + "Study Topic: " + getmDataSet().get(index).getmTopic() + "\n" + "Distance: ~" + String.format("%.1f", getmDataSet().get(index).getMdistanceToHotspot()) + " miles" + "\n" +"Student Count: " + getmDataSet().get(index).getmStudentCount() + "\n");
             mListAdapter = new ArrayAdapter<String>(getContext(), R.layout.hotspot_fragment_text_elements, listElements);
 
             mHotspotInformationListView = (ListView) this.mFragmentView.findViewById(R.id.hotspot_fragment_text_list_view);

@@ -15,8 +15,6 @@ import android.view.View;
 public class HotspotEntryMenuActivity extends AppCompatActivity {
 
 
-
-
     private SharedPreferences sharedPreferences;
     @Override
 
