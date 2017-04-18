@@ -86,6 +86,7 @@ public class StudentCourseFragment extends Fragment {
                                     Log.i("StudyHotspot", studentCourseDataSet.get(pos).getCourse());
                                     Intent intent = new Intent(getContext(), HotspotActivity.class);
                                     intent.putExtra("course", studentCourseDataSet.get(pos).getCourse());
+                                    intent.putExtra("course", "CS 4400");
                                     startActivity(intent);
 
                                 } else if(v.getId() == R.id.ic_tutor_glasses) {
