@@ -35,7 +35,10 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         
         //TODO: DB query,
         cell.classNameLabel.text = classes[indexPath.row]
-//        cell.
+        cell.messageButton.setImage(#imageLiteral(resourceName: "messaging"), for: .normal)
+        cell.immediateButton.setImage(#imageLiteral(resourceName: "immediaterequest"), for: .normal)
+        cell.scheduledButton.setImage(#imageLiteral(resourceName: "scheduletutor"), for: .normal)
+        cell.hotspotButton.setImage(#imageLiteral(resourceName: "studyhotspot"), for: .normal)
         
         return cell
     }
