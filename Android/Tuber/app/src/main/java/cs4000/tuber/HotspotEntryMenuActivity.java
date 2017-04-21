@@ -1,8 +1,11 @@
 package cs4000.tuber;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -14,13 +17,14 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,7 +33,7 @@ import org.json.JSONObject;
  * Created by Ali on 2/20/2017.
  */
 
-public class HotspotEntryMenuActivity extends AppCompatActivity {
+public class HotspotEntryMenuActivity extends Activity {
 
     private Switch mHotspotCreateSwitch;
     private Button mJoinHotspotButton;
@@ -133,43 +137,98 @@ public class HotspotEntryMenuActivity extends AppCompatActivity {
                 // create hotspot if not created before. else delete hotspot
                 if(isChecked){
 
-                    Toast.makeText(getApplicationContext(), (String)"Hotspot Created", Toast.LENGTH_SHORT).show();
+//                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(HotspotEntryMenuActivity.this, R.style.MyAlertDialogStyle);
+//
+//                    // set title
+//                    alertDialogBuilder.setTitle("Your Title");
+//
+//                    // set dialog message
+//                    alertDialogBuilder
+//                            .setMessage("Click yes to exit!")
+//                            .setCancelable(false)
+//                            .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog,int id) {
+//                                    // if this button is clicked, close
+//                                    // current activity
+//                                    HotspotEntryMenuActivity.this.finish();
+//                                }
+//                            })
+//                            .setNegativeButton("No",new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog,int id) {
+//                                    // if this button is clicked, just close
+//                                    // the dialog box and do nothing
+//                                    dialog.cancel();
+//                                }
+//                            });
+//
+//                    // create alert dialog
+//                    AlertDialog alertDialog = alertDialogBuilder.create();
+//
+//                    // show it
+//                    alertDialog.show();
 
-//                    final AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext(), R.style.MyAlertDialogStyle);
-//                    builder.setTitle("Hotspot Info");
-//                    // I'm using fragment here so I'm using getView() to provide ViewGroup
-//                    // but you can provide here any other instance of ViewGroup from your Fragment / Activity
-//
-//                    View viewInflated = LayoutInflater.from(getApplicationContext()).inflate(R.layout.dialog_create_hotspot, (ViewGroup) mViewGroup, false);
-//                    // Set up the input
-//                    final EditText input_topic = (EditText) viewInflated.findViewById(R.id.input_hotspot_topic);
-//                    final EditText input_location_description = (EditText) viewInflated.findViewById(R.id.input_hotspot_location_description);
-//                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-//                    builder.setView(viewInflated);
-//
-//                    // Set up the buttons
-//                    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            String topic = input_topic.getText().toString(); //TODO: do something useful with course name
-//                            String location_description = input_location_description.getText().toString();
-//                            dialog.dismiss();
-//                        }
-//                    });
-//                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.cancel();
-//                        }
-//                    });
+                    //Toast.makeText(getApplicationContext(), (String)"Hotspot Created", Toast.LENGTH_SHORT).show();
+
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(HotspotEntryMenuActivity.this, R.style.MyAlertDialogStyle);
+                    builder.setTitle("Hotspot Info");
+                    // I'm using fragment here so I'm using getView() to provide ViewGroup
+                    // but you can provide here any other instance of ViewGroup from your Fragment / Activity
+
+                    View view = getWindow().getDecorView().findViewById(android.R.id.content);
+                    View viewInflated = LayoutInflater.from(HotspotEntryMenuActivity.this).inflate(R.layout.dialog_create_hotspot, null);
+                    // Set up the input
+                    final EditText input_topic = (EditText) viewInflated.findViewById(R.id.input_hotspot_topic);
+                    //final EditText input_location_description = (EditText) viewInflated.findViewById(R.id.input_hotspot_location_description);
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    builder.setView(viewInflated);
+
+                    // Set up the buttons
+                    builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String topic = input_topic.getText().toString(); //TODO: do something useful with course name
+                            //String location_description = input_location_description.getText().toString();
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+//                    builder.setTitle("AppCompatDialog");
+//                    builder.setMessage("Lorem ipsum dolor...");
+//                    builder.setPositiveButton("OK", null);
+//                    builder.setNegativeButton("Cancel", null);
 //                    builder.show();
+
                 } else {
-                    Toast.makeText(getApplicationContext(), (String)"Hotspot Deleted", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), (String)"Hotspot Deleted", Toast.LENGTH_SHORT).show();
                 }
                 Log.i("HotspotEntryActivity", "Switch Create hotspot");
             }
         });
 
+    }
+
+
+    public Dialog buildDialogue() {
+        // Get app version
+        LayoutInflater layoutInflater = this.getLayoutInflater();
+        View rootView = layoutInflater.inflate(R.layout.dialog_create_hotspot, null);
+
+        return new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
+                .setView(rootView)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                }).create();
     }
 
 
