@@ -28,6 +28,8 @@ import android.widget.Switch;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by Ali on 2/20/2017.
  */
@@ -49,6 +51,7 @@ public class HotspotEntryMenuActivity extends Activity {
     private LocationListener mLocationListener;
     private Location mLastKnownLocation;
     private ConnectionTask mConnectionTask;
+    private HotspotObject mHostpotObjectCheckStatus;
     private String mTAG = "HotEMenuAct";
 
     private SharedPreferences sharedPreferences;
@@ -115,10 +118,14 @@ public class HotspotEntryMenuActivity extends Activity {
 
         mLastKnownLocation = getMyLocation();
 
-        checkHotspotStatus();
+        try {
+
+            String result = userHotspotStatus();
 
 
-
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
 
         mJoinHotspotButton = (Button) findViewById(R.id.join_hotspot_button);
@@ -338,10 +345,10 @@ public class HotspotEntryMenuActivity extends Activity {
     *    "hotspotStatus": "owner"
     * }
     */
-    private void userHotspotStatus() throws JSONException {
+    private String userHotspotStatus() throws JSONException {
         mProgressDialog = new ProgressDialog(this, R.style.AppTheme_Dark_Dialog);
         mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage("Leaving Hotspot...");
+        mProgressDialog.setMessage("Refreshing your Hotspot status...");
         mProgressDialog.show();
 
         // filling JSON object
@@ -355,7 +362,7 @@ public class HotspotEntryMenuActivity extends Activity {
             public void Done(JSONObject result) {
 
                 if(result != null) {
-                    // process the returned information
+                    processHotspotStatus(result);
                     mProgressDialog.dismiss();
                 } else {
                     Log.e("Hotspot Status", "Null response from server");
@@ -364,15 +371,62 @@ public class HotspotEntryMenuActivity extends Activity {
 
             }
         });
+
+        return null;
     }
 
     /**
      * Checks the status of hotspot creation and join in this context
      */
-    private void checkHotspotStatus(){
+    private String processHotspotStatus(JSONObject result){
+
+        JSONObject jsonObject = null;
+        ArrayList<HotspotObject> freshlyPulledDataset = new ArrayList<HotspotObject>();
+        String hotspotStatus = "";
+
+        Log.i(mTAG, result.toString());
+        try {
+
+            hotspotStatus = result.getString("hotspotStatus");
+
+            if(hotspotStatus.equals("null")){
+                return "null";
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            jsonObject = result.getJSONObject("hotspot");
+
+                try {
+
+                    mHostpotObjectCheckStatus = new HotspotObject();
+
+                    mHostpotObjectCheckStatus.setmCourse(jsonObject.getString("course"));
+                    mHostpotObjectCheckStatus.setMdistanceToHotspot(jsonObject.getDouble("distanceToHotspot"));
+                    mHostpotObjectCheckStatus.setmHotspotID(jsonObject.getString("hotspotID"));
+                    mHostpotObjectCheckStatus.setmLatitude(jsonObject.getDouble("latitude"));
+                    mHostpotObjectCheckStatus.setmLongitude(jsonObject.getDouble("longitude"));
+                    mHostpotObjectCheckStatus.setmOwnerEmail(jsonObject.getString("ownerEmail"));
+                    mHostpotObjectCheckStatus.setmStudentCount(jsonObject.getString("student_count"));
+                    mHostpotObjectCheckStatus.setmTopic(jsonObject.getString("topic"));
+                    mHostpotObjectCheckStatus.setmLocationDiscription(jsonObject.getString("locationDescription"));
+
+                    Log.i("HS_JSON OBJECT RETURN: ", mHostpotObjectCheckStatus.getmCourse() + " " + mHostpotObjectCheckStatus.getmTopic() + " " + mHostpotObjectCheckStatus.getMdistanceToHotspot() + " " + mHostpotObjectCheckStatus.getmHotspotID() + " " + mHostpotObjectCheckStatus.getmLatitude() + " " +
+                            mHostpotObjectCheckStatus.getmLongitude() + " " + mHostpotObjectCheckStatus.getmOwnerEmail() + " " + mHostpotObjectCheckStatus.getmStudentCount() + " " + hotspotStatus);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("HotspotFragment", "ERROR parsing returned hotspot JSON");
+                }
 
 
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
 
+        return hotspotStatus;
     }
 
 
