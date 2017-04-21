@@ -2,7 +2,6 @@ package cs4000.tuber;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -116,6 +115,11 @@ public class HotspotEntryMenuActivity extends Activity {
 
         mLastKnownLocation = getMyLocation();
 
+        checkHotspotStatus();
+
+
+
+
 
         mJoinHotspotButton = (Button) findViewById(R.id.join_hotspot_button);
         mJoinHotspotButton.setOnClickListener(new View.OnClickListener() {
@@ -137,48 +141,17 @@ public class HotspotEntryMenuActivity extends Activity {
                 // create hotspot if not created before. else delete hotspot
                 if(isChecked){
 
-//                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(HotspotEntryMenuActivity.this, R.style.MyAlertDialogStyle);
-//
-//                    // set title
-//                    alertDialogBuilder.setTitle("Your Title");
-//
-//                    // set dialog message
-//                    alertDialogBuilder
-//                            .setMessage("Click yes to exit!")
-//                            .setCancelable(false)
-//                            .setPositiveButton("Yes",new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog,int id) {
-//                                    // if this button is clicked, close
-//                                    // current activity
-//                                    HotspotEntryMenuActivity.this.finish();
-//                                }
-//                            })
-//                            .setNegativeButton("No",new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog,int id) {
-//                                    // if this button is clicked, just close
-//                                    // the dialog box and do nothing
-//                                    dialog.cancel();
-//                                }
-//                            });
-//
-//                    // create alert dialog
-//                    AlertDialog alertDialog = alertDialogBuilder.create();
-//
-//                    // show it
-//                    alertDialog.show();
-
-                    //Toast.makeText(getApplicationContext(), (String)"Hotspot Created", Toast.LENGTH_SHORT).show();
-
                     final AlertDialog.Builder builder = new AlertDialog.Builder(HotspotEntryMenuActivity.this, R.style.MyAlertDialogStyle);
-                    builder.setTitle("Hotspot Info");
+                    builder.setTitle("Before creating your Study Hotspot...");
                     // I'm using fragment here so I'm using getView() to provide ViewGroup
                     // but you can provide here any other instance of ViewGroup from your Fragment / Activity
 
                     View view = getWindow().getDecorView().findViewById(android.R.id.content);
                     View viewInflated = LayoutInflater.from(HotspotEntryMenuActivity.this).inflate(R.layout.dialog_create_hotspot, null);
+
                     // Set up the input
                     final EditText input_topic = (EditText) viewInflated.findViewById(R.id.input_hotspot_topic);
-                    //final EditText input_location_description = (EditText) viewInflated.findViewById(R.id.input_hotspot_location_description);
+                    final EditText input_location_description = (EditText) viewInflated.findViewById(R.id.input_hotspot_location_description);
                     // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                     builder.setView(viewInflated);
 
@@ -186,28 +159,40 @@ public class HotspotEntryMenuActivity extends Activity {
                     builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            String topic = input_topic.getText().toString(); //TODO: do something useful with course name
-                            //String location_description = input_location_description.getText().toString();
-                            dialog.dismiss();
+
+                            mTopicCreateHotspot = input_topic.getText().toString(); //TODO: do something useful with course name
+                            mLocationDescriptionCreatedHotspot = input_location_description.getText().toString();
+
+                            checkDialogueInputTopicLocationDesc(mTopicCreateHotspot, mLocationDescriptionCreatedHotspot);
                         }
                     });
                     builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            mHotspotCreateSwitch.setChecked(false);
+                            new AlertDialog.Builder(HotspotEntryMenuActivity.this)
+                                    .setTitle("Info")
+                                    .setMessage("Study Hotspot was not created.")
+                                    .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // continue with delete
+                                        }
+                                    })
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                            dialog.dismiss();
                             dialog.cancel();
                         }
                     });
                     builder.show();
+                    //TODO: if not created yet
+                    mHotspotCreateSwitch.setChecked(false);
 
-//                    AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
-//                    builder.setTitle("AppCompatDialog");
-//                    builder.setMessage("Lorem ipsum dolor...");
-//                    builder.setPositiveButton("OK", null);
-//                    builder.setNegativeButton("Cancel", null);
-//                    builder.show();
 
                 } else {
                     //Toast.makeText(getApplicationContext(), (String)"Hotspot Deleted", Toast.LENGTH_SHORT).show();
+
+
                 }
                 Log.i("HotspotEntryActivity", "Switch Create hotspot");
             }
@@ -216,21 +201,37 @@ public class HotspotEntryMenuActivity extends Activity {
     }
 
 
-    public Dialog buildDialogue() {
-        // Get app version
-        LayoutInflater layoutInflater = this.getLayoutInflater();
-        View rootView = layoutInflater.inflate(R.layout.dialog_create_hotspot, null);
+    private void checkDialogueInputTopicLocationDesc(String topic, String locDescrip){
 
-        return new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
-                .setView(rootView)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        dialog.dismiss();
-                    }
-                }).create();
+        if(topic.isEmpty() || locDescrip.isEmpty()) {
+            mHotspotCreateSwitch.setChecked(false);
+            new AlertDialog.Builder(this)
+                    .setTitle("Info")
+                    .setMessage("Please satisfy the Study Hotspot creation conditions when creating a Study Hotspot.")
+                    .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+
+        }
+
+        if(topic.length() > 30 || locDescrip.length() > 30) {
+            mHotspotCreateSwitch.setChecked(false);
+            new AlertDialog.Builder(this)
+                    .setTitle("Info")
+                    .setMessage("Please satisfy the Study Hotspot creation conditions when creating a Study Hotspot.")
+                    .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // continue with delete
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
+        }
     }
-
 
     /**
      * Returns the location of the user in the context of this class
@@ -318,7 +319,7 @@ public class HotspotEntryMenuActivity extends Activity {
    /* userhotspotstatus
     * {
     *    "userEmail" : "brandontobin@cox.net",
-    *        "userToken" : "1ca3ed40-9f2f-49ca-85c4-42324dd3fe55"
+    *    "userToken" : "1ca3ed40-9f2f-49ca-85c4-42324dd3fe55"
     * }
     *
     * Returns : 200 OK
@@ -349,7 +350,7 @@ public class HotspotEntryMenuActivity extends Activity {
         me.put("userToken", mUserToken);
 
         mConnectionTask = new ConnectionTask(me);
-        mConnectionTask.create_study_hotspot(new ConnectionTask.CallBack() {
+        mConnectionTask.user_hotspot_status(new ConnectionTask.CallBack() {
             @Override
             public void Done(JSONObject result) {
 
@@ -363,6 +364,15 @@ public class HotspotEntryMenuActivity extends Activity {
 
             }
         });
+    }
+
+    /**
+     * Checks the status of hotspot creation and join in this context
+     */
+    private void checkHotspotStatus(){
+
+
+
     }
 
 
@@ -388,7 +398,7 @@ public class HotspotEntryMenuActivity extends Activity {
         me.put("hotspotID", mHotspotIDCreatedHotspot);
 
         mConnectionTask = new ConnectionTask(me);
-        mConnectionTask.create_study_hotspot(new ConnectionTask.CallBack() {
+        mConnectionTask.delete_study_hotspots(new ConnectionTask.CallBack() {
             @Override
             public void Done(JSONObject result) {
 
