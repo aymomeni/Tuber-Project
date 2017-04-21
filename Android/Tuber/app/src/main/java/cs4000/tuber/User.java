@@ -12,6 +12,8 @@ public class User {
     private String firstName = "Joe";
     private String lastName = "Jesus";
     private Double distance;
+    private float userRating = 0;
+    private int numOfRatings = 0;
 
     private String type = "default";
 
@@ -90,5 +92,21 @@ public class User {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public float getUserRating() {
+        return userRating;
+    }
+
+    public void setUserRating(float userRating) {
+        this.userRating = userRating;
+    }
+
+    public int getNumOfRatings() {
+        return numOfRatings;
+    }
+
+    public void setNumOfRatings(int numOfRatings) {
+        this.numOfRatings = numOfRatings;
     }
 }

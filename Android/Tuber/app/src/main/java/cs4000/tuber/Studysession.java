@@ -64,7 +64,7 @@ public class Studysession extends AppCompatActivity {
         session_switch = (Switch) findViewById(R.id.session_switch);
         submitRating_button = (Button) findViewById(R.id.submit_rating_button);
         ratingText = (TextView) findViewById(R.id.rating_text);
-        rating_bar = (RatingBar) findViewById(R.id.ratingBar);
+        rating_bar = (RatingBar) findViewById(R.id.userRating);
         status_light = (ImageView) findViewById(R.id.statusImageV2);
         statusTextV = (TextView) findViewById(R.id.statusView);
 
