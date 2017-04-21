@@ -64,15 +64,7 @@
                     android:textColor="#ffffff"
                     android:textSize="14sp" />
 
-                <ImageView
-                    android:id="@+id/expand_arrow_up"
-                    android:layout_alignParentRight="true"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:adjustViewBounds="true"
-                    android:src="@drawable/expand_arrow_up" />
-
-                 </RelativeLayout>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -98,40 +90,49 @@
 
                     <ImageView
                         android:id="@+id/ic_study_hotspot_tower"
+                        android:layout_width="65dp"
+                        android:layout_height="25dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
-                        android:layout_marginRight="30dp"
-                        android:src="@drawable/ic_study_hotspot_tower"
-                        android:layout_height="25dp"
-                        android:layout_width="75dp" />
+                        android:src="@drawable/ic_study_hotspot_tower" />
+
 
                     <ImageView
                         android:id="@+id/ic_tutor_glasses"
-                        android:layout_toLeftOf="@id/ic_study_hotspot_tower"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:src="@drawable/ic_tutor_glasses"
+                        android:layout_width="65dp"
                         android:layout_height="25dp"
+                        android:layout_centerInParent="true"
+                        android:layout_toLeftOf="@id/ic_study_hotspot_tower"
                         android:elevation="8dp"
-                        android:layout_width="75dp" />
+                        android:gravity="center"
+                        android:src="@drawable/ic_tutor_glasses" />
 
                     <ImageView
-                        android:id="@+id/ic_discussion"
-                        android:layout_toLeftOf="@id/ic_tutor_glasses"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
+                        android:id="@+id/ic_offer_tutor_outline"
+                        android:layout_width="65dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/ic_discussion"
-                        android:layout_width="75dp" />
+                        android:layout_centerInParent="true"
+                        android:layout_toLeftOf="@id/ic_tutor_glasses"
+                        android:gravity="center"
+                        android:src="@drawable/ic_offer_tutor_outline" />
+
+                    <ImageView
+                        android:id="@+id/ic_scheduled_request"
+                        android:layout_width="65dp"
+                        android:layout_height="25dp"
+                        android:layout_centerInParent="true"
+                        android:layout_toLeftOf="@id/ic_offer_tutor_outline"
+                        android:gravity="center"
+                        android:src="@drawable/ic_scheduled_request" />
 
                     <ImageView
                         android:id="@+id/ic_message_closed"
-                        android:layout_toLeftOf="@id/ic_discussion"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:src="@drawable/ic_message_closed"
+                        android:layout_width="65dp"
                         android:layout_height="25dp"
-                        android:layout_width="75dp" />
+                        android:layout_centerInParent="true"
+                        android:layout_toLeftOf="@id/ic_scheduled_request"
+                        android:gravity="center"
+                        android:src="@drawable/ic_message_closed" />
 
                 </RelativeLayout>
             </LinearLayout>

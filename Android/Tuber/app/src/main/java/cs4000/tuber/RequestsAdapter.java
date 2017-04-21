@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.android.gms.games.request.Requests;
@@ -42,6 +43,8 @@ public class RequestsAdapter extends
         // for any view that will be set as you render a row
         public TextView userName;
         public TextView userDistance;
+        public TextView numOfRatings;
+        public RatingBar userRating;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -52,6 +55,8 @@ public class RequestsAdapter extends
 
             userName = (TextView) itemView.findViewById(R.id.iTitle);
             userDistance = (TextView) itemView.findViewById(R.id.iSubTitle);
+            userRating = (RatingBar) itemView.findViewById(R.id.userRating);
+            numOfRatings = (TextView) itemView.findViewById(R.id.numOfRatings);
         }
     }
 
@@ -160,5 +165,13 @@ public class RequestsAdapter extends
 
         TextView textView2 = viewHolder.userDistance;
         textView2.setText(String.valueOf(request.getCourse()));
+
+        RatingBar rating_bar = viewHolder.userRating;
+        //rating_bar.setRating(user.getUserRating());
+        rating_bar.setVisibility(View.INVISIBLE);
+
+        TextView textView3 = viewHolder.numOfRatings;
+        //textView3.setText(String.valueOf(user.getNumOfRatings()));
+        textView3.setVisibility(View.INVISIBLE);
     }
 }

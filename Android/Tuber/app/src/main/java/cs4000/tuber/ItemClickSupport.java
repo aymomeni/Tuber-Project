@@ -120,8 +120,11 @@ public class ItemClickSupport {
                 if(view.findViewById(R.id.ic_tutor_glasses) != null) {
                     view.findViewById(R.id.ic_tutor_glasses).setOnClickListener(mOnClickListenerStudent);
                 }
-                if(view.findViewById(R.id.ic_discussion) != null) {
-                    view.findViewById(R.id.ic_discussion).setOnClickListener(mOnClickListenerStudent);
+                if(view.findViewById(R.id.ic_offer_tutor_outline) != null) {
+                    view.findViewById(R.id.ic_offer_tutor_outline).setOnClickListener(mOnClickListenerStudent);
+                }
+                if(view.findViewById(R.id.ic_scheduled_request) != null) {
+                    view.findViewById(R.id.ic_scheduled_request).setOnClickListener(mOnClickListenerStudent);
                 }
                 if(view.findViewById(R.id.ic_message_closed) != null) {
                     view.findViewById(R.id.ic_message_closed).setOnClickListener(mOnClickListenerStudent);
@@ -132,9 +135,9 @@ public class ItemClickSupport {
                 view.setOnClickListener(mOnClickListenerStudent);
             }
             if (mOnItemClickListenerTutor != null) {
-                if(view.findViewById(R.id.ic_offer_tutor_outline) != null) {
-                    view.findViewById(R.id.ic_offer_tutor_outline).setOnClickListener(mOnClickListenerTutor);
-                }
+//                if(view.findViewById(R.id.ic_offer_tutor_outline) != null) {
+//                    view.findViewById(R.id.ic_offer_tutor_outline).setOnClickListener(mOnClickListenerTutor);
+//                }
                 if(view.findViewById(R.id.ic_scheduled_request) != null) {
                     view.findViewById(R.id.ic_scheduled_request).setOnClickListener(mOnClickListenerTutor);
                 }
