@@ -28,7 +28,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ClassStudentActivity" />
+        <activity
+            android:name=".ClassStudentActivity" />
         <activity
             android:name=".TutorServicesActivity"
             android:label="@string/title_activity_tutor_services" />
