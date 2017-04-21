@@ -43,14 +43,6 @@
             android:layout_below="@+id/classViewElement1"
             android:layout_marginBottom="10dp" />
 
-        <ImageView
-            android:src="@drawable/ic_discussion_forum"
-            android:id="@+id/classViewElement3"
-            android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:layout_below="@+id/classViewElement2"
-            android:layout_marginBottom="10dp" />
-
 
         <ImageView
             android:src="@drawable/ic_message"

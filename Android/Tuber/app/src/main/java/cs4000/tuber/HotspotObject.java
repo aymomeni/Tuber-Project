@@ -10,12 +10,14 @@ package cs4000.tuber;
 public class HotspotObject {
 
     private String mCourse;
+    private String mTopic;
     private double mdistanceToHotspot;
     private String mHotspotID;
     private double mLongitude;
     private double mLatitude;
     private String mOwnerEmail;
     private String mStudentCount;
+    private String mLocationDiscription;
 
     public HotspotObject() {}
 
@@ -33,6 +35,22 @@ public class HotspotObject {
 
     public void setMdistanceToHotspot(double mdistanceToHotspot) {
         this.mdistanceToHotspot = mdistanceToHotspot;
+    }
+
+    public String getmTopic() {
+        return mTopic;
+    }
+
+    public void setmTopic(String mTopic) {
+        this.mTopic = mTopic;
+    }
+
+    public String getmLocationDiscription() {
+        return mLocationDiscription;
+    }
+
+    public void setmLocationDiscription(String mLocationDiscription) {
+        this.mLocationDiscription = mLocationDiscription;
     }
 
     public String getmHotspotID() {

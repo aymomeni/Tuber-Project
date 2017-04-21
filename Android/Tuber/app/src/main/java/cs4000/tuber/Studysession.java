@@ -42,7 +42,7 @@ public class Studysession extends AppCompatActivity {
     private String course;
     private String session_id;
     private String studentEmail;
-    private String cost;
+    private String cost = "-1";
 
     Handler handler = new Handler();
 
@@ -59,6 +59,7 @@ public class Studysession extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_studysession);
+        getSupportActionBar().hide();
 
         session_switch = (Switch) findViewById(R.id.session_switch);
         submitRating_button = (Button) findViewById(R.id.submit_rating_button);
@@ -208,6 +209,22 @@ public class Studysession extends AppCompatActivity {
                                         studentEmail = result.getString("studentEmail");
                                         cost = result.getString("sessionCost");
 
+
+                                        // move to rate the session
+                                        session_switch.setClickable(false);
+
+                                        statusTextV.setVisibility(View.INVISIBLE);
+                                        status_light.setVisibility(View.INVISIBLE);
+                                        ratingText.setVisibility(View.VISIBLE);
+                                        rating_bar.setVisibility(View.VISIBLE);
+                                        submitRating_button.setVisibility(View.VISIBLE);
+
+
+                                        Toast.makeText(getBaseContext(),
+                                                "The cost of the session is: $"+ cost,
+                                                Toast.LENGTH_LONG).show();
+
+
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
@@ -218,36 +235,40 @@ public class Studysession extends AppCompatActivity {
                                     }
 //                                    Log.i("@end_tutor_session", "session ended!");
                                 } else {
+                                    automated = true;
+                                    session_switch.setChecked(true);
 //                                    Log.i("@end_tutor_session", "end session failed!");
                                 }
                             }
                         });
 
-                        // move to rate the session
-                        session_switch.setClickable(false);
-
-                        statusTextV.setVisibility(View.INVISIBLE);
-                        status_light.setVisibility(View.INVISIBLE);
-                        ratingText.setVisibility(View.VISIBLE);
-                        rating_bar.setVisibility(View.VISIBLE);
-                        submitRating_button.setVisibility(View.VISIBLE);
-
-
-                        //
-//                        final AlertDialog dialog = new AlertDialog.Builder(Studysession.this)
-//                                .setTitle("Session Ended")
-//                                .setMessage("The cost of the session is: $"+ cost)
-//                                .setCancelable(false)
-//                                .setPositiveButton("Acknowledge", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.cancel();
-//                                    }
-//                                }).show();
-
-                        Toast.makeText(getBaseContext(),
-                                "The cost of the session is: $"+ cost,
-                                Toast.LENGTH_LONG).show();
+//                        // move to rate the session
+//                        session_switch.setClickable(false);
+//
+//                        statusTextV.setVisibility(View.INVISIBLE);
+//                        status_light.setVisibility(View.INVISIBLE);
+//                        ratingText.setVisibility(View.VISIBLE);
+//                        rating_bar.setVisibility(View.VISIBLE);
+//                        submitRating_button.setVisibility(View.VISIBLE);
+//
+//
+//                        //
+////                        final AlertDialog dialog = new AlertDialog.Builder(Studysession.this)
+////                                .setTitle("Session Ended")
+////                                .setMessage("The cost of the session is: $"+ cost)
+////                                .setCancelable(false)
+////                                .setPositiveButton("Acknowledge", new DialogInterface.OnClickListener() {
+////                                    @Override
+////                                    public void onClick(DialogInterface dialog, int which) {
+////                                        dialog.cancel();
+////                                    }
+////                                }).show();
+//
+//                        Toast.makeText(getBaseContext(),
+//                                "The cost of the session is: $"+ cost,
+//                                Toast.LENGTH_LONG).show();
+//
+//                        Log.i("@end_tutor_session2", cost);
 
                     }
                 }

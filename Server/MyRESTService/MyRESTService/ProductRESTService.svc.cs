@@ -2990,12 +2990,13 @@ namespace ToDoList
                                 command.Transaction = transaction;
 
                                 // Insert the hotspot into the study_hotspots table
-                                command.CommandText = "INSERT INTO study_hotspots (owner_email, course_name, topic, latitude, longitude, student_count) VALUES (?owner_email, ?course_name, ?topic, ?latitude, ?longitude, 1)";
+                                command.CommandText = "INSERT INTO study_hotspots (owner_email, course_name, topic, latitude, longitude, location_description, student_count) VALUES (?owner_email, ?course_name, ?topic, ?latitude, ?longitude, ?locationDescription, 1)";
                                 command.Parameters.AddWithValue("owner_email", item.userEmail);
                                 command.Parameters.AddWithValue("course_name", item.course);
                                 command.Parameters.AddWithValue("topic", item.topic);
                                 command.Parameters.AddWithValue("latitude", item.latitude);
                                 command.Parameters.AddWithValue("longitude", item.longitude);
+                                command.Parameters.AddWithValue("locationDescription", item.locationDescription);
 
                                 if (command.ExecuteNonQuery() > 0)
                                 {
@@ -3086,6 +3087,7 @@ namespace ToDoList
                         String returnedTopic = "";
                         Double returnedHotspotLatitude = 0;
                         Double returnedHotspotLongitude = 0;
+                        String returnedLocationDescription = "";
                         String returnedStudentCount = "";
 
                         List<AvailableStudyHotspotItem> availableHotspots = new List<AvailableStudyHotspotItem>();
@@ -3114,6 +3116,7 @@ namespace ToDoList
                                         returnedTopic = reader.GetString("topic");
                                         returnedHotspotLatitude = reader.GetDouble("latitude");
                                         returnedHotspotLongitude = reader.GetDouble("longitude");
+                                        returnedLocationDescription = reader.GetString("location_description");
                                         returnedStudentCount = reader.GetString("student_count");
 
                                         var hotspotCoord = new GeoCoordinate(returnedHotspotLatitude, returnedHotspotLongitude);
@@ -3130,6 +3133,7 @@ namespace ToDoList
                                         hotspot.topic = returnedTopic;
                                         hotspot.latitude = returnedHotspotLatitude;
                                         hotspot.longitude = returnedHotspotLongitude;
+                                        hotspot.locationDescription = returnedLocationDescription;
                                         hotspot.student_count = returnedStudentCount;
                                         hotspot.distanceToHotspot = distanceToHotspot / 1609.34;
 
@@ -3217,6 +3221,7 @@ namespace ToDoList
                                     hotspot.topic = reader.GetString("topic");
                                     hotspot.latitude = reader.GetDouble("latitude");
                                     hotspot.longitude = reader.GetDouble("longitude");
+                                    hotspot.locationDescription = reader.GetString("location_description");
                                     hotspot.student_count = reader.GetString("student_count");
                                 }
                             }
@@ -4083,7 +4088,7 @@ namespace ToDoList
                             }
 
                             // Check tutor_requests_accepted table for accepted requests
-                            command.CommandText = "SELECT tutor_requests_accepted.student_email, tutor_requests_accepted.tutor_email, tutor_requests_accepted.course, tutor_requests_accepted.topic, DATE_FORMAT(tutor_requests_accepted.date_time, '%Y-%m-%d %T') as date_time, tutor_requests_accepted.duration, users.first_name, users.last_name FROM tutor_requests_accepted, users WHERE tutor_requests_accepted.student_email = users.email AND student_email = ?userEmail";
+                            command.CommandText = "SELECT tutor_requests_accepted.student_email, tutor_requests_accepted.tutor_email, tutor_requests_accepted.course, tutor_requests_accepted.topic, DATE_FORMAT(tutor_requests_accepted.date_time, '%Y-%m-%d %T') as date_time, tutor_requests_accepted.duration, users.first_name, users.last_name FROM tutor_requests_accepted, users WHERE tutor_requests_accepted.tutor_email = users.email AND student_email = ?userEmail";
 
                             using (MySqlDataReader reader = command.ExecuteReader())
                             {

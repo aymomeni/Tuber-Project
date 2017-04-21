@@ -275,10 +275,14 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                                     String longitude = temp.getString("longitude");
                                     String tutorCourse = temp.getString("tutorCourse");
                                     String userEmail = temp.getString("userEmail");
+                                    String firstName = temp.getString("firstName");
+                                    String lastName = temp.getString("lastName");
 
                                     Double distanceOneDP = (double) Math.round(Double.parseDouble(distanceFromStudent) * 10) / 10;
 
                                     User temp1 = new User(userEmail, distanceOneDP);
+                                    temp1.setFirstName(firstName);
+                                    temp1.setLastName(lastName);
                                     temp1.setLatitudes(Double.parseDouble(latitude));
                                     temp1.setLongitude(Double.parseDouble(longitude));
                                     adapter.add(temp1);

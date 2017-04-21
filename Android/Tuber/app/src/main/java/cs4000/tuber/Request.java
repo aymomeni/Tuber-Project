@@ -10,6 +10,8 @@ public class Request {
     private String topic;
 
     private String tutorEmail;
+    private String tutorFirstName;
+    private String tutorLastName;
     private String studentEmail;
     private String studentFirstName;
     private String studentLastName;
@@ -93,5 +95,21 @@ public class Request {
 
     public void setStudentLastName(String studentLastName) {
         this.studentLastName = studentLastName;
+    }
+
+    public String getTutorFirstName() {
+        return tutorFirstName;
+    }
+
+    public void setTutorFirstName(String tutorFirstName) {
+        this.tutorFirstName = tutorFirstName;
+    }
+
+    public String getTutorLastName() {
+        return tutorLastName;
+    }
+
+    public void setTutorLastName(String tutorLastName) {
+        this.tutorLastName = tutorLastName;
     }
 }
