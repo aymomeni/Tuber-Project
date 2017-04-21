@@ -56,15 +56,17 @@ class MainScreenViewController: UIViewController {
         let controller1 = storyboard?.instantiateViewController(withIdentifier: "ClassList")
         controller1?.title = "STUDENT CLASSES"
         controllerArray.append(controller1!)
-        let controller2 : ClassListViewController = ClassListViewController()//(nibName: "ClassListViewController", bundle: nil)
-        controller2.title = "TUTOR CLASSES"
-        controllerArray.append(controller2)
+        
+        let controller2 = storyboard?.instantiateViewController(withIdentifier: "ClassList")
+//        let controller2 : ClassListViewController = ClassListViewController()//(nibName: "ClassListViewController", bundle: nil)
+        controller2?.title = "TUTOR CLASSES"
+        controllerArray.append(controller2!)
         
         // Customize menu (Optional)
         let parameters: [CAPSPageMenuOption] = [
             .scrollMenuBackgroundColor(UIColor.gray), //color of scrollmenu
 //            .scrollMenuBackgroundColor(UIColor(red: 30.0/255.0, green: 30.0/255.0, blue: 30.0/255.0, alpha: 1.0)),
-            .viewBackgroundColor(UIColor.white), //color of extra backgroud of the views
+            .viewBackgroundColor(UIColor.black), //color of extra backgroud of the views
 //            .viewBackgroundColor(UIColor(red: 20.0/255.0, green: 20.0/255.0, blue: 20.0/255.0, alpha: 1.0)),
             .selectionIndicatorColor(UIColor.orange),
             .bottomMenuHairlineColor(UIColor.white), //separation between page menu and view

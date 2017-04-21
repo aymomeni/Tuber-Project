@@ -23,13 +23,12 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
-         self.title = ClassListViewController.selectedClass.className
+
+         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
          
          self.navigationItem.hidesBackButton = true
-         let newBackButton = UIBarButtonItem(title: "< Courses", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ClassOptionsViewController.back(sender:)))
+         let newBackButton = UIBarButtonItem(title: "< Courses", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ClassOptionsViewController.back(_:)))
          self.navigationItem.leftBarButtonItem = newBackButton
-         */
     }
     
     func back(_ sender: UIBarButtonItem) {

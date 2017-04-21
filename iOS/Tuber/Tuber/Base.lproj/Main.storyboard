@@ -191,6 +191,9 @@
                                                     <rect key="frame" x="34" y="82" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="A"/>
+                                                    <connections>
+                                                        <action selector="messageButtonPress:" destination="Xk0-SE-qhB" eventType="touchUpInside" id="eAs-QX-Qcp"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hvs-UY-SRl">
                                                     <rect key="frame" x="114" y="82" width="30" height="30"/>
@@ -201,11 +204,17 @@
                                                     <rect key="frame" x="199" y="82" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="C"/>
+                                                    <connections>
+                                                        <action selector="scheduleButtonPress:" destination="Xk0-SE-qhB" eventType="touchUpInside" id="98c-VB-p4U"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D9d-Xe-DWC">
                                                     <rect key="frame" x="286" y="82" width="30" height="30"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="D"/>
+                                                    <connections>
+                                                        <action selector="hotspotButtonPress:" destination="Xk0-SE-qhB" eventType="touchUpInside" id="qEX-UH-Maw"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -230,6 +239,9 @@
                     <connections>
                         <outlet property="classTableView" destination="0Lh-m2-E9C" id="2hS-dk-sS7"/>
                         <segue destination="5A3-JH-NLx" kind="show" identifier="selectClass" id="w3u-QR-4nb"/>
+                        <segue destination="EtH-EL-Lam" kind="show" identifier="scheduleTutor" id="ChY-K7-Lub"/>
+                        <segue destination="6oR-S3-h7y" kind="show" identifier="messages" id="DJj-Gt-eJ2"/>
+                        <segue destination="G8h-R2-j4Q" kind="show" identifier="studyHotspot" id="xvY-45-0pZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h8S-DZ-GwL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1513,11 +1525,13 @@
         <image name="viewschedule" width="260" height="260"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="DJj-Gt-eJ2"/>
+        <segue reference="xvY-45-0pZ"/>
         <segue reference="w3u-QR-4nb"/>
-        <segue reference="5ig-Um-xfQ"/>
+        <segue reference="ChY-K7-Lub"/>
+        <segue reference="fpl-Kl-NNA"/>
         <segue reference="wou-aW-Ckx"/>
         <segue reference="bTA-8i-ZD6"/>
         <segue reference="DFs-GP-OZW"/>
-        <segue reference="UUA-cR-Rft"/>
     </inferredMetricsTieBreakers>
 </document>

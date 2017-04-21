@@ -19,15 +19,15 @@ class TutorViewScheduleTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
+
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
         
         self.navigationController?.willMove(toParentViewController: OfferTutorTableViewController())
         
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(TutorViewScheduleTableViewController.back(sender:)))
+        let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(TutorViewScheduleTableViewController.back(_:)))
         self.navigationItem.leftBarButtonItem = newBackButton
-        */
+
     }
     
     func back(_ sender: UIBarButtonItem) {

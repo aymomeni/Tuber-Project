@@ -107,6 +107,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 print("Connected to FCM.")
                 print(FIRInstanceID.instanceID().token()!)
+                UserDefaults.standard.set(FIRInstanceID.instanceID().token(), forKey: "firebaseToken")
+                print("Set Firebase Token")
             }
         }
     }

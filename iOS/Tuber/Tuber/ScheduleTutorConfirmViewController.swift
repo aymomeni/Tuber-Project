@@ -18,8 +18,8 @@ class ScheduleTutorConfirmViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.title = ClassListViewController.selectedClass.className
-
+        self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
+        
         confirmLabel.text = passed[0]
     }
 
