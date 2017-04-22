@@ -15,6 +15,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
     var icons = [#imageLiteral(resourceName: "immediaterequest"), #imageLiteral(resourceName: "scheduletutor"), #imageLiteral(resourceName: "viewschedule"), #imageLiteral(resourceName: "viewschedule")]
     var names = ["Immediate Request", "Schedule Tutor", "View Schedule", "Report Tutor"]
     
+    
     var tutorFirstNames: [String] = []
     var tutorLastNames: [String] = []
     var tutorEmails: [String] = []
@@ -22,8 +23,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
-        
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,6 +53,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         
         if selectedOption == "Immediate Request"
         {
+            
             performSegue(withIdentifier: "immediateRequest", sender: selectedOption)
             
         }

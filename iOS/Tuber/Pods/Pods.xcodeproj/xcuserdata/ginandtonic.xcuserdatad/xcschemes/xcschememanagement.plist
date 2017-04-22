@@ -21,6 +21,11 @@
 			<key>orderHint</key>
 			<integer>7</integer>
 		</dict>
+		<key>PageMenu.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>8</integer>
+		</dict>
 		<key>Pods-Tuber.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -57,6 +62,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>67B3F766E628505613E08BE772938D58</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>798319CEFCD4EC1B48E7DFE53A4F56B2</key>
 		<dict>
 			<key>primary</key>
@@ -77,6 +87,11 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>B4C98CC9D797A18BD2A1ADBF70F380C9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>C5B80060FE8C664DF08841000F41D515</key>
 		<dict>
 			<key>primary</key>
@@ -93,6 +108,11 @@
 			<true/>
 		</dict>
 		<key>F36D1C356853FB2633A39754F374C161</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FDC65A023E34EFDFC2407B2F2EEADFC4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
