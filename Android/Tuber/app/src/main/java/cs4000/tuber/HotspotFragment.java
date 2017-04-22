@@ -55,6 +55,8 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
     private String mUserToken;
     private String mCourse;
     private Handler mHandler;
+    private Boolean mHotspotOwner;
+    private Boolean mOwnerExistsInDataSet;
     private ViewPager viewPager;
     private MapViewPager mvp;
     private ArrayList<HotspotObject> mDataSet;
@@ -111,11 +113,33 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
 
         ArrayList<String> listElements = new ArrayList<String>();
 
+        mOwnerExistsInDataSet = false;
+        for(int i = 0; i < mDataSet.size(); i++){
+
+            if(mUserEmail.equals(mDataSet.get(i).getmOwnerEmail())){
+                mOwnerExistsInDataSet = true;
+            }
+        }
+
+        mHotspotOwner = false;
         if(getmDataSet().size() > 0){
             mCourse = mDataSet.get(index).getmCourse();
             listElements.add("Class: " + mDataSet.get(index).getmCourse() + "\n" + "Email: " + mDataSet.get(index).getmOwnerEmail() + "\n" + "Location Description: " + mDataSet.get(index).getmLocationDiscription() + "\n" + "Distance: ~" + String.format("%.1f", mDataSet.get(index).getMdistanceToHotspot()) + " miles" + "\n" +"Student Count: " + mDataSet.get(index).getmStudentCount() + "\n");
             mListAdapter = new ArrayAdapter<String>(getContext(), R.layout.hotspot_fragment_text_elements, listElements);
 
+            if(mOwnerExistsInDataSet && !mHotspotOwner) {
+                mJoinButton.setClickable(false);
+                mJoinButton.setText("Join Hotspot Disabled");
+                mJoinButton.setBackgroundColor(getResources().getColor(R.color.aluminum));
+                mJoinButton.setAlpha((float)0.4);
+            }
+            if(mDataSet.get(index).getmOwnerEmail().equals(mUserEmail)){
+                mHotspotOwner = true;
+                mJoinButton.setClickable(false);
+                mJoinButton.setText("Your Hotspot");
+                mJoinButton.setAlpha(1);
+                mJoinButton.setBackgroundColor(getResources().getColor(R.color.colorAccent_Green));
+            }
             mHotspotInformationListView = (ListView) this.mFragmentView.findViewById(R.id.hotspot_fragment_text_list_view);
 
             mHotspotInformationListView.setAdapter(mListAdapter);
