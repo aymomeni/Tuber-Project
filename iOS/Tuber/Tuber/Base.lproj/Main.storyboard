@@ -242,11 +242,12 @@
                         <segue destination="6oR-S3-h7y" kind="show" identifier="messages" id="DJj-Gt-eJ2"/>
                         <segue destination="G8h-R2-j4Q" kind="show" identifier="studyHotspot" id="xvY-45-0pZ"/>
                         <segue destination="VN2-es-04H" kind="show" identifier="studentOptions" id="Qeu-HF-z8A"/>
+                        <segue destination="5A3-JH-NLx" kind="show" identifier="shortcut" id="mwO-BP-tEd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h8S-DZ-GwL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1201" y="36"/>
+            <point key="canvasLocation" x="1087" y="36"/>
         </scene>
         <!--Class Options View Controller-->
         <scene sceneID="4w8-ya-raQ">
@@ -1742,6 +1743,7 @@
                         <segue destination="j4P-R3-Heg" kind="show" identifier="tutorViewSchedule" id="PS6-VA-pX3"/>
                         <segue destination="UGW-Ob-ttF" kind="show" identifier="tutorImmediate" id="Wad-8o-mm6"/>
                         <segue destination="6oR-S3-h7y" kind="show" identifier="messages" id="k4M-yH-YGG"/>
+                        <segue destination="5A3-JH-NLx" kind="show" identifier="shortcut" id="S2e-vM-n3w"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k7U-cJ-pbo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1755,10 +1757,10 @@
         <image name="viewschedule" width="260" height="260"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="RHB-JV-TxL"/>
-        <segue reference="xse-gK-JsK"/>
+        <segue reference="Qeu-HF-z8A"/>
+        <segue reference="mwO-BP-tEd"/>
+        <segue reference="xvY-45-0pZ"/>
         <segue reference="ChY-K7-Lub"/>
-        <segue reference="5ig-Um-xfQ"/>
         <segue reference="bY2-c1-vpM"/>
         <segue reference="EDu-i3-YMx"/>
         <segue reference="bTA-8i-ZD6"/>
