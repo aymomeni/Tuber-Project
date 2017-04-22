@@ -3647,6 +3647,8 @@ namespace ToDoList
 
                                 //  Remove delete the study hotspot
                                 command.CommandText = "DELETE FROM study_hotspots WHERE hotspot_id = ?hotspotID";
+                                command.Parameters.AddWithValue("hotspotID", item.hotspotID);
+
                                 if (command.ExecuteNonQuery() > 0)
                                 {
                                     // Deleting the study hotspot was successful
