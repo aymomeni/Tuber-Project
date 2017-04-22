@@ -140,6 +140,22 @@ public class HotspotEntryMenuActivity extends Activity {
                 // create hotspot if not created before. else delete hotspot
                 if(isChecked && !mFirstCheck){
 
+                    if(isMemberOfHotspot == true) {
+                        new AlertDialog.Builder(HotspotEntryMenuActivity.this)
+                                .setTitle("Info")
+                                .setMessage("You are already joined in a hotspot. First leave that hotspot before you create one.")
+                                .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // continue with delete
+                                        mHotspotCreateSwitch.setChecked(false);
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                        return;
+                    }
+
+
                     final AlertDialog.Builder builder = new AlertDialog.Builder(HotspotEntryMenuActivity.this, R.style.MyAlertDialogStyle);
                     builder.setTitle("Before creating your Study Hotspot...");
                     // I'm using fragment here so I'm using getView() to provide ViewGroup

@@ -7,6 +7,7 @@ package cs4000.tuber;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -22,6 +23,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -243,7 +245,20 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
                 Log.i("HotspotFragOnClick", "Clicked " + vp.getCurrentItem());
                 Log.i("HSDataElement", getmDataSet().get(vp.getCurrentItem()).getmOwnerEmail());
                 try{
-                    joinStudyHostpot(getmDataSet().get(vp.getCurrentItem()).getmCourse(), getmDataSet().get(vp.getCurrentItem()).getmHotspotID());
+                    if(HotspotEntryMenuActivity.isMemberOfHotspot == false) {
+                        joinStudyHostpot(getmDataSet().get(vp.getCurrentItem()).getmCourse(), getmDataSet().get(vp.getCurrentItem()).getmHotspotID());
+                    } else {
+                        new AlertDialog.Builder(getActivity())
+                                .setTitle("Info")
+                                .setMessage("You can't join two Hotspots at the same time. First leave the other one.")
+                                .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // continue with delete
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
                 } catch(JSONException e){
                     e.printStackTrace();
                 }
