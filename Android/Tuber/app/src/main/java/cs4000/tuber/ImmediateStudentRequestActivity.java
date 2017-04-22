@@ -277,6 +277,8 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                                     String userEmail = temp.getString("userEmail");
                                     String firstName = temp.getString("firstName");
                                     String lastName = temp.getString("lastName");
+                                    String rating = temp.getString("averageRating");
+                                    String numRating = temp.getString("ratingCount");
 
                                     Double distanceOneDP = (double) Math.round(Double.parseDouble(distanceFromStudent) * 10) / 10;
 
@@ -285,6 +287,8 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                                     temp1.setLastName(lastName);
                                     temp1.setLatitudes(Double.parseDouble(latitude));
                                     temp1.setLongitude(Double.parseDouble(longitude));
+                                    temp1.setUserRating(Float.valueOf(rating));
+                                    temp1.setNumOfRatings(Integer.valueOf(numRating));
                                     adapter.add(temp1);
 
                                     Log.i("@UpdatingList", temp.toString());

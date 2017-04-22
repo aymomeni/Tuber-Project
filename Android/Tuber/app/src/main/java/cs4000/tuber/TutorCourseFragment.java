@@ -70,12 +70,14 @@ public class TutorCourseFragment extends Fragment {
 
                             if(v instanceof ImageView) {
 
-                                if(v.getId() == R.id.ic_offer_tutor_outline){
+//                                if(v.getId() == R.id.ic_offer_tutor_outline){
+//
+//                                    //do something...
+//                                    Toast.makeText(getContext(), "listener Definition missing", Toast.LENGTH_SHORT).show();
+//
+//                                } else
 
-                                    //do something...
-                                    Toast.makeText(getContext(), "listener Definition missing", Toast.LENGTH_SHORT).show();
-
-                                } else if(v.getId() == R.id.ic_scheduled_request) {
+                                if(v.getId() == R.id.ic_scheduled_request) {
 
                                     Log.i("@class_check", tutorCourseDataSet.get(pos).getCourse());
                                     Intent intent = new Intent(getContext(), TutoringRequestsPager.class);

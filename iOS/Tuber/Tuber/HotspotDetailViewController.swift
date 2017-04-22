@@ -43,9 +43,10 @@ class HotspotDetailViewController: UIViewController {
         
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
+        let course = defaults.object(forKey: "selectedCourse") as! String
         
         //creating the post parameter by concatenating the keys and values from text field
-        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"hotspotID\":\"\(hotspotID as String)\"}"
+        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"hotspotID\":\"\(hotspotID as String)\"}"
         
         print(postParameters)
         
@@ -69,7 +70,7 @@ class HotspotDetailViewController: UIViewController {
             if (r?.statusCode == 200)
             {
                 OperationQueue.main.addOperation{
-                    self.performSegue(withIdentifier: "joinHotspot", sender: nil)
+                    self.performSegue(withIdentifier: "joinHotspot", sender: "leave")
                 }
             }
             else{
@@ -81,13 +82,12 @@ class HotspotDetailViewController: UIViewController {
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "viewHotspotDetail"
+        if segue.identifier == "joinHotspot"
         {
-            
             if let destination = segue.destination as? ActiveHotspotViewController
             {
-                destination.messageLabel.text = "Successfully Joined Hotspot"
-                destination.deletebutton.setTitle("Leave Hotspot", for: .normal)
+                print(sender as! String)
+                destination.pageSetup = sender as! String
             }
         }
     }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:padding="16dp"
+    >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/input_hotspot_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text = "Please specify the topic of your studies and a short description of your relative location (e.g. first flow west wing Library). Both should be under 30 characters."
+            android:textColor="@color/white"
+            android:textColorHint="@color/aluminum"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:imeOptions="actionDone"
+            />
+
+    <!--<android.support.design.widget.TextInputLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <EditText
+            android:id="@+id/input_hotspot_topic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hotspot Topic"
+            android:textColorHint="@color/duskYellow"
+            android:textColor="@color/colorAccent"
+            android:imeOptions="actionDone"
+            />
+
+        <EditText
+            android:id="@+id/input_hotspot_location_description"
+            android:layout_marginTop="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Location Description"
+            android:textColorHint="@color/duskYellow"
+            android:textColor="@color/colorAccent_blue2"
+            android:imeOptions="actionDone"
+            />
+
+    <!--</android.support.design.widget.TextInputLayout>-->
+
+
+
+
+    </LinearLayout>
+</FrameLayout>

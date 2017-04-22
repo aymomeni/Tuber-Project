@@ -24,9 +24,10 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.title = "Messages"
+        
         self.usersTableView.delegate = self
         self.usersTableView.dataSource = self
-        print(emails.count)
         // Do any additional setup after loading the view.
     }
 
@@ -43,7 +44,9 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "messageUsersList", for: indexPath) as! MessageUsersListTableViewCell
         
-        cell.userNameLabel.text = emails[indexPath.row]
+        cell.userNameLabel.text = firstNames[indexPath.row] + " " + lastNames[indexPath.row]
+        
+//        cell.userNameLabel.text = emails[indexPath.row]
         
 //        cell.optionIconImageView.image = icons[indexPath.row]
 //        cell.optionNameLabel.text = names[indexPath.row]
@@ -59,11 +62,11 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
         let selectedOption = currentCell.userNameLabel.text
         print(selectedOption)
         
-        prepConversation(email: selectedOption!)
+        prepConversation(email: emails[(indexPath?.row)!], name: selectedOption!)
         
     }
     
-    func prepConversation(email: String)
+    func prepConversation(email: String, name: String)
     {
         //created NSURL
         let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/getmessageconversation")

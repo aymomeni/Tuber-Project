@@ -90,9 +90,12 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         //        let longitude = String(describing: location?.coordinate.longitude)
         
         //creating the post parameter by concatenating the keys and values from text field
-        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"latitude\":\"\(self.location!.coordinate.latitude)\",\"longitude\":\"\(self.location!.coordinate.longitude)\"}"
+//        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"latitude\":\"\(self.location!.coordinate.latitude)\",\"longitude\":\"\(self.location!.coordinate.longitude)\"}"
         
+        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"topic\": \"Midterm 2\",\"latitude\":\"\(self.location!.coordinate.latitude)\",\"longitude\":\"\(self.location!.coordinate.longitude)\",\"locationDescription\":\"Room 205\"}"
         print(postParameters)
+        
+        
         
         //adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
@@ -211,88 +214,86 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView{
             
-            var detailParams: [String] = []
-            
-            detailParams.append((view.annotation?.subtitle!)!)
-            detailParams.append("anne@cox.net")
-            
-            self.performSegue(withIdentifier: "viewHotspotDetail", sender: detailParams)
-            
 //            print(view.annotation?.title! as Any) // annotation's title
-//            let hotspotID = view.annotation?.subtitle! as Any
-//            
-//            let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/getstudyhotspotmembers"
-//            
-//            //created NSURL
-//            let requestURL = NSURL(string: server)
-//            
-//            //creating NSMutableURLRequest
-//            let request = NSMutableURLRequest(url: requestURL! as URL)
-//            
-//            //setting the method to post
-//            request.httpMethod = "POST"
-//            
-//            let defaults = UserDefaults.standard
-//            
-//            //getting values from text fields
-//            let userEmail = defaults.object(forKey: "userEmail") as! String
-//            let userToken = defaults.object(forKey: "userToken") as! String
-//            
-//            //creating the post parameter by concatenating the keys and values from text field
-//            let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"studyHotspotID\":\"\(hotspotID)\"}"
-//            
-//            //adding the parameters to request body
-//            request.httpBody = postParameters.data(using: String.Encoding.utf8)
-//            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-//            request.addValue("application/json", forHTTPHeaderField: "Accept")
-//            
-//            print(postParameters)
-//            
-//            //creating a task to send the post request
-//            let task = URLSession.shared.dataTask(with: request as URLRequest){
-//                data, response, error in
-//                
-//                if error != nil{
-//                    print("error is \(error)")
-//                    return;
-//                }
-//                
-//                //parsing the response
-//                do {
-//                    //print(response)
-//                    let members = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
-//                    
-//                    //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
-//                    if let arrJSON = members["studyHotspots"] {
-//                        if (arrJSON.count > 0) {
-//                            for index in 0...arrJSON.count-1 {
-//                                
-//                                let aObject = arrJSON[index] as! [String : AnyObject]
-//                                
-//                                print(aObject)
-//                                
-//                                self.ownerEmail.append(aObject["ownerEmail"] as! String)
-//                                self.hotspotID.append(aObject["hotspotID"] as! String)
-//                                self.latitude.append(aObject["latitude"] as! Double)
-//                                self.longitude.append(aObject["longitude"] as! Double)
-//                                
-//                            }
-//                        }
-//                    }
-//                    print(self.ownerEmail)
-//                    print(self.hotspotID)
-//                    
-//                    OperationQueue.main.addOperation{
-//                        self.performSegue(withIdentifier: "viewHotspotDetail", sender: nil)
-//                    }
-//                    
-//                } catch {
-//                    print(error)
-//                }
-//                
-//            }
-//            //executing the task
-//            task.resume()
+            let hotspotID = view.annotation?.subtitle! as Any
+            
+            let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/getstudyhotspotmembers"
+            
+            //created NSURL
+            let requestURL = NSURL(string: server)
+            
+            //creating NSMutableURLRequest
+            let request = NSMutableURLRequest(url: requestURL! as URL)
+            
+            //setting the method to post
+            request.httpMethod = "POST"
+            
+            let defaults = UserDefaults.standard
+            
+            //getting values from text fields
+            let userEmail = defaults.object(forKey: "userEmail") as! String
+            let userToken = defaults.object(forKey: "userToken") as! String
+            
+            //creating the post parameter by concatenating the keys and values from text field
+            let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"studyHotspotID\":\"\(hotspotID)\"}"
+            
+            //adding the parameters to request body
+            request.httpBody = postParameters.data(using: String.Encoding.utf8)
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.addValue("application/json", forHTTPHeaderField: "Accept")
+            
+            print(postParameters)
+            
+            //creating a task to send the post request
+            let task = URLSession.shared.dataTask(with: request as URLRequest){
+                data, response, error in
+                
+                if error != nil{
+                    print("error is \(error)")
+                    return;
+                }
+                
+                //parsing the response
+                do {
+                    //print(response)
+                    let members = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                    
+                    //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
+                    if let arrJSON = members["studyHotspots"] {
+                        if (arrJSON.count > 0) {
+                            for index in 0...arrJSON.count-1 {
+                                
+                                let aObject = arrJSON[index] as! [String : AnyObject]
+                                
+                                print(aObject)
+                                
+                                self.ownerEmail.append(aObject["ownerEmail"] as! String)
+                                self.hotspotID.append(aObject["hotspotID"] as! String)
+                                self.latitude.append(aObject["latitude"] as! Double)
+                                self.longitude.append(aObject["longitude"] as! Double)
+                                
+                            }
+                        }
+                    }
+                    print(self.ownerEmail)
+                    print(self.hotspotID)
+                    
+                    OperationQueue.main.addOperation{
+                        var detailParams: [String] = []
+                        
+                        detailParams.append((view.annotation?.subtitle!)!)
+                        detailParams.append((view.annotation?.title!)!)
+                        
+                        self.performSegue(withIdentifier: "viewHotspotDetail", sender: detailParams)
+                    }
+                    
+                } catch {
+                    print(error)
+                }
+                
+            }
+            //executing the task
+            task.resume()
             
         }
     }

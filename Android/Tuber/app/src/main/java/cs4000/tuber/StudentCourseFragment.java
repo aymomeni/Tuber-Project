@@ -86,20 +86,28 @@ public class StudentCourseFragment extends Fragment {
                                     Log.i("StudyHotspot", studentCourseDataSet.get(pos).getCourse());
                                     Intent intent = new Intent(getContext(), HotspotActivity.class);
                                     intent.putExtra("course", studentCourseDataSet.get(pos).getCourse());
+                                    intent.putExtra("course", "CS 4400");
                                     startActivity(intent);
 
                                 } else if(v.getId() == R.id.ic_tutor_glasses) {
 
                                     Log.i("TutorService", studentCourseDataSet.get(pos).getCourse());
-                                    Intent intent = new Intent(getContext(), TutorServicesActivity.class);
+                                    Intent intent = new Intent(getContext(), ImmediateStudentRequestActivity.class);
                                     intent.putExtra("course", studentCourseDataSet.get(pos).getCourse());
                                     startActivity(intent);
 
 
-                                } else if(v.getId() == R.id.ic_discussion) {
+                                } else if(v.getId() == R.id.ic_offer_tutor_outline) {
 
-                                    //do something...
-                                    Toast.makeText(getContext(), "listener Definition missing", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(getContext(), ScheduleATutor.class);
+                                    intent.putExtra("course", studentCourseDataSet.get(pos).getCourse());
+                                    startActivity(intent);
+
+                                } else if(v.getId() == R.id.ic_scheduled_request) {
+
+                                    Intent intent = new Intent(getContext(), TutoringRequests.class);
+                                    intent.putExtra("course", studentCourseDataSet.get(pos).getCourse());
+                                    startActivity(intent);
 
                                 } else if(v.getId() == R.id.ic_message_closed) {
 

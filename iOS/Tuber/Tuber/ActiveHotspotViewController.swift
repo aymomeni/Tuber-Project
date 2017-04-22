@@ -12,9 +12,30 @@ class ActiveHotspotViewController: UIViewController {
 
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var deletebutton: UIButton!
+    
+    var messageContents: String!
+    var buttonText: String!
+    var pageSetup: String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if (pageSetup != nil)
+        {
+            messageLabel.text = "Successfully Joined Hotspot"
+            deletebutton.setTitle("Leave Hotspot", for: .normal)
+        }
 
+//        if (messageContents != nil)
+//        {
+//            messageLabel.text = messageContents
+//        }
+//        
+//        if (buttonText != nil)
+//        {
+//            deletebutton.setTitle(buttonText, for: .normal)
+//            
+//        }
         // Do any additional setup after loading the view.
     }
 
@@ -25,7 +46,15 @@ class ActiveHotspotViewController: UIViewController {
 
 
     @IBAction func deleteLeaveButton(_ sender: Any) {
-        let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/leavestudyhotspot"
+        var server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/"
+
+        if (messageLabel.text == "Successfully Created Hotspot")
+        {
+            server.append("deletestudyhotspot")
+        }
+        else{
+            server.append("leavestudyhotspot")
+        }
         
         //created NSURL
         let requestURL = URL(string: server)

@@ -29,7 +29,7 @@
             android:layout_gravity="center">
 
             <Button
-                android:text="Join"
+                android:text="Join / View"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/join_hotspot_button"
@@ -67,7 +67,7 @@
             android:gravity="center_vertical">
 
             <Switch
-                android:text="Create Personal Hotspot  "
+                android:text="Create Study Hotspot  "
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/create_hotspot_switch"

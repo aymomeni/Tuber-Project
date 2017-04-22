@@ -42,15 +42,44 @@
                 android:background="#25000000"
                 android:padding="10dp">
 
-                <TextView
-                    android:id="@+id/iSubTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Apprevelations"
-                    android:textAllCaps="true"
-                    android:textColor="#ffffff"
-                    android:textSize="18sp" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/iSubTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="Apprevelations"
+                        android:textAllCaps="true"
+                        android:textColor="#ffffff"
+                        android:textSize="18sp" />
+
+
+                    <RatingBar
+                        android:id="@+id/userRating"
+                        style="?android:attr/ratingBarStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:numStars="5"
+                        android:theme="@style/RatingBar" />
+
+                    <TextView
+                        android:id="@+id/numOfRatings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/userRating"
+                        android:layout_marginRight="5dp"
+                        android:layout_toStartOf="@+id/userRating"
+                        android:text="0"
+                        android:textColor="#ffffff"
+                        android:textSize="12sp" />
+
+                </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ButtonCellDelegate {
+    func cellTapped(cell: ClassTableViewCell, type: String)
+}
+
 class ClassTableViewCell: UITableViewCell {
 
     @IBOutlet weak var classNameLabel: UILabel!
@@ -15,6 +19,8 @@ class ClassTableViewCell: UITableViewCell {
     @IBOutlet weak var immediateButton: UIButton!
     @IBOutlet weak var scheduledButton: UIButton!
     @IBOutlet weak var hotspotButton: UIButton!
+    
+    var buttonDelegate: ButtonCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,5 +32,22 @@ class ClassTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    @IBAction func messageButtonPress(_ sender: Any) {
+        if let delegate = buttonDelegate {
+            delegate.cellTapped(cell: self, type: "Message")
+        }
+    }
 
+    @IBAction func scheduleButtonPress(_ sender: Any) {
+        if let delegate = buttonDelegate {
+            delegate.cellTapped(cell: self, type: "Schedule")
+        }
+    }
+    
+    @IBAction func hotspotButtonPress(_ sender: Any) {
+        if let delegate = buttonDelegate {
+            delegate.cellTapped(cell: self, type: "Hotspot")
+        }
+    }
 }

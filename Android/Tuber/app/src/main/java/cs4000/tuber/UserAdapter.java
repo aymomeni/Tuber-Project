@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -38,6 +39,8 @@ public class UserAdapter extends
         // for any view that will be set as you render a row
         public TextView userName;
         public TextView userDistance;
+        public TextView numOfRatings;
+        public RatingBar userRating;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -48,6 +51,8 @@ public class UserAdapter extends
 
             userName = (TextView) itemView.findViewById(R.id.iTitle);
             userDistance = (TextView) itemView.findViewById(R.id.iSubTitle);
+            userRating = (RatingBar) itemView.findViewById(R.id.userRating);
+            numOfRatings = (TextView) itemView.findViewById(R.id.numOfRatings);
         }
     }
 
@@ -158,6 +163,12 @@ public class UserAdapter extends
 
             TextView textView2 = viewHolder.userDistance;
             textView2.setText(String.valueOf(user.getDistance()) + " miles");
+
+            RatingBar rating_bar = viewHolder.userRating;
+            rating_bar.setRating(user.getUserRating());
+
+            TextView textView3 = viewHolder.numOfRatings;
+            textView3.setText(String.valueOf(user.getNumOfRatings()));
         } else {
             // Set item views based on your views and data model
             TextView textView1 = viewHolder.userName;
@@ -165,6 +176,14 @@ public class UserAdapter extends
 
             TextView textView2 = viewHolder.userDistance;
             textView2.setText(user.getFirstName() + " " + user.getLastName());
+
+            RatingBar rating_bar = viewHolder.userRating;
+            //rating_bar.setRating(user.getUserRating());
+            rating_bar.setVisibility(View.INVISIBLE);
+
+            TextView textView3 = viewHolder.numOfRatings;
+            //textView3.setText(String.valueOf(user.getNumOfRatings()));
+            textView3.setVisibility(View.INVISIBLE);
         }
     }
 }

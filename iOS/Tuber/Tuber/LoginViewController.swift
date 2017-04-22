@@ -22,11 +22,15 @@ class LoginViewController: UIViewController
     
     @IBAction func loginButtonPress(_ sender: Any)
     {
+        print("login pressed")
         let sr = ServerRequest();
         var responseCode:Int;
         responseCode = -1;
         var JSON:NSDictionary?;
-        let postParameters = "{\"userEmail\":\"" + emailTextField.text! + "\",\"userPassword\":\"" + passwordTextField.text! + "\",\"firebaseToken\":\"" + "" + "\"}";
+        
+        let firebaseToken = UserDefaults.standard.object(forKey: "firebaseToken") as! String
+        
+        let postParameters = "{\"userEmail\":\"" + emailTextField.text! + "\",\"userPassword\":\"" + passwordTextField.text! + "\",\"firebaseToken\":\"\(firebaseToken)\"}";
         let url = "http://tuber-test.cloudapp.net/ProductRESTService.svc/verifyuser";
         
         sr.runRequest(inputJSON: postParameters, server: url)
