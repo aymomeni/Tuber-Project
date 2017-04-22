@@ -34,14 +34,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             DataViewHolder dataViewHolder=(DataViewHolder) viewHolder;
 
             dataViewHolder.title.setText(ru.course);
-            dataViewHolder.subTitle.setText(ru.subTitle);
 
         }
         else
         {
             DataViewHolder dataViewHolder=(DataViewHolder) viewHolder;
             dataViewHolder.title.setText(ru.course);
-            dataViewHolder.subTitle.setText(ru.subTitle);
         }
 
     }
@@ -164,24 +162,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public static class DataViewHolder extends RecyclerView.ViewHolder {
 
         protected TextView title;
-        protected TextView subTitle;
 
         public DataViewHolder(View v) {
             super(v);
             title =  (TextView) v.findViewById(R.id.iTitle);
-            subTitle = (TextView)  v.findViewById(R.id.iSubTitle);
         }
     }
 
     public static class DataViewHolder2 extends RecyclerView.ViewHolder {
 
         protected TextView title;
-        protected TextView subTitle;
 
         public DataViewHolder2(View v) {
             super(v);
             title =  (TextView) v.findViewById(R.id.uTitle);
-            subTitle = (TextView)  v.findViewById(R.id.uSubTitle);
         }
     }
 
