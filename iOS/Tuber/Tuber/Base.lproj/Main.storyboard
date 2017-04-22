@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E192b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -1126,6 +1126,67 @@
             </objects>
             <point key="canvasLocation" x="-1916" y="1180"/>
         </scene>
+        <!--Create Hotspot View Controller-->
+        <scene sceneID="Gki-iA-zbo">
+            <objects>
+                <viewController id="NzX-2Z-D1u" customClass="CreateHotspotViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ZFF-HB-0xd"/>
+                        <viewControllerLayoutGuide type="bottom" id="8EW-Ka-Wry"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="cP1-fz-AP6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Topic:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ke-M9-2Ld">
+                                <rect key="frame" x="32" y="78" width="47" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Location Description:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tzj-44-NTW">
+                                <rect key="frame" x="32" y="218" width="163" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Fk8-nM-Sap">
+                                <rect key="frame" x="32" y="107" width="312" height="77"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ADH-uz-YaP">
+                                <rect key="frame" x="136" y="535" width="105" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Create Hotspot"/>
+                                <connections>
+                                    <action selector="createButtonPressed:" destination="NzX-2Z-D1u" eventType="touchUpInside" id="UsL-hS-qhI"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pvg-Qu-F82">
+                                <rect key="frame" x="32" y="247" width="312" height="77"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="locationTextArea" destination="pvg-Qu-F82" id="ZP1-2I-lsW"/>
+                        <outlet property="topicTextArea" destination="Fk8-nM-Sap" id="6zQ-48-hCN"/>
+                        <segue destination="Hk3-0u-4b7" kind="show" identifier="createHotspotSuccess" id="EDu-i3-YMx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PeB-sd-6kz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1621.5999999999999" y="-1621.4392803598203"/>
+        </scene>
         <!--Hotspot Detail View Controller-->
         <scene sceneID="oLk-jc-PhG">
             <objects>
@@ -1170,7 +1231,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="16D-sm-kOQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2369" y="-1513"/>
+            <point key="canvasLocation" x="2494" y="-1621"/>
         </scene>
         <!--Message Users List View Controller-->
         <scene sceneID="oky-bc-xQc">
@@ -1270,8 +1331,8 @@
                     </view>
                     <connections>
                         <outlet property="mapview" destination="gPJ-AW-Cc6" id="Efk-Dv-rke"/>
-                        <segue destination="Hk3-0u-4b7" kind="show" identifier="createHotspot" id="UUA-cR-Rft"/>
                         <segue destination="UvJ-GV-d3h" kind="show" identifier="viewHotspotDetail" id="6e3-Xh-LxG"/>
+                        <segue destination="NzX-2Z-D1u" kind="show" identifier="createHotspot" id="mIC-91-AjJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5v6-wp-js7" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1316,7 +1377,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8H1-bJ-m4R" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2369" y="-760"/>
+            <point key="canvasLocation" x="2630" y="-806"/>
         </scene>
         <!--Student View Schedule Table View Controller-->
         <scene sceneID="fSe-7i-Lmg">
@@ -1604,11 +1665,11 @@
     <inferredMetricsTieBreakers>
         <segue reference="xse-gK-JsK"/>
         <segue reference="OEm-4R-y9o"/>
-        <segue reference="5ig-Um-xfQ"/>
         <segue reference="bY2-c1-vpM"/>
         <segue reference="cud-VO-S3Z"/>
-        <segue reference="fpl-Kl-NNA"/>
-        <segue reference="U4Z-ty-pm8"/>
         <segue reference="bTA-8i-ZD6"/>
+        <segue reference="U4Z-ty-pm8"/>
+        <segue reference="D0B-Yk-HHt"/>
+        <segue reference="EDu-i3-YMx"/>
     </inferredMetricsTieBreakers>
 </document>

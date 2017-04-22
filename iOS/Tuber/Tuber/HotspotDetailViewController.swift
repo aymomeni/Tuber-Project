@@ -9,18 +9,18 @@
 import UIKit
 
 class HotspotDetailViewController: UIViewController {
-
+    
     var hotspotID: String!
     var memberList: String!
     @IBOutlet weak var memberListTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         memberListTextView.text = memberList
     }
     
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -80,7 +80,7 @@ class HotspotDetailViewController: UIViewController {
         //executing the task
         task.resume()
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "joinHotspot"
         {
@@ -88,8 +88,9 @@ class HotspotDetailViewController: UIViewController {
             {
                 print(sender as! String)
                 destination.pageSetup = sender as! String
+                destination.hotspotID = nil
             }
         }
     }
-
+    
 }

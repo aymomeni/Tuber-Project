@@ -9,7 +9,7 @@
 import UIKit
 
 class ClassListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CAPSPageMenuDelegate, ButtonCellDelegate {
-
+    
     @IBOutlet weak var classTableView: UITableView!
     
     var pageMenu : CAPSPageMenu?
@@ -20,13 +20,25 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         super.viewDidLoad()
         
         classTableView.tableFooterView = UIView(frame: .zero)
+        self.view.backgroundColor = UIColor.lightGray
+        self.classTableView.separatorColor = UIColor.lightGray
     }
-
+    
+    override func viewDidAppear(_ animated: Bool) {
+        classTableView.frame = CGRect(x: classTableView.frame.origin.x, y: classTableView.frame.origin.y, width: classTableView.frame.size.width, height: classTableView.contentSize.height)
+        
+    }
+    
+    override func viewDidLayoutSubviews(){
+        classTableView.frame = CGRect(x: classTableView.frame.origin.x, y: classTableView.frame.origin.y, width: classTableView.frame.size.width, height: classTableView.contentSize.height)
+        classTableView.reloadData()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //TODO: DB query, how many classes enrolled
         return classes.count
@@ -37,6 +49,7 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         
         //TODO: DB query,
         cell.classNameLabel.text = classes[indexPath.row]
+        cell.classNameLabel.font = UIFont(name: "HelveticaNeue", size: 28.0)!
         cell.messageButton.setImage(#imageLiteral(resourceName: "messaging"), for: .normal)
         cell.immediateButton.setImage(#imageLiteral(resourceName: "immediaterequest"), for: .normal)
         cell.scheduledButton.setImage(#imageLiteral(resourceName: "scheduletutor"), for: .normal)
@@ -46,6 +59,16 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
             cell.buttonDelegate = self
         }
         
+        cell.contentView.backgroundColor = UIColor.lightGray
+        let whiteRoundedView : UIView = UIView(frame: CGRect(x: 0, y: 10, width: self.view.frame.size.width - 35, height: 105))
+        whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
+        whiteRoundedView.layer.masksToBounds = false
+        whiteRoundedView.layer.cornerRadius = 3.0
+        whiteRoundedView.layer.shadowOffset = CGSize(width: -1, height: 1)
+        whiteRoundedView.layer.shadowOpacity = 0.5
+        cell.contentView.addSubview(whiteRoundedView)
+        cell.contentView.sendSubview(toBack: whiteRoundedView)
+        
         return cell
     }
     
@@ -53,7 +76,6 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
         let currentCell = tableView.cellForRow(at: indexPath!)! as! ClassTableViewCell
         UserDefaults.standard.set(currentCell.classNameLabel.text! as String?, forKey: "selectedCourse")
-//        selectedClass.className = currentCell.classNameLabel.text!
         performSegue(withIdentifier: "selectClass", sender: nil)
     }
     
@@ -64,12 +86,7 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         let selectedCourse = classTableView.indexPath(for: cell)!.row
         UserDefaults.standard.set("\(classes[selectedCourse])", forKey: "selectedCourse")
         
-//        let course = UserDefaults.standard.object(forKey: "selectedCourse") as! String
-//        print(course)
-        
         if (type == "Message"){
-//            self.showAlertForRow(row: classTableView.indexPath(for: cell)!.row)
-            
             loadMessageUsers()
         }
         else if (type == "Schedule"){
@@ -127,7 +144,6 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
                 print(response)
                 let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
                 
-                //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
                 if let arrJSON = hotspots["users"] {
                     if (arrJSON.count > 0) {
                         for index in 0...arrJSON.count-1 {
@@ -155,7 +171,6 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
                     
                     print(toSend.count)
                     
-                    //                    print(toSend)
                     self.performSegue(withIdentifier: "messages", sender: toSend)
                 }
             } catch {
@@ -172,8 +187,6 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         {
             let appointmentInfo = sender as! [[String]]
             print(appointmentInfo[0])
-            //            print(appointmentInfo[1])
-            //            print(appointmentInfo[2])
             
             if let destination = segue.destination as? MessageUsersListViewController
             {
@@ -184,15 +197,8 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
                 destination.emails = appointmentInfo[0]
                 destination.firstNames = appointmentInfo[1]
                 destination.lastNames = appointmentInfo[2]
-                
-                print("performing segue")
-                //destination.passed = sender as? String
             }
         }
     }
-    
-//    struct selectedClass {
-//        static var className = String()
-//    }
     
 }
