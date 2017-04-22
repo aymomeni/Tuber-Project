@@ -67,11 +67,13 @@
             android:gravity="center_vertical">
 
             <Switch
-                android:text="Create Study Hotspot  "
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:text="         Create Study Hotspot  "
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/create_hotspot_switch"
                 android:textSize="18sp"
+                android:layout_marginRight="30dp"
+                android:switchMinWidth="60dp"
                 android:gravity="center_vertical"
                 android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"/>
