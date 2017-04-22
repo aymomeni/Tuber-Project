@@ -24,14 +24,14 @@ class TutorViewScheduleTableViewController: UITableViewController {
         
         self.navigationController?.willMove(toParentViewController: OfferTutorTableViewController())
         
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(TutorViewScheduleTableViewController.back(_:)))
-        self.navigationItem.leftBarButtonItem = newBackButton
+//        self.navigationItem.hidesBackButton = true
+//        let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(TutorViewScheduleTableViewController.back(_:)))
+//        self.navigationItem.leftBarButtonItem = newBackButton
 
     }
     
     func back(_ sender: UIBarButtonItem) {
-        navigationController!.popToViewController(navigationController!.viewControllers[2], animated: false)
+        navigationController!.popToViewController(navigationController!.viewControllers[1], animated: false)
     }
 
     override func didReceiveMemoryWarning() {

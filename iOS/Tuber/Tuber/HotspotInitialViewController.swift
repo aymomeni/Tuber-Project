@@ -57,9 +57,9 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         
         self.mapview.delegate = self
         
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "< Courses", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ClassOptionsViewController.back(_:)))
-        self.navigationItem.leftBarButtonItem = newBackButton
+//        self.navigationItem.hidesBackButton = true
+//        let newBackButton = UIBarButtonItem(title: "< Courses", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ClassOptionsViewController.back(_:)))
+//        self.navigationItem.leftBarButtonItem = newBackButton
     }
     
     func back(_ sender: UIBarButtonItem) {

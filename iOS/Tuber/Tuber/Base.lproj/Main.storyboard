@@ -181,7 +181,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XOK-KC-8au">
-                                                    <rect key="frame" x="8" y="29" width="327" height="21"/>
+                                                    <rect key="frame" x="34" y="29" width="282" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="28"/>
                                                     <nil key="textColor"/>
@@ -238,15 +238,15 @@
                     <navigationItem key="navigationItem" title="Courses" id="GPi-Un-zzp"/>
                     <connections>
                         <outlet property="classTableView" destination="0Lh-m2-E9C" id="2hS-dk-sS7"/>
-                        <segue destination="5A3-JH-NLx" kind="show" identifier="selectClass" id="w3u-QR-4nb"/>
                         <segue destination="EtH-EL-Lam" kind="show" identifier="scheduleTutor" id="ChY-K7-Lub"/>
                         <segue destination="6oR-S3-h7y" kind="show" identifier="messages" id="DJj-Gt-eJ2"/>
                         <segue destination="G8h-R2-j4Q" kind="show" identifier="studyHotspot" id="xvY-45-0pZ"/>
+                        <segue destination="VN2-es-04H" kind="show" identifier="studentOptions" id="Qeu-HF-z8A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h8S-DZ-GwL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1204" y="35.532233883058474"/>
+            <point key="canvasLocation" x="1201" y="36"/>
         </scene>
         <!--Class Options View Controller-->
         <scene sceneID="4w8-ya-raQ">
@@ -311,7 +311,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Cm-5j-3o3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2100" y="35.532233883058474"/>
+            <point key="canvasLocation" x="1900" y="18"/>
         </scene>
         <!--Tutor Services-->
         <scene sceneID="nfF-2t-V65">
@@ -372,6 +372,7 @@
                         <segue destination="ocN-q9-XFC" kind="show" identifier="studentViewSchedule" id="ZWs-44-DeU"/>
                         <segue destination="BKn-11-NtQ" kind="show" identifier="reportTutor" id="MM4-0s-G6I"/>
                         <segue destination="E0a-SZ-0hl" kind="show" identifier="immediateRequest" id="ilO-kN-p9h"/>
+                        <segue destination="G8h-R2-j4Q" kind="show" identifier="studyHotspot" id="Qe9-9e-WG7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="91g-TI-ruF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1656,6 +1657,97 @@
             </objects>
             <point key="canvasLocation" x="5956" y="-641"/>
         </scene>
+        <!--Courses-->
+        <scene sceneID="pg6-68-w6q">
+            <objects>
+                <viewController storyboardIdentifier="TutorClassList" id="yEW-am-HJs" customClass="TutorClassListViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="T3R-Ce-GwY"/>
+                        <viewControllerLayoutGuide type="bottom" id="bcK-yU-u2X"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Hrd-V5-Km1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="121" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6oa-Le-SFM">
+                                <rect key="frame" x="16" y="0.0" width="343" height="667"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" rowHeight="121" id="24f-QU-Qdj" customClass="ClassTableViewCell" customModule="Tuber" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="343" height="121"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="24f-QU-Qdj" id="BrJ-uu-6Zx">
+                                            <rect key="frame" x="0.0" y="0.0" width="343" height="120"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NcJ-IM-mDT">
+                                                    <rect key="frame" x="34" y="29" width="282" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lxE-Jz-a4W">
+                                                    <rect key="frame" x="34" y="82" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="A"/>
+                                                    <connections>
+                                                        <action selector="tutorMessageButtonPress:" destination="24f-QU-Qdj" eventType="touchUpInside" id="hxt-g2-IYX"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FdX-kF-zOv">
+                                                    <rect key="frame" x="114" y="82" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="B"/>
+                                                    <connections>
+                                                        <action selector="tutorImmediateButtonPress:" destination="24f-QU-Qdj" eventType="touchUpInside" id="xm2-Ep-peN"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="utg-Sr-hqc">
+                                                    <rect key="frame" x="199" y="82" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="C"/>
+                                                    <connections>
+                                                        <action selector="tutorScheduleButtonPress:" destination="24f-QU-Qdj" eventType="touchUpInside" id="3id-d7-GM5"/>
+                                                    </connections>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nwE-IE-cnV">
+                                                    <rect key="frame" x="286" y="82" width="30" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" title="D"/>
+                                                </button>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="tutorClassNameLabel" destination="NcJ-IM-mDT" id="Uhj-2D-D6M"/>
+                                            <outlet property="tutorImmediateButton" destination="FdX-kF-zOv" id="kls-oc-BE0"/>
+                                            <outlet property="tutorMessageButton" destination="lxE-Jz-a4W" id="ADN-BQ-Pzh"/>
+                                            <outlet property="tutorScheduledButton" destination="utg-Sr-hqc" id="M68-w8-6m5"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="yEW-am-HJs" id="eZg-qX-mPn"/>
+                                    <outlet property="delegate" destination="yEW-am-HJs" id="9gD-sP-twv"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Courses" id="d4N-cN-JPB"/>
+                    <connections>
+                        <outlet property="classTableView" destination="6oa-Le-SFM" id="rZd-42-hkA"/>
+                        <segue destination="SkV-29-1mn" kind="show" identifier="tutorOptions" id="k6m-98-hiA"/>
+                        <segue destination="j4P-R3-Heg" kind="show" identifier="tutorViewSchedule" id="PS6-VA-pX3"/>
+                        <segue destination="UGW-Ob-ttF" kind="show" identifier="tutorImmediate" id="Wad-8o-mm6"/>
+                        <segue destination="6oR-S3-h7y" kind="show" identifier="messages" id="k4M-yH-YGG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k7U-cJ-pbo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1164" y="755"/>
+        </scene>
     </scenes>
     <resources>
         <image name="immediaterequest" width="260" height="260"/>
@@ -1663,13 +1755,16 @@
         <image name="viewschedule" width="260" height="260"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="RHB-JV-TxL"/>
         <segue reference="xse-gK-JsK"/>
-        <segue reference="OEm-4R-y9o"/>
+        <segue reference="ChY-K7-Lub"/>
+        <segue reference="5ig-Um-xfQ"/>
         <segue reference="bY2-c1-vpM"/>
-        <segue reference="cud-VO-S3Z"/>
-        <segue reference="bTA-8i-ZD6"/>
-        <segue reference="U4Z-ty-pm8"/>
-        <segue reference="D0B-Yk-HHt"/>
         <segue reference="EDu-i3-YMx"/>
+        <segue reference="bTA-8i-ZD6"/>
+        <segue reference="PS6-VA-pX3"/>
+        <segue reference="k4M-yH-YGG"/>
+        <segue reference="k6m-98-hiA"/>
+        <segue reference="Wad-8o-mm6"/>
     </inferredMetricsTieBreakers>
 </document>

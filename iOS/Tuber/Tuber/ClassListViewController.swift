@@ -76,7 +76,7 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
         let currentCell = tableView.cellForRow(at: indexPath!)! as! ClassTableViewCell
         UserDefaults.standard.set(currentCell.classNameLabel.text! as String?, forKey: "selectedCourse")
-        performSegue(withIdentifier: "selectClass", sender: nil)
+        performSegue(withIdentifier: "studentOptions", sender: nil)
     }
     
     // MARK: - ButtonCellDelegate
@@ -96,8 +96,6 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
             performSegue(withIdentifier: "studyHotspot", sender: nil)
         }
     }
-    
-    // MARK: - Extracted method
     
     func loadMessageUsers() {
         

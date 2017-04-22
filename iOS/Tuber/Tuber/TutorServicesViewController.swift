@@ -12,8 +12,8 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
 
     @IBOutlet weak var servicesTableView: UITableView!
 
-    var icons = [#imageLiteral(resourceName: "immediaterequest"), #imageLiteral(resourceName: "scheduletutor"), #imageLiteral(resourceName: "viewschedule"), #imageLiteral(resourceName: "viewschedule")]
-    var names = ["Immediate Request", "Schedule Tutor", "View Schedule", "Report Tutor"]
+    var icons = [#imageLiteral(resourceName: "immediaterequest"), #imageLiteral(resourceName: "scheduletutor"), #imageLiteral(resourceName: "studyhotspot"), #imageLiteral(resourceName: "viewschedule"), #imageLiteral(resourceName: "viewschedule")]
+    var names = ["Immediate Request", "Schedule Tutor", "Study Hotspot", "View Schedule", "Report Tutor"]
     
     
     var tutorFirstNames: [String] = []
@@ -32,7 +32,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -61,6 +61,10 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         {
             performSegue(withIdentifier: "scheduleTutor", sender: selectedOption)
             
+        }
+        else if selectedOption == "Study Hotspot"
+        {
+            performSegue(withIdentifier: "studyHotspot", sender: selectedOption)
         }
         else if selectedOption == "View Schedule"
         {

@@ -45,7 +45,7 @@ class MainScreenViewController: UIViewController {
         controller1?.title = "STUDENT CLASSES"
         controllerArray.append(controller1!)
         
-        let controller2 = storyboard?.instantiateViewController(withIdentifier: "ClassList")
+        let controller2 = storyboard?.instantiateViewController(withIdentifier: "TutorClassList")
         controller2?.title = "TUTOR CLASSES"
         controllerArray.append(controller2!)
         

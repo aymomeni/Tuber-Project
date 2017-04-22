@@ -14,11 +14,19 @@ protocol ButtonCellDelegate {
 
 class ClassTableViewCell: UITableViewCell {
 
+    //Student
     @IBOutlet weak var classNameLabel: UILabel!
     @IBOutlet weak var messageButton: UIButton!
     @IBOutlet weak var immediateButton: UIButton!
     @IBOutlet weak var scheduledButton: UIButton!
     @IBOutlet weak var hotspotButton: UIButton!
+    
+    
+    //Tutor
+    @IBOutlet weak var tutorClassNameLabel: UILabel!
+    @IBOutlet weak var tutorMessageButton: UIButton!
+    @IBOutlet weak var tutorImmediateButton: UIButton!
+    @IBOutlet weak var tutorScheduledButton: UIButton!
     
     var buttonDelegate: ButtonCellDelegate?
     
@@ -50,4 +58,23 @@ class ClassTableViewCell: UITableViewCell {
             delegate.cellTapped(cell: self, type: "Hotspot")
         }
     }
+    
+    @IBAction func tutorMessageButtonPress(_ sender: Any) {
+        if let delegate = buttonDelegate {
+            delegate.cellTapped(cell: self, type: "Message")
+        }
+    }
+    
+    @IBAction func tutorImmediateButtonPress(_ sender: Any) {
+        if let delegate = buttonDelegate {
+            delegate.cellTapped(cell: self, type: "Immediate")
+        }
+    }
+    
+    @IBAction func tutorScheduleButtonPress(_ sender: Any) {
+        if let delegate = buttonDelegate {
+            delegate.cellTapped(cell: self, type: "Schedule")
+        }
+    }
+    
 }
