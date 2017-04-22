@@ -113,6 +113,7 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
 
         ArrayList<String> listElements = new ArrayList<String>();
 
+        // Below loop doesn't need to be done (can be pulled from HotspotEntryActivity)
         mOwnerExistsInDataSet = false;
         for(int i = 0; i < mDataSet.size(); i++){
 
@@ -127,6 +128,10 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
             listElements.add("Class: " + mDataSet.get(index).getmCourse() + "\n" + "Email: " + mDataSet.get(index).getmOwnerEmail() + "\n" + "Location Description: " + mDataSet.get(index).getmLocationDiscription() + "\n" + "Distance: ~" + String.format("%.1f", mDataSet.get(index).getMdistanceToHotspot()) + " miles" + "\n" +"Student Count: " + mDataSet.get(index).getmStudentCount() + "\n");
             mListAdapter = new ArrayAdapter<String>(getContext(), R.layout.hotspot_fragment_text_elements, listElements);
 
+            if(HotspotEntryMenuActivity.isMemberOfHotspot && mDataSet.get(index).getmHotspotID().equals(HotspotEntryMenuActivity.mMemberOfHotspotID)){
+                mJoinButton.setText("Leave Hotspot");
+            }
+
             if(mOwnerExistsInDataSet && !mHotspotOwner) {
                 mJoinButton.setClickable(false);
                 mJoinButton.setText("Join Hotspot Disabled");
@@ -137,7 +142,7 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
                 mHotspotOwner = true;
                 mJoinButton.setClickable(false);
                 mJoinButton.setText("Your Hotspot");
-                mJoinButton.setAlpha(1);
+                mJoinButton.setAlpha((float).7);
                 mJoinButton.setBackgroundColor(getResources().getColor(R.color.colorAccent_Green));
             }
             mHotspotInformationListView = (ListView) this.mFragmentView.findViewById(R.id.hotspot_fragment_text_list_view);
@@ -253,7 +258,7 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
     /**
      * Joins a hotspot
      */
-    private void joinStudyHostpot(String course, String hotspotID) throws JSONException{
+    private void joinStudyHostpot(String course, final String hotspotID) throws JSONException{
 
         mProgressDialog = new ProgressDialog(getContext(), R.style.AppTheme_Dark_Dialog);
         mProgressDialog.setIndeterminate(true);
@@ -274,6 +279,8 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
 
                 if(result != null) {
                     mJoinButton.setText("Leave Hotspot");
+                    HotspotEntryMenuActivity.mMemberOfHotspotID = hotspotID;
+                    HotspotEntryMenuActivity.isMemberOfHotspot = true;
                     // more needs to happen if join or leave
                     mProgressDialog.dismiss();
                 } else {
@@ -307,6 +314,8 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
 
                 if(result != null) {
                     mJoinButton.setText("Join Hotspot");
+                    HotspotEntryMenuActivity.mMemberOfHotspotID = "-1";
+                    HotspotEntryMenuActivity.isMemberOfHotspot = false;
                     // more needs to happen if join or leave
                     mProgressDialog.dismiss();
                 } else {

@@ -267,6 +267,37 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
     }
 
 
+    /**
+     * Unused but written
+     * @param hotspotID
+     * @throws JSONException
+     */
+    private void getStudyHotspotMembers(int hotspotID) throws JSONException {
+
+        // filling JSON object
+        JSONObject me = new JSONObject();
+        me.put("userEmail", mUserEmail);
+        me.put("userToken", mUserToken);
+        me.put("studyHotspotID", hotspotID);
+
+        mConnectionTask = new ConnectionTask(me);
+        mConnectionTask.get_study_hotspot_members(new ConnectionTask.CallBack() {
+            @Override
+            public void Done(JSONObject result) {
+
+                if(result != null) {
+                    // some method
+                    mProgressDialog.dismiss();
+                } else {
+                    Log.e(mTAG, "Null response from server");
+                    // TODO: Does null mean no Hotspots?
+                }
+
+            }
+        });
+    }
+
+
     /*
      * returns a list of currently available HotspotObject (Students that created a hotspot)
      */

@@ -37,6 +37,8 @@ import java.util.ArrayList;
 
 public class HotspotEntryMenuActivity extends Activity {
 
+    public static String mMemberOfHotspotID;
+    public static boolean isMemberOfHotspot = false;
     private Switch mHotspotCreateSwitch;
     private Button mJoinHotspotButton;
     private String mUserEmail;
@@ -47,8 +49,8 @@ public class HotspotEntryMenuActivity extends Activity {
     private String mLocationDescriptionCreatedHotspot;
     private String mHotspotIDCreatedHotspot;
     private boolean mFirstCheck = true;
-    private Boolean mCreatedHotspotBool;
-    private Boolean mJoinedHotspotBool;
+    private boolean mCreatedHotspotBool;
+    private boolean mJoinedHotspotBool;
     private ProgressDialog mProgressDialog;
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
@@ -68,6 +70,7 @@ public class HotspotEntryMenuActivity extends Activity {
         mUserEmail = sharedPreferences.getString("userEmail", "");
         mUserToken = sharedPreferences.getString("userToken", "");
         mCourse = getIntent().getStringExtra("course"); // Careful if this returns null (could)
+        mMemberOfHotspotID = "-1";
 
         mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         mLocationListener = new LocationListener() {
@@ -402,6 +405,19 @@ public class HotspotEntryMenuActivity extends Activity {
 
                     } else if(mUserHotspotStatus.equals("member")) {
 
+                        JSONObject tempRes = null;
+                        try {
+                            tempRes = result.getJSONObject("hotspot");
+                        } catch(JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        isMemberOfHotspot = true;
+                        try {
+                            mMemberOfHotspotID = tempRes.getString("hotspotID");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                         mFirstCheck = false;
                         mProgressDialog.dismiss();
 
@@ -462,6 +478,8 @@ public class HotspotEntryMenuActivity extends Activity {
                     mHostpotObjectCheckStatus.setmStudentCount(jsonObject.getString("student_count"));
                     mHostpotObjectCheckStatus.setmTopic(jsonObject.getString("topic"));
                     mHostpotObjectCheckStatus.setmLocationDiscription(jsonObject.getString("locationDescription"));
+
+
 
                     Log.i("HS_JSON OBJECT RETURN: ", mHostpotObjectCheckStatus.getmCourse() + " " + mHostpotObjectCheckStatus.getmTopic() + " " + mHostpotObjectCheckStatus.getMdistanceToHotspot() + " " + mHostpotObjectCheckStatus.getmHotspotID() + " " + mHostpotObjectCheckStatus.getmLatitude() + " " +
                             mHostpotObjectCheckStatus.getmLongitude() + " " + mHostpotObjectCheckStatus.getmOwnerEmail() + " " + mHostpotObjectCheckStatus.getmStudentCount() + " " + mUserHotspotStatus);
