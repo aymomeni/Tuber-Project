@@ -143,7 +143,7 @@ public class HotspotEntryMenuActivity extends Activity {
                     if(isMemberOfHotspot == true) {
                         new AlertDialog.Builder(HotspotEntryMenuActivity.this)
                                 .setTitle("Info")
-                                .setMessage("You are already joined in a hotspot. First leave that hotspot before you create one.")
+                                .setMessage("You have already joined in a hotspot. First leave that hotspot before you create one.")
                                 .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // continue with delete
