@@ -281,8 +281,6 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        print(postParameters)
-        
         // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in

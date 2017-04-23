@@ -80,4 +80,36 @@ class StudentViewScheduleTableViewController: UITableViewController {
         header.textLabel?.textColor = UIColor.white
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
+        
+        let currentCell = tableView.cellForRow(at: indexPath!)! as! TutorViewScheduleTableViewCell
+        if (indexPath?.section == 0)
+        {
+            var toPass = [String]()
+            
+            toPass.append(currentCell.dateLabel.text!)
+            toPass.append(currentCell.durationLabel.text!)
+            toPass.append(currentCell.subjectLabel.text!)
+            
+            performSegue(withIdentifier: "sessionInfo", sender: toPass)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("made it")
+        if segue.identifier == "sessionInfo"
+        {
+            let appointmentInfo = sender as! [String]
+            
+            if let destination = segue.destination as? StudentStartScheduledViewController
+            {
+                print("setting")
+                destination.date = appointmentInfo[0]
+                destination.duration = appointmentInfo[1]
+                destination.subject = appointmentInfo[2]
+                print("performing")
+            }
+        }
+    }
 }

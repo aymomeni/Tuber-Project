@@ -34,11 +34,9 @@ class UnconfirmedAppointmentTutorViewController: UIViewController {
     @IBAction func buttonPressed(_ sender: Any) {
         if (acceptStartButton.titleLabel?.text == "Start Session")
         {
-            print("start")
             startSession()
         }
         else{
-            print("accept")
             acceptRequest()
         }
     }
@@ -53,26 +51,27 @@ class UnconfirmedAppointmentTutorViewController: UIViewController {
      */
     func startSession()
     {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm:ss a" //Your date format
-        let date = dateFormatter.date(from: dateLabel.text!) //according to date format your date string
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" //Your New Date format as per requirement change it own
-        let newDate = dateFormatter.string(from: date!)
-        
+        print(dateLabel.text!)
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm:ss a" //Your date format
+//        let date = dateFormatter.date(from: dateLabel.text!) //according to date format your date string
+//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" //Your New Date format as per requirement change it own
+//        let newDate = dateFormatter.string(from: date!)
         
         // Set up the post request
-        let requestURL = URL(string: server + "startscheduledtutorsession")
+        let requestURL = URL(string: server + "startscheduledtutorsessiontutor")
         let request = NSMutableURLRequest(url: requestURL! as URL)
         request.httpMethod = "POST"
-
         
         // Create the post parameters
         let defaults = UserDefaults.standard
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
         let course = defaults.object(forKey: "selectedCourse") as! String
-        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"dateTime\":\"\(newDate)\"}"
+        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"dateTime\":\"\(dateLabel.text!)\"}"
 
+        print(postParameters)
+        
         // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

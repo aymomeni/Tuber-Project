@@ -1282,7 +1282,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6ON-O9-gbL">
-                                <rect key="frame" x="117" y="558" width="140" height="31"/>
+                                <rect key="frame" x="117" y="554" width="140" height="31"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <state key="normal" title="Create New Hotspot"/>
                                 <connections>
@@ -1415,10 +1415,89 @@
                             <outlet property="delegate" destination="ocN-q9-XFC" id="uvI-8t-5yV"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="K6Z-Et-pBK" kind="show" identifier="sessionInfo" id="AIJ-Qy-TxQ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CzR-xz-dJQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4492" y="-657"/>
+        </scene>
+        <!--Student Start Scheduled View Controller-->
+        <scene sceneID="EfG-GT-XiQ">
+            <objects>
+                <viewController id="K6Z-Et-pBK" customClass="StudentStartScheduledViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bTp-Ga-t1v"/>
+                        <viewControllerLayoutGuide type="bottom" id="tVx-qx-RSb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="l1J-WO-uhA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date/Time:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dCq-Qz-PzQ">
+                                <rect key="frame" x="14" y="99" width="85" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Duration:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tbV-ID-wRF">
+                                <rect key="frame" x="14" y="128" width="70" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Subject:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOB-Cy-jEW">
+                                <rect key="frame" x="14" y="157" width="63" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ge5-Bw-Dmi">
+                                <rect key="frame" x="107" y="99" width="254" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a6l-5T-WCN">
+                                <rect key="frame" x="92" y="128" width="269" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uq4-WA-tuX">
+                                <rect key="frame" x="85" y="157" width="276" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gja-Ko-YMo">
+                                <rect key="frame" x="141" y="238" width="92" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Start Session"/>
+                                <connections>
+                                    <action selector="startSessionPressed:" destination="K6Z-Et-pBK" eventType="touchUpInside" id="XIl-dC-BhG"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="dateLabel" destination="Ge5-Bw-Dmi" id="JQe-RC-jEb"/>
+                        <outlet property="durationLabel" destination="a6l-5T-WCN" id="Pvq-z1-5zF"/>
+                        <outlet property="subjectLabel" destination="uq4-WA-tuX" id="0Ab-8S-LYQ"/>
+                        <segue destination="dQf-A7-vyd" kind="show" identifier="startSession" id="qit-Tw-x47"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TZe-vP-VGK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5215" y="-658"/>
         </scene>
         <!--Report Tutor Sessions Table View Controller-->
         <scene sceneID="JPj-tB-gD4">
@@ -1617,7 +1696,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WNk-IP-RhU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5956" y="-641"/>
+            <point key="canvasLocation" x="6820" y="-657"/>
         </scene>
         <!--Courses-->
         <scene sceneID="pg6-68-w6q">
@@ -1711,21 +1790,63 @@
             </objects>
             <point key="canvasLocation" x="1086" y="1046"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="hgJ-9o-25T">
+            <objects>
+                <viewController id="dQf-A7-vyd" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Co6-AR-xGx"/>
+                        <viewControllerLayoutGuide type="bottom" id="LWX-78-OxC"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="qPI-hN-Of2">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Thank you for using Tuber!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KVo-qn-pnX">
+                                <rect key="frame" x="50" y="89" width="274" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="23"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="Your account will be charged at the end of your session." textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tB3-4J-kfB">
+                                <rect key="frame" x="67" y="148" width="240" height="63"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P3c-cn-9Oa">
+                                <rect key="frame" x="116" y="306" width="143" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Return to Homepage"/>
+                                <connections>
+                                    <segue destination="P2J-SE-T2R" kind="show" id="7R4-pK-4oT"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E2B-Y3-8LO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5956" y="-657"/>
+        </scene>
     </scenes>
     <resources>
         <image name="tuberlogo" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="RHB-JV-TxL"/>
-        <segue reference="S2e-vM-n3w"/>
+        <segue reference="pbf-qm-XGJ"/>
+        <segue reference="OEm-4R-y9o"/>
+        <segue reference="Qe9-9e-WG7"/>
+        <segue reference="EDu-i3-YMx"/>
+        <segue reference="zIX-hI-hVI"/>
+        <segue reference="aMB-Eb-alU"/>
         <segue reference="IiF-Ec-8AC"/>
+        <segue reference="S2e-vM-n3w"/>
         <segue reference="bY2-c1-vpM"/>
         <segue reference="Mla-t3-nD7"/>
-        <segue reference="aMB-Eb-alU"/>
         <segue reference="uta-eF-Xax"/>
-        <segue reference="bTA-8i-ZD6"/>
-        <segue reference="Qe9-9e-WG7"/>
-        <segue reference="OEm-4R-y9o"/>
-        <segue reference="EDu-i3-YMx"/>
     </inferredMetricsTieBreakers>
 </document>
