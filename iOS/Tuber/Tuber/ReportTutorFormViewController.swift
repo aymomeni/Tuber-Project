@@ -18,6 +18,9 @@ class ReportTutorFormViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        messageContents!.layer.borderWidth = 1
+        messageContents!.layer.borderColor = UIColor.lightGray.cgColor
 
         // Do any additional setup after loading the view.
     }

@@ -251,6 +251,7 @@
         <!--Class Options View Controller-->
         <scene sceneID="4w8-ya-raQ">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Cm-5j-3o3" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="5A3-JH-NLx" customClass="ClassOptionsViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8vN-Rk-MJP"/>
@@ -309,9 +310,8 @@
                         <segue destination="6oR-S3-h7y" kind="show" identifier="messageUsers" id="cud-VO-S3Z"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8Cm-5j-3o3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2141.5999999999999" y="-34.632683658170919"/>
+            <point key="canvasLocation" x="2263" y="-24"/>
         </scene>
         <!--Tutor Services-->
         <scene sceneID="nfF-2t-V65">
@@ -814,9 +814,9 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QXX-4Z-ecU">
                                 <rect key="frame" x="116" y="198" width="143" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Return to Class Page"/>
+                                <state key="normal" title="Return to Homepage"/>
                                 <connections>
-                                    <segue destination="VN2-es-04H" kind="show" id="pbf-qm-XGJ"/>
+                                    <segue destination="WYd-Tl-Cfx" kind="show" id="RFQ-rj-nBO"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1071,7 +1071,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ITR-rG-bgv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1002" y="1707"/>
+            <point key="canvasLocation" x="1622" y="1951"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="2vW-9v-1iY">
@@ -1619,9 +1619,9 @@
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7vA-tF-GXr">
                                 <rect key="frame" x="116" y="212" width="143" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Return to Class Page"/>
+                                <state key="normal" title="Return to Homepage"/>
                                 <connections>
-                                    <segue destination="VN2-es-04H" kind="show" id="ScD-7U-Gx8"/>
+                                    <segue destination="WYd-Tl-Cfx" kind="show" id="EQl-L3-B1Q"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1803,7 +1803,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Thank you for using Tuber!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KVo-qn-pnX">
-                                <rect key="frame" x="50" y="89" width="274" height="21"/>
+                                <rect key="frame" x="50" y="89" width="274" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <nil key="textColor"/>
@@ -1821,7 +1821,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Return to Homepage"/>
                                 <connections>
-                                    <segue destination="P2J-SE-T2R" kind="show" id="7R4-pK-4oT"/>
+                                    <segue destination="WYd-Tl-Cfx" kind="show" id="evB-CQ-IsX"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1830,23 +1830,24 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="E2B-Y3-8LO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5956" y="-657"/>
+            <point key="canvasLocation" x="5956" y="-657.12143928035982"/>
         </scene>
     </scenes>
     <resources>
         <image name="tuberlogo" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="pbf-qm-XGJ"/>
-        <segue reference="OEm-4R-y9o"/>
-        <segue reference="Qe9-9e-WG7"/>
-        <segue reference="EDu-i3-YMx"/>
-        <segue reference="zIX-hI-hVI"/>
-        <segue reference="aMB-Eb-alU"/>
-        <segue reference="IiF-Ec-8AC"/>
+        <segue reference="RHB-JV-TxL"/>
         <segue reference="S2e-vM-n3w"/>
+        <segue reference="IiF-Ec-8AC"/>
+        <segue reference="5ig-Um-xfQ"/>
         <segue reference="bY2-c1-vpM"/>
+        <segue reference="cud-VO-S3Z"/>
         <segue reference="Mla-t3-nD7"/>
-        <segue reference="uta-eF-Xax"/>
+        <segue reference="EDu-i3-YMx"/>
+        <segue reference="OEm-4R-y9o"/>
+        <segue reference="evB-CQ-IsX"/>
+        <segue reference="bTA-8i-ZD6"/>
+        <segue reference="U4Z-ty-pm8"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -19,6 +19,12 @@ class CreateHotspotViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        topicTextArea!.layer.borderWidth = 1
+        topicTextArea!.layer.borderColor = UIColor.lightGray.cgColor
+        
+        locationTextArea!.layer.borderWidth = 1
+        locationTextArea!.layer.borderColor = UIColor.lightGray.cgColor
     }
 
     override func didReceiveMemoryWarning() {
