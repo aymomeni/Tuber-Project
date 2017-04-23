@@ -10,6 +10,7 @@ import UIKit
 
 class ReportTutorFormViewController: UIViewController {
     
+    // Set on ReportTutorSessionsTableViewController
     var tempPostParameters: String = ""
 
     @IBOutlet weak var messageContents: UITextView!
@@ -17,6 +18,9 @@ class ReportTutorFormViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        messageContents!.layer.borderWidth = 1
+        messageContents!.layer.borderColor = UIColor.lightGray.cgColor
 
         // Do any additional setup after loading the view.
     }
@@ -28,27 +32,22 @@ class ReportTutorFormViewController: UIViewController {
 
     @IBAction func reportButtonPressed(_ sender: Any) {
         
+        // Set up the post request
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/reporttutor";
-        
-        //created NSURL
         let requestURL = NSURL(string: server)
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let postParameters = "\(tempPostParameters)\"\(messageContents.text! as String)\"}"
-        print(postParameters)
         
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
@@ -56,30 +55,14 @@ class ReportTutorFormViewController: UIViewController {
                 print("error is \(error)")
                 return;
             }
-            
-            //parsing the response
-            do {
-                print(response)
-                
-                OperationQueue.main.addOperation{
-                    self.performSegue(withIdentifier: "sendReport", sender: nil)
-                }
-            } catch {
-                print(error)
+  
+            OperationQueue.main.addOperation{
+                self.performSegue(withIdentifier: "sendReport", sender: nil)
             }
             
         }
-        //executing the task
+        // Executing the task
         task.resume()
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

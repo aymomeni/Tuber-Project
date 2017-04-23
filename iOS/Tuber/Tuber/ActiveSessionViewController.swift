@@ -15,14 +15,13 @@ class ActiveSessionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // get the current date and time
+        // Get the current date and time
         let currentDateTime = Date()
         
-        // initialize the date formatter and set the style
+        // Initialize the date formatter and set the style
         let formatter = DateFormatter()
         formatter.timeStyle = .short
         formatter.dateStyle = .short
-        
         
         startTimeLabel.text = formatter.string(from: currentDateTime)
         
@@ -42,12 +41,8 @@ class ActiveSessionViewController: UIViewController {
             
             if let destination = segue.destination as? ConfirmedAppointmentTutorViewController
             {
-//                let message = "You earned $\(cost) for your session with \(student)"
-//                print(message)
                 destination.labelContents = sender as! [String]
 
-//                destination.labelContents = "Completed Scheduled Tutor Session"
-                //destination.passed = sender as? String
                 print(destination.labelContents)
                 print("destinations set")
             }
@@ -55,35 +50,31 @@ class ActiveSessionViewController: UIViewController {
         }
     }
 
+    /**
+     * This method stops an active tutoring session.
+     */
     @IBAction func stopSession(_ sender: Any) {
         
+        // Set up the post request
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/endtutorsession"
-        
-        //created NSURL
         let requestURL = URL(string: server)
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let defaults = UserDefaults.standard
-        
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
         let course = defaults.object(forKey: "selectedCourse") as! String
-        
-        //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\"}"
         
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
@@ -97,22 +88,17 @@ class ActiveSessionViewController: UIViewController {
             if (r?.statusCode == 200 || r?.statusCode == 417)
             {
                 do {
-                    //converting resonse to NSDictionary
+                    // Converting resonse to NSDictionary
                     let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
                     
-                    //parsing the json
+                    // Parsing the json
                     if let parseJSON = myJSON {
                         
                         var parsed = [String]()
                         
-                        print(parseJSON["studentEmail"] as! String)
-                        print(parseJSON["sessionCost"] as! Double)
-                        
                         parsed.append((parseJSON["studentEmail"] as! String?)!)
                         parsed.append("\(parseJSON["sessionCost"] as! Double)")
-//
-                        print(parsed)
-//
+
                         OperationQueue.main.addOperation{
                             self.performSegue(withIdentifier: "endSession", sender: parsed)
                         }
@@ -126,19 +112,9 @@ class ActiveSessionViewController: UIViewController {
                 print(r?.statusCode as Any)
             }
         }
-        //executing the task
+        // Executing the task
         task.resume()
 
         
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

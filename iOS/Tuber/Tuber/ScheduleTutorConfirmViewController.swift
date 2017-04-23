@@ -11,6 +11,8 @@ import UIKit
 class ScheduleTutorConfirmViewController: UIViewController {
 
     @IBOutlet weak var confirmLabel: UILabel!
+    
+    // Set on ScheduleTutorViewController
     var passed: [String]!
     
     let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/scheduletutor"
@@ -28,28 +30,24 @@ class ScheduleTutorConfirmViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    /**
+     * This method sends the scheduled appointment request to the database.
+     */
     @IBAction func confirmButtonPressed(_ sender: Any) {
         
-        print(passed)
-        //TODO: Add request to database
-        
-        //created NSURL
+        // Set up the post request
         let requestURL = URL(string: server)
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
 
         
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = passed[1].data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
@@ -60,8 +58,6 @@ class ScheduleTutorConfirmViewController: UIViewController {
             
             let r = response as? HTTPURLResponse
             
-            //parsing the response
-            
             if (r?.statusCode == 200)
             {
                 OperationQueue.main.addOperation{
@@ -71,15 +67,10 @@ class ScheduleTutorConfirmViewController: UIViewController {
             else{
                 print(r?.statusCode as Any)
             }
-            //rest of responses
-            //self.errorLabel.text = "errormessage"
             
         }
-        //executing the task
+        // Executing the task
         task.resume()
-        
-        //performSegue(withIdentifier: "scheduleConfirmed", sender: "hi")
-        
     }
 
 

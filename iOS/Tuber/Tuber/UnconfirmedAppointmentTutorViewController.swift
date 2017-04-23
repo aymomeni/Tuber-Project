@@ -34,11 +34,9 @@ class UnconfirmedAppointmentTutorViewController: UIViewController {
     @IBAction func buttonPressed(_ sender: Any) {
         if (acceptStartButton.titleLabel?.text == "Start Session")
         {
-            print("start")
             startSession()
         }
         else{
-            print("accept")
             acceptRequest()
         }
     }
@@ -48,55 +46,45 @@ class UnconfirmedAppointmentTutorViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    /**
+     * This method starts a session when the tutor is looking at a confirmed schedule request.
+     */
     func startSession()
     {
         print(dateLabel.text!)
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm:ss a" //Your date format
+//        let date = dateFormatter.date(from: dateLabel.text!) //according to date format your date string
+//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" //Your New Date format as per requirement change it own
+//        let newDate = dateFormatter.string(from: date!)
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm:ss a" //Your date format
-        let date = dateFormatter.date(from: dateLabel.text!) //according to date format your date string
-        print(date ?? "") //Convert String to Date
-        
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" //Your New Date format as per requirement change it own
-        let newDate = dateFormatter.string(from: date!)
-        print(newDate) //New formatted Date string
-        
-        //created NSURL
-        let requestURL = URL(string: server + "startscheduledtutorsession")
-        
-        //creating NSMutableURLRequest
+        // Set up the post request
+        let requestURL = URL(string: server + "startscheduledtutorsessiontutor")
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
-
-        let defaults = UserDefaults.standard
         
+        // Create the post parameters
+        let defaults = UserDefaults.standard
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
         let course = defaults.object(forKey: "selectedCourse") as! String
-        
-        //creating the post parameter by concatenating the keys and values from text field
-        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"dateTime\":\"\(newDate)\"}"
+        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"dateTime\":\"\(dateLabel.text!)\"}"
 
         print(postParameters)
-
-        //adding the parameters to request body
+        
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
             if error != nil{
-                //                completionHandler(nil, error as NSError?)
                 return;
             }
-            
-            //            semaphore.signal();
             
             let r = response as? HTTPURLResponse
             
@@ -110,50 +98,41 @@ class UnconfirmedAppointmentTutorViewController: UIViewController {
                 print(r?.statusCode as Any)
             }
         }
-        //executing the task
+        // Executing the task
         task.resume()
     
     }
     
+    /**
+     * This method accepts a session request when the tutor is looking at an appointment request.
+     */
     func acceptRequest()
     {
-        //created NSURL
+        // Set up the post request
         let requestURL = URL(string: server + "acceptstudentscheduledrequest")
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let defaults = UserDefaults.standard
-        
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
         let course = defaults.object(forKey: "selectedCourse") as! String
-        
-        //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"studentEmail\":\"\(studentNameLabel.text! as String)\",\"course\":\"\(course)\"}"
         
-        print(postParameters)
-        
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
             if error != nil{
-                //                completionHandler(nil, error as NSError?)
                 return;
             }
-            
-            //            semaphore.signal();
-            
+                        
             let r = response as? HTTPURLResponse
             
             if (r?.statusCode == 200)

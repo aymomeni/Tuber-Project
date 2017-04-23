@@ -19,22 +19,18 @@ class MainScreenViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        // MARK: Navigation bar setup
         self.title = "TUBER"
-        //        self.navigationController?.navigationBar.barTintColor = UIColor(red: 30.0/255.0, green: 30.0/255.0, blue: 30.0/255.0, alpha: 1.0)
-        self.navigationController?.navigationBar.barTintColor = UIColor.darkGray
+        self.navigationController?.navigationBar.barTintColor = UIColor(red: 62/255, green: 62/255, blue: 62/255, alpha: 1.0)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.barStyle = UIBarStyle.default
-        self.navigationController?.navigationBar.tintColor = UIColor.black //sidebuttons
+        self.navigationController?.navigationBar.tintColor = UIColor.white //sidebuttons
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.orange]
-        //        self.navigationController?.navigationBar.isTranslucent = false
-        
-        //        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
-        //        self.navigationController?.navigationBar.shadowImage = UIImage()
-        self.navigationController?.navigationBar.isTranslucent = true
-        self.navigationController?.view.backgroundColor = UIColor.clear
-        //        self.edgesForExtendedLayout = []
-        
+        let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
+        navigationItem.leftBarButtonItem = backButton
+        self.navigationController?.navigationBar.isTranslucent = false
+//        self.navigationController?.view.backgroundColor = UIColor.clear
         
         // MARK: - Scroll menu setup
         
@@ -49,9 +45,9 @@ class MainScreenViewController: UIViewController {
         controller2?.title = "TUTOR CLASSES"
         controllerArray.append(controller2!)
         
-        // Customize menu (Optional)
+        // Customize menu
         let parameters: [CAPSPageMenuOption] = [
-            .scrollMenuBackgroundColor(UIColor.gray), //color of scrollmenu
+            .scrollMenuBackgroundColor(UIColor.darkGray), //color of scrollmenu
             .viewBackgroundColor(UIColor.black), //color of extra backgroud of the views
             .selectionIndicatorColor(UIColor.orange),
             .bottomMenuHairlineColor(UIColor.lightGray), //separation between page menu and view
@@ -65,10 +61,20 @@ class MainScreenViewController: UIViewController {
             .menuShadowRadius(4)
         ]
         
+//        // Initialize scroll menu
+//        let navheight = (navigationController?.navigationBar.frame.size.height ?? 0) + UIApplication.shared.statusBarFrame.size.height
+//        let rect = CGRect(origin: CGPoint(x: 0,y :navheight), size: CGSize(width: self.view.frame.width, height: self.view.frame.height - navheight))
+//        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: rect, pageMenuOptions: parameters)
+//        
+//        self.addChildViewController(pageMenu!)
+//        self.view.addSubview(pageMenu!.view)
+//        
+//        pageMenu!.didMove(toParentViewController: self)
+        
         // Initialize scroll menu
-        let navheight = (navigationController?.navigationBar.frame.size.height ?? 0) + UIApplication.shared.statusBarFrame.size.height
-        let rect = CGRect(origin: CGPoint(x: 0,y :navheight), size: CGSize(width: self.view.frame.width, height: self.view.frame.height - navheight))
+        let rect = CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: self.view.frame.width, height: self.view.frame.height))
         pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: rect, pageMenuOptions: parameters)
+        
         
         self.addChildViewController(pageMenu!)
         self.view.addSubview(pageMenu!.view)

@@ -12,19 +12,35 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
 
     @IBOutlet weak var servicesTableView: UITableView!
 
-    var icons = [#imageLiteral(resourceName: "immediaterequest"), #imageLiteral(resourceName: "scheduletutor"), #imageLiteral(resourceName: "studyhotspot"), #imageLiteral(resourceName: "viewschedule"), #imageLiteral(resourceName: "viewschedule")]
-    var names = ["Immediate Request", "Schedule Tutor", "Study Hotspot", "View Schedule", "Report Tutor"]
-    
-    
-    var tutorFirstNames: [String] = []
-    var tutorLastNames: [String] = []
-    var tutorEmails: [String] = []
+    var icons = [#imageLiteral(resourceName: "immediaterequest"), #imageLiteral(resourceName: "scheduletutor"), #imageLiteral(resourceName: "viewschedule"), #imageLiteral(resourceName: "studyhotspot"), #imageLiteral(resourceName: "messaging"), #imageLiteral(resourceName: "offertutor")]
+    var names = ["Immediate Request", "Schedule Tutor", "View Schedule", "Study Hotspot", "Messaging", "Report Tutor"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
+        
+        self.navigationController?.navigationBar.isTranslucent = false
+        servicesTableView.tableFooterView = UIView(frame: .zero)
+        self.view.backgroundColor = UIColor.lightGray
+        self.servicesTableView.separatorStyle = .none
     }
 
+    // Get rid of extra table cells
+    override func viewDidAppear(_ animated: Bool) {
+        servicesTableView.frame = CGRect(x: servicesTableView.frame.origin.x, y: servicesTableView.frame.origin.y, width: servicesTableView.frame.size.width, height: servicesTableView.contentSize.height)
+    }
+    
+    // Get rid of extra table cells
+    override func viewDidLayoutSubviews(){
+        servicesTableView.frame = CGRect(x: servicesTableView.frame.origin.x, y: servicesTableView.frame.origin.y, width: servicesTableView.frame.size.width, height: servicesTableView.contentSize.height)
+        
+//        var frame = self.servicesTableView.frame
+//        frame.size.height = servicesTableView.contentSize.height;
+//        servicesTableView.frame = frame
+        
+        servicesTableView.reloadData()
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -32,7 +48,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return names.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -41,9 +57,23 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         cell.optionIconImageView.image = icons[indexPath.row]
         cell.optionNameLabel.text = names[indexPath.row]
         
+        //Creates separation between cells
+        cell.contentView.backgroundColor = UIColor.lightGray
+        let whiteRoundedView : UIView = UIView(frame: CGRect(x: 0, y: 10, width: self.view.frame.size.width - 35, height: 70))
+        whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
+        whiteRoundedView.layer.masksToBounds = false
+        whiteRoundedView.layer.cornerRadius = 3.0
+        whiteRoundedView.layer.shadowOffset = CGSize(width: -1, height: 1)
+        whiteRoundedView.layer.shadowOpacity = 0.5
+        cell.contentView.addSubview(whiteRoundedView)
+        cell.contentView.sendSubview(toBack: whiteRoundedView)
+        
         return cell
     }
     
+    /**
+     * This fuction performs the correct segue based off of which cell was selected
+     */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
         
@@ -53,14 +83,11 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         
         if selectedOption == "Immediate Request"
         {
-            
             performSegue(withIdentifier: "immediateRequest", sender: selectedOption)
-            
         }
         else if selectedOption == "Schedule Tutor"
         {
             performSegue(withIdentifier: "scheduleTutor", sender: selectedOption)
-            
         }
         else if selectedOption == "Study Hotspot"
         {
@@ -68,42 +95,45 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         }
         else if selectedOption == "View Schedule"
         {
-            print("view student schedule")
             prepStudentSchedule()
         }
+        else if selectedOption == "Messaging"
+        {
+            loadMessageUsers()
+        }
         else{
-            print("report tutor")
             prepTutorList()
         }
     }
     
+    /**
+     * This fuction accesses the database to load all of the tutors the student can report.
+     */
     func prepTutorList()
     {
+        var tutorFirstNames: [String] = []
+        var tutorLastNames: [String] = []
+        var tutorEmails: [String] = []
+        
+        // Set up the post request
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/reporttutorgettutorlist";
-        
-        //created NSURL
         let requestURL = URL(string: server)
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let defaults = UserDefaults.standard
-        let email = UserDefaults.standard.object(forKey: "userEmail") as? String
-        let token = UserDefaults.standard.object(forKey: "userToken") as? String
+        let email = defaults.object(forKey: "userEmail") as? String
+        let token = defaults.object(forKey: "userToken") as? String
         let postParameters = "{\"userEmail\":\"" + email! + "\",\"userToken\":\"" + token! + "\"}";
         
         
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        print(postParameters)
-        
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
@@ -112,16 +142,11 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                 return;
             }
             
-            let r = response as? HTTPURLResponse
-            print(r?.statusCode)
-            
-            //parsing the response
+            // Parsing the response
             do {
-                //print(response)
-                let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                let tutors = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
                 
-                //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
-                if let arrJSON = hotspots["tutorList"] {
+                if let arrJSON = tutors["tutorList"] {
                     if (arrJSON.count > 0) {
                         for index in 0...arrJSON.count-1 {
                             
@@ -133,25 +158,22 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                             name += " "
                             name += aObject["tutorLastName"] as! String
                             
-                            self.tutorFirstNames.append(aObject["tutorFirstName"] as! String)
-                            self.tutorLastNames.append(aObject["tutorLastName"] as! String)
-                            self.tutorEmails.append(aObject["tutorEmail"] as! String)
+                            tutorFirstNames.append(aObject["tutorFirstName"] as! String)
+                            tutorLastNames.append(aObject["tutorLastName"] as! String)
+                            tutorEmails.append(aObject["tutorEmail"] as! String)
                             
                         }
                     }
                 }
-//                print(self.tutorNames)
-//                print(self.tutorEmails)
                 
                 OperationQueue.main.addOperation{
+                    
+                    // Set up the sender for the segue
                     var toSend = [[String]]()
-                    toSend.append(self.tutorFirstNames)
-                    toSend.append(self.tutorLastNames)
-                    toSend.append(self.tutorEmails)
+                    toSend.append(tutorFirstNames)
+                    toSend.append(tutorLastNames)
+                    toSend.append(tutorEmails)
                     
-//                    print(toSend.count)
-                    
-                    //                    print(toSend)
                     self.performSegue(withIdentifier: "reportTutor", sender: toSend)
                 }
             } catch {
@@ -159,35 +181,33 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
             }
             
         }
-        //executing the task
+        // Executing the task
         task.resume()
     }
 
+    /**
+     * This fuction accesses the database to load the user's scheduled tutor requests, accepted and not accepted.
+     */
     func prepStudentSchedule()
     {
-        //created NSURL
+        // Set up the post request
         let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/checkscheduledpairedstatus")
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let userEmail = UserDefaults.standard.object(forKey: "userEmail") as! String
         let userToken = UserDefaults.standard.object(forKey: "userToken") as! String
         let course = UserDefaults.standard.object(forKey: "selectedCourse") as! String
-        
-        //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"" + userEmail + "\",\"userToken\":\"" + userToken + "\"}"
         
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
@@ -196,20 +216,17 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                 return;
             }
             
-            //            let r = response as? HTTPURLResponse
+            let r = response as? HTTPURLResponse
             
-            //parsing the response
+            // Parsing the response
             do {
-                //print(response)
                 let requests = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
                 
                 var dates = [[String](),[String]()]
                 var durations = [[String](),[String]()]
                 var topics = [[String](),[String]()]
                 
-                //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
                 if let arrJSON = requests["requests"] {
-//                    print(arrJSON.count)
                     if (arrJSON.count > 0)
                     {
                         for index in 0...arrJSON.count-1 {
@@ -235,15 +252,13 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                     }
                 }
                 OperationQueue.main.addOperation{
-//                    print(topics)
+
+                    // Set up the sender for the segue
                     var toSend = [[[String]]]()
                     toSend.append(dates)
                     toSend.append(durations)
                     toSend.append(topics)
                     
-                    print(toSend.count)
-                    
-//                    print(toSend)
                     self.performSegue(withIdentifier: "studentViewSchedule", sender: toSend)
                 }
                 
@@ -253,12 +268,83 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                 print(error)
             }
         }
-        //executing the task
+        // Executing the task
         task.resume()
-        //        semaphore.wait(timeout: .distantFuture);
     }
-
     
+    /**
+     * This fuction accesses the database to load all of the users for the message list
+     */
+    func loadMessageUsers() {
+        
+        var emails: [String] = []
+        var firstNames: [String] = []
+        var lastNames: [String] = []
+        
+        // Set up the post request
+        let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/getusers")
+        let request = NSMutableURLRequest(url: requestURL! as URL)
+        request.httpMethod = "POST"
+        
+        // Create the post parameters
+        let defaults = UserDefaults.standard
+        let userEmail = defaults.object(forKey: "userEmail") as! String
+        let userToken = defaults.object(forKey: "userToken") as! String
+        
+        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\"}"
+        
+        // Adding the parameters to request body
+        request.httpBody = postParameters.data(using: String.Encoding.utf8)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        
+        // Creating a task to send the post request
+        let task = URLSession.shared.dataTask(with: request as URLRequest){
+            data, response, error in
+            
+            if error != nil{
+                print("error is \(error)")
+                return;
+            }
+            
+            // Parsing the response
+            do {
+                let messageUsers = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                
+                if let arrJSON = messageUsers["users"] {
+                    if (arrJSON.count > 0) {
+                        for index in 0...arrJSON.count-1 {
+                            
+                            let aObject = arrJSON[index] as! [String : AnyObject]
+                            
+                            emails.append(aObject["email"] as! String)
+                            firstNames.append(aObject["firstName"] as! String)
+                            lastNames.append(aObject["lastName"] as! String)
+                            
+                        }
+                    }
+                }
+                
+                OperationQueue.main.addOperation{
+                    
+                    // Set up the sender for the segue
+                    var toSend = [[String]]()
+                    
+                    toSend.append(emails)
+                    toSend.append(firstNames)
+                    toSend.append(lastNames)
+                    
+                    self.performSegue(withIdentifier: "messages", sender: toSend)
+                }
+            } catch {
+                print(error)
+            }
+            
+        }
+        // Executing the task
+        task.resume()
+    }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "studentViewSchedule"
@@ -273,7 +359,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                 destination.dates = appointmentInfo[0]
                 destination.duration = appointmentInfo[1]
                 destination.subjects = appointmentInfo[2]
-                //destination.passed = sender as? String
             }
         }
         else if segue.identifier == "reportTutor"
@@ -289,8 +374,22 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                 destination.tutorFirstNames = tutorInfo[0]
                 destination.tutorLastNames = tutorInfo[1]
                 destination.tutorEmails = tutorInfo[2]
-                print("arrays set")
-                //destination.passed = sender as? String
+            }
+        }
+        else if segue.identifier == "messages"
+        {
+            let appointmentInfo = sender as! [[String]]
+            print(appointmentInfo[0])
+            
+            if let destination = segue.destination as? MessageUsersListViewController
+            {
+                destination.emails = []
+                destination.firstNames = []
+                destination.lastNames = []
+                
+                destination.emails = appointmentInfo[0]
+                destination.firstNames = appointmentInfo[1]
+                destination.lastNames = appointmentInfo[2]
             }
         }
     }

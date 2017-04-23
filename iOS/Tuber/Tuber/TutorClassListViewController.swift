@@ -8,15 +8,13 @@
 
 import UIKit
 
-class TutorClassListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CAPSPageMenuDelegate, ButtonCellDelegate {
-
+class TutorClassListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ButtonCellDelegate {
     
     @IBOutlet weak var classTableView: UITableView!
     
-    var pageMenu : CAPSPageMenu?
-    
     var classes = UserDefaults.standard.object(forKey: "userTutorCourses") as! Array<String>
     
+    // Used in scheduledAppointments() and appointmentRequests()
     var studentNames: [[String]] = [[],[]]
     var dates: [[String]] = [[],[]]
     var durations: [[String]] = [[],[]]
@@ -27,14 +25,15 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
         
         classTableView.tableFooterView = UIView(frame: .zero)
         self.view.backgroundColor = UIColor.lightGray
-        self.classTableView.separatorColor = UIColor.lightGray
+        self.classTableView.separatorStyle = .none
     }
     
+    // Get rid of extra table cells
     override func viewDidAppear(_ animated: Bool) {
-        classTableView.frame = CGRect(x: classTableView.frame.origin.x, y: classTableView.frame.origin.y, width: classTableView.frame.size.width, height: classTableView.contentSize.height)
-        
+        classTableView.frame = CGRect(x: classTableView.frame.origin.x, y: classTableView.frame.origin.y, width: classTableView.frame.size.width, height: classTableView.contentSize.height)        
     }
     
+    // Get rid of extra table cells
     override func viewDidLayoutSubviews(){
         classTableView.frame = CGRect(x: classTableView.frame.origin.x, y: classTableView.frame.origin.y, width: classTableView.frame.size.width, height: classTableView.contentSize.height)
         classTableView.reloadData()
@@ -46,14 +45,12 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //TODO: DB query, how many classes enrolled
         return classes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ClassTableViewCell
         
-        //TODO: DB query,
         cell.tutorClassNameLabel.text = classes[indexPath.row]
         cell.tutorClassNameLabel.font = UIFont(name: "HelveticaNeue", size: 28.0)!
         cell.tutorMessageButton.setImage(#imageLiteral(resourceName: "messaging"), for: .normal)
@@ -64,6 +61,7 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
             cell.buttonDelegate = self
         }
         
+        // Creates separation between cells
         cell.contentView.backgroundColor = UIColor.lightGray
         let whiteRoundedView : UIView = UIView(frame: CGRect(x: 0, y: 10, width: self.view.frame.size.width - 35, height: 105))
         whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
@@ -81,12 +79,13 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
         let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
         let currentCell = tableView.cellForRow(at: indexPath!)! as! ClassTableViewCell
         UserDefaults.standard.set(currentCell.tutorClassNameLabel.text! as String?, forKey: "selectedCourse")
-//        performSegue(withIdentifier: "tutorOptions", sender: nil)
-        performSegue(withIdentifier: "shortcut", sender: nil)
+        performSegue(withIdentifier: "tutorOptions", sender: nil)
     }
     
     // MARK: - ButtonCellDelegate
-    
+    /**
+     * This fuction is called when a button in the table cell is called.  Allows the appropriate segue to be performed.
+     */
     func cellTapped(cell: ClassTableViewCell, type: String) {
         
         let selectedCourse = classTableView.indexPath(for: cell)!.row
@@ -103,6 +102,9 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
         }
     }
     
+    /**
+     * This fuction accesses the database to load all of the users for the message list
+     */
     func loadMessageUsers() {
         
         var emails: [String] = []
@@ -186,57 +188,47 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
         task.resume()
     }
     
+    /**
+     * This fuction accesses the database to find the tutor's accepted scheduled appointments.
+     */
     func scheduledAppointments()
     {
         
-        //        let semaphore = DispatchSemaphore(value: 0)
-        //created NSURL
+        // Set up the post request
         let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/findallscheduletutoracceptedrequests")
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let userEmail = UserDefaults.standard.object(forKey: "userEmail") as! String
         let userToken = UserDefaults.standard.object(forKey: "userToken") as! String
         let course = UserDefaults.standard.object(forKey: "selectedCourse") as! String
-        
-        //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"" + userEmail + "\",\"userToken\":\"" + userToken + "\",\"course\":\"" + course + "\"}"
         
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
             if error != nil{
-                //                completionHandler(nil, error as NSError?)
                 return;
             }
             
-            //            semaphore.signal();
-            
-            //            let r = response as? HTTPURLResponse
-            
-            //parsing the response
+            // Parsing the response
             do {
-                //print(response)
-                let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                let appointments = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
                 
                 self.studentNames = [[],[]]
                 self.dates = [[],[]]
                 self.durations = [[],[]]
                 self.topics = [[],[]]
                 
-                //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
-                if let arrJSON = hotspots["tutorRequestItems"] {
+                if let arrJSON = appointments["tutorRequestItems"] {
                     print(arrJSON.count)
                     if (arrJSON.count > 0)
                     {
@@ -252,10 +244,9 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
                         
                     }
                 }
-                //                completionHandler("complete", nil)
+
+                // Find appointment requests
                 OperationQueue.main.addOperation{
-                    
-                    print(self.studentNames)
                     self.appointmentRequests()
                 }
                 
@@ -265,69 +256,52 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
                 print(error)
             }
         }
-        //executing the task
+        // Executing the task
         task.resume()
-        //        semaphore.wait(timeout: .distantFuture);
     }
     
-    //    func appointmentRequests(completionHandler: @escaping (String?, NSError?) -> Void)
+    /**
+     * This fuction accesses the database to find scheduled appointment requests.
+     */
     func appointmentRequests()
     {
-        //        let semaphore = DispatchSemaphore(value: 0)
-        
-        
-        //created NSURL
+        // Set up the post request
         let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/findallscheduletutorrequests")
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let userEmail = UserDefaults.standard.object(forKey: "userEmail") as! String
         let userToken = UserDefaults.standard.object(forKey: "userToken") as! String
         let course = UserDefaults.standard.object(forKey: "selectedCourse") as! String
-        
-        //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"" + userEmail + "\",\"userToken\":\"" + userToken + "\",\"course\":\"" + course + "\"}"
         
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        print(postParameters)
-        
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
             if error != nil{
-                //                completionHandler(nil, error as NSError?)
                 return;
             }
             
-            //            semaphore.signal();
-            
             let r = response as? HTTPURLResponse
             
-            //parsing the response
+            // Parsing the response
             do {
-                //print(response)
-                let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                let appointments = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
                 
-                //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
-                if let arrJSON = hotspots["tutorRequestItems"] {
+                if let arrJSON = appointments["tutorRequestItems"] {
                     print(arrJSON.count)
                     if (arrJSON.count > 0)
                     {
                         for index in 0...arrJSON.count-1 {
                             
                             let aObject = arrJSON[index] as! [String : AnyObject]
-                            
-                            //print(aObject)
-                            
                             
                             self.dates[1].append(aObject["dateTime"] as! String)
                             self.durations[1].append(aObject["duration"] as! String)
@@ -337,10 +311,8 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
                         }
                     }
                 }
-                //                completionHandler("complete", nil)
+
                 OperationQueue.main.addOperation{
-                    
-                    print(self.studentNames)
                     self.performSegue(withIdentifier: "tutorViewSchedule", sender: nil)
                 }
                 
@@ -352,12 +324,10 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
             
             
         }
-        //executing the task
+        // Executing the task
         task.resume()
     }
 
-
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "messages"
         {

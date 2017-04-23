@@ -13,15 +13,18 @@ class CreateHotspotViewController: UIViewController {
     @IBOutlet weak var topicTextArea: UITextView!
     @IBOutlet weak var locationTextArea: UITextView!
     
+    // Set on HotspotInitalViewController
     var latitude: String!
     var longitude: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print(latitude)
-        print(longitude)
-        // Do any additional setup after loading the view.
+        
+        topicTextArea!.layer.borderWidth = 1
+        topicTextArea!.layer.borderColor = UIColor.lightGray.cgColor
+        
+        locationTextArea!.layer.borderWidth = 1
+        locationTextArea!.layer.borderColor = UIColor.lightGray.cgColor
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,42 +32,28 @@ class CreateHotspotViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
     @IBAction func createButtonPressed(_ sender: Any) {
+        // Set up the post request
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/createstudyhotspot"
-        
-        //created NSURL
         let requestURL = URL(string: server)
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let defaults = UserDefaults.standard
-        
-        //getting values from text fields
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
         let course = defaults.object(forKey: "selectedCourse") as! String
         let topic = topicTextArea.text
         let location = locationTextArea.text
-        
-        print(topic)
-        print(location)
-        
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"topic\": \"\(topic!)\",\"latitude\":\"\(self.latitude!)\",\"longitude\":\"\(self.longitude!)\",\"locationDescription\":\"\(location!)\"}"
-        print(postParameters)
         
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        print(postParameters)
-        
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
@@ -78,20 +67,15 @@ class CreateHotspotViewController: UIViewController {
             if (r?.statusCode == 200 || r?.statusCode == 417)
             {
                 do {
-                    //converting resonse to NSDictionary
+                    // Converting resonse to NSDictionary
                     let myJSON =  try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary
                     
-                    //parsing the json
+                    // Parsing the json
                     if let parseJSON = myJSON {
-                        
-                        
-                        
-                        print(parseJSON["hotspotID"] as! String)
-                        
+
                         let parsed = parseJSON["hotspotID"] as! String
                         
-                        print(parsed)
-                        //
+                        // Call the segue
                         OperationQueue.main.addOperation{
                             self.performSegue(withIdentifier: "createHotspotSuccess", sender: parsed)
                         }
@@ -107,7 +91,7 @@ class CreateHotspotViewController: UIViewController {
             
             
         }
-        //executing the task
+        // Executing the task
         task.resume()
     }
 

@@ -1,41 +1,40 @@
 //
-//  HotspotDetailViewController.swift
-//  Tuber
+//  StudentStartScheduledViewController.swift
+//  
 //
-//  Created by Anne on 3/8/17.
-//  Copyright © 2017 Tuber. All rights reserved.
+//  Created by Anne on 4/2/17.
+//
 //
 
 import UIKit
 
-class HotspotDetailViewController: UIViewController {
+class StudentStartScheduledViewController: UIViewController {
+
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var durationLabel: UILabel!
+    @IBOutlet weak var subjectLabel: UILabel!
     
-    @IBOutlet weak var memberListTextView: UITextView!
-    
-    // Set on HotspotInitialViewController
-    var hotspotID: String!
-    var memberList: String!
+    // Set on StudentViewScheduleTableViewController
+    var date: String!
+    var duration: String!
+    var subject: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        memberListTextView.text = memberList
+
+        dateLabel.text = date
+        durationLabel.text = duration
+        subjectLabel.text = subject
     }
-    
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    /**
-     * This method tell the database that the user is joining a hotspot.
-     */
-    @IBAction func joinButtonPress(_ sender: Any) {
-        
+    @IBAction func startSessionPressed(_ sender: Any) {
         // Set up the post request
-        let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/joinstudyhotspot"
-        let requestURL = URL(string: server)
+        let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/startscheduledtutorsessionstudent")
         let request = NSMutableURLRequest(url: requestURL! as URL)
         request.httpMethod = "POST"
         
@@ -44,9 +43,11 @@ class HotspotDetailViewController: UIViewController {
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
         let course = defaults.object(forKey: "selectedCourse") as! String
-        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"hotspotID\":\"\(hotspotID as String)\"}"
+        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\"}"
         
-        //Adding the parameters to request body
+        print(postParameters)
+        
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
@@ -57,7 +58,6 @@ class HotspotDetailViewController: UIViewController {
             data, response, error in
             
             if error != nil{
-                print(error as! String)
                 return;
             }
             
@@ -66,7 +66,7 @@ class HotspotDetailViewController: UIViewController {
             if (r?.statusCode == 200)
             {
                 OperationQueue.main.addOperation{
-                    self.performSegue(withIdentifier: "joinHotspot", sender: "leave")
+                    self.performSegue(withIdentifier: "startSession", sender: "Success")
                 }
             }
             else{
@@ -76,17 +76,15 @@ class HotspotDetailViewController: UIViewController {
         // Executing the task
         task.resume()
     }
-    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "joinHotspot"
-        {
-            if let destination = segue.destination as? ActiveHotspotViewController
-            {
-                print(sender as! String)
-                destination.pageSetup = sender as! String
-                destination.hotspotID = nil
-            }
-        }
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
     }
-    
+    */
+
 }
