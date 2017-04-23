@@ -216,8 +216,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                 return;
             }
             
-            let r = response as? HTTPURLResponse
-            
             // Parsing the response
             do {
                 let requests = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]

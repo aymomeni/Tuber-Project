@@ -48,18 +48,31 @@ class ServerRequest
             let r = response as? HTTPURLResponse
             
             //parsing the response
-            if (r?.statusCode == 200)
-            {
-                do {
-                    //converting resonse to NSDictionary
-                    myJSON =  try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary;
-                    completionHandler(200,myJSON!);
-                    
-                }
-                catch {
-                    print(error)
-                }
+            do {
+                //converting resonse to NSDictionary
+                myJSON =  try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary;
+                completionHandler( (r?.statusCode)!,myJSON!);
+                
             }
+            catch {
+                print(error)
+            }
+//            if (r?.statusCode == 200)
+//            {
+//                do {
+//                    //converting resonse to NSDictionary
+//                    myJSON =  try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary;
+//                    completionHandler(200,myJSON!);
+//                    
+//                }
+//                catch {
+//                    print(error)
+//                }
+//            }
+//            else
+//            {
+//                
+//            }
         }
         //executing the task
         task.resume();

@@ -70,7 +70,12 @@ class StudentStartScheduledViewController: UIViewController {
                 }
             }
             else{
-                print(r?.statusCode as Any)
+                OperationQueue.main.addOperation{
+                    let alertController = UIAlertController(title: "Cannot Start Session", message:
+                        "The tutor must start first.", preferredStyle: UIAlertControllerStyle.alert)
+                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    self.present(alertController, animated: true, completion: nil)
+                }
             }
         }
         // Executing the task

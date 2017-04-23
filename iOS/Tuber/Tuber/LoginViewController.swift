@@ -22,7 +22,6 @@ class LoginViewController: UIViewController
     
     @IBAction func loginButtonPress(_ sender: Any)
     {
-        print("login pressed")
         let sr = ServerRequest();
         var responseCode:Int;
         responseCode = -1;
@@ -60,7 +59,24 @@ class LoginViewController: UIViewController
                     }
                 }
             }
-         
+            else if (responseCode == 401)
+            {
+                OperationQueue.main.addOperation{
+                    let alertController = UIAlertController(title: "Login Failed", message:
+                        "Incorrect Password", preferredStyle: UIAlertControllerStyle.alert)
+                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    self.present(alertController, animated: true, completion: nil)
+                }
+            }
+            else
+            {
+                OperationQueue.main.addOperation{
+                    let alertController = UIAlertController(title: "Login Failed", message:
+                        "Could not access database.", preferredStyle: UIAlertControllerStyle.alert)
+                    alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+                    self.present(alertController, animated: true, completion: nil)
+                }
+            }
         }
     }
 }
