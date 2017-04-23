@@ -41,7 +41,7 @@ class OfferTutorTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 2
+        return 3
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -55,15 +55,22 @@ class OfferTutorTableViewController: UITableViewController {
         }
     }
 
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
-        return cell
-    }
-    */
+//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+//
+//        //Creates separation between cells
+//        cell.contentView.backgroundColor = UIColor.lightGray
+//        let whiteRoundedView : UIView = UIView(frame: CGRect(x: 0, y: 10, width: self.view.frame.size.width - 35, height: 105))
+//        whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
+//        whiteRoundedView.layer.masksToBounds = false
+//        whiteRoundedView.layer.cornerRadius = 3.0
+//        whiteRoundedView.layer.shadowOffset = CGSize(width: -1, height: 1)
+//        whiteRoundedView.layer.shadowOpacity = 0.5
+//        cell.contentView.addSubview(whiteRoundedView)
+//        cell.contentView.sendSubview(toBack: whiteRoundedView)
+//
+//        return cell
+//    }
 
     /*
     // Override to support conditional editing of the table view.

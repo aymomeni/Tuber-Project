@@ -22,6 +22,8 @@ class ReportTutorListTableViewController: UITableViewController {
         
         sessionStartTime = []
         sessionID = []
+        
+        self.title = "Report Tutor"
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false

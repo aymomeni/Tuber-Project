@@ -81,8 +81,8 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
         let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
         let currentCell = tableView.cellForRow(at: indexPath!)! as! ClassTableViewCell
         UserDefaults.standard.set(currentCell.tutorClassNameLabel.text! as String?, forKey: "selectedCourse")
-//        performSegue(withIdentifier: "tutorOptions", sender: nil)
-        performSegue(withIdentifier: "shortcut", sender: nil)
+        performSegue(withIdentifier: "tutorOptions", sender: nil)
+//        performSegue(withIdentifier: "shortcut", sender: nil)
     }
     
     // MARK: - ButtonCellDelegate

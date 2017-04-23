@@ -57,6 +57,9 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         
         self.mapview.delegate = self
         
+        self.title = "Study Hotspot"
+//        self.navigationController?.navigationBar.isTranslucent = true
+        
 //        self.navigationItem.hidesBackButton = true
 //        let newBackButton = UIBarButtonItem(title: "< Courses", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ClassOptionsViewController.back(_:)))
 //        self.navigationItem.leftBarButtonItem = newBackButton

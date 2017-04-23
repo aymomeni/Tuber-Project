@@ -8,11 +8,9 @@
 
 import UIKit
 
-class ClassListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, CAPSPageMenuDelegate, ButtonCellDelegate {
+class ClassListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, ButtonCellDelegate {
     
     @IBOutlet weak var classTableView: UITableView!
-    
-    var pageMenu : CAPSPageMenu?
     
     var classes = UserDefaults.standard.object(forKey: "userStudentCourses") as! Array<String>
     
@@ -24,11 +22,12 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         self.classTableView.separatorColor = UIColor.lightGray
     }
     
+    // Get rid of extra table cells
     override func viewDidAppear(_ animated: Bool) {
         classTableView.frame = CGRect(x: classTableView.frame.origin.x, y: classTableView.frame.origin.y, width: classTableView.frame.size.width, height: classTableView.contentSize.height)
-        
     }
     
+    // Get rid of extra table cells
     override func viewDidLayoutSubviews(){
         classTableView.frame = CGRect(x: classTableView.frame.origin.x, y: classTableView.frame.origin.y, width: classTableView.frame.size.width, height: classTableView.contentSize.height)
         classTableView.reloadData()
@@ -40,14 +39,13 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //TODO: DB query, how many classes enrolled
         return classes.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ClassTableViewCell
         
-        //TODO: DB query,
+        //Set cell text and label
         cell.classNameLabel.text = classes[indexPath.row]
         cell.classNameLabel.font = UIFont(name: "HelveticaNeue", size: 28.0)!
         cell.messageButton.setImage(#imageLiteral(resourceName: "messaging"), for: .normal)
@@ -59,6 +57,7 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
             cell.buttonDelegate = self
         }
         
+        //Creates separation between cells
         cell.contentView.backgroundColor = UIColor.lightGray
         let whiteRoundedView : UIView = UIView(frame: CGRect(x: 0, y: 10, width: self.view.frame.size.width - 35, height: 105))
         whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
@@ -73,15 +72,18 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         let indexPath = tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
+        
         let currentCell = tableView.cellForRow(at: indexPath!)! as! ClassTableViewCell
         UserDefaults.standard.set(currentCell.classNameLabel.text! as String?, forKey: "selectedCourse")
-//        performSegue(withIdentifier: "studentOptions", sender: nil)
-        performSegue(withIdentifier: "shortcut", sender: nil)
+        performSegue(withIdentifier: "studentOptions", sender: nil)
+//        performSegue(withIdentifier: "shortcut", sender: nil)
     }
     
-    // MARK: - ButtonCellDelegate
-    
+    /**
+     * This fuction is called when a button in the table cell is called.  Allows the appropriate segue to be performed.
+     */
     func cellTapped(cell: ClassTableViewCell, type: String) {
         
         let selectedCourse = classTableView.indexPath(for: cell)!.row
@@ -98,38 +100,34 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         }
     }
     
+    /**
+     * This fuction accesses the database to load all of the users for the message list
+     */
     func loadMessageUsers() {
         
         var emails: [String] = []
         var firstNames: [String] = []
         var lastNames: [String] = []
         
-        //created NSURL
+        // Set up the post request
         let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/getusers")
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let defaults = UserDefaults.standard
-        
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
         
-        //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\"}"
         
-        print(postParameters)
-        
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
@@ -138,19 +136,15 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
                 return;
             }
             
-            //parsing the response
+            // Parsing the response
             do {
-                print(response)
-                let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                let messageUsers = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
                 
-                if let arrJSON = hotspots["users"] {
+                if let arrJSON = messageUsers["users"] {
                     if (arrJSON.count > 0) {
                         for index in 0...arrJSON.count-1 {
                             
                             let aObject = arrJSON[index] as! [String : AnyObject]
-                            
-                            print(aObject)
-                            
                             
                             emails.append(aObject["email"] as! String)
                             firstNames.append(aObject["firstName"] as! String)
@@ -162,13 +156,12 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
                 
                 OperationQueue.main.addOperation{
                     
+                    // Set up the sender for the segue
                     var toSend = [[String]]()
                     
                     toSend.append(emails)
                     toSend.append(firstNames)
                     toSend.append(lastNames)
-                    
-                    print(toSend.count)
                     
                     self.performSegue(withIdentifier: "messages", sender: toSend)
                 }
@@ -177,7 +170,7 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
             }
             
         }
-        //executing the task
+        // Executing the task
         task.resume()
     }
     
