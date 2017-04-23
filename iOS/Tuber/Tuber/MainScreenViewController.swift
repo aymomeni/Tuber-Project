@@ -25,7 +25,7 @@ class MainScreenViewController: UIViewController {
         self.navigationController?.navigationBar.shadowImage = UIImage()
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.barStyle = UIBarStyle.default
-//        self.navigationController?.navigationBar.tintColor = UIColor.black //sidebuttons
+        self.navigationController?.navigationBar.tintColor = UIColor.white //sidebuttons
         self.navigationController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName: UIColor.orange]
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
