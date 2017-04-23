@@ -412,7 +412,6 @@
                                 <connections>
                                     <outlet property="optionImage" destination="yiA-Iv-u6K" id="xCs-d6-jAH"/>
                                     <outlet property="optionLabel" destination="EDN-sq-6nh" id="9l0-1f-7Sa"/>
-                                    <segue destination="UGW-Ob-ttF" kind="show" identifier="" id="MO3-H7-wef"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -423,12 +422,14 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <segue destination="j4P-R3-Heg" kind="show" identifier="tutorViewSchedule" id="wou-aW-Ckx"/>
+                        <segue destination="j4P-R3-Heg" kind="show" identifier="tutorViewSchedule" id="aMB-Eb-alU"/>
+                        <segue destination="UGW-Ob-ttF" kind="show" identifier="immediateRequest" id="Mla-t3-nD7"/>
+                        <segue destination="6oR-S3-h7y" kind="show" identifier="messages" id="uta-eF-Xax"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="T5F-Aa-kkp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2100" y="751.57421289355329"/>
+            <point key="canvasLocation" x="2018" y="705"/>
         </scene>
         <!--Immediate Tutor Request View Controller-->
         <scene sceneID="j1E-SY-ARA">
@@ -1719,11 +1720,11 @@
         <segue reference="S2e-vM-n3w"/>
         <segue reference="IiF-Ec-8AC"/>
         <segue reference="bY2-c1-vpM"/>
-        <segue reference="MO3-H7-wef"/>
-        <segue reference="wou-aW-Ckx"/>
+        <segue reference="Mla-t3-nD7"/>
+        <segue reference="aMB-Eb-alU"/>
+        <segue reference="uta-eF-Xax"/>
         <segue reference="bTA-8i-ZD6"/>
         <segue reference="Qe9-9e-WG7"/>
-        <segue reference="1NH-cH-9Yx"/>
         <segue reference="OEm-4R-y9o"/>
         <segue reference="EDu-i3-YMx"/>
     </inferredMetricsTieBreakers>

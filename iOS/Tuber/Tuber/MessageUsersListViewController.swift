@@ -28,9 +28,13 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
         
         self.usersTableView.delegate = self
         self.usersTableView.dataSource = self
+        
+        self.view.backgroundColor = UIColor.lightGray
+        self.usersTableView.separatorStyle = .none
+        self.navigationController?.navigationBar.isTranslucent = false
         // Do any additional setup after loading the view.
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         
@@ -46,10 +50,16 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
         
         cell.userNameLabel.text = firstNames[indexPath.row] + " " + lastNames[indexPath.row]
         
-//        cell.userNameLabel.text = emails[indexPath.row]
-        
-//        cell.optionIconImageView.image = icons[indexPath.row]
-//        cell.optionNameLabel.text = names[indexPath.row]
+        //Creates separation between cells
+        cell.contentView.backgroundColor = UIColor.lightGray
+        let whiteRoundedView : UIView = UIView(frame: CGRect(x: 10, y: 10, width: self.view.frame.size.width - 20, height: 70))
+        whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
+        whiteRoundedView.layer.masksToBounds = false
+        whiteRoundedView.layer.cornerRadius = 3.0
+        whiteRoundedView.layer.shadowOffset = CGSize(width: -1, height: 1)
+        whiteRoundedView.layer.shadowOpacity = 0.5
+        cell.contentView.addSubview(whiteRoundedView)
+        cell.contentView.sendSubview(toBack: whiteRoundedView)
         
         return cell
     }
@@ -60,7 +70,6 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
         let currentCell = tableView.cellForRow(at: indexPath!)! as! MessageUsersListTableViewCell
         
         let selectedOption = currentCell.userNameLabel.text
-        print(selectedOption)
         
         prepConversation(email: emails[(indexPath?.row)!], name: selectedOption!)
         

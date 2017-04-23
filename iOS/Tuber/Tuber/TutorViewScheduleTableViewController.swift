@@ -22,12 +22,22 @@ class TutorViewScheduleTableViewController: UITableViewController {
 
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
         
+        self.view.backgroundColor = UIColor.lightGray
+        self.tableView.separatorStyle = .none
+        
+        self.navigationController?.navigationBar.isTranslucent = false
         self.navigationController?.willMove(toParentViewController: OfferTutorTableViewController())
         
 //        self.navigationItem.hidesBackButton = true
 //        let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(TutorViewScheduleTableViewController.back(_:)))
 //        self.navigationItem.leftBarButtonItem = newBackButton
 
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
+        view.tintColor = UIColor.darkGray
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.white
     }
     
     func back(_ sender: UIBarButtonItem) {
@@ -62,6 +72,17 @@ class TutorViewScheduleTableViewController: UITableViewController {
         cell.dateLabel.text = dates[indexPath.section][indexPath.row]
         cell.durationLabel.text = duration[indexPath.section][indexPath.row]
         cell.subjectLabel.text = subjects[indexPath.section][indexPath.row]
+        
+        //Creates separation between cells
+        cell.contentView.backgroundColor = UIColor.lightGray
+        let whiteRoundedView : UIView = UIView(frame: CGRect(x: 10, y: 10, width: self.view.frame.size.width - 20, height: 115))
+        whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
+        whiteRoundedView.layer.masksToBounds = false
+        whiteRoundedView.layer.cornerRadius = 3.0
+        whiteRoundedView.layer.shadowOffset = CGSize(width: -1, height: 1)
+        whiteRoundedView.layer.shadowOpacity = 0.5
+        cell.contentView.addSubview(whiteRoundedView)
+        cell.contentView.sendSubview(toBack: whiteRoundedView)
         
         return cell
     }

@@ -27,7 +27,7 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
         
         classTableView.tableFooterView = UIView(frame: .zero)
         self.view.backgroundColor = UIColor.lightGray
-        self.classTableView.separatorColor = UIColor.lightGray
+        self.classTableView.separatorStyle = .none
     }
     
     override func viewDidAppear(_ animated: Bool) {

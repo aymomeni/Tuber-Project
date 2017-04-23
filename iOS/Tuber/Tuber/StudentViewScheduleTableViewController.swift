@@ -23,6 +23,9 @@ class StudentViewScheduleTableViewController: UITableViewController {
         
         self.navigationController?.willMove(toParentViewController: TutorServicesViewController())
         
+        self.view.backgroundColor = UIColor.lightGray
+        self.tableView.separatorStyle = .none
+        
 //        self.navigationItem.hidesBackButton = true
 //        let newBackButton = UIBarButtonItem(title: "< Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(StudentViewScheduleTableViewController.back(sender:)))
 //        self.navigationItem.leftBarButtonItem = newBackButton
@@ -48,7 +51,6 @@ class StudentViewScheduleTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print(dates)
         return dates[section].count
     }
     
@@ -64,8 +66,31 @@ class StudentViewScheduleTableViewController: UITableViewController {
         cell.durationLabel.text = duration[indexPath.section][indexPath.row]
         cell.subjectLabel.text = subjects[indexPath.section][indexPath.row]
         
+        //Creates separation between cells
+        cell.contentView.backgroundColor = UIColor.lightGray
+        let whiteRoundedView : UIView = UIView(frame: CGRect(x: 10, y: 10, width: self.view.frame.size.width - 20, height: 80))
+        whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
+        whiteRoundedView.layer.masksToBounds = false
+        whiteRoundedView.layer.cornerRadius = 3.0
+        whiteRoundedView.layer.shadowOffset = CGSize(width: -1, height: 1)
+        whiteRoundedView.layer.shadowOpacity = 0.5
+        cell.contentView.addSubview(whiteRoundedView)
+        cell.contentView.sendSubview(toBack: whiteRoundedView)
+        
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
+        view.tintColor = UIColor.darkGray
+        let header = view as! UITableViewHeaderFooterView
+        header.textLabel?.textColor = UIColor.white
+    }
+    
+//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: 30))
+//        headerView.backgroundColor = UIColor.orange
+//        return headerView
+//    }
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

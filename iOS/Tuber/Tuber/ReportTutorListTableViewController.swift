@@ -13,20 +13,17 @@ class ReportTutorListTableViewController: UITableViewController {
     var tutorFirstNames: [String] = []
     var tutorLastNames: [String] = []
     var tutorEmails: [String] = []
-    
-    var sessionStartTime: [String] = []
-    var sessionID: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sessionStartTime = []
-        sessionID = []
-        
         self.title = "Report Tutor"
+        
+        self.view.backgroundColor = UIColor.lightGray
+        self.tableView.separatorStyle = .none
 
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+//         self.clearsSelectionOnViewWillAppear = true
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
@@ -54,6 +51,17 @@ class ReportTutorListTableViewController: UITableViewController {
      
      cell.tutorNameLabel.text = tutorFirstNames[indexPath.row] + " " + tutorLastNames[indexPath.row]
         
+        //Creates separation between cells
+        cell.contentView.backgroundColor = UIColor.lightGray
+        let whiteRoundedView : UIView = UIView(frame: CGRect(x: 10, y: 10, width: self.view.frame.size.width - 20, height: 70))
+        whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
+        whiteRoundedView.layer.masksToBounds = false
+        whiteRoundedView.layer.cornerRadius = 3.0
+        whiteRoundedView.layer.shadowOffset = CGSize(width: -1, height: 1)
+        whiteRoundedView.layer.shadowOpacity = 0.5
+        cell.contentView.addSubview(whiteRoundedView)
+        cell.contentView.sendSubview(toBack: whiteRoundedView)
+        
      return cell
     }
     
@@ -70,6 +78,10 @@ class ReportTutorListTableViewController: UITableViewController {
     
     func prepTutorSessions(_ tutorFirstName: String, tutorLastName: String, tutorEmail: String)
     {
+        
+        var sessionStartTime: [String] = []
+        var sessionID: [String] = []
+        
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/reporttutorgetsessionlist";
         
         //created NSURL
@@ -119,8 +131,8 @@ class ReportTutorListTableViewController: UITableViewController {
                             print(aObject)
                             
                     
-                            self.sessionStartTime.append(aObject["sessionStartTime"] as! String)
-                            self.sessionID.append(aObject["tutorSessionID"] as! String)
+                            sessionStartTime.append(aObject["sessionStartTime"] as! String)
+                            sessionID.append(aObject["tutorSessionID"] as! String)
                             
                         }
                     }
@@ -134,8 +146,8 @@ class ReportTutorListTableViewController: UITableViewController {
                     var toSend = [[String]]()
 //                    toSend.append(self.tutorNames)
                     toSend.append([params])
-                    toSend.append(self.sessionStartTime)
-                    toSend.append(self.sessionID)
+                    toSend.append(sessionStartTime)
+                    toSend.append(sessionID)
                     
                     print(toSend.count)
                     
@@ -168,7 +180,6 @@ class ReportTutorListTableViewController: UITableViewController {
                 destination.postParameters = appointmentInfo[0]
                 destination.sessionStartTime = appointmentInfo[1] 
                 destination.sessionID = appointmentInfo[2] 
-                //destination.passed = sender as? String
             }
         }
     }

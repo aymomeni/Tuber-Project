@@ -46,7 +46,7 @@ class MainScreenViewController: UIViewController {
         
         // Customize menu
         let parameters: [CAPSPageMenuOption] = [
-            .scrollMenuBackgroundColor(UIColor.gray), //color of scrollmenu
+            .scrollMenuBackgroundColor(UIColor.darkGray), //color of scrollmenu
             .viewBackgroundColor(UIColor.black), //color of extra backgroud of the views
             .selectionIndicatorColor(UIColor.orange),
             .bottomMenuHairlineColor(UIColor.lightGray), //separation between page menu and view

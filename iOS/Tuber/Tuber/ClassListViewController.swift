@@ -19,7 +19,7 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
         
         classTableView.tableFooterView = UIView(frame: .zero)
         self.view.backgroundColor = UIColor.lightGray
-        self.classTableView.separatorColor = UIColor.lightGray
+        self.classTableView.separatorStyle = .none
     }
     
     // Get rid of extra table cells

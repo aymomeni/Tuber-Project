@@ -15,11 +15,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
     var icons = [#imageLiteral(resourceName: "immediaterequest"), #imageLiteral(resourceName: "scheduletutor"), #imageLiteral(resourceName: "viewschedule"), #imageLiteral(resourceName: "studyhotspot"), #imageLiteral(resourceName: "messaging"), #imageLiteral(resourceName: "offertutor")]
     var names = ["Immediate Request", "Schedule Tutor", "View Schedule", "Study Hotspot", "Messaging", "Report Tutor"]
     
-    
-    var tutorFirstNames: [String] = []
-    var tutorLastNames: [String] = []
-    var tutorEmails: [String] = []
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
@@ -27,7 +22,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         self.navigationController?.navigationBar.isTranslucent = false
         servicesTableView.tableFooterView = UIView(frame: .zero)
         self.view.backgroundColor = UIColor.lightGray
-        self.servicesTableView.separatorColor = UIColor.lightGray
+        self.servicesTableView.separatorStyle = .none
     }
 
     // Get rid of extra table cells
@@ -116,6 +111,10 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
      */
     func prepTutorList()
     {
+        var tutorFirstNames: [String] = []
+        var tutorLastNames: [String] = []
+        var tutorEmails: [String] = []
+        
         // Set up the post request
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/reporttutorgettutorlist";
         let requestURL = URL(string: server)
@@ -159,9 +158,9 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                             name += " "
                             name += aObject["tutorLastName"] as! String
                             
-                            self.tutorFirstNames.append(aObject["tutorFirstName"] as! String)
-                            self.tutorLastNames.append(aObject["tutorLastName"] as! String)
-                            self.tutorEmails.append(aObject["tutorEmail"] as! String)
+                            tutorFirstNames.append(aObject["tutorFirstName"] as! String)
+                            tutorLastNames.append(aObject["tutorLastName"] as! String)
+                            tutorEmails.append(aObject["tutorEmail"] as! String)
                             
                         }
                     }
@@ -171,9 +170,9 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                     
                     // Set up the sender for the segue
                     var toSend = [[String]]()
-                    toSend.append(self.tutorFirstNames)
-                    toSend.append(self.tutorLastNames)
-                    toSend.append(self.tutorEmails)
+                    toSend.append(tutorFirstNames)
+                    toSend.append(tutorLastNames)
+                    toSend.append(tutorEmails)
                     
                     self.performSegue(withIdentifier: "reportTutor", sender: toSend)
                 }
