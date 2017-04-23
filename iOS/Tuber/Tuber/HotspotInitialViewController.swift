@@ -14,18 +14,22 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
     
     @IBOutlet weak var mapview: MKMapView!
     
+    // Variables for location
     let manager = CLLocationManager();
-    
     var location:CLLocation?
     var myLocation:CLLocationCoordinate2D?
     var haveLocation = false
     
-    var returnedJSON: [String : AnyObject] = [:]
+    // Hotspot Data
+//    var returnedJSON: [String : AnyObject] = [:]
     var ownerEmail: [String] = []
     var hotspotID: [String] = []
     var longitude: [Double] = []
     var latitude: [Double] = []
     
+    /**
+     * This function gets the current location of the user and shows it on the mapview.
+     */
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.location = locations[0]
         
@@ -74,7 +78,9 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         // Dispose of any resources that can be recreated.
     }
     
-    
+    /**
+    * This function takes the user to the hotspot creation form.
+    */
     @IBAction func createNewHotspot(_ sender: Any) {
         
         let latitude = "\(self.location!.coordinate.latitude)"
@@ -88,38 +94,33 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         
     }
     
-    
+    /**
+     * This calls the database to find all nearby hotspots.
+     */
     func findHotspots(_ latitude: String, longitude: String)
     {
+        // Set up the post request
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/findstudyhotspots"
-        
-        //created NSURL
         let requestURL = URL(string: server)
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let defaults = UserDefaults.standard
-        
-        //getting values from text fields
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
         let course = defaults.object(forKey: "selectedCourse") as! String
         
-        //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"latitude\":\"\(latitude)\",\"longitude\":\"\(longitude)\"}"
         
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         print(postParameters)
         
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
@@ -128,12 +129,10 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
                 return;
             }
             
-            //parsing the response
+            // Parsing the response
             do {
-                //print(response)
                 let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
                 
-                //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
                 if let arrJSON = hotspots["studyHotspots"] {
                     if (arrJSON.count > 0) {
                         for index in 0...arrJSON.count-1 {
@@ -142,7 +141,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
                             
                             print(aObject)
                             
-                            //                            self.ownerEmail.append(aObject ["ownerEmail"] as! String)
                             self.ownerEmail.append(aObject ["topic"] as! String)
                             self.hotspotID.append(aObject["hotspotID"] as! String)
                             self.latitude.append(aObject["latitude"] as! Double)
@@ -151,9 +149,8 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
                         }
                     }
                 }
-                print(self.ownerEmail)
-                print(self.hotspotID)
                 
+                // Create the annotations for each hotspot based on it's data
                 OperationQueue.main.addOperation{
                     self.createAnnotations()
                 }
@@ -163,44 +160,38 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
             }
             
         }
-        //executing the task
+        // Executing the task
         task.resume()
     }
     
-    // When user taps on the disclosure button you can perform a segue to navigate to another view controller
+    /**
+     * This calls the database to find the members of the selected hotspot when the info button is pressed on the hotspot anotaion.
+     */
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView{
             
             let hotspotID = (view.annotation?.subtitle!)! as String
             
+            // Set up the post request
             let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/getstudyhotspotmembers"
-            
-            //created NSURL
             let requestURL = NSURL(string: server)
-            
-            //creating NSMutableURLRequest
             let request = NSMutableURLRequest(url: requestURL! as URL)
-            
-            //setting the method to post
             request.httpMethod = "POST"
             
+            // Create the post parameters
             let defaults = UserDefaults.standard
-            
-            //getting values from text fields
             let userEmail = defaults.object(forKey: "userEmail") as! String
             let userToken = defaults.object(forKey: "userToken") as! String
-            
-            //creating the post parameter by concatenating the keys and values from text field
             let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"hotspotID\":\"\(hotspotID)\"}"
             
-            //adding the parameters to request body
+            // Adding the parameters to request body
             request.httpBody = postParameters.data(using: String.Encoding.utf8)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("application/json", forHTTPHeaderField: "Accept")
             
             print(postParameters)
             
-            //creating a task to send the post request
+            // Creating a task to send the post request
             let task = URLSession.shared.dataTask(with: request as URLRequest){
                 data, response, error in
                 
@@ -211,12 +202,10 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
                 
                 var hotspotMembers: [String] = []
                 
-                //parsing the response
+                // Parsing the response
                 do {
-                    //print(response)
                     let members = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
                     
-                    //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
                     if let arrJSON = members["hotspotMembers"] {
                         if (arrJSON.count > 0) {
                             for index in 0...arrJSON.count-1 {
@@ -231,8 +220,8 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
                             }
                         }
                     }
-                    print(hotspotMembers.count)
                     
+                    // Put all the member names in a list format.
                     var memberList = String()
                     if (hotspotMembers.count > 1)
                     {
@@ -248,8 +237,7 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
                         memberList.append(hotspotMembers[0])
                     }
                     
-                    print(memberList)
-                    
+                    // Set up the sender for the segue
                     OperationQueue.main.addOperation{
                         var detailParams: [String] = []
                         
@@ -264,18 +252,18 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
                 }
                 
             }
-            //executing the task
+            // Executing the task
             task.resume()
             
         }
     }
     
-    // Here we add disclosure button inside annotation window
+    /**
+     * This method adds the info button on the hotspot pins
+     */
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
-        print("viewForannotation")
         if annotation is MKUserLocation {
-            //return nil
             return nil
         }
         
@@ -283,7 +271,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         
         if pinView == nil {
-            //println("Pinview was nil")
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
             pinView!.animatesDrop = true
@@ -293,10 +280,12 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         
         pinView?.rightCalloutAccessoryView = button
         
-        
         return pinView
     }
     
+    /**
+     * This method creates the annotations after the data is received from the database
+     */
     func createAnnotations()
     {
         var annotations = [MKPointAnnotation]()
@@ -315,6 +304,9 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         mapview.addAnnotations(annotations)
     }
     
+    /**
+     * This calls the database to find all nearby hotspots.
+     */
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "viewHotspotDetail"
         {

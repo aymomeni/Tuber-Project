@@ -45,7 +45,7 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ClassTableViewCell
         
-        //Set cell text and label
+        //Set cell properties
         cell.classNameLabel.text = classes[indexPath.row]
         cell.classNameLabel.font = UIFont(name: "HelveticaNeue", size: 28.0)!
         cell.messageButton.setImage(#imageLiteral(resourceName: "messaging"), for: .normal)
@@ -57,7 +57,7 @@ class ClassListViewController: UIViewController, UITableViewDataSource, UITableV
             cell.buttonDelegate = self
         }
         
-        //Creates separation between cells
+        // Creates separation between cells
         cell.contentView.backgroundColor = UIColor.lightGray
         let whiteRoundedView : UIView = UIView(frame: CGRect(x: 0, y: 10, width: self.view.frame.size.width - 35, height: 105))
         whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])

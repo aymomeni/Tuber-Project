@@ -11,6 +11,7 @@ import JSQMessagesViewController
 
 class MessageWindowViewController: JSQMessagesViewController {
 
+    // Set on MessageUsersListTableViewController
     var messages = [JSQMessage]()
     var userEmail = ""
     var recipientEmail = ""
@@ -23,10 +24,6 @@ class MessageWindowViewController: JSQMessagesViewController {
         
         self.senderId = userEmail
         self.senderDisplayName = userEmail
-        
-        print(recipientEmail)
-        print(messages)
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,7 +45,6 @@ class MessageWindowViewController: JSQMessagesViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("number of messages: \(messages.count)")
         return messages.count
     }
     
@@ -79,35 +75,29 @@ class MessageWindowViewController: JSQMessagesViewController {
         return nil
     }
     
-    
+    /**
+     * This method adds a sent message to the database.  The parameter is the string message being sent.
+     */
     func sendMessage(messagetext : String)
     {
-        //created NSURL
+        // Set up the post request
         let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/sendmessage")
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let defaults = UserDefaults.standard
-        
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
-        
-        //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"recipientEmail\":\"\(self.recipientEmail)\",\"message\":\"\(messagetext)\"}"
         
-        print(postParameters)
-        
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
@@ -116,12 +106,12 @@ class MessageWindowViewController: JSQMessagesViewController {
                 return;
             }
             let r = response as? HTTPURLResponse
-            print(r?.statusCode)
-//            if (r?.statusCode == 200)
-
-            
+            if (r?.statusCode == 200)
+            {
+                return;
+            }
         }
-        //executing the task
+        // Executing the task
         task.resume()
     }
 

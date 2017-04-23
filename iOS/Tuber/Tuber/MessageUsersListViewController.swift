@@ -14,6 +14,7 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
     
     @IBOutlet weak var usersTableView: UITableView!
     
+    //Set on previous screen
     var emails: [String] = []
     var firstNames: [String] = []
     var lastNames: [String] = []
@@ -32,7 +33,6 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
         self.view.backgroundColor = UIColor.lightGray
         self.usersTableView.separatorStyle = .none
         self.navigationController?.navigationBar.isTranslucent = false
-        // Do any additional setup after loading the view.
     }
     
     override func didReceiveMemoryWarning() {
@@ -50,7 +50,7 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
         
         cell.userNameLabel.text = firstNames[indexPath.row] + " " + lastNames[indexPath.row]
         
-        //Creates separation between cells
+        // Creates separation between cells
         cell.contentView.backgroundColor = UIColor.lightGray
         let whiteRoundedView : UIView = UIView(frame: CGRect(x: 10, y: 10, width: self.view.frame.size.width - 20, height: 70))
         whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
@@ -72,37 +72,31 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
         let selectedOption = currentCell.userNameLabel.text
         
         prepConversation(email: emails[(indexPath?.row)!], name: selectedOption!)
-        
     }
     
+    /**
+     * This method loads a conversation between the current user and another user.  The two parameters are stirings for the recipient's email and name.
+     */
     func prepConversation(email: String, name: String)
     {
-        //created NSURL
+        // Set up the post request
         let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/getmessageconversation")
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let defaults = UserDefaults.standard
-        
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
-        
-        //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"recipientEmail\":\"\(email)\"}"
         
-        print(postParameters)
-        
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
@@ -111,24 +105,17 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
                 return;
             }
             
-            //parsing the response
+            // Parsing the response
             do {
-                print(response)
-                let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                let dbmessages = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
                 
                 var messages = [JSQMessage]()
                 
-                //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
-                if let arrJSON = hotspots["messages"] {
+                if let arrJSON = dbmessages["messages"] {
                     if (arrJSON.count > 0) {
                         for index in 0...arrJSON.count-1 {
-                            
-//                           let aObject = arrJSON[index] as! [NSObject : AnyObject]
+
                             let aObject = arrJSON.objectAt(index) as! [String : AnyObject]
-//                            let currentQuestionDict =
-//                                myQuestionsArray!.objectAtIndex(count) as! [NSObject:AnyObject]
-                            
-                            print(aObject["fromEmail"] as! String)
                             
                             messages.append(JSQMessage(senderId: aObject["fromEmail"] as! String, displayName: aObject["fromEmail"] as! String, text: aObject["message"] as! String))
                             
@@ -136,13 +123,13 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
                     }
                 }
                 
+                // Set up the sender for the segue
                 OperationQueue.main.addOperation{
+                    
                     var toPass = MessageInfo()
                     toPass.recipient = email
                     toPass.messages = messages
                     
-                    
-                    //                    print(toSend)
                     self.performSegue(withIdentifier: "goToMessage", sender: toPass)
                 }
             } catch {
@@ -150,7 +137,7 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
             }
             
         }
-        //executing the task
+        // Executing the task
         task.resume()
     }
 
@@ -161,21 +148,20 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
             
             if let destination = segue.destination as? MessageWindowViewController
             {
-
                 destination.recipientEmail = ""
                 destination.messages = [JSQMessage]()
                 
                 destination.recipientEmail = params.recipient
                 destination.messages = params.messages
-                
-                print("performing segue")
-                //destination.passed = sender as? String
             }
         }
     }
 
 }
 
+/**
+ * This struct is used as the goToMessageSegue sender.
+ */
 struct MessageInfo {
     var recipient = ""
     var messages = [JSQMessage]()

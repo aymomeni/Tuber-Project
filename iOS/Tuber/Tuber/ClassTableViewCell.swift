@@ -8,13 +8,16 @@
 
 import UIKit
 
-protocol ButtonCellDelegate {
+/** 
+ *This delegate allows the cell of the pressed button to be read before performing the button's function.
+ */
+ protocol ButtonCellDelegate {
     func cellTapped(cell: ClassTableViewCell, type: String)
 }
 
 class ClassTableViewCell: UITableViewCell {
 
-    //Student
+    //Student Cells
     @IBOutlet weak var classNameLabel: UILabel!
     @IBOutlet weak var messageButton: UIButton!
     @IBOutlet weak var immediateButton: UIButton!
@@ -22,7 +25,7 @@ class ClassTableViewCell: UITableViewCell {
     @IBOutlet weak var hotspotButton: UIButton!
     
     
-    //Tutor
+    //Tutor Cells
     @IBOutlet weak var tutorClassNameLabel: UILabel!
     @IBOutlet weak var tutorMessageButton: UIButton!
     @IBOutlet weak var tutorImmediateButton: UIButton!
@@ -41,6 +44,7 @@ class ClassTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    // MARK: functions called when the different cell puttons are pressed
     @IBAction func messageButtonPress(_ sender: Any) {
         if let delegate = buttonDelegate {
             delegate.cellTapped(cell: self, type: "Message")

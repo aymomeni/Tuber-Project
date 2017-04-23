@@ -27,27 +27,30 @@ class ScheduleTutorViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    /**
+     * This function prepares the post parameters and the message displayed for the confirmation page.
+     */
     @IBAction func confirmButtonPress(_ sender: Any) {
-        let format = DateFormatter()
-        format.dateFormat = "yyyy-MM-dd HH:mm"
         
+        // Set up the different aspects of the message and post parameter.
         let userEmail = UserDefaults.standard.object(forKey: "userEmail") as! String
         let userToken = UserDefaults.standard.object(forKey: "userToken") as! String
         let course = UserDefaults.standard.object(forKey: "selectedCourse") as! String
-        
-        let datetime = format.string(from: dateDatePicker.date)
         let duration =  durationTextField.text
         let subject = subjectTextField.text
+        
+        let format = DateFormatter()
+        format.dateFormat = "yyyy-MM-dd HH:mm"
+        let datetime = format.string(from: dateDatePicker.date)
+        
+        // The confirmation message for the confirmation page
         let toPass = "Date/Time: " + datetime + " \nDuration (Hours): " + duration! + " \nSubject: " + subject!
-
-     
-        //creating the post parameter by concatenating the keys and values from text field
+        
+        // Post parameter setup if the user confirms on the confirmation page.
         var postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"" + course + "\",\"topic\":\"" + subject!
-        
         postParameters += "\",\"dateTime\":\"" + datetime + "\",\"duration\":\"" + duration! + "\"}"
-        
-        print(datetime)
-        
+
+        // Set up the sender for the segue
         var send: [String] = []
         send.append(toPass)
         send.append(postParameters)
