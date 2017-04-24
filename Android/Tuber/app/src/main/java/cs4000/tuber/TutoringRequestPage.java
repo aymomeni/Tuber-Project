@@ -92,9 +92,7 @@ public class TutoringRequestPage extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(TutoringRequestPage.this, StudentStudySession.class);
                 intent.putExtra("course", getIntent().getStringExtra("course"));
-                //intent.putExtra("status", "0");
                 startActivity(intent);
-                //finish();
             }
         });
     }

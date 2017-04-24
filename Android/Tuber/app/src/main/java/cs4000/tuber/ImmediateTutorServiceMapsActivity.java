@@ -110,7 +110,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                     if(result != null && !result.get("studentEmail").equals(null)){
                         offerToTutorButton.setVisibility(View.INVISIBLE);
 
-                        //if (initial_pairing == true) {
                         // pairing complete
                         final AlertDialog dialog = new AlertDialog.Builder(ImmediateTutorServiceMapsActivity.this)
                                 .setTitle("Paired")
@@ -175,12 +174,8 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                             }
                         }, 4000);
 
-                        //}
-                        //initial_pairing = false;
-
 
                     } else { // no student accepted yet
-//                        Log.i("@checkstatust2", "check status failed!");
 
                         if(tutor_offered && !exited){
                             handler.postDelayed(new Runnable() {
@@ -201,15 +196,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
     }
 
 
-    public void logout(View view) {
-
-//        Log.i("Info", "Logout Tutor Immediate Service");
-        //ParseUser.logOut();
-
-        //Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
-        //startActivity(intent);
-
-    }
+    public void logout(View view) {}
 
 
     @Override
@@ -236,8 +223,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
 
     public void offerToTutor(View view) {
 
-//        Log.i("Info", "Tutor Requested");
-
         // checking if a request is active
         if(tutor_offered){
 
@@ -258,7 +243,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                 public void Done(JSONObject result) {
                     try {
                         if(result != null && result.get("studentEmail").equals(null)){ // offered but hasn't been paired yet - delete from list
-//                            Log.i("@checkstatust3", "check status successful w/EmptyJson");
 
 
                             JSONObject obj2 = new JSONObject();
@@ -271,9 +255,7 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                                 @Override
                                 public void Done(JSONObject result) {
                                     if(result != null){
-//                                        Log.i("@deleteTutor", "delete Tutor successful");
                                     } else {
-//                                        Log.i("@deleteTutor", "delete Tutor failed!");
                                     }
                                 }
                             });
@@ -282,7 +264,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                             offerToTutorButton.setText("Offer to Tutor");
 
                         } else {
-//                            Log.i("@checkstatust3", "check status failed");
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -316,7 +297,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                         @Override
                         public void Done(JSONObject result) {
                             if(result != null){
-//                                Log.i("@OfferToTutor", "Offer to tutor successful");
 
                                 offerToTutorButton.setText("Cancel Offer");
                                 tutor_offered = true;
@@ -324,7 +304,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                                 checkForUpdate2();
 
                             } else {
-//                                Log.i("@OfferToTutor", "Offer to tutor failed!");
                             }
                         }
                     });
@@ -377,7 +356,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
             @Override
             public void Done(JSONObject result) {
                 if(result != null){
-//                    Log.i("@check_session_status", "check session completed");
 
                     try {
 
@@ -410,7 +388,6 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                     }
 
                 } else {
-//                    Log.i("@check_session_status", "check session status failed!"); // has not offered yet
                 }
             }
         });
@@ -537,10 +514,8 @@ public class ImmediateTutorServiceMapsActivity extends FragmentActivity implemen
                         }, 4000);
                     }
 
-//                    Log.i("@onLocationChanged","Location updated successfully");
                 }
                 else {
-//                    Log.i("@onLocationChanged","Location update failed");
                 }
             }
         });

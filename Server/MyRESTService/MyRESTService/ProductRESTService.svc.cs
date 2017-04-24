@@ -7,7 +7,6 @@ using System.Text;
 using MySql.Data.MySqlClient;
 using System.Device.Location;
 using System.Security.Cryptography;
-using System.Globalization;
 using System.Web.Security;
 using System.Net.Mail;
 using System.IO;
@@ -15,8 +14,6 @@ using System.IO;
 
 namespace ToDoList
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "ProductRESTService" in code, svc and config file together.
-    // NOTE: In order to launch WCF Test Client for testing this service, please select ProductRESTService.svc or ProductRESTService.svc.cs at the Solution Explorer and start debugging.
     public class ProductRESTService : IToDoService
     {
         // Active CADE DB
@@ -95,15 +92,6 @@ namespace ToDoList
             }
         }
 
-        /// <summary>
-        /// Verify the user provided the correct credentials to login.
-        /// 
-        /// If correct, respond with response code 200 (OK) and return an UserItem with the fields populated with the user's information.
-        /// 
-        /// If incorrect, respond with response code 401 (Unauthorized) and return an UserItem with the fields set to null.
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         public VerifiedUserItem VerifyUser(UserItem item)
         {
             lock (this)
@@ -222,7 +210,7 @@ namespace ToDoList
                                 }
                             }
 
-                            // Check to see if firebase token was provided, if not, skip this ---- DELETE ME WHEN EVERYONE  GETS MESSAGING WORKING!!!!!!!!!!!
+                            // Check to see if firebase token was provided, if not, skip this
                             if (item.firebaseToken != "" || item.firebaseToken.Length != 0)
                             {
                                 // Verify the user doesn't already have a firebase token, if they do, delete it and store new firebase token.
@@ -1321,10 +1309,6 @@ namespace ToDoList
             }
         }
 
-        /// <summary>
-        /// Method called to remove tutor from the available_tutor table.
-        /// </summary>
-        /// <param name="userEmail"></param>
         public DeleteTutorResponseItem DeleteTutorAvailable(DeleteTutorUserItem item)
         {
             lock (this)
@@ -1476,10 +1460,6 @@ namespace ToDoList
                                         // Calculate distance between tutor and student
                                         double distanceToTutor = studentCoord.GetDistanceTo(tutorCoord);
 
-                                        // Only return tutors that are less than 5 miles from the student
-                                        //if (distanceToTutor < 8046.72)
-                                        //{
-
                                         AvailableTutorUserItem tutor = new AvailableTutorUserItem();
                                         tutor.userEmail = returnedTutorEmail;
                                         tutor.firstName = returnedTutorFirstName;
@@ -1490,7 +1470,6 @@ namespace ToDoList
                                         tutor.distanceFromStudent = distanceToTutor / 1609.34;
 
                                         availableTutors.Add(tutor);
-                                        //}
                                     }
                                 }
 
@@ -1532,7 +1511,6 @@ namespace ToDoList
                                         availableTutors[i].averageRating = returnedAverageRating;
                                     }
                                 }
-
                             }
                             else
                             {
@@ -1749,9 +1727,6 @@ namespace ToDoList
                                         var tutorCoord = new GeoCoordinate(pairedStatus.tutorLatitude, pairedStatus.tutorLongitude);
                                         var studentCoord = new GeoCoordinate(pairedStatus.studentLatitude, pairedStatus.studentLongitude);
 
-                                        // Calculate distance between tutor and student
-                                        //double distanceToTutor = studentCoord.GetDistanceTo(tutorCoord);
-
                                         pairedStatus.distanceFromStudent = studentCoord.GetDistanceTo(tutorCoord) / 1609.34;
 
                                         // Found the tutor in the tutor_sessions_pairing table -- send back the paired student-tutor object for the tutor app to update
@@ -1764,7 +1739,6 @@ namespace ToDoList
                                     command.CommandText = "UPDATE available_tutors SET latitude = ?latitude, longitude = ?longitude WHERE email = ?userEmail";
                                     command.Parameters.AddWithValue("latitude", item.latitude);
                                     command.Parameters.AddWithValue("longitude", item.longitude);
-                                    //command.Parameters.AddWithValue("studentEmail", item.userEmail);
 
                                     if (command.ExecuteNonQuery() > 0)
                                     {
@@ -1816,10 +1790,6 @@ namespace ToDoList
             {
                 if (checkUserToken(item.userEmail, item.userToken))
                 {
-                    // Make sure tutor is eligible to tutor
-                    //if (checkTutorEligibility(item.userEmail))
-                    //{
-                    // Check that the tutor is still available 
                     String returnedStudentEmail = "";
                     String returnedTutorEmail = "";
                     String returnedCourse = "";
@@ -1907,13 +1877,6 @@ namespace ToDoList
                             }
                         }
                     }
-                    //}
-                    //else
-                    //{
-                    //    // User has tutor_eligible set to 0 -- not able to tutor any class
-                    //    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    //    return new PairedStatusItem();
-                    //}
                 }
                 else
                 {
@@ -2496,7 +2459,6 @@ namespace ToDoList
                                             int returnedTutorSessionID = -1;
 
                                             // Get the tutor_session_id
-                                            //command.CommandText = "SELECT tutor_session_id FROM tutor_sessions_completed WHERE studentEmail = ?studentEmail AND tutorEmail = ?tutorEmail AND course = ?course AND session_start_time = ?session_start_time AND session_end_time = ?session_end_time AND session_cost = ?session_cost";
                                             command.CommandText = "SELECT LAST_INSERT_ID() as tutor_session_id FROM tutor_sessions_completed";
                                             using (MySqlDataReader reader = command.ExecuteReader())
                                             {
@@ -2533,7 +2495,6 @@ namespace ToDoList
                                                 endresponse.sessionEndTime = sessionEndTime.ToString();
                                                 endresponse.sessionCost = cost;
                                                 return endresponse;
-                                                //return new EndTutorSessionResponseItem();
                                             }
                                         }
                                         else
@@ -3123,9 +3084,6 @@ namespace ToDoList
 
                                         double distanceToHotspot = studentCoord.GetDistanceTo(hotspotCoord);
 
-                                        // Make sure student is less than 5 miles from the hotspot before adding it to the return list
-                                        //if (distanceToHotspot < 8046.72)
-                                        //{
                                         AvailableStudyHotspotItem hotspot = new AvailableStudyHotspotItem();
                                         hotspot.hotspotID = returnedHotspotID;
                                         hotspot.ownerEmail = returnedOwnerEmail;
@@ -3138,7 +3096,6 @@ namespace ToDoList
                                         hotspot.distanceToHotspot = distanceToHotspot / 1609.34;
 
                                         availableHotspots.Add(hotspot);
-                                        //}
                                     }
                                 }
                             }
@@ -3251,7 +3208,6 @@ namespace ToDoList
                             WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.OK;
                             return new UserHotspotStatusResponseItem();
                         }
-
                     }
                     catch (Exception e)
                     {
@@ -4183,8 +4139,6 @@ namespace ToDoList
                                     }
                                 }
 
-                                //TODO: Add check to make sure session date is the same as the current date
-
                                 if (returnedTutorEmail == item.userEmail && returnedCourseName == item.course)
                                 {
                                     // Remove pairing from tutor_requests_accepted table
@@ -4195,7 +4149,6 @@ namespace ToDoList
                                         // Insert pairing into the tutor_sesssions_pending table
                                         command.CommandText = "INSERT INTO tutor_sessions_pending VALUES (?studentEmail, ?tutorEmail, ?course)";
                                         command.Parameters.AddWithValue("studentEmail", returnedStudentEmail);
-                                        //command.Parameters.AddWithValue("session_start_time", DateTime.Now);
 
                                         if (command.ExecuteNonQuery() > 0)
                                         {
@@ -4284,7 +4237,6 @@ namespace ToDoList
                             command.CommandText = "SELECT * FROM tutor_sessions_pending WHERE studentEmail = ?studentEmail AND course = ?course";
                             command.Parameters.AddWithValue("studentEmail", item.userEmail);
                             command.Parameters.AddWithValue("course", item.course);
-                            //command.Parameters.AddWithValue("dateTime", item.dateTime);
 
                             using (MySqlDataReader reader = command.ExecuteReader())
                             {
@@ -4295,8 +4247,6 @@ namespace ToDoList
                                     returnedCourseName = reader.GetString("course");
                                 }
                             }
-
-                            //TODO: Add check to make sure session date is the same as the current date
 
                             if (returnedStudentEmail == item.userEmail && returnedCourseName == item.course)
                             {
@@ -4354,7 +4304,6 @@ namespace ToDoList
                             }
                         }
                     }
-
                 }
                 else
                 {
@@ -4449,7 +4398,6 @@ namespace ToDoList
                             }
                         }
                     }
-
 
                     // Return the list of tutors that the student met with
                     ReportTutorGetTutorListResponseItem responseList = new ReportTutorGetTutorListResponseItem();

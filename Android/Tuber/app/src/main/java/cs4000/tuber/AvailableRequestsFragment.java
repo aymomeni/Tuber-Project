@@ -122,8 +122,6 @@ public class AvailableRequestsFragment extends Fragment {
         // Attach the adapter to the recyclerview to populate items
         Requests_rv.setAdapter(adapter);
 
-
-        //UpdateList();
         return rootView;
     }
 
@@ -145,13 +143,6 @@ public class AvailableRequestsFragment extends Fragment {
 
 
                     adapter.clear();
-//                    requests.clear();
-//                    studentEmails.clear();
-//                    courses.clear();
-//                    topics.clear();
-//                    dateTimes.clear();
-//                    durations.clear();
-
                     try {
                         JSONArray array = result.getJSONArray("tutorRequestItems");
 
@@ -180,20 +171,12 @@ public class AvailableRequestsFragment extends Fragment {
 
                                 adapter.add(temp1);
 
-//                                requests.add(course + ": " + topic);
-//                                studentEmails.add(studentEmail);
-//                                courses.add(course);
-//                                topics.add(topic);
-//                                dateTimes.add(datetime);
-//                                durations.add(duration);
                             }
 
                         } else {
-                            //requests.add("no available requests found");
                             Toast.makeText(getContext(), "No available requests found", Toast.LENGTH_SHORT).show();
                         }
 
-                        //arrayAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -201,7 +184,6 @@ public class AvailableRequestsFragment extends Fragment {
                 } else {
 
                     // error getting list from server
-
                 }
                 swipeContainer.setRefreshing(false);
             }

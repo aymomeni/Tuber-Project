@@ -45,15 +45,6 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
-//    TimePickerDialog.OnTimeSetListener test = new TimePickerDialog.OnTimeSetListener(){
-//        @Override
-//        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//            //time_finish.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
-//
-//            Toast.makeText(ScheduleATutor.this, String.valueOf(hourOfDay) + ":" + String.valueOf(minute), Toast.LENGTH_LONG).show();
-//        }
-//    };
-
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
@@ -82,7 +73,6 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
             public void onClick(View v) {
 
                 dateTime = dateView.getText().toString() + " " + timeView.getText().toString();
-                //Toast.makeText(ScheduleATutor.this, dateTime + " " + duration, Toast.LENGTH_LONG).show();
 
                 topic = topicTextBox.getText().toString();
                 JSONObject jO = new JSONObject();
@@ -94,12 +84,6 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
                     jO.put("dateTime", dateTime);
                     jO.put("duration", duration);
 
-//                    Log.i("@userEmail",_username);
-//                    Log.i("@userToken",_useToken);
-//                    Log.i("@course",course);
-//                    Log.i("@topic",topic);
-//                    Log.i("@dateTime",dateTime);
-//                    Log.i("@duration",duration);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -135,8 +119,6 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
         if(day <= 9){ str_day = "0" + str_day;}
 
         dateView.setText(year + "-" + str_mon + "-" + str_day);
-
-        //dateView.setEnabled(false);
 
 
         timeView = (EditText) findViewById(R.id.timeEditText2);
@@ -178,8 +160,6 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
     @Override
     public void onTimeComplete(int hour, int minute) {
 
-        //Toast.makeText(ScheduleATutor.this, (hour%12) + ":" + minute + " " + str, Toast.LENGTH_LONG).show();
-
         String str_hour = String.valueOf(hour);
         String str_min = String.valueOf(minute);
 
@@ -191,7 +171,6 @@ public class ScheduleATutor extends AppCompatActivity implements OnCompleteListe
 
     @Override
     public void onDateComplete(int month, int day, int year) {
-        //Toast.makeText(ScheduleATutor.this, month+1 + "/" + day + "/" + year , Toast.LENGTH_LONG).show();
 
         String str_mon = String.valueOf(month+1);
         String str_day = String.valueOf(day);

@@ -77,7 +77,6 @@ public class CourseViewActivityNew extends AppCompatActivity implements ActionBa
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-//        Log.i("CourseViewActivity", "inflating the menu");
         getMenuInflater().inflate(R.menu.activity_main_actions, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -88,13 +87,6 @@ public class CourseViewActivityNew extends AppCompatActivity implements ActionBa
         //Called when a tab is selected
         int nTabSelected = tab.getPosition();
         pager.setCurrentItem(tab.getPosition());
-//        switch (nTabSelected) {
-//            case 0:
-//                setContentView(R.layout.actionbar_tab_1);
-//                break;
-//            case 1:
-//                setContentView(R.layout.actionbar_tab_2);
-//                break;
     }
 
     @Override

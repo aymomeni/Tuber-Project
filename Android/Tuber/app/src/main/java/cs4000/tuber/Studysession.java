@@ -135,18 +135,12 @@ public class Studysession extends AppCompatActivity {
                     if (isChecked) {
                         // The toggle is enabled
                         //do stuff when Switch is ON
-
                         JSONObject sesssion_info = new JSONObject();
                         try {
                             sesssion_info.put("userEmail", _userEmail);
                             sesssion_info.put("userToken", _userToken);
                             sesssion_info.put("course", course);
 
-
-                            //intent.putExtra("from", "scheduling");
-
-                            //String from = intent.getStringExtra("from");
-                            //Log.i("@from",from);
                             if (from != null && from.equals("scheduling")) {
                                 sesssion_info.put("dateTime", intent.getStringExtra("dateTime"));
                                 ConnectionTask task = new ConnectionTask(sesssion_info);
@@ -154,7 +148,6 @@ public class Studysession extends AppCompatActivity {
                                     @Override
                                     public void Done(JSONObject result) {
                                         if (result != null) {
-//                                            Log.i("@start_scheduled_sessin", "session pending!");
                                             status_light.setImageResource(R.drawable.yellow_light);
                                             session_switch.setClickable(false);
                                             Check_sessionStart();
@@ -162,7 +155,6 @@ public class Studysession extends AppCompatActivity {
                                         } else {
                                             automated = true;
                                             session_switch.setChecked(false);
-//                                            Log.i("@start_scheduled_sessin", "start session failed!");
                                         }
                                     }
                                 });
@@ -173,14 +165,12 @@ public class Studysession extends AppCompatActivity {
                                     @Override
                                     public void Done(JSONObject result) {
                                         if (result != null) {
-//                                            Log.i("@start_tutor_session", "session started!");
                                             status_light.setImageResource(R.drawable.yellow_light);
                                             session_switch.setClickable(false);
                                             Check_sessionStart();
                                         } else {
                                             automated = true;
                                             session_switch.setChecked(false);
-//                                            Log.i("@start_tutor_session", "start session failed!");
                                         }
                                     }
                                 });
@@ -233,42 +223,12 @@ public class Studysession extends AppCompatActivity {
                                         AvailableAcceptedRequestPage.getInstance().finish();
                                         //TutoringRequestsPager.getInstance().finish();
                                     }
-//                                    Log.i("@end_tutor_session", "session ended!");
                                 } else {
                                     automated = true;
                                     session_switch.setChecked(true);
-//                                    Log.i("@end_tutor_session", "end session failed!");
                                 }
                             }
                         });
-
-//                        // move to rate the session
-//                        session_switch.setClickable(false);
-//
-//                        statusTextV.setVisibility(View.INVISIBLE);
-//                        status_light.setVisibility(View.INVISIBLE);
-//                        ratingText.setVisibility(View.VISIBLE);
-//                        rating_bar.setVisibility(View.VISIBLE);
-//                        submitRating_button.setVisibility(View.VISIBLE);
-//
-//
-//                        //
-////                        final AlertDialog dialog = new AlertDialog.Builder(Studysession.this)
-////                                .setTitle("Session Ended")
-////                                .setMessage("The cost of the session is: $"+ cost)
-////                                .setCancelable(false)
-////                                .setPositiveButton("Acknowledge", new DialogInterface.OnClickListener() {
-////                                    @Override
-////                                    public void onClick(DialogInterface dialog, int which) {
-////                                        dialog.cancel();
-////                                    }
-////                                }).show();
-//
-//                        Toast.makeText(getBaseContext(),
-//                                "The cost of the session is: $"+ cost,
-//                                Toast.LENGTH_LONG).show();
-//
-//                        Log.i("@end_tutor_session2", cost);
 
                     }
                 }

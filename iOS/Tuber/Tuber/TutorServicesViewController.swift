@@ -7,14 +7,32 @@
 //
 
 import UIKit
+import CoreLocation
 
-class TutorServicesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class TutorServicesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate,CLLocationManagerDelegate {
 
     @IBOutlet weak var servicesTableView: UITableView!
 
     var icons = [#imageLiteral(resourceName: "immediaterequest"), #imageLiteral(resourceName: "scheduletutor"), #imageLiteral(resourceName: "viewschedule"), #imageLiteral(resourceName: "studyhotspot"), #imageLiteral(resourceName: "messaging"), #imageLiteral(resourceName: "offertutor")]
     var names = ["Immediate Request", "Schedule Tutor", "View Schedule", "Study Hotspot", "Messaging", "Report Tutor"]
     
+    
+    let manager = CLLocationManager();
+    
+    var location:CLLocation?;
+    var myLocation:CLLocationCoordinate2D?;
+    var haveLocation = false;
+    
+    var returnedJSON: [String : AnyObject] = [:];
+    var longitude: [Double] = [];
+    var latitude: [Double] = [];
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation])
+    {
+        self.location = locations[0]
+        self.myLocation = CLLocationCoordinate2DMake(location!.coordinate.latitude, location!.coordinate.longitude)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
@@ -23,6 +41,12 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         servicesTableView.tableFooterView = UIView(frame: .zero)
         self.view.backgroundColor = UIColor.lightGray
         self.servicesTableView.separatorStyle = .none
+        
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
+
     }
 
     // Get rid of extra table cells
@@ -83,7 +107,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         
         if selectedOption == "Immediate Request"
         {
-            performSegue(withIdentifier: "immediateRequest", sender: selectedOption)
+            prepareImmediateTutorList()
         }
         else if selectedOption == "Schedule Tutor"
         {
@@ -390,7 +414,115 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                 destination.lastNames = appointmentInfo[2]
             }
         }
+        else if segue.identifier == "immediateRequest"
+        {
+            let tutorInfo = sender as! [[String]]
+            print(tutorInfo[0])
+            print(tutorInfo[1])
+            print(tutorInfo[2])
+            
+            
+            if let destination = segue.destination as? ReportTutorListTableViewController
+            {
+                destination.tutorFirstNames = tutorInfo[0]
+                destination.tutorLastNames = tutorInfo[1]
+                destination.tutorEmails = tutorInfo[2]
+            }
+        }
     }
     
+    func prepareImmediateTutorList()
+    {
+        
+        var tutorFirstNames: [String] = [];
+        var tutorLastNames: [String] = [];
+        var tutorEmails: [String] = [];
+        
+        let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/findavailabletutors";
+        
+        let requestURL = URL(string: server)
+        
+        let request = NSMutableURLRequest(url: requestURL! as URL)
+        
+        request.httpMethod = "POST"
+        
+        let defaults = UserDefaults.standard
+        
+        let userEmail = UserDefaults.standard.object(forKey: "userEmail") as! String
+        let userToken = UserDefaults.standard.object(forKey: "userToken") as! String
+        let course = UserDefaults.standard.object(forKey: "selectedCourse") as! String
+        
+        // let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\"tutorCourse\":\"  \(course)\"latitude\":\"  \(self.location!.coordinate.latitude)\"longitude\":\(self.location!.coordinate.longitude)\"}";
+        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"latitude\":\"\(self.location!.coordinate.latitude)\",\"longitude\":\"\(self.location!.coordinate.longitude)\"}"
+        request.httpBody = postParameters.data(using: String.Encoding.utf8)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        print(postParameters)
+        
+        let task = URLSession.shared.dataTask(with: request as URLRequest)
+        {
+            data, response, error in
+            
+            if error != nil
+            {
+                print("error is \(error)")
+                return;
+            }
+            
+            let r = response as? HTTPURLResponse
+            print(r?.statusCode)
+            
+            do
+            {
+                let tutors = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                
+                //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
+                if let arrJSON = tutors["tutorList"]
+                {
+                    if (arrJSON.count > 0)
+                    {
+                        for index in 0...arrJSON.count-1
+                        {
+                            
+                            let aObject = arrJSON[index] as! [String : AnyObject]
+                            
+                            print(aObject)
+                            
+                            var name = aObject["tutorFirstName"] as! String
+                            name += " "
+                            name += aObject["tutorLastName"] as! String
+                            
+                            tutorFirstNames.append(aObject["tutorFirstName"] as! String)
+                            tutorLastNames.append(aObject["tutorLastName"] as! String)
+                            tutorEmails.append(aObject["tutorEmail"] as! String)
+                            
+                        }
+                    }
+                }
+                OperationQueue.main.addOperation
+                    {
+                    
+                        // Set up the sender for the segue
+                        var toSend = [[String]]()
+                        toSend.append(tutorFirstNames)
+                        toSend.append(tutorLastNames)
+                        toSend.append(tutorEmails)
+                        
+                    self.performSegue(withIdentifier: "immediateRequest", sender: toSend)
+                }
+                
+                return;
+
+            }
+            catch
+            {
+                print(error)
+            }
+        }
+        //executing the task
+        task.resume()
+    }
+
     
 }

@@ -64,30 +64,6 @@ public class MessagingActivity extends AppCompatActivity {
         return recipientEmail;
     }
 
-//    private static Message getRandomMessage() {
-//        Message message;
-//        if (Math.random() < 1.1) {
-//            TextMessage textMessage = new TextMessage();
-//            textMessage.setText(n + ""); // +  ": " + latin[(int) (Math.random() * 10)]);
-//            message = textMessage;
-//        } else {
-//            MediaMessage mediaMessage = new MediaMessage();
-//            mediaMessage.setUrl(urls[(int)(Math.random() * 5)]);
-//            message = mediaMessage;
-//        }
-//        message.setDate(new Date().getTime());
-//        if (Math.random() > 0.5) {
-//            message.setAvatarUrl("https://lh3.googleusercontent.com/-Y86IN-vEObo/AAAAAAAAAAI/AAAAAAAKyAM/6bec6LqLXXA/s0-c-k-no-ns/photo.jpg");
-//            message.setUserId("LP");
-//            message.setSource(MessageSource.EXTERNAL_USER);
-//        } else {
-//            message.setAvatarUrl("https://scontent-lga3-1.xx.fbcdn.net/v/t1.0-9/10989174_799389040149643_722795835011402620_n.jpg?oh=bff552835c414974cc446043ac3c70ca&oe=580717A5");
-//            message.setUserId("MP");
-//            message.setSource(MessageSource.LOCAL_USER);
-//        }
-//        return message;
-//    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -131,10 +107,6 @@ public class MessagingActivity extends AppCompatActivity {
         recipientLastName = intent.getStringExtra("recipientLastname");
         Log.i("@MessageActivity",recipientEmail);
 
-        //msg_body = intent.getStringExtra("MessageBody");
-        //Log.i("@MessageActivity",msg_body);
-
-
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -154,8 +126,6 @@ public class MessagingActivity extends AppCompatActivity {
             }
         };
         if(SharedPrefManager.getInstance((this)).getFCMToken() != null) {
-//            textView.setText(SharedPrefManager.getInstance(MainActivity.this).getToken());
-//            Log.i("@MyFirebaseID",SharedPrefManager.getInstance(MainActivity.this).getToken());
             registerReceiver(broadcastReceiver, new IntentFilter("BROADCAST_ID"));
         }
 
@@ -203,44 +173,7 @@ public class MessagingActivity extends AppCompatActivity {
         });
 
         set_con_megs();
-//        slyceMessagingFragment.setLoadMoreMessagesListener(new LoadMoreMessagesListener() {
-//            @Override
-//            public List<Message> loadMoreMessages() {
-//                Log.d("info", "loadMoreMessages()");
-//                if (!hasLoadedMore) {
-//                    hasLoadedMore = true;
-//                    Log.i("@Message Count", String.valueOf(messages.size()));
-//                    return messages;
-//                } else {
-//                    slyceMessagingFragment.setMoreMessagesExist(false);
-//                    return new ArrayList<>();
-//                }
-//            }
-//        });
-        //slyceMessagingFragment.setMoreMessagesExist(false);
 
-
-
-
-//        try {
-//            Thread.sleep(1000 * 3);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//        ScheduledExecutorService scheduleTaskExecutor = Executors.newScheduledThreadPool(1);
-//        scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
-//            @Override
-//            public void run() {
-//                TextMessage textMessage = new TextMessage();
-//                textMessage.setText("Another message...");
-//                textMessage.setAvatarUrl("https://lh3.googleusercontent.com/-Y86IN-vEObo/AAAAAAAAAAI/AAAAAAAKyAM/6bec6LqLXXA/s0-c-k-no-ns/photo.jpg");
-//                textMessage.setDisplayName(recipientFirstName + " " + recipientLastName);
-//                textMessage.setUserId("LP");
-//                textMessage.setDate(new Date().getTime());
-//                textMessage.setSource(MessageSource.EXTERNAL_USER);
-//                slyceMessagingFragment.addNewMessage(textMessage);
-//            }
-//        }, 3, 3, TimeUnit.SECONDS);
     }
 
     public void set_con_megs(){

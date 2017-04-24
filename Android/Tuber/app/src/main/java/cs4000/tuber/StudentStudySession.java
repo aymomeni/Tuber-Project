@@ -68,9 +68,6 @@ public class StudentStudySession extends Activity {
         _userToken = sharedPreferences.getString("userToken", "");
 
         intent = getIntent();
-        //session_id = intent.getStringExtra("tutorSessionID");
-        //tutorEmail = intent.getStringExtra("tutorEmail");
-
 
         rate_tutor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +127,6 @@ public class StudentStudySession extends Activity {
             @Override
             public void Done(JSONObject result) {
                 if(result != null){
-//                    Log.i("@SSS","Start session student good");
 
                     try {
                         if(result.getString("session_status").equals("pending")){
@@ -149,7 +145,6 @@ public class StudentStudySession extends Activity {
                                                 obj3.put("userEmail", _userEmail);
                                                 obj3.put("userToken", _userToken);
                                                 obj3.put("course", course);
-//											obj2.put("longitude", _studentLong);
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
@@ -158,10 +153,8 @@ public class StudentStudySession extends Activity {
                                                 @Override
                                                 public void Done(JSONObject result) {
                                                     if(result != null) {
-//													Log.i("@STST", "start sessionStudent completed");
                                                         check_for_sessionEnd();
                                                     } else {
-//													Log.i("@STST", "start sessionStudent FAILED");
                                                     }
                                                 }
                                             });
@@ -185,7 +178,6 @@ public class StudentStudySession extends Activity {
                     }
 
                 } else{
-//                    Log.i("@SSS","Start session student bad");
                 }
             }
         });
@@ -219,9 +211,6 @@ public class StudentStudySession extends Activity {
                         cost = result.getString("sessionCost");
 
                         rate_tutor.setEnabled(true);
-//                        Toast.makeText(getBaseContext(),
-//                                "Tutor ended the session, you can now rate him",
-//                                Toast.LENGTH_LONG).show();
 
                         final AlertDialog dialog = new AlertDialog.Builder(StudentStudySession.this)
                                 .setTitle("Session Ended")
@@ -237,7 +226,6 @@ public class StudentStudySession extends Activity {
                         session_id = result.getString("tutorSessionID");
 
                         if(TutoringRequestPage.getInstance() != null) {TutoringRequestPage.getInstance().finish();}
-                        //if(TutoringRequests.getInstance() != null) {TutoringRequests.getInstance().finish();}
 
                     } else if(result != null) {
 
