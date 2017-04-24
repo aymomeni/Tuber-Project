@@ -10,6 +10,8 @@
 		557A02361E674BA6002B0741 /* Registration2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A02331E674BA6002B0741 /* Registration2ViewController.swift */; };
 		557A02371E674BA6002B0741 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A02341E674BA6002B0741 /* RegistrationViewController.swift */; };
 		557A02381E674BA6002B0741 /* ServerRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557A02351E674BA6002B0741 /* ServerRequest.swift */; };
+		557B04EB1EAE9E3800F49CDF /* ImmediateTutorListingTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557B04EA1EAE9E3800F49CDF /* ImmediateTutorListingTableViewController.swift */; };
+		557B04ED1EAE9E6F00F49CDF /* ImmediateTutorListingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557B04EC1EAE9E6E00F49CDF /* ImmediateTutorListingTableViewCell.swift */; };
 		55C962221E96FC74001DF879 /* ListTutorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55C962211E96FC74001DF879 /* ListTutorViewController.swift */; };
 		93CFD9DD506671794D296C28 /* Pods_TuberUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D98FA225CF12659D2BFD1C56 /* Pods_TuberUITests.framework */; };
 		9709067B1DF6B93400C68561 /* ClassListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9709067A1DF6B93400C68561 /* ClassListViewController.swift */; };
@@ -81,6 +83,8 @@
 		557A02331E674BA6002B0741 /* Registration2ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Registration2ViewController.swift; sourceTree = "<group>"; };
 		557A02341E674BA6002B0741 /* RegistrationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		557A02351E674BA6002B0741 /* ServerRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerRequest.swift; sourceTree = "<group>"; };
+		557B04EA1EAE9E3800F49CDF /* ImmediateTutorListingTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImmediateTutorListingTableViewController.swift; sourceTree = "<group>"; };
+		557B04EC1EAE9E6E00F49CDF /* ImmediateTutorListingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImmediateTutorListingTableViewCell.swift; sourceTree = "<group>"; };
 		55C962211E96FC74001DF879 /* ListTutorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListTutorViewController.swift; sourceTree = "<group>"; };
 		8A74A08A0EFBA1D5ABDF30C2 /* Pods_Tuber.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tuber.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9709067A1DF6B93400C68561 /* ClassListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClassListViewController.swift; sourceTree = "<group>"; };
@@ -239,7 +243,9 @@
 				972BC66A1E8A437E001FF9C6 /* ReportTutorFormViewController.swift */,
 				972FAD721EAB595C001EA259 /* TutorClassListViewController.swift */,
 				55C962211E96FC74001DF879 /* ListTutorViewController.swift */,
+				557B04EA1EAE9E3800F49CDF /* ImmediateTutorListingTableViewController.swift */,
 				97EEACC61DF8FDDC007F23B1 /* OfferTutorTableViewController.swift */,
+				557B04EC1EAE9E6E00F49CDF /* ImmediateTutorListingTableViewCell.swift */,
 				972FAD741EAC8677001EA259 /* OfferTutorTableViewCell.swift */,
 				97EEACCC1DF902CD007F23B1 /* TutorViewScheduleTableViewController.swift */,
 				97EEACCA1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift */,
@@ -571,8 +577,10 @@
 				972BC66D1E8ADE00001FF9C6 /* MessageWindowViewController.swift in Sources */,
 				55C962221E96FC74001DF879 /* ListTutorViewController.swift in Sources */,
 				97EEACD11DF908DE007F23B1 /* UnconfirmedAppointmentTutorViewController.swift in Sources */,
+				557B04EB1EAE9E3800F49CDF /* ImmediateTutorListingTableViewController.swift in Sources */,
 				9714011F1DF52DB20099A8DB /* ScheduleTutorConfirmViewController.swift in Sources */,
 				9714011B1DF528490099A8DB /* LoginViewController.swift in Sources */,
+				557B04ED1EAE9E6F00F49CDF /* ImmediateTutorListingTableViewCell.swift in Sources */,
 				971400EF1DF527D60099A8DB /* ViewController.swift in Sources */,
 				9709067B1DF6B93400C68561 /* ClassListViewController.swift in Sources */,
 				972FAD731EAB595C001EA259 /* TutorClassListViewController.swift in Sources */,
