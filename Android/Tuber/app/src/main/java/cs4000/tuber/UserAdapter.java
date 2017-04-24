@@ -19,18 +19,6 @@ import java.util.List;
 public class UserAdapter extends
         RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
-//    public void swapItems(List<Contact> contacts) {
-//        // compute diffs
-//        final ContactDiffCallback diffCallback = new ContactDiffCallback(this.mContacts, contacts);
-//        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-//
-//        // clear contacts and add
-//        this.mContacts.clear();
-//        this.mContacts.addAll(contacts);
-//
-//        diffResult.dispatchUpdatesTo(this); // calls adapter's notify methods after diff is computed
-//    }
-
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -82,8 +70,6 @@ public class UserAdapter extends
     // Clean all elements of the recycler
     public void clear() {
         int curSize = getItemCount();
-        //users.clear();
-        //notifyDataSetChanged();
         for(int i = 0; i < curSize; i++) {
             this.remove(0);
         }
@@ -91,15 +77,6 @@ public class UserAdapter extends
 
     // Add a list of items
     public void addAll(List<User> list) {
-
-//        for (User p: list) {
-//            this.add(p);
-//            try {
-//                Thread.sleep(5000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
 
         int curSize = getItemCount();
         users.addAll(list);
@@ -110,14 +87,12 @@ public class UserAdapter extends
     public void add(User user) {
         users.add(user);
         notifyItemInserted(users.size() - 1);
-        //scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
     // Add a list of items
     public void add(User user, int i) {
         users.add(i, user);
         notifyItemInserted(i);
-        //scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
     // Add a list of items
@@ -125,14 +100,12 @@ public class UserAdapter extends
         int curPos = users.indexOf(user);
         users.remove(user);
         notifyItemRemoved(curPos);
-        //notifyDataSetChanged();
     }
 
     // Add a list of items
     public void remove(int i) {
         users.remove(i);
         notifyItemRemoved(i);
-        //notifyDataSetChanged();
     }
 
     // Usually involves inflating a layout from XML and returning the holder
@@ -158,7 +131,6 @@ public class UserAdapter extends
         if(user.getType().equals("default")){
             // Set item views based on your views and data model
             TextView textView1 = viewHolder.userName;
-            //textView1.setText(user.getUserEmail());
             textView1.setText(user.getFirstName() + " " + user.getLastName());
 
             TextView textView2 = viewHolder.userDistance;
@@ -178,11 +150,9 @@ public class UserAdapter extends
             textView2.setText(user.getFirstName() + " " + user.getLastName());
 
             RatingBar rating_bar = viewHolder.userRating;
-            //rating_bar.setRating(user.getUserRating());
             rating_bar.setVisibility(View.INVISIBLE);
 
             TextView textView3 = viewHolder.numOfRatings;
-            //textView3.setText(String.valueOf(user.getNumOfRatings()));
             textView3.setVisibility(View.INVISIBLE);
         }
     }

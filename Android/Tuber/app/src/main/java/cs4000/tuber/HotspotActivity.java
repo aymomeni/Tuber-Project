@@ -133,23 +133,6 @@ public class HotspotActivity extends AppCompatActivity implements MapViewPager.C
             e.printStackTrace();
         }
 
-
-
-//        SupportMapFragment map = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapFragment);
-//
-//        viewPager = (ViewPager) findViewById(R.id.viewPager);
-//        viewPager.setPageMargin(HotspotUtils.dp(this, 18));
-//        HotspotUtils.setMargins(viewPager, 0, 0, 0, HotspotUtils.getNavigationBarHeight(this));
-//
-//        mvp = new MapViewPager.Builder(this)
-//                .mapFragment(map)
-//                .viewPager(viewPager)
-//                .position(2)
-//                .adapter(new HotspotAdapter(getSupportFragmentManager(), mDataSet))
-//                .callback(this)
-//                .build();
-
-
     }
 
 

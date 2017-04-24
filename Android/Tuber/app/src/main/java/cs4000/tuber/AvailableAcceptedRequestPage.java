@@ -106,8 +106,6 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
 
                                 if (result != null) {
 
-                                    //TutoringRequestsPager.getInstance().finish();
-
                                     Toast.makeText(AvailableAcceptedRequestPage.this, "You have accepted the resquest successfully. You can now view the session"
                                             , Toast.LENGTH_LONG).show();
                                     sessionButton.setText("VIEW SESSION");
@@ -139,7 +137,6 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
                         @Override
                         public void Done(JSONObject result) {
                             if(result != null){
-//                                Log.i("@check_session_status", "check session completed");
 
                                 try {
 
@@ -154,17 +151,14 @@ public class AvailableAcceptedRequestPage extends AppCompatActivity {
                                     }
 
                                     intent2.putExtra("dateTime", dateTime);
-//                                    Log.i("@from","Im HERE ");
                                     intent2.putExtra("from", "scheduling");
                                     intent2.putExtra("course", course);
                                     startActivity(intent2);
-                                    //finish();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
 
                             } else {
-//                                Log.i("@check_session_status", "check session status failed!"); // has not offered yet
                                 Intent intent2 = new Intent(AvailableAcceptedRequestPage.this, Studysession.class);
                                 intent2.putExtra("status", "0");
                                 intent2.putExtra("dateTime", dateTime);

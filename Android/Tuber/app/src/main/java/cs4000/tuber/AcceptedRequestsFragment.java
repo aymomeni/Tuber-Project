@@ -76,7 +76,6 @@ public class AcceptedRequestsFragment extends Fragment {
                 // Your code to refresh the list here.
                 // Make sure you call swipeContainer.setRefreshing(false)
                 // once the network request has completed successfully.
-                //updateListView(getLocation());
                 UpdateList();
             }
         });
@@ -143,12 +142,6 @@ public class AcceptedRequestsFragment extends Fragment {
 
 
                     adapter.clear();
-//                    requests.clear();
-//                    studentEmails.clear();
-//                    courses.clear();
-//                    topics.clear();
-//                    dateTimes.clear();
-//                    durations.clear();
 
                     try {
                         JSONArray array = result.getJSONArray("tutorRequestItems");
@@ -181,11 +174,9 @@ public class AcceptedRequestsFragment extends Fragment {
                             }
 
                         } else {
-                            //requests.add("no available requests found");
                             Toast.makeText(getContext(), "No accepted requests found", Toast.LENGTH_SHORT).show();
                         }
 
-                        //arrayAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -193,7 +184,6 @@ public class AcceptedRequestsFragment extends Fragment {
                 } else {
 
                     // error getting list from server
-
                 }
                 swipeContainer.setRefreshing(false);
             }

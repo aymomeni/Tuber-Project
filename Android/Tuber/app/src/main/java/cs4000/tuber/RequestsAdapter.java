@@ -23,18 +23,6 @@ import java.util.List;
 public class RequestsAdapter extends
         RecyclerView.Adapter<RequestsAdapter.ViewHolder> {
 
-//    public void swapItems(List<Contact> contacts) {
-//        // compute diffs
-//        final ContactDiffCallback diffCallback = new ContactDiffCallback(this.mContacts, contacts);
-//        final DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-//
-//        // clear contacts and add
-//        this.mContacts.clear();
-//        this.mContacts.addAll(contacts);
-//
-//        diffResult.dispatchUpdatesTo(this); // calls adapter's notify methods after diff is computed
-//    }
-
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -86,8 +74,6 @@ public class RequestsAdapter extends
     // Clean all elements of the recycler
     public void clear() {
         int curSize = getItemCount();
-        //Persons.clear();
-        //notifyDataSetChanged();
         for(int i = 0; i < curSize; i++) {
             this.remove(0);
         }
@@ -96,14 +82,6 @@ public class RequestsAdapter extends
     // Add a list of items
     public void addAll(List<Request> list) {
 
-//        for (User p: list) {
-//            this.add(p);
-//            try {
-//                Thread.sleep(5000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }
 
         int curSize = getItemCount();
         Requests.addAll(list);
@@ -114,14 +92,12 @@ public class RequestsAdapter extends
     public void add(Request request) {
         Requests.add(request);
         notifyItemInserted(Requests.size() - 1);
-        //scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
     // Add a list of items
     public void add(Request request, int i) {
         Requests.add(i, request);
         notifyItemInserted(i);
-        //scrollToPosition(mAdapter.getItemCount() - 1);
     }
 
     // Add a list of items
@@ -129,14 +105,12 @@ public class RequestsAdapter extends
         int curPos = Requests.indexOf(request);
         Requests.remove(request);
         notifyItemRemoved(curPos);
-        //notifyDataSetChanged();
     }
 
     // Add a list of items
     public void remove(int i) {
         Requests.remove(i);
         notifyItemRemoved(i);
-        //notifyDataSetChanged();
     }
 
     // Usually involves inflating a layout from XML and returning the holder
@@ -167,11 +141,9 @@ public class RequestsAdapter extends
         textView2.setText(String.valueOf(request.getCourse()));
 
         RatingBar rating_bar = viewHolder.userRating;
-        //rating_bar.setRating(user.getUserRating());
         rating_bar.setVisibility(View.INVISIBLE);
 
         TextView textView3 = viewHolder.numOfRatings;
-        //textView3.setText(String.valueOf(user.getNumOfRatings()));
         textView3.setVisibility(View.INVISIBLE);
     }
 }

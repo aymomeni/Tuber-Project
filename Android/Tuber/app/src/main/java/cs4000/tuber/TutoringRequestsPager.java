@@ -19,10 +19,6 @@ import java.util.Vector;
 
 public class TutoringRequestsPager extends AppCompatActivity {
 
-//    public static TutoringRequestsPager getInstance(){
-//        return activity;
-//    }
-//    static TutoringRequestsPager activity;
 
     private String _userEmail;
     private String _userToken;
@@ -32,8 +28,6 @@ public class TutoringRequestsPager extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutoring_requests_pager);
-
-        //activity = this;
 
         setTitle("");
 
@@ -46,7 +40,6 @@ public class TutoringRequestsPager extends AppCompatActivity {
         try{
             obj2.put("userEmail", _userEmail);
             obj2.put("userToken", _userToken);
-            //obj2.put("course", "CS 2420");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -55,7 +48,6 @@ public class TutoringRequestsPager extends AppCompatActivity {
             @Override
             public void Done(JSONObject result) {
                 if(result != null){
-//                    Log.i("@check_session_status", "check session completed");
                     try {
 
                         String status = result.getString("session_status");
@@ -81,7 +73,6 @@ public class TutoringRequestsPager extends AppCompatActivity {
                     }
 
                 } else {
-//                    Log.i("@check_session_status", "check session status failed!"); // has not offered yet
                     preparePages();
                 }
             }

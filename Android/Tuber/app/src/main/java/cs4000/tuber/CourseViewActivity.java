@@ -63,7 +63,6 @@ public class CourseViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-//        Log.i("CourseViewActivity", "inflating the menu");
         getMenuInflater().inflate(R.menu.activity_main_actions, menu);
         return super.onCreateOptionsMenu(menu);
     }

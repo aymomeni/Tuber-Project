@@ -70,12 +70,6 @@ public class TutorCourseFragment extends Fragment {
 
                             if(v instanceof ImageView) {
 
-//                                if(v.getId() == R.id.ic_offer_tutor_outline){
-//
-//                                    //do something...
-//                                    Toast.makeText(getContext(), "listener Definition missing", Toast.LENGTH_SHORT).show();
-//
-//                                } else
 
                                 if(v.getId() == R.id.ic_scheduled_request) {
 
@@ -120,8 +114,6 @@ public class TutorCourseFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent in = new Intent(getActivity(), InsertActivity.class);
-//                startActivity(in);
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyAlertDialogStyle);
                 builder.setTitle("Add a Course");
                 // I'm using fragment here so I'm using getView() to provide ViewGroup
@@ -183,7 +175,6 @@ public class TutorCourseFragment extends Fragment {
         // Set layout manager to position the items
         recList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //mAdapter.clear();
         // Attach the adapter to the recyclerview to populate items
         recList.setAdapter(mAdapter);
 
@@ -251,14 +242,6 @@ public class TutorCourseFragment extends Fragment {
             public void Done(JSONObject result) {
                 if(result != null) {
 
-//                    for(int i = 0; i < courses.size(); i++){
-//                        RecyclerCourseObject newOffer = new RecyclerCourseObject();
-//                        newOffer.setCourse(courses.get(i));
-//                        newOffer.setSubTitle("Subtitle");
-//                        newOffer.setType("two");
-//
-//                        mAdapter.remove(1);
-//                    }
                     mAdapter.remove(Pos);
 
                 } else {

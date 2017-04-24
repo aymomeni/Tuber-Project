@@ -27,11 +27,6 @@ public class TutoringRequests extends AppCompatActivity {
     RequestsAdapter adapter;
 
 
-//    public static TutoringRequests getInstance(){
-//        return activity;
-//    }
-//    static TutoringRequests activity;
-
     private SharedPreferences sharedPreferences;
     private String _userEmail;
     private String _userToken;
@@ -42,8 +37,6 @@ public class TutoringRequests extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
-
-        //activity = this;
 
         setTitle("My Scheduled Requests");
 
@@ -140,7 +133,6 @@ public class TutoringRequests extends AppCompatActivity {
                         if(status.equals("pending") || status.equals("active")) {
                             Intent intent = new Intent(TutoringRequests.this, StudentStudySession.class);
                             intent.putExtra("course", course);
-                            //intent.putExtra("status", "1");
                             startActivity(intent);
                             finish();
                         } else {
@@ -208,11 +200,9 @@ public class TutoringRequests extends AppCompatActivity {
                             }
 
                         } else {
-                            //requests.add("no scheduled requests found");
                             Toast.makeText(TutoringRequests.this, "No scheduled requests found", Toast.LENGTH_SHORT).show();
                         }
 
-                        //arrayAdapter.notifyDataSetChanged();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -220,7 +210,6 @@ public class TutoringRequests extends AppCompatActivity {
                 } else {
 
                     // error getting list from server
-
                 }
                 swipeContainer.setRefreshing(false);
             }
