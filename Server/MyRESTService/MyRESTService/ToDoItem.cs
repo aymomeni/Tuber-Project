@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-using System.ServiceModel;
 using System.Runtime.Serialization;
 
 
@@ -296,7 +292,7 @@ namespace ToDoList
 
     public class DeleteTutorResponseItem
     {
-       
+
     }
 
     public class StudentTutorRequestItem
@@ -396,7 +392,7 @@ namespace ToDoList
         public string userEmail { get; set; }
 
         [DataMember]
-        public string userToken { get; set; }      
+        public string userToken { get; set; }
 
         [DataMember]
         public string tutorEmail { get; set; }
@@ -532,7 +528,7 @@ namespace ToDoList
 
     public class StartTutorSessionTutorResponseItem
     {
-        
+
     }
 
     public class StartTutorSessionStudentItem
@@ -608,7 +604,7 @@ namespace ToDoList
 
     public class RateTutorResponseItem
     {
-        
+
     }
 
     public class RateStudentItem
@@ -631,7 +627,7 @@ namespace ToDoList
 
     public class RateStudentResponseItem
     {
-        
+
     }
 
     public class GetTutorRatingRequestItem
@@ -794,7 +790,7 @@ namespace ToDoList
 
     public class StudyHotspotJoinResponseItem
     {
-        
+
     }
 
     public class StudyHotspotLeaveItem
@@ -808,7 +804,7 @@ namespace ToDoList
 
     public class StudyHotspotLeaveRequestItem
     {
-        
+
     }
 
     public class StudyHotspotGetMemberItem
@@ -855,7 +851,7 @@ namespace ToDoList
 
     public class StudyHotspotDeleteResponseItem
     {
-        
+
     }
 
     public class ScheduleTutorItem
@@ -881,7 +877,7 @@ namespace ToDoList
 
     public class ScheduleTutorResponseItem
     {
-        
+
     }
 
     public class FindAllScheduleTutorRequestItem
@@ -926,7 +922,7 @@ namespace ToDoList
         public List<ScheduleTutorRequestItem> tutorRequestItems { get; set; }
     }
 
-        public class AcceptStudentScheduleRequestItem
+    public class AcceptStudentScheduleRequestItem
     {
         [DataMember]
         public string userEmail { get; set; }
@@ -1057,7 +1053,7 @@ namespace ToDoList
 
     public class StartScheduledTutorSessionTutorResponseItem
     {
-        
+
     }
 
     public class StartScheduledTutorSessionStudentItem
@@ -1178,10 +1174,10 @@ namespace ToDoList
 
     public class ReportTutorResponseItem
     {
-        
+
     }
 
-    
+
     public class SendMessageRequestItem
     {
         [DataMember]
@@ -1199,7 +1195,7 @@ namespace ToDoList
 
     public class SendMessageResponseItem
     {
-        
+
     }
 
     public class GetMessageConversationRequestItem

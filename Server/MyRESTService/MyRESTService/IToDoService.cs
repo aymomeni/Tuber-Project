@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.ServiceModel.Web;
-using System.Collections;
-using System.Text;
 
 namespace ToDoList
 {
-    // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IProductRESTService" in both code and config file together.
     [ServiceContract]
     public interface IToDoService
     {
@@ -21,12 +14,6 @@ namespace ToDoList
             BodyStyle = WebMessageBodyStyle.Bare)]
         MakeUserItem CreateUser(CreateUserItem data);
 
-        /// <summary>
-        /// Accepts HTTP request to verify user credentials received match what is in the database 
-        /// to allow the user to login to the platform. 
-        /// </summary>
-        /// <param name="data"></param>
-        /// <returns></returns>
         [OperationContract]
         [WebInvoke(Method = "POST",
             UriTemplate = "/verifyuser",
@@ -99,9 +86,6 @@ namespace ToDoList
           BodyStyle = WebMessageBodyStyle.Bare)]
         ForgotPasswordResponseItem ForgotPassword(ForgotPasswordRequestItem data);
 
-        /// <summary>
-        /// Accepts HTTP request to make a tutor available.
-        /// </summary>
         [OperationContract]
         [WebInvoke(Method = "POST",
             UriTemplate = "/maketutoravailable",
