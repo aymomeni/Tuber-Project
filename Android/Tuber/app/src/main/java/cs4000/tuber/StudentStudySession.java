@@ -225,7 +225,7 @@ public class StudentStudySession extends Activity {
 
                         final AlertDialog dialog = new AlertDialog.Builder(StudentStudySession.this)
                                 .setTitle("Session Ended")
-                                .setMessage("Tutor ended the session, you can now rate him. Session Cost is: $"+ cost)
+                                .setMessage("Tutor ended the session, please rate your tutor. Session Cost is: $"+ cost)
                                 .setCancelable(false)
                                 .setPositiveButton("Acknowledge", new DialogInterface.OnClickListener() {
                                     @Override

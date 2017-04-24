@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,16 +37,20 @@ import java.util.ArrayList;
 
 public class HotspotEntryMenuActivity extends Activity {
 
+    public static String mMemberOfHotspotID;
+    public static boolean isMemberOfHotspot = false;
     private Switch mHotspotCreateSwitch;
     private Button mJoinHotspotButton;
     private String mUserEmail;
+    private String mUserHotspotStatus = "null"; // can be "null", "Member", or "Owner"
     private String mUserToken;
     private String mCourse;
     private String mTopicCreateHotspot;
     private String mLocationDescriptionCreatedHotspot;
     private String mHotspotIDCreatedHotspot;
-    private Boolean mCreatedHotspotBool;
-    private Boolean mJoinedHotspotBool;
+    private boolean mFirstCheck = true;
+    private boolean mCreatedHotspotBool;
+    private boolean mJoinedHotspotBool;
     private ProgressDialog mProgressDialog;
     private LocationManager mLocationManager;
     private LocationListener mLocationListener;
@@ -65,6 +70,7 @@ public class HotspotEntryMenuActivity extends Activity {
         mUserEmail = sharedPreferences.getString("userEmail", "");
         mUserToken = sharedPreferences.getString("userToken", "");
         mCourse = getIntent().getStringExtra("course"); // Careful if this returns null (could)
+        mMemberOfHotspotID = "-1";
 
         mLocationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         mLocationListener = new LocationListener() {
@@ -118,42 +124,42 @@ public class HotspotEntryMenuActivity extends Activity {
 
         mLastKnownLocation = getMyLocation();
 
+        mHotspotCreateSwitch = (Switch) findViewById(R.id.create_hotspot_switch);
+
         try {
 
-            String result = userHotspotStatus();
-
+            userHotspotStatus();
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-
-        mJoinHotspotButton = (Button) findViewById(R.id.join_hotspot_button);
-        mJoinHotspotButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Check the shared preference boolean first
-                Log.i(mTAG, getIntent().getStringExtra("course"));
-                Intent intent = new Intent(HotspotEntryMenuActivity.this, HotspotActivity.class);
-                intent.putExtra("course", getIntent().getStringExtra("course"));
-
-                startActivity(intent);
-            }
-        });
-
-        mHotspotCreateSwitch = (Switch) findViewById(R.id.create_hotspot_switch);
         mHotspotCreateSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // create hotspot if not created before. else delete hotspot
-                if(isChecked){
+                if(isChecked && !mFirstCheck){
+
+                    if(isMemberOfHotspot == true) {
+                        new AlertDialog.Builder(HotspotEntryMenuActivity.this)
+                                .setTitle("Info")
+                                .setMessage("You have already joined in a hotspot. First leave that hotspot before you create one.")
+                                .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // continue with delete
+                                        mHotspotCreateSwitch.setChecked(false);
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                        return;
+                    }
+
 
                     final AlertDialog.Builder builder = new AlertDialog.Builder(HotspotEntryMenuActivity.this, R.style.MyAlertDialogStyle);
                     builder.setTitle("Before creating your Study Hotspot...");
                     // I'm using fragment here so I'm using getView() to provide ViewGroup
                     // but you can provide here any other instance of ViewGroup from your Fragment / Activity
-
-                    View view = getWindow().getDecorView().findViewById(android.R.id.content);
                     View viewInflated = LayoutInflater.from(HotspotEntryMenuActivity.this).inflate(R.layout.dialog_create_hotspot, null);
 
                     // Set up the input
@@ -170,7 +176,22 @@ public class HotspotEntryMenuActivity extends Activity {
                             mTopicCreateHotspot = input_topic.getText().toString(); //TODO: do something useful with course name
                             mLocationDescriptionCreatedHotspot = input_location_description.getText().toString();
 
-                            checkDialogueInputTopicLocationDesc(mTopicCreateHotspot, mLocationDescriptionCreatedHotspot);
+                            boolean temp = checkDialogueInputTopicLocationDesc();
+
+                            if(temp == true && mUserHotspotStatus.equals("null")) {
+
+                                try {
+
+                                    createStudyHotspot();
+                                    mUserHotspotStatus = "owner";
+                                    Toast.makeText(getApplicationContext(), (String)"You successfully created a Study Hotspot.", Toast.LENGTH_SHORT).show();
+
+                                } catch(JSONException e) {
+
+                                    e.printStackTrace();
+
+                                }
+                            }
                         }
                     });
                     builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -192,25 +213,42 @@ public class HotspotEntryMenuActivity extends Activity {
                         }
                     });
                     builder.show();
-                    //TODO: if not created yet
-                    mHotspotCreateSwitch.setChecked(false);
 
+                } else if(isChecked == false && !mFirstCheck){
 
-                } else {
-                    //Toast.makeText(getApplicationContext(), (String)"Hotspot Deleted", Toast.LENGTH_SHORT).show();
+                    try {
 
+                        if(mUserHotspotStatus.equals("owner")) {
+                            deleteHotspot();
 
+                        }
+                    } catch(JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-                Log.i("HotspotEntryActivity", "Switch Create hotspot");
             }
         });
+
+        mJoinHotspotButton = (Button) findViewById(R.id.join_hotspot_button);
+        mJoinHotspotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Check the shared preference boolean first
+                Log.i(mTAG, getIntent().getStringExtra("course"));
+                Intent intent = new Intent(HotspotEntryMenuActivity.this, HotspotActivity.class);
+                intent.putExtra("course", getIntent().getStringExtra("course"));
+
+                startActivity(intent);
+            }
+        });
+
 
     }
 
 
-    private void checkDialogueInputTopicLocationDesc(String topic, String locDescrip){
+    private Boolean checkDialogueInputTopicLocationDesc( ){
 
-        if(topic.isEmpty() || locDescrip.isEmpty()) {
+        if(mTopicCreateHotspot.isEmpty() || mLocationDescriptionCreatedHotspot.isEmpty()) {
             mHotspotCreateSwitch.setChecked(false);
             new AlertDialog.Builder(this)
                     .setTitle("Info")
@@ -222,10 +260,10 @@ public class HotspotEntryMenuActivity extends Activity {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
-
+            return false;
         }
 
-        if(topic.length() > 30 || locDescrip.length() > 30) {
+        if(mTopicCreateHotspot.length() > 30 || mLocationDescriptionCreatedHotspot.length() > 30) {
             mHotspotCreateSwitch.setChecked(false);
             new AlertDialog.Builder(this)
                     .setTitle("Info")
@@ -237,7 +275,10 @@ public class HotspotEntryMenuActivity extends Activity {
                     })
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
+            return false;
         }
+
+        return true;
     }
 
     /**
@@ -313,6 +354,11 @@ public class HotspotEntryMenuActivity extends Activity {
                 if(result != null) {
                     //mJoinButton.setText("Join Hotspot");
                     // more needs to happen if join or leave
+                    try {
+                        mHotspotIDCreatedHotspot = result.getString("hotspotID");
+                    } catch(JSONException e) {
+                        e.printStackTrace();
+                    }
                     mProgressDialog.dismiss();
                 } else {
                     Log.e("Create Hotspot", "Null response from server");
@@ -345,7 +391,7 @@ public class HotspotEntryMenuActivity extends Activity {
     *    "hotspotStatus": "owner"
     * }
     */
-    private String userHotspotStatus() throws JSONException {
+    private void userHotspotStatus() throws JSONException {
         mProgressDialog = new ProgressDialog(this, R.style.AppTheme_Dark_Dialog);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setMessage("Refreshing your Hotspot status...");
@@ -362,7 +408,43 @@ public class HotspotEntryMenuActivity extends Activity {
             public void Done(JSONObject result) {
 
                 if(result != null) {
+
                     processHotspotStatus(result);
+
+                    Log.i(mTAG, mUserHotspotStatus);
+
+                    if(mUserHotspotStatus.equals("null")) {
+
+                        mHotspotCreateSwitch.setChecked(false);
+                        mFirstCheck = false;
+                        mProgressDialog.dismiss();
+
+                    } else if(mUserHotspotStatus.equals("member")) {
+
+                        JSONObject tempRes = null;
+                        try {
+                            tempRes = result.getJSONObject("hotspot");
+                        } catch(JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        isMemberOfHotspot = true;
+                        try {
+                            mMemberOfHotspotID = tempRes.getString("hotspotID");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        mFirstCheck = false;
+                        mProgressDialog.dismiss();
+
+                    } else if(mUserHotspotStatus.equals("owner")){
+
+                        mHotspotCreateSwitch.setChecked(true);
+                        mFirstCheck = false;
+                        mProgressDialog.dismiss();
+
+                    }
+
                     mProgressDialog.dismiss();
                 } else {
                     Log.e("Hotspot Status", "Null response from server");
@@ -372,25 +454,24 @@ public class HotspotEntryMenuActivity extends Activity {
             }
         });
 
-        return null;
+        return;
     }
 
     /**
      * Checks the status of hotspot creation and join in this context
      */
-    private String processHotspotStatus(JSONObject result){
+    private void processHotspotStatus(JSONObject result){
 
         JSONObject jsonObject = null;
         ArrayList<HotspotObject> freshlyPulledDataset = new ArrayList<HotspotObject>();
-        String hotspotStatus = "";
 
         Log.i(mTAG, result.toString());
         try {
 
-            hotspotStatus = result.getString("hotspotStatus");
+            mUserHotspotStatus = result.getString("hotspotStatus");
 
-            if(hotspotStatus.equals("null")){
-                return "null";
+            if(mUserHotspotStatus.equals("null")){
+                return;
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -406,6 +487,7 @@ public class HotspotEntryMenuActivity extends Activity {
                     mHostpotObjectCheckStatus.setmCourse(jsonObject.getString("course"));
                     mHostpotObjectCheckStatus.setMdistanceToHotspot(jsonObject.getDouble("distanceToHotspot"));
                     mHostpotObjectCheckStatus.setmHotspotID(jsonObject.getString("hotspotID"));
+                    mHotspotIDCreatedHotspot = jsonObject.getString("hotspotID");
                     mHostpotObjectCheckStatus.setmLatitude(jsonObject.getDouble("latitude"));
                     mHostpotObjectCheckStatus.setmLongitude(jsonObject.getDouble("longitude"));
                     mHostpotObjectCheckStatus.setmOwnerEmail(jsonObject.getString("ownerEmail"));
@@ -413,10 +495,13 @@ public class HotspotEntryMenuActivity extends Activity {
                     mHostpotObjectCheckStatus.setmTopic(jsonObject.getString("topic"));
                     mHostpotObjectCheckStatus.setmLocationDiscription(jsonObject.getString("locationDescription"));
 
+
+
                     Log.i("HS_JSON OBJECT RETURN: ", mHostpotObjectCheckStatus.getmCourse() + " " + mHostpotObjectCheckStatus.getmTopic() + " " + mHostpotObjectCheckStatus.getMdistanceToHotspot() + " " + mHostpotObjectCheckStatus.getmHotspotID() + " " + mHostpotObjectCheckStatus.getmLatitude() + " " +
-                            mHostpotObjectCheckStatus.getmLongitude() + " " + mHostpotObjectCheckStatus.getmOwnerEmail() + " " + mHostpotObjectCheckStatus.getmStudentCount() + " " + hotspotStatus);
+                            mHostpotObjectCheckStatus.getmLongitude() + " " + mHostpotObjectCheckStatus.getmOwnerEmail() + " " + mHostpotObjectCheckStatus.getmStudentCount() + " " + mUserHotspotStatus);
 
                 } catch (JSONException e) {
+                    mProgressDialog.dismiss();
                     e.printStackTrace();
                     Log.e("HotspotFragment", "ERROR parsing returned hotspot JSON");
                 }
@@ -426,7 +511,7 @@ public class HotspotEntryMenuActivity extends Activity {
             e.printStackTrace();
         }
 
-        return hotspotStatus;
+        return;
     }
 
 
@@ -451,14 +536,16 @@ public class HotspotEntryMenuActivity extends Activity {
         me.put("userToken", mUserToken);
         me.put("hotspotID", mHotspotIDCreatedHotspot);
 
+        Log.i(mTAG, me.toString());
         mConnectionTask = new ConnectionTask(me);
         mConnectionTask.delete_study_hotspots(new ConnectionTask.CallBack() {
             @Override
             public void Done(JSONObject result) {
 
                 if(result != null) {
-                    //mJoinButton.setText("Join Hotspot");
-                    // more needs to happen if join or leave
+                    mUserHotspotStatus = "null";
+                    mHotspotCreateSwitch.setChecked(false);
+                    Toast.makeText(getApplicationContext(), (String)"Your Study Hotspot was successfully removed.", Toast.LENGTH_SHORT).show();
                     mProgressDialog.dismiss();
                 } else {
                     Log.e("Delete Hotspot", "Null response");
@@ -466,6 +553,14 @@ public class HotspotEntryMenuActivity extends Activity {
 
             }
         });
+    }
+
+
+    @Override
+    protected void onResume(  ) {
+        super.onResume();
+
+
     }
 
 }

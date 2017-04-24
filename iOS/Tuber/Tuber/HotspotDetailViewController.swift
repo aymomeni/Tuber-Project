@@ -9,54 +9,50 @@
 import UIKit
 
 class HotspotDetailViewController: UIViewController {
-
+    
+    @IBOutlet weak var memberListTextView: UITextView!
+    
+    // Set on HotspotInitialViewController
     var hotspotID: String!
     var memberList: String!
-    @IBOutlet weak var memberListTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         memberListTextView.text = memberList
     }
     
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    
+    /**
+     * This method tell the database that the user is joining a hotspot.
+     */
     @IBAction func joinButtonPress(_ sender: Any) {
+        
+        // Set up the post request
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/joinstudyhotspot"
-        
-        //created NSURL
         let requestURL = URL(string: server)
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let defaults = UserDefaults.standard
-        
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
         let course = defaults.object(forKey: "selectedCourse") as! String
-        
-        //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"hotspotID\":\"\(hotspotID as String)\"}"
         
-        print(postParameters)
-        
-        //adding the parameters to request body
+        //Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
@@ -77,10 +73,10 @@ class HotspotDetailViewController: UIViewController {
                 print(r?.statusCode as Any)
             }
         }
-        //executing the task
+        // Executing the task
         task.resume()
     }
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "joinHotspot"
         {
@@ -88,8 +84,9 @@ class HotspotDetailViewController: UIViewController {
             {
                 print(sender as! String)
                 destination.pageSetup = sender as! String
+                destination.hotspotID = nil
             }
         }
     }
-
+    
 }

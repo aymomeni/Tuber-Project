@@ -12,14 +12,9 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
 
     @IBOutlet weak var optionTableView: UITableView!
     
-    //var passed: String!
-    
     var icons = [#imageLiteral(resourceName: "tutorservices"), #imageLiteral(resourceName: "studyhotspot"), #imageLiteral(resourceName: "discussion"), #imageLiteral(resourceName: "messaging"), #imageLiteral(resourceName: "offertutor")]
     var names = ["Tutor Services", "Study Hotspot", "Discussion Forum", "Messaging", "Offer To Tutor"]
     
-    var emails: [String] = []
-    var firstNames: [String] = []
-    var lastNames: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,34 +77,35 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
         
     }
     
+    /**
+     * This fuction accesses the database to load all of the users for the message list
+     */
     func prepUserList()
     {
-        //created NSURL
+        
+        var emails: [String] = []
+        var firstNames: [String] = []
+        var lastNames: [String] = []
+        
+        // Set up the post request
         let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/getusers")
-        
-        //creating NSMutableURLRequest
         let request = NSMutableURLRequest(url: requestURL! as URL)
-        
-        //setting the method to post
         request.httpMethod = "POST"
         
+        // Create the post parameters
         let defaults = UserDefaults.standard
-        
         let userEmail = defaults.object(forKey: "userEmail") as! String
         let userToken = defaults.object(forKey: "userToken") as! String
         
-        //creating the post parameter by concatenating the keys and values from text field
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\"}"
         
-        print(postParameters)
-        
-        //adding the parameters to request body
+        // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         
-        //creating a task to send the post request
+        // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
             
@@ -118,24 +114,19 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
                 return;
             }
             
-            //parsing the response
+            // Parsing the response
             do {
-                print(response)
-                let hotspots = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
+                let messageUsers = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.allowFragments) as! [String : AnyObject]
                 
-                //self.returnedJSON = hotspots["studyHotspots"] as! [String : AnyObject]{
-                if let arrJSON = hotspots["users"] {
+                if let arrJSON = messageUsers["users"] {
                     if (arrJSON.count > 0) {
                         for index in 0...arrJSON.count-1 {
                             
                             let aObject = arrJSON[index] as! [String : AnyObject]
                             
-                            print(aObject)
-                            
-                            
-                            self.emails.append(aObject["email"] as! String)
-                            self.firstNames.append(aObject["firstName"] as! String)
-                            self.lastNames.append(aObject["lastName"] as! String)
+                            emails.append(aObject["email"] as! String)
+                            firstNames.append(aObject["firstName"] as! String)
+                            lastNames.append(aObject["lastName"] as! String)
                             
                         }
                     }
@@ -143,15 +134,12 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
                 
                 OperationQueue.main.addOperation{
                     
+                    // Set up the sender for the segue
                     var toSend = [[String]]()
+                    toSend.append(emails)
+                    toSend.append(firstNames)
+                    toSend.append(lastNames)
                     
-                    toSend.append(self.emails)
-                    toSend.append(self.firstNames)
-                    toSend.append(self.lastNames)
-                    
-                    print(toSend.count)
-                    
-                    //                    print(toSend)
                     self.performSegue(withIdentifier: "messageUsers", sender: toSend)
                 }
             } catch {
@@ -159,19 +147,15 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
             }
             
         }
-        //executing the task
+        // Executing the task
         task.resume()
         
     }
     
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "messageUsers"
         {
-            let appointmentInfo = sender as! [[String]]
-            print(appointmentInfo[0])
-            //            print(appointmentInfo[1])
-            //            print(appointmentInfo[2])
+            let userInfo = sender as! [[String]]
             
             if let destination = segue.destination as? MessageUsersListViewController
             {
@@ -179,12 +163,9 @@ class ClassOptionsViewController: UIViewController, UITableViewDataSource, UITab
                 destination.firstNames = []
                 destination.lastNames = []
                 
-                destination.emails = appointmentInfo[0]
-                destination.firstNames = appointmentInfo[1]
-                destination.lastNames = appointmentInfo[2]
-                
-                print("performing segue")
-                //destination.passed = sender as? String
+                destination.emails = userInfo[0]
+                destination.firstNames = userInfo[1]
+                destination.lastNames = userInfo[2]
             }
         }
     }

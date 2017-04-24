@@ -7,6 +7,7 @@ package cs4000.tuber;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -22,6 +23,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,6 +57,8 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
     private String mUserToken;
     private String mCourse;
     private Handler mHandler;
+    private Boolean mHotspotOwner;
+    private Boolean mOwnerExistsInDataSet;
     private ViewPager viewPager;
     private MapViewPager mvp;
     private ArrayList<HotspotObject> mDataSet;
@@ -111,11 +115,38 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
 
         ArrayList<String> listElements = new ArrayList<String>();
 
+        // Below loop doesn't need to be done (can be pulled from HotspotEntryActivity)
+        mOwnerExistsInDataSet = false;
+        for(int i = 0; i < mDataSet.size(); i++){
+
+            if(mUserEmail.equals(mDataSet.get(i).getmOwnerEmail())){
+                mOwnerExistsInDataSet = true;
+            }
+        }
+
+        mHotspotOwner = false;
         if(getmDataSet().size() > 0){
             mCourse = mDataSet.get(index).getmCourse();
             listElements.add("Class: " + mDataSet.get(index).getmCourse() + "\n" + "Email: " + mDataSet.get(index).getmOwnerEmail() + "\n" + "Location Description: " + mDataSet.get(index).getmLocationDiscription() + "\n" + "Distance: ~" + String.format("%.1f", mDataSet.get(index).getMdistanceToHotspot()) + " miles" + "\n" +"Student Count: " + mDataSet.get(index).getmStudentCount() + "\n");
             mListAdapter = new ArrayAdapter<String>(getContext(), R.layout.hotspot_fragment_text_elements, listElements);
 
+            if(HotspotEntryMenuActivity.isMemberOfHotspot && mDataSet.get(index).getmHotspotID().equals(HotspotEntryMenuActivity.mMemberOfHotspotID)){
+                mJoinButton.setText("Leave Hotspot");
+            }
+
+            if(mOwnerExistsInDataSet && !mHotspotOwner) {
+                mJoinButton.setClickable(false);
+                mJoinButton.setText("Join Hotspot Disabled");
+                mJoinButton.setBackgroundColor(getResources().getColor(R.color.aluminum));
+                mJoinButton.setAlpha((float)0.4);
+            }
+            if(mDataSet.get(index).getmOwnerEmail().equals(mUserEmail)){
+                mHotspotOwner = true;
+                mJoinButton.setClickable(false);
+                mJoinButton.setText("Your Hotspot");
+                mJoinButton.setAlpha((float).7);
+                mJoinButton.setBackgroundColor(getResources().getColor(R.color.colorAccent_Green));
+            }
             mHotspotInformationListView = (ListView) this.mFragmentView.findViewById(R.id.hotspot_fragment_text_list_view);
 
             mHotspotInformationListView.setAdapter(mListAdapter);
@@ -214,7 +245,20 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
                 Log.i("HotspotFragOnClick", "Clicked " + vp.getCurrentItem());
                 Log.i("HSDataElement", getmDataSet().get(vp.getCurrentItem()).getmOwnerEmail());
                 try{
-                    joinStudyHostpot(getmDataSet().get(vp.getCurrentItem()).getmCourse(), getmDataSet().get(vp.getCurrentItem()).getmHotspotID());
+                    if(HotspotEntryMenuActivity.isMemberOfHotspot == false) {
+                        joinStudyHostpot(getmDataSet().get(vp.getCurrentItem()).getmCourse(), getmDataSet().get(vp.getCurrentItem()).getmHotspotID());
+                    } else {
+                        new AlertDialog.Builder(getActivity())
+                                .setTitle("Info")
+                                .setMessage("You can't join two Hotspots at the same time. First leave the other one.")
+                                .setPositiveButton("Acknowledged", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // continue with delete
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
                 } catch(JSONException e){
                     e.printStackTrace();
                 }
@@ -229,7 +273,7 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
     /**
      * Joins a hotspot
      */
-    private void joinStudyHostpot(String course, String hotspotID) throws JSONException{
+    private void joinStudyHostpot(String course, final String hotspotID) throws JSONException{
 
         mProgressDialog = new ProgressDialog(getContext(), R.style.AppTheme_Dark_Dialog);
         mProgressDialog.setIndeterminate(true);
@@ -250,6 +294,8 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
 
                 if(result != null) {
                     mJoinButton.setText("Leave Hotspot");
+                    HotspotEntryMenuActivity.mMemberOfHotspotID = hotspotID;
+                    HotspotEntryMenuActivity.isMemberOfHotspot = true;
                     // more needs to happen if join or leave
                     mProgressDialog.dismiss();
                 } else {
@@ -283,6 +329,8 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
 
                 if(result != null) {
                     mJoinButton.setText("Join Hotspot");
+                    HotspotEntryMenuActivity.mMemberOfHotspotID = "-1";
+                    HotspotEntryMenuActivity.isMemberOfHotspot = false;
                     // more needs to happen if join or leave
                     mProgressDialog.dismiss();
                 } else {

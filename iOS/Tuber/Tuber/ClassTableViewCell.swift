@@ -8,17 +8,28 @@
 
 import UIKit
 
-protocol ButtonCellDelegate {
+/** 
+ *This delegate allows the cell of the pressed button to be read before performing the button's function.
+ */
+ protocol ButtonCellDelegate {
     func cellTapped(cell: ClassTableViewCell, type: String)
 }
 
 class ClassTableViewCell: UITableViewCell {
 
+    //Student Cells
     @IBOutlet weak var classNameLabel: UILabel!
     @IBOutlet weak var messageButton: UIButton!
     @IBOutlet weak var immediateButton: UIButton!
     @IBOutlet weak var scheduledButton: UIButton!
     @IBOutlet weak var hotspotButton: UIButton!
+    
+    
+    //Tutor Cells
+    @IBOutlet weak var tutorClassNameLabel: UILabel!
+    @IBOutlet weak var tutorMessageButton: UIButton!
+    @IBOutlet weak var tutorImmediateButton: UIButton!
+    @IBOutlet weak var tutorScheduledButton: UIButton!
     
     var buttonDelegate: ButtonCellDelegate?
     
@@ -33,6 +44,7 @@ class ClassTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    // MARK: functions called when the different cell puttons are pressed
     @IBAction func messageButtonPress(_ sender: Any) {
         if let delegate = buttonDelegate {
             delegate.cellTapped(cell: self, type: "Message")
@@ -50,4 +62,23 @@ class ClassTableViewCell: UITableViewCell {
             delegate.cellTapped(cell: self, type: "Hotspot")
         }
     }
+    
+    @IBAction func tutorMessageButtonPress(_ sender: Any) {
+        if let delegate = buttonDelegate {
+            delegate.cellTapped(cell: self, type: "Message")
+        }
+    }
+    
+    @IBAction func tutorImmediateButtonPress(_ sender: Any) {
+        if let delegate = buttonDelegate {
+            delegate.cellTapped(cell: self, type: "Immediate")
+        }
+    }
+    
+    @IBAction func tutorScheduleButtonPress(_ sender: Any) {
+        if let delegate = buttonDelegate {
+            delegate.cellTapped(cell: self, type: "Schedule")
+        }
+    }
+    
 }
