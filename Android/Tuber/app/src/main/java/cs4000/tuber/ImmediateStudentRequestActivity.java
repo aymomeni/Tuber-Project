@@ -86,17 +86,10 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
     private GoogleApiClient client;
 
 
-//    public static ImmediateStudentRequestActivity getInstance(){
-//        return activity;
-//    }
-//    static ImmediateStudentRequestActivity activity;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_users);
-
-        //activity = this;
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         _userEmail = sharedPreferences.getString("userEmail", "");
@@ -204,10 +197,8 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                     @Override
                     public void Done(JSONObject result) {
                         if(result != null){
-//                            Log.i("@onLocationChanged","Location updated successfully");
                         }
                         else {
-//                            Log.i("@onLocationChanged","Location update failed");
                         }
                     }
                 });
@@ -296,7 +287,6 @@ public class ImmediateStudentRequestActivity extends AppCompatActivity {
                                 }
 
                             } else {
-//                                Log.i("Second Thread", "No tutors");
 
                                 Toast.makeText(getBaseContext(), "No active tutors nearby", Toast.LENGTH_LONG).show();
                             }

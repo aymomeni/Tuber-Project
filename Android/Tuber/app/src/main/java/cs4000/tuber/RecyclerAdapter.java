@@ -91,32 +91,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyItemRemoved(i);
     }
 
-//    @Override
-//    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-//
-//        View itemView;
-//        RecyclerView.ViewHolder viewHold;
-//        switch(viewType)
-//        {
-//            case 0:
-//                itemView = LayoutInflater.
-//                        from(viewGroup.getContext()).
-//                        inflate(R.layout.course_layout_linear_student, viewGroup, false);
-//                //itemView.setOnClickListener(mOnClickListener);
-//                viewHold= new DataViewHolder(itemView);
-//                break;
-//
-//            default:
-//                itemView = LayoutInflater.
-//                        from(viewGroup.getContext()).
-//                        inflate(R.layout.course_layout_grid, viewGroup, false);
-//                viewHold= new DataViewHolder2(itemView);
-//                break;
-//        }
-//
-//        return viewHold;
-//    }
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -129,7 +103,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 itemView = LayoutInflater.
                         from(viewGroup.getContext()).
                         inflate(R.layout.course_layout_linear_student, viewGroup, false);
-                //itemView.setOnClickListener(mOnClickListener);
                 viewHold= new DataViewHolder(itemView);
                 break;
 
