@@ -743,7 +743,7 @@
                                 <rect key="frame" x="69" y="217" width="237" height="78"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                <state key="normal" title="View Schedule/Requests">
+                                <state key="normal" title="Return to Homepage">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -755,7 +755,8 @@
                     </view>
                     <connections>
                         <outlet property="messageLabel" destination="asf-2f-Gg1" id="Whe-ch-IiU"/>
-                        <segue destination="j4P-R3-Heg" kind="show" identifier="backToSchedule" id="U4Z-ty-pm8"/>
+                        <segue destination="j4P-R3-Heg" kind="show" identifier="backToSchedule2" id="U4Z-ty-pm8"/>
+                        <segue destination="WYd-Tl-Cfx" kind="show" identifier="backToSchedule" id="CQu-Zg-DMC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="agr-mO-TbP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1892,9 +1893,9 @@
         <segue reference="cud-VO-S3Z"/>
         <segue reference="Mla-t3-nD7"/>
         <segue reference="OEm-4R-y9o"/>
-        <segue reference="EQl-L3-B1Q"/>
         <segue reference="zIX-hI-hVI"/>
         <segue reference="U4Z-ty-pm8"/>
+        <segue reference="CQu-Zg-DMC"/>
         <segue reference="D0B-Yk-HHt"/>
         <segue reference="fpl-Kl-NNA"/>
     </inferredMetricsTieBreakers>

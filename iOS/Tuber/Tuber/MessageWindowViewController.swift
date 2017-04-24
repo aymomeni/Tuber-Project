@@ -15,9 +15,12 @@ class MessageWindowViewController: JSQMessagesViewController {
     var messages = [JSQMessage]()
     var userEmail = ""
     var recipientEmail = ""
+    var recipientName = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.title = recipientName
 
         let defaults = UserDefaults.standard
         userEmail = defaults.object(forKey: "userEmail") as! String

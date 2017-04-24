@@ -127,8 +127,9 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
                 OperationQueue.main.addOperation{
                     
                     var toPass = MessageInfo()
-                    toPass.recipient = email
+                    toPass.recipientEmail = email
                     toPass.messages = messages
+                    toPass.recipient = name
                     
                     self.performSegue(withIdentifier: "goToMessage", sender: toPass)
                 }
@@ -151,8 +152,9 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
                 destination.recipientEmail = ""
                 destination.messages = [JSQMessage]()
                 
-                destination.recipientEmail = params.recipient
+                destination.recipientEmail = params.recipientEmail
                 destination.messages = params.messages
+                destination.recipientName = params.recipient
             }
         }
     }
@@ -165,4 +167,5 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
 struct MessageInfo {
     var recipient = ""
     var messages = [JSQMessage]()
+    var recipientEmail = ""
 }
