@@ -38,17 +38,12 @@ class ActiveSessionViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("in prep")
         if segue.identifier == "endSession"
         {
-            print("prep for segue")
             
             if let destination = segue.destination as? ConfirmedAppointmentTutorViewController
             {
                 destination.labelContents = sender as! [String]
-
-                print(destination.labelContents)
-                print("destinations set")
             }
             
         }

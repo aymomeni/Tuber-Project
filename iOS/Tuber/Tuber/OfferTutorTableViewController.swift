@@ -109,7 +109,6 @@ class OfferTutorTableViewController: UITableViewController {
         else if segue.identifier == "messages"
         {
             let appointmentInfo = sender as! [[String]]
-            print(appointmentInfo[0])
             
             if let destination = segue.destination as? MessageUsersListViewController
             {

@@ -143,9 +143,6 @@ class ReportTutorListTableViewController: UITableViewController {
         if segue.identifier == "viewTutorSessions"
         {
             let appointmentInfo = sender as! [[String]]
-            print(appointmentInfo[0])
-            print(appointmentInfo[1])
-            print(appointmentInfo[2])
             
             if let destination = segue.destination as? ReportTutorSessionsTableViewController
             {
