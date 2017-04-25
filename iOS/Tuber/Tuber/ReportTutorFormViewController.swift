@@ -36,6 +36,16 @@ class ReportTutorFormViewController: UIViewController {
 
     @IBAction func reportButtonPressed(_ sender: Any) {
         
+        //Check that the form was filled out
+        if(messageContents.text == nil || messageContents.text == "")
+        {
+            let alertController = UIAlertController(title: "Cannot Report Tutor", message:
+                "You must write a reason to report a tutor.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return;
+        }
+        
         // Set up the post request
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/reporttutor";
         let requestURL = NSURL(string: server)

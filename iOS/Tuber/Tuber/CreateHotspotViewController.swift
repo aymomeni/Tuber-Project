@@ -40,6 +40,26 @@ class CreateHotspotViewController: UIViewController {
     }
     
     @IBAction func createButtonPressed(_ sender: Any) {
+        
+        // Ensure the form has been filled out.
+        if (topicTextArea.text == nil || topicTextArea.text == "")
+        {
+            let alertController = UIAlertController(title: "Cannot Create Hotspot", message:
+                "You must enter a topic.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return;
+        }
+        
+        if (locationTextArea.text == nil || locationTextArea.text == "")
+        {
+            let alertController = UIAlertController(title: "Cannot Create Hotspot", message:
+                "You must enter a location.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return;
+        }
+        
         // Set up the post request
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/createstudyhotspot"
         let requestURL = URL(string: server)

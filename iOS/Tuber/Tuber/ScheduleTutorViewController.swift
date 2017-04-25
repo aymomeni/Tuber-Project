@@ -37,6 +37,25 @@ class ScheduleTutorViewController: UIViewController {
      */
     @IBAction func confirmButtonPress(_ sender: Any) {
         
+        // Ensure the form has been filled out.
+        if (durationTextField.text == nil || durationTextField.text == "")
+        {
+            let alertController = UIAlertController(title: "Cannot Schedule Tutor", message:
+                "You must enter a duration.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return;
+        }
+        
+        if (subjectTextField.text == nil || subjectTextField.text == "")
+        {
+            let alertController = UIAlertController(title: "Cannot Schedule Tutor", message:
+                "You must enter a subject.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return;
+        }
+        
         // Set up the different aspects of the message and post parameter.
         let userEmail = UserDefaults.standard.object(forKey: "userEmail") as! String
         let userToken = UserDefaults.standard.object(forKey: "userToken") as! String
