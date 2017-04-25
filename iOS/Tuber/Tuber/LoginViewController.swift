@@ -50,8 +50,6 @@ class LoginViewController: UIViewController
                     defaults.set(parseJSON["userTutorCourses"] as! Array<String>?, forKey: "userTutorCourses")
                     defaults.synchronize()
                     
-                    print("Added to defaults")
-                    
                     print(defaults.object(forKey: "userToken")!)
                     
                     OperationQueue.main.addOperation{

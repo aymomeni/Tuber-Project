@@ -110,7 +110,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         }
         else if selectedOption == "Study Hotspot"
         {
-            performSegue(withIdentifier: "studyHotspot", sender: selectedOption)
+            checkHotspotStatus()
         }
         else if selectedOption == "View Schedule"
         {
@@ -509,5 +509,105 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         task.resume()
     }
 
-    
+    func checkHotspotStatus()
+    {
+        var hotspot = Bool()
+        var hotspotID = String()
+        var course = String()
+        var topic = String()
+        var location = String()
+        var ownerString = String()
+        var owner = Bool()
+        
+        // Set up the post request
+        let requestURL = URL(string: "http://tuber-test.cloudapp.net/ProductRESTService.svc/userhotspotstatus")
+        let request = NSMutableURLRequest(url: requestURL! as URL)
+        request.httpMethod = "POST"
+        
+        // Create the post parameters
+        let defaults = UserDefaults.standard
+        let userEmail = defaults.object(forKey: "userEmail") as! String
+        let userToken = defaults.object(forKey: "userToken") as! String
+        
+        let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\"}"
+        
+        // Adding the parameters to request body
+        request.httpBody = postParameters.data(using: String.Encoding.utf8)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        
+        // Creating a task to send the post request
+        let task = URLSession.shared.dataTask(with: request as URLRequest){
+            data, response, error in
+            
+            if error != nil{
+                print("error is \(error)")
+                return;
+            }
+            
+            // Parsing the response
+            do {
+                if let hotspotInfo = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary{
+                    
+                    print(hotspotInfo)
+                    
+                    if let arrJSON = (hotspotInfo as AnyObject)["hotspot"] as? NSDictionary{
+                        hotspot = true
+                        
+                        hotspotID = arrJSON["hotspotID"] as! String
+                        course = arrJSON["course"] as! String
+                        topic = arrJSON["topic"] as! String
+                        location = arrJSON["locationDescription"] as! String
+                        ownerString = arrJSON["ownerEmail"] as! String
+                        
+                        if (ownerString == userEmail)
+                        {
+                            owner = true
+                        }
+                        else
+                        {
+                            owner = false
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    hotspot = false
+                }
+                
+                OperationQueue.main.addOperation{
+                    
+                    if(hotspot)
+                    {
+                        // Set up the sender for the segue
+                        var toSend = [String]()
+                        
+                        toSend.append(hotspotID)
+                        toSend.append("You are in a \(course) hotspot.")
+                        
+                        if (owner)
+                        {
+                            toSend.append("deleteCurrent")
+                        }
+                        else
+                        {
+                            toSend.append("leave")
+                        }
+                        self.performSegue(withIdentifier: "activeHotspot", sender: toSend)
+                    }
+                    else
+                    {
+                        self.performSegue(withIdentifier: "studyHotspot", sender: nil)
+                    }
+                }
+            } catch {
+                print(error)
+            }
+            
+        }
+        // Executing the task
+        task.resume()
+    }
 }

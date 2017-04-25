@@ -130,6 +130,8 @@ class CreateHotspotViewController: UIViewController {
             if let destination = segue.destination as? ActiveHotspotViewController
             {
                 destination.hotspotID = hotspot
+                destination.pageSetup = "delete"
+                destination.messageContents = "Successfully Created Hotspot"
             }
         }
         

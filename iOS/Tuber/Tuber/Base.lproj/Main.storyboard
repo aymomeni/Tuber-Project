@@ -250,6 +250,7 @@
                         <segue destination="G8h-R2-j4Q" kind="show" identifier="studyHotspot" id="xvY-45-0pZ"/>
                         <segue destination="VN2-es-04H" kind="show" identifier="studentOptions" id="Qeu-HF-z8A"/>
                         <segue destination="5A3-JH-NLx" kind="show" identifier="shortcut" id="mwO-BP-tEd"/>
+                        <segue destination="Hk3-0u-4b7" kind="show" identifier="activeHotspot" id="BhZ-ep-QkS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h8S-DZ-GwL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -382,6 +383,7 @@
                         <segue destination="E0a-SZ-0hl" kind="show" identifier="immediateRequest" id="ilO-kN-p9h"/>
                         <segue destination="G8h-R2-j4Q" kind="show" identifier="studyHotspot" id="Qe9-9e-WG7"/>
                         <segue destination="6oR-S3-h7y" kind="show" identifier="messages" id="1NH-cH-9Yx"/>
+                        <segue destination="Hk3-0u-4b7" kind="show" identifier="activeHotspot" id="e7u-DJ-pAe"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="91g-TI-ruF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1999,14 +2001,14 @@
         <segue reference="bTA-8i-ZD6"/>
         <segue reference="U4Z-ty-pm8"/>
         <segue reference="mwO-BP-tEd"/>
-        <segue reference="ChY-K7-Lub"/>
-        <segue reference="DJj-Gt-eJ2"/>
         <segue reference="Qeu-HF-z8A"/>
+        <segue reference="Qe9-9e-WG7"/>
+        <segue reference="OEm-4R-y9o"/>
+        <segue reference="e7u-DJ-pAe"/>
+        <segue reference="1NH-cH-9Yx"/>
         <segue reference="EQl-L3-B1Q"/>
         <segue reference="IiF-Ec-8AC"/>
         <segue reference="bY2-c1-vpM"/>
         <segue reference="Mla-t3-nD7"/>
-        <segue reference="fpl-Kl-NNA"/>
-        <segue reference="D0B-Yk-HHt"/>
     </inferredMetricsTieBreakers>
 </document>
