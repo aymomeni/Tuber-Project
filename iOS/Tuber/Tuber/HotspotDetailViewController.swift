@@ -12,6 +12,7 @@ class HotspotDetailViewController: UIViewController {
     
     @IBOutlet weak var memberListTextView: UITextView!
     
+    @IBOutlet weak var joinHotspotButton: UIButton!
     // Set on HotspotInitialViewController
     var hotspotID: String!
     var memberList: String!
@@ -20,6 +21,10 @@ class HotspotDetailViewController: UIViewController {
         super.viewDidLoad()
         
         memberListTextView.text = memberList
+        joinHotspotButton.backgroundColor = UIColor.darkGray
+        joinHotspotButton.layer.cornerRadius = 5
+        
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
     }
     
     

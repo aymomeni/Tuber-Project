@@ -28,6 +28,10 @@ class ActiveHotspotViewController: UIViewController {
             messageLabel.text = "Successfully Joined Hotspot"
             deletebutton.setTitle("Leave Hotspot", for: .normal)
         }
+        
+        deletebutton.backgroundColor = UIColor.darkGray
+        deletebutton.layer.cornerRadius = 5
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
     }
     
     override func didReceiveMemoryWarning() {

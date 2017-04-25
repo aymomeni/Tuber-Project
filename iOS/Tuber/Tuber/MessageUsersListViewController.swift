@@ -30,7 +30,7 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
         self.usersTableView.delegate = self
         self.usersTableView.dataSource = self
         
-        self.view.backgroundColor = UIColor.lightGray
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         self.usersTableView.separatorStyle = .none
         self.navigationController?.navigationBar.isTranslucent = false
     }
@@ -51,7 +51,7 @@ class MessageUsersListViewController: UIViewController, UITableViewDataSource, U
         cell.userNameLabel.text = firstNames[indexPath.row] + " " + lastNames[indexPath.row]
         
         // Creates separation between cells
-        cell.contentView.backgroundColor = UIColor.lightGray
+        cell.contentView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         let whiteRoundedView : UIView = UIView(frame: CGRect(x: 10, y: 10, width: self.view.frame.size.width - 20, height: 70))
         whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
         whiteRoundedView.layer.masksToBounds = false

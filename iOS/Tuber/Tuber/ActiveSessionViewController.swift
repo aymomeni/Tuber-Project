@@ -11,6 +11,7 @@ import UIKit
 class ActiveSessionViewController: UIViewController {
 
     @IBOutlet weak var startTimeLabel: UILabel!
+    @IBOutlet weak var stopButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +26,10 @@ class ActiveSessionViewController: UIViewController {
         
         startTimeLabel.text = formatter.string(from: currentDateTime)
         
-        // Do any additional setup after loading the view.
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        
+        stopButton.layer.cornerRadius = 5
+        stopButton.layer.borderWidth = 1
     }
 
     override func didReceiveMemoryWarning() {

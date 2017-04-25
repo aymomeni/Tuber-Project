@@ -13,6 +13,7 @@ class ReportTutorFormViewController: UIViewController {
     // Set on ReportTutorSessionsTableViewController
     var tempPostParameters: String = ""
 
+    @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var messageContents: UITextView!
     
     override func viewDidLoad() {
@@ -22,7 +23,10 @@ class ReportTutorFormViewController: UIViewController {
         messageContents!.layer.borderWidth = 1
         messageContents!.layer.borderColor = UIColor.lightGray.cgColor
 
-        // Do any additional setup after loading the view.
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        reportButton.backgroundColor = UIColor.darkGray
+        reportButton.layer.borderWidth = 1
+        reportButton.layer.cornerRadius = 5
     }
 
     override func didReceiveMemoryWarning() {

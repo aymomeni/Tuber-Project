@@ -24,7 +24,7 @@ class StudentViewScheduleTableViewController: UITableViewController {
         
         self.navigationController?.willMove(toParentViewController: TutorServicesViewController())
         
-        self.view.backgroundColor = UIColor.lightGray
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         self.tableView.separatorStyle = .none
         
 //        self.navigationItem.hidesBackButton = true
@@ -61,7 +61,7 @@ class StudentViewScheduleTableViewController: UITableViewController {
         cell.subjectLabel.text = subjects[indexPath.section][indexPath.row]
         
         // Creates separation between cells
-        cell.contentView.backgroundColor = UIColor.lightGray
+        cell.contentView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         let whiteRoundedView : UIView = UIView(frame: CGRect(x: 10, y: 10, width: self.view.frame.size.width - 20, height: 80))
         whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
         whiteRoundedView.layer.masksToBounds = false

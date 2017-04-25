@@ -13,6 +13,7 @@ class ScheduleTutorViewController: UIViewController {
     @IBOutlet weak var dateDatePicker: UIDatePicker!
     @IBOutlet weak var durationTextField: UITextField!
     @IBOutlet weak var subjectTextField: UITextField!
+    @IBOutlet weak var confirmButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,10 @@ class ScheduleTutorViewController: UIViewController {
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
 
         dateDatePicker.minimumDate = Date()
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        
+        confirmButton.layer.cornerRadius = 5
+        confirmButton.layer.borderWidth = 1
     }
 
     override func didReceiveMemoryWarning() {

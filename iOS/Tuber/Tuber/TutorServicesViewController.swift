@@ -39,7 +39,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         
         self.navigationController?.navigationBar.isTranslucent = false
         servicesTableView.tableFooterView = UIView(frame: .zero)
-        self.view.backgroundColor = UIColor.lightGray
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         self.servicesTableView.separatorStyle = .none
         
         manager.delegate = self
@@ -82,7 +82,7 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         cell.optionNameLabel.text = names[indexPath.row]
         
         //Creates separation between cells
-        cell.contentView.backgroundColor = UIColor.lightGray
+        cell.contentView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         let whiteRoundedView : UIView = UIView(frame: CGRect(x: 0, y: 10, width: self.view.frame.size.width - 35, height: 70))
         whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
         whiteRoundedView.layer.masksToBounds = false

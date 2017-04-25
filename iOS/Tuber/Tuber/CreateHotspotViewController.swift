@@ -12,6 +12,7 @@ class CreateHotspotViewController: UIViewController {
 
     @IBOutlet weak var topicTextArea: UITextView!
     @IBOutlet weak var locationTextArea: UITextView!
+    @IBOutlet weak var createHotspotButton: UIButton!
     
     // Set on HotspotInitalViewController
     var latitude: String!
@@ -25,6 +26,12 @@ class CreateHotspotViewController: UIViewController {
         
         locationTextArea!.layer.borderWidth = 1
         locationTextArea!.layer.borderColor = UIColor.lightGray.cgColor
+        
+        createHotspotButton.backgroundColor =  UIColor.darkGray
+        createHotspotButton.layer.cornerRadius = 5
+        createHotspotButton.layer.borderWidth = 1
+        
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
     }
 
     override func didReceiveMemoryWarning() {

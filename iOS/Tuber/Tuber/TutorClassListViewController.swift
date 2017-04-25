@@ -24,7 +24,7 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         
         classTableView.tableFooterView = UIView(frame: .zero)
-        self.view.backgroundColor = UIColor.lightGray
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         self.classTableView.separatorStyle = .none
     }
     
@@ -62,7 +62,7 @@ class TutorClassListViewController: UIViewController, UITableViewDataSource, UIT
         }
         
         // Creates separation between cells
-        cell.contentView.backgroundColor = UIColor.lightGray
+        cell.contentView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         let whiteRoundedView : UIView = UIView(frame: CGRect(x: 0, y: 10, width: self.view.frame.size.width - 35, height: 105))
         whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
         whiteRoundedView.layer.masksToBounds = false

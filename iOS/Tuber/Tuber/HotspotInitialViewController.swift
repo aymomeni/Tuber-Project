@@ -13,6 +13,7 @@ import CoreLocation
 class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var mapview: MKMapView!
+    @IBOutlet weak var createHotspotButton: UIButton!
     
     // Variables for location
     let manager = CLLocationManager();
@@ -62,8 +63,14 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         self.mapview.delegate = self
         
         self.title = "Study Hotspot"
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         
         self.navigationController?.navigationBar.isTranslucent = false
+        
+//        self.createHotspotButton.backgroundColor = UIColor(red: 255/255, green: 153/255, blue: 51/255, alpha: 1)
+        self.createHotspotButton.backgroundColor = UIColor.darkGray
+        self.createHotspotButton.layer.cornerRadius = 5
+        createHotspotButton.layer.borderWidth = 1
         
 //        self.navigationItem.hidesBackButton = true
 //        let newBackButton = UIBarButtonItem(title: "< Courses", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ClassOptionsViewController.back(_:)))

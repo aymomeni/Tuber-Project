@@ -20,6 +20,7 @@ class ConfirmedAppointmentTutorViewController: UIViewController {
     
     var labelContents: [String] = []
 
+    @IBOutlet weak var button: UIButton!
     @IBOutlet weak var messageLabel: UILabel!
     
     override func viewDidLoad() {
@@ -30,6 +31,11 @@ class ConfirmedAppointmentTutorViewController: UIViewController {
         {
             messageLabel.text = "You earned $\(labelContents[1]) for your session with \(labelContents[0])"
         }
+        
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        
+        button.layer.cornerRadius = 5
+        button.layer.borderWidth = 1
     }
 
     override func didReceiveMemoryWarning() {

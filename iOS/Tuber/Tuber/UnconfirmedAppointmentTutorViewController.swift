@@ -29,6 +29,11 @@ class UnconfirmedAppointmentTutorViewController: UIViewController {
         durationLabel.text = TutorViewScheduleTableViewController.selectedAppointment.duration
         subjectLabel.text = TutorViewScheduleTableViewController.selectedAppointment.subject
         acceptStartButton.setTitle(TutorViewScheduleTableViewController.selectedAppointment.buttonLabel, for: .normal)
+        
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        
+        acceptStartButton.layer.cornerRadius = 5
+        acceptStartButton.layer.borderWidth = 1
     }
 
     @IBAction func buttonPressed(_ sender: Any) {

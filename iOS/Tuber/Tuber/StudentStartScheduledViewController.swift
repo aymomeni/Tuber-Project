@@ -13,6 +13,7 @@ class StudentStartScheduledViewController: UIViewController {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var durationLabel: UILabel!
     @IBOutlet weak var subjectLabel: UILabel!
+    @IBOutlet weak var startButton: UIButton!
     
     // Set on StudentViewScheduleTableViewController
     var date: String!
@@ -25,6 +26,12 @@ class StudentStartScheduledViewController: UIViewController {
         dateLabel.text = date
         durationLabel.text = duration
         subjectLabel.text = subject
+        
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        
+        startButton.backgroundColor = UIColor.darkGray
+        startButton.layer.cornerRadius = 5
+        startButton.layer.borderWidth = 1
     }
 
     override func didReceiveMemoryWarning() {
