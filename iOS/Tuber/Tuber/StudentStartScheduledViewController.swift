@@ -52,8 +52,6 @@ class StudentStartScheduledViewController: UIViewController {
         let course = defaults.object(forKey: "selectedCourse") as! String
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\"}"
         
-        print(postParameters)
-        
         // Adding the parameters to request body
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")

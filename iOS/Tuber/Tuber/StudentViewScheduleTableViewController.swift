@@ -97,18 +97,15 @@ class StudentViewScheduleTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("made it")
         if segue.identifier == "sessionInfo"
         {
             let appointmentInfo = sender as! [String]
             
             if let destination = segue.destination as? StudentStartScheduledViewController
             {
-                print("setting")
                 destination.date = appointmentInfo[0]
                 destination.duration = appointmentInfo[1]
                 destination.subject = appointmentInfo[2]
-                print("performing")
             }
         }
     }

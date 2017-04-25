@@ -57,11 +57,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
     // Get rid of extra table cells
     override func viewDidLayoutSubviews(){
         servicesTableView.frame = CGRect(x: servicesTableView.frame.origin.x, y: servicesTableView.frame.origin.y, width: servicesTableView.frame.size.width, height: servicesTableView.contentSize.height)
-        
-//        var frame = self.servicesTableView.frame
-//        frame.size.height = servicesTableView.contentSize.height;
-//        servicesTableView.frame = frame
-        
         servicesTableView.reloadData()
     }
     
@@ -372,9 +367,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         if segue.identifier == "studentViewSchedule"
         {
             let appointmentInfo = sender as! [[[String]]]
-            print(appointmentInfo[0])
-            print(appointmentInfo[1])
-            print(appointmentInfo[2])
             
             if let destination = segue.destination as? StudentViewScheduleTableViewController
             {
@@ -386,9 +378,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         else if segue.identifier == "reportTutor"
         {
             let tutorInfo = sender as! [[String]]
-            print(tutorInfo[0])
-            print(tutorInfo[1])
-            print(tutorInfo[2])
 
             
             if let destination = segue.destination as? ReportTutorListTableViewController
@@ -401,7 +390,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         else if segue.identifier == "messages"
         {
             let appointmentInfo = sender as! [[String]]
-            print(appointmentInfo[0])
             
             if let destination = segue.destination as? MessageUsersListViewController
             {
@@ -417,9 +405,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         else if segue.identifier == "immediateRequest"
         {
             let tutorInfo = sender as! [[String]]
-            print(tutorInfo[0])
-            print(tutorInfo[1])
-            print(tutorInfo[2])
             
             
             if let destination = segue.destination as? ReportTutorListTableViewController
@@ -448,9 +433,9 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         
         let defaults = UserDefaults.standard
         
-        let userEmail = UserDefaults.standard.object(forKey: "userEmail") as! String
-        let userToken = UserDefaults.standard.object(forKey: "userToken") as! String
-        let course = UserDefaults.standard.object(forKey: "selectedCourse") as! String
+        let userEmail = defaults.object(forKey: "userEmail") as! String
+        let userToken = defaults.object(forKey: "userToken") as! String
+        let course = defaults.object(forKey: "selectedCourse") as! String
         
         // let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\"tutorCourse\":\"  \(course)\"latitude\":\"  \(self.location!.coordinate.latitude)\"longitude\":\(self.location!.coordinate.longitude)\"}";
         let postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"course\":\"\(course)\",\"latitude\":\"\(self.location!.coordinate.latitude)\",\"longitude\":\"\(self.location!.coordinate.longitude)\"}"

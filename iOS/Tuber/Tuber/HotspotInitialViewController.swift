@@ -67,7 +67,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         
         self.navigationController?.navigationBar.isTranslucent = false
         
-//        self.createHotspotButton.backgroundColor = UIColor(red: 255/255, green: 153/255, blue: 51/255, alpha: 1)
         self.createHotspotButton.backgroundColor = UIColor.darkGray
         self.createHotspotButton.layer.cornerRadius = 5
         createHotspotButton.layer.borderWidth = 1
@@ -125,8 +124,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         request.httpBody = postParameters.data(using: String.Encoding.utf8)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        print(postParameters)
         
         // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
@@ -196,8 +193,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
             request.httpBody = postParameters.data(using: String.Encoding.utf8)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("application/json", forHTTPHeaderField: "Accept")
-            
-            print(postParameters)
             
             // Creating a task to send the post request
             let task = URLSession.shared.dataTask(with: request as URLRequest){
@@ -319,8 +314,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         if segue.identifier == "viewHotspotDetail"
         {
             let appointmentInfo = sender as! [String]
-            print(appointmentInfo[0])
-            print(appointmentInfo[1])
             
             if let destination = segue.destination as? HotspotDetailViewController
             {
