@@ -42,6 +42,8 @@
 		975747B31EA2B7E80040E6FB /* CAPSPageMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975747B21EA2B7E80040E6FB /* CAPSPageMenu.swift */; };
 		975747B51EA2B8620040E6FB /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975747B41EA2B8620040E6FB /* MainScreenViewController.swift */; };
 		976092211EB0222D008048ED /* SchduleTutorConfirmedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976092201EB0222D008048ED /* SchduleTutorConfirmedViewController.swift */; };
+		976092231EB0326D008048ED /* ReportTutorCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976092221EB0326D008048ED /* ReportTutorCompleteViewController.swift */; };
+		976092251EB03288008048ED /* StudentScheduledSessionCompleteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976092241EB03288008048ED /* StudentScheduledSessionCompleteViewController.swift */; };
 		976DC37E1E6D6FF100F1ACE6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 976DC37D1E6D6FF100F1ACE6 /* GoogleService-Info.plist */; };
 		9784AC021E6814F200691377 /* ReportTutorListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9784AC011E6814F200691377 /* ReportTutorListTableViewController.swift */; };
 		9784AC041E68152600691377 /* ReportTutorListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9784AC031E68152600691377 /* ReportTutorListTableViewCell.swift */; };
@@ -122,6 +124,8 @@
 		975747B21EA2B7E80040E6FB /* CAPSPageMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CAPSPageMenu.swift; sourceTree = "<group>"; };
 		975747B41EA2B8620040E6FB /* MainScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
 		976092201EB0222D008048ED /* SchduleTutorConfirmedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SchduleTutorConfirmedViewController.swift; sourceTree = "<group>"; };
+		976092221EB0326D008048ED /* ReportTutorCompleteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTutorCompleteViewController.swift; sourceTree = "<group>"; };
+		976092241EB03288008048ED /* StudentScheduledSessionCompleteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentScheduledSessionCompleteViewController.swift; sourceTree = "<group>"; };
 		976DC37D1E6D6FF100F1ACE6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9784AC011E6814F200691377 /* ReportTutorListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTutorListTableViewController.swift; sourceTree = "<group>"; };
 		9784AC031E68152600691377 /* ReportTutorListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportTutorListTableViewCell.swift; sourceTree = "<group>"; };
@@ -244,6 +248,8 @@
 				9784AC031E68152600691377 /* ReportTutorListTableViewCell.swift */,
 				972BC6681E8A3BC9001FF9C6 /* ReportTutorSessionsTableViewController.swift */,
 				972BC66A1E8A437E001FF9C6 /* ReportTutorFormViewController.swift */,
+				976092221EB0326D008048ED /* ReportTutorCompleteViewController.swift */,
+				976092241EB03288008048ED /* StudentScheduledSessionCompleteViewController.swift */,
 				972FAD721EAB595C001EA259 /* TutorClassListViewController.swift */,
 				55C962211E96FC74001DF879 /* ListTutorViewController.swift */,
 				557B04EA1EAE9E3800F49CDF /* ImmediateTutorListingTableViewController.swift */,
@@ -599,6 +605,7 @@
 				97EEACCF1DF90825007F23B1 /* ConfirmedAppointmentTutorViewController.swift in Sources */,
 				9714011D1DF52C130099A8DB /* ScheduleTutorViewController.swift in Sources */,
 				972BC6691E8A3BC9001FF9C6 /* ReportTutorSessionsTableViewController.swift in Sources */,
+				976092251EB03288008048ED /* StudentScheduledSessionCompleteViewController.swift in Sources */,
 				971400ED1DF527D60099A8DB /* AppDelegate.swift in Sources */,
 				972FAD751EAC8677001EA259 /* OfferTutorTableViewCell.swift in Sources */,
 				972BC6751E9702D1001FF9C6 /* MessageUsersListTableViewCell.swift in Sources */,
@@ -606,6 +613,7 @@
 				557A02371E674BA6002B0741 /* RegistrationViewController.swift in Sources */,
 				97A072E31E324FA900D91130 /* ImmediateTutorRequestViewController.swift in Sources */,
 				971CE55E1E431BBF00CB2324 /* HotspotInitialViewController.swift in Sources */,
+				976092231EB0326D008048ED /* ReportTutorCompleteViewController.swift in Sources */,
 				97EEACC71DF8FDDC007F23B1 /* OfferTutorTableViewController.swift in Sources */,
 				972BC66B1E8A437E001FF9C6 /* ReportTutorFormViewController.swift in Sources */,
 				97EEACCB1DF902B5007F23B1 /* TutorViewScheduleTableViewCell.swift in Sources */,

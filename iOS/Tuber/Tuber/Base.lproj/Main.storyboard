@@ -778,7 +778,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="agr-mO-TbP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4464.8000000000002" y="744.3778110944528"/>
+            <point key="canvasLocation" x="5030" y="682"/>
         </scene>
         <!--Schedule Tutor Confirm View Controller-->
         <scene sceneID="bgf-Mi-iDI">
@@ -1696,10 +1696,10 @@
             </objects>
             <point key="canvasLocation" x="5199.1999999999998" y="-1513.4932533733136"/>
         </scene>
-        <!--View Controller-->
+        <!--Report Tutor Complete View Controller-->
         <scene sceneID="vwe-fA-hIr">
             <objects>
-                <viewController id="6qK-0S-gZE" sceneMemberID="viewController">
+                <viewController id="6qK-0S-gZE" customClass="ReportTutorCompleteViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="D1Z-y7-ipR"/>
                         <viewControllerLayoutGuide type="bottom" id="d9B-fz-RAd"/>
@@ -1932,10 +1932,10 @@
             </objects>
             <point key="canvasLocation" x="1086" y="1046"/>
         </scene>
-        <!--View Controller-->
+        <!--Student Scheduled Session Complete View Controller-->
         <scene sceneID="hgJ-9o-25T">
             <objects>
-                <viewController id="dQf-A7-vyd" sceneMemberID="viewController">
+                <viewController id="dQf-A7-vyd" customClass="StudentScheduledSessionCompleteViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Co6-AR-xGx"/>
                         <viewControllerLayoutGuide type="bottom" id="LWX-78-OxC"/>
@@ -1998,14 +1998,14 @@
         <image name="tuberlogo" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bTA-8i-ZD6"/>
+        <segue reference="zIX-hI-hVI"/>
         <segue reference="U4Z-ty-pm8"/>
         <segue reference="mwO-BP-tEd"/>
         <segue reference="Qeu-HF-z8A"/>
         <segue reference="OEm-4R-y9o"/>
         <segue reference="e7u-DJ-pAe"/>
         <segue reference="1NH-cH-9Yx"/>
-        <segue reference="RFQ-rj-nBO"/>
+        <segue reference="EQl-L3-B1Q"/>
         <segue reference="D0B-Yk-HHt"/>
         <segue reference="IiF-Ec-8AC"/>
         <segue reference="bY2-c1-vpM"/>

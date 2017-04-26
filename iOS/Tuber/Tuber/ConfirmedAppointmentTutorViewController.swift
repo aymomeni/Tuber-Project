@@ -36,6 +36,22 @@ class ConfirmedAppointmentTutorViewController: UIViewController {
         
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 1
+        
+        var navArray:Array = (self.navigationController?.viewControllers)!
+        if(navArray[navArray.count - 2] is UnconfirmedAppointmentTutorViewController)
+        {
+            navArray.remove(at: navArray.count - 2)
+            navArray.remove(at: navArray.count - 2)
+            self.navigationController?.viewControllers = navArray
+        }
+        else if (navArray[navArray.count - 2] is ActiveHotspotViewController)
+        {
+            navArray.remove(at: navArray.count - 2)
+            navArray.remove(at: navArray.count - 2)
+            navArray.remove(at: navArray.count - 2)
+            
+            self.navigationController?.viewControllers = navArray
+        }
     }
 
     override func didReceiveMemoryWarning() {

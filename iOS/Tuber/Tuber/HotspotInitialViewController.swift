@@ -34,20 +34,19 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.location = locations[0]
         
-        let span:MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
-        self.myLocation = CLLocationCoordinate2DMake(location!.coordinate.latitude, location!.coordinate.longitude)
-        
-        let region:MKCoordinateRegion = MKCoordinateRegionMake(self.myLocation!, span)
-        
-        mapview.setRegion(region, animated: true)
-        
-        self.mapview.showsUserLocation = true
-        
         if (!haveLocation)
         {
+            let span:MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
+            self.myLocation = CLLocationCoordinate2DMake(location!.coordinate.latitude, location!.coordinate.longitude)
+            
+            let region:MKCoordinateRegion = MKCoordinateRegionMake(self.myLocation!, span)
+            
+            mapview.setRegion(region, animated: true)
             findHotspots(String(location!.coordinate.latitude), longitude: String(location!.coordinate.longitude))
             self.haveLocation = true
         }
+        
+        self.mapview.showsUserLocation = true
     }
     
     override func viewDidLoad() {
