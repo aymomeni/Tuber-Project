@@ -46,6 +46,8 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.requestWhenInUseAuthorization()
         manager.startUpdatingLocation()
+        
+        let navArray:Array = (self.navigationController?.viewControllers)!
 
     }
 
@@ -412,6 +414,17 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
                 destination.tutorFirstNames = tutorInfo[0]
                 destination.tutorLastNames = tutorInfo[1]
                 destination.tutorEmails = tutorInfo[2]
+            }
+        }
+        if segue.identifier == "activeHotspot"
+        {
+            let hotspotInfo = sender as! [String]
+            
+            if let destination = segue.destination as? ActiveHotspotViewController
+            {
+                destination.hotspotID = hotspotInfo[0]
+                destination.messageContents = hotspotInfo[1]
+                destination.pageSetup = hotspotInfo [2]
             }
         }
     }

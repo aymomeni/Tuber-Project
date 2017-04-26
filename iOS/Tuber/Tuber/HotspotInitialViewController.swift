@@ -71,13 +71,13 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         self.createHotspotButton.layer.cornerRadius = 5
         createHotspotButton.layer.borderWidth = 1
         
-//        self.navigationItem.hidesBackButton = true
-//        let newBackButton = UIBarButtonItem(title: "< Courses", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ClassOptionsViewController.back(_:)))
-//        self.navigationItem.leftBarButtonItem = newBackButton
-    }
-    
-    func back(_ sender: UIBarButtonItem) {
-        _ = navigationController?.popToRootViewController(animated: true)
+        var navArray:Array = (self.navigationController?.viewControllers)!
+        if(navArray[navArray.count - 2] is ActiveHotspotViewController)
+        {
+            navArray.remove(at: navArray.count - 2)
+            
+            self.navigationController?.viewControllers = navArray
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -143,8 +143,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
                         for index in 0...arrJSON.count-1 {
                             
                             let aObject = arrJSON[index] as! [String : AnyObject]
-                            
-                            print(aObject)
                             
                             self.ownerEmail.append(aObject ["topic"] as! String)
                             self.hotspotID.append(aObject["hotspotID"] as! String)

@@ -833,10 +833,10 @@
             </objects>
             <point key="canvasLocation" x="5653.6000000000004" y="208.24587706146929"/>
         </scene>
-        <!--View Controller-->
+        <!--Schdule Tutor Confirmed View Controller-->
         <scene sceneID="WUr-8d-jTq">
             <objects>
-                <viewController id="Raa-BZ-4eN" sceneMemberID="viewController">
+                <viewController id="Raa-BZ-4eN" customClass="SchduleTutorConfirmedViewController" customModule="Tuber" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="pwd-jo-Aa4"/>
                         <viewControllerLayoutGuide type="bottom" id="2eF-UW-yXX"/>
@@ -2002,11 +2002,11 @@
         <segue reference="U4Z-ty-pm8"/>
         <segue reference="mwO-BP-tEd"/>
         <segue reference="Qeu-HF-z8A"/>
-        <segue reference="Qe9-9e-WG7"/>
         <segue reference="OEm-4R-y9o"/>
         <segue reference="e7u-DJ-pAe"/>
         <segue reference="1NH-cH-9Yx"/>
-        <segue reference="EQl-L3-B1Q"/>
+        <segue reference="RFQ-rj-nBO"/>
+        <segue reference="D0B-Yk-HHt"/>
         <segue reference="IiF-Ec-8AC"/>
         <segue reference="bY2-c1-vpM"/>
         <segue reference="Mla-t3-nD7"/>

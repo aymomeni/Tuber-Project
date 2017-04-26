@@ -40,6 +40,15 @@ class ActiveHotspotViewController: UIViewController {
         deletebutton.layer.cornerRadius = 5
         deletebutton.layer.borderWidth = 1
         self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        
+        var navArray:Array = (self.navigationController?.viewControllers)!
+        if(navArray[navArray.count - 2] is HotspotDetailViewController || navArray[navArray.count - 2] is CreateHotspotViewController)
+        {
+            navArray.remove(at: navArray.count - 2)
+            navArray.remove(at: navArray.count - 2)
+            
+            self.navigationController?.viewControllers = navArray
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,7 +69,6 @@ class ActiveHotspotViewController: UIViewController {
         let userToken = defaults.object(forKey: "userToken") as! String
         var postParameters = String()
         
-//        if (messageLabel.text == "Successfully Created Hotspot")
         if (pageSetup != nil && pageSetup == "leave")
         {
             server.append("leavestudyhotspot")
