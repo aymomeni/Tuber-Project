@@ -563,8 +563,6 @@ class TutorServicesViewController: UIViewController, UITableViewDataSource, UITa
             do {
                 if let hotspotInfo = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary{
                     
-                    print(hotspotInfo)
-                    
                     if let arrJSON = (hotspotInfo as AnyObject)["hotspot"] as? NSDictionary{
                         hotspot = true
                         

@@ -22,7 +22,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
     var haveLocation = false
     
     // Hotspot Data
-//    var returnedJSON: [String : AnyObject] = [:]
     var ownerEmail: [String] = []
     var hotspotID: [String] = []
     var longitude: [Double] = []
