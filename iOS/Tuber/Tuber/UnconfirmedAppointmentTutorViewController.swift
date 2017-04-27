@@ -29,6 +29,11 @@ class UnconfirmedAppointmentTutorViewController: UIViewController {
         durationLabel.text = TutorViewScheduleTableViewController.selectedAppointment.duration
         subjectLabel.text = TutorViewScheduleTableViewController.selectedAppointment.subject
         acceptStartButton.setTitle(TutorViewScheduleTableViewController.selectedAppointment.buttonLabel, for: .normal)
+        
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        
+        acceptStartButton.layer.cornerRadius = 5
+        acceptStartButton.layer.borderWidth = 1
     }
 
     @IBAction func buttonPressed(_ sender: Any) {
@@ -51,12 +56,6 @@ class UnconfirmedAppointmentTutorViewController: UIViewController {
      */
     func startSession()
     {
-        print(dateLabel.text!)
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm:ss a" //Your date format
-//        let date = dateFormatter.date(from: dateLabel.text!) //according to date format your date string
-//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm" //Your New Date format as per requirement change it own
-//        let newDate = dateFormatter.string(from: date!)
         
         // Set up the post request
         let requestURL = URL(string: server + "startscheduledtutorsessiontutor")

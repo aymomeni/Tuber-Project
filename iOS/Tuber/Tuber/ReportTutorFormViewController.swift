@@ -13,6 +13,7 @@ class ReportTutorFormViewController: UIViewController {
     // Set on ReportTutorSessionsTableViewController
     var tempPostParameters: String = ""
 
+    @IBOutlet weak var reportButton: UIButton!
     @IBOutlet weak var messageContents: UITextView!
     
     override func viewDidLoad() {
@@ -22,7 +23,10 @@ class ReportTutorFormViewController: UIViewController {
         messageContents!.layer.borderWidth = 1
         messageContents!.layer.borderColor = UIColor.lightGray.cgColor
 
-        // Do any additional setup after loading the view.
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        reportButton.backgroundColor = UIColor.darkGray
+        reportButton.layer.borderWidth = 1
+        reportButton.layer.cornerRadius = 5
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,6 +35,16 @@ class ReportTutorFormViewController: UIViewController {
     }
 
     @IBAction func reportButtonPressed(_ sender: Any) {
+        
+        //Check that the form was filled out
+        if(messageContents.text == nil || messageContents.text == "")
+        {
+            let alertController = UIAlertController(title: "Cannot Report Tutor", message:
+                "You must write a reason to report a tutor.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return;
+        }
         
         // Set up the post request
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/reporttutor";

@@ -129,7 +129,6 @@ public class LoginActivityNew extends AppCompatActivity {
             Log.d("myFirebaseiD", "Refreshed token: " + SharedPrefManager.getInstance(getApplicationContext()).getFCMToken());
 
         }catch(JSONException e){
-//            Log.i(TAG, "JSON Exception filling the object");
             e.printStackTrace();
         }
 
@@ -140,8 +139,6 @@ public class LoginActivityNew extends AppCompatActivity {
                 if(result != null) {
                     try {
                         // for some reason the password is messed up when it comes from the server
-//			_userEmail = result.getString("userToken").toString();
-//			_userPassword = result.getString("userPassword").toString();
                         _userFirstName = result.getString("userFirstName");;
                         _userLastName = result.getString("userLastName");
                         _userToken = result.getString("userToken");
@@ -161,22 +158,10 @@ public class LoginActivityNew extends AppCompatActivity {
                     onLoginSuccess(_lastLoginSuccess);
                     progressDialog.dismiss();
 
-//                    Log.i(TAG, "JSON result object null");
                 }
             }
         });
 
-
-
-//        new android.os.Handler().postDelayed(
-//                new Runnable() {
-//                    public void run() {
-//                        // On complete call either onLoginSuccess or onLoginFailed
-//                        onLoginSuccess(_lastLoginSuccess);
-//                        //onLoginFailed();
-//                        progressDialog.dismiss();
-//                    }
-//                }, 3000);
     }
 
 
@@ -224,9 +209,7 @@ public class LoginActivityNew extends AppCompatActivity {
 
             Toast.makeText(getBaseContext(), "login successful", Toast.LENGTH_LONG).show();
             Intent intent = new Intent(getApplicationContext(), CourseViewActivityNew.class);
-            //Intent intent = new Intent(getApplicationContext(), UsersActivity.class);
             startActivityForResult(intent, REQUEST_SIGNUP);
-            //finish();
 
         } else {
             onLoginFailed();
@@ -234,7 +217,6 @@ public class LoginActivityNew extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        //Toast.makeText(getBaseContext(), "Username or Password where incorrect", Toast.LENGTH_LONG).show();
         _emailText.setError("enter a valid email address");
         _passwordText.setError("enter a valid password");
         _loginButton.setEnabled(true);

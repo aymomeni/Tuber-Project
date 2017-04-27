@@ -30,7 +30,6 @@ class MainScreenViewController: UIViewController {
         let backButton = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: navigationController, action: nil)
         navigationItem.leftBarButtonItem = backButton
         self.navigationController?.navigationBar.isTranslucent = false
-//        self.navigationController?.view.backgroundColor = UIColor.clear
         
         // MARK: - Scroll menu setup
         
@@ -60,16 +59,6 @@ class MainScreenViewController: UIViewController {
             //            .menuShadowColor(UIColor.blue),
             .menuShadowRadius(4)
         ]
-        
-//        // Initialize scroll menu
-//        let navheight = (navigationController?.navigationBar.frame.size.height ?? 0) + UIApplication.shared.statusBarFrame.size.height
-//        let rect = CGRect(origin: CGPoint(x: 0,y :navheight), size: CGSize(width: self.view.frame.width, height: self.view.frame.height - navheight))
-//        pageMenu = CAPSPageMenu(viewControllers: controllerArray, frame: rect, pageMenuOptions: parameters)
-//        
-//        self.addChildViewController(pageMenu!)
-//        self.view.addSubview(pageMenu!.view)
-//        
-//        pageMenu!.didMove(toParentViewController: self)
         
         // Initialize scroll menu
         let rect = CGRect(origin: CGPoint(x: 0,y :0), size: CGSize(width: self.view.frame.width, height: self.view.frame.height))

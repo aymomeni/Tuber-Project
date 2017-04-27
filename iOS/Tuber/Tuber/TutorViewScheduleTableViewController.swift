@@ -23,7 +23,7 @@ class TutorViewScheduleTableViewController: UITableViewController {
 
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
         
-        self.view.backgroundColor = UIColor.lightGray
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         self.tableView.separatorStyle = .none
         
         self.navigationController?.navigationBar.isTranslucent = false
@@ -74,7 +74,7 @@ class TutorViewScheduleTableViewController: UITableViewController {
         cell.subjectLabel.text = subjects[indexPath.section][indexPath.row]
         
         // Creates separation between cells
-        cell.contentView.backgroundColor = UIColor.lightGray
+        cell.contentView.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         let whiteRoundedView : UIView = UIView(frame: CGRect(x: 10, y: 10, width: self.view.frame.size.width - 20, height: 115))
         whiteRoundedView.layer.backgroundColor = CGColor(colorSpace: CGColorSpaceCreateDeviceRGB(), components: [1.0, 1.0, 1.0, 1.0])
         whiteRoundedView.layer.masksToBounds = false

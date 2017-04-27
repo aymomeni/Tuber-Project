@@ -13,6 +13,7 @@ import CoreLocation
 class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     @IBOutlet weak var mapview: MKMapView!
+    @IBOutlet weak var createHotspotButton: UIButton!
     
     // Variables for location
     let manager = CLLocationManager();
@@ -21,7 +22,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
     var haveLocation = false
     
     // Hotspot Data
-//    var returnedJSON: [String : AnyObject] = [:]
     var ownerEmail: [String] = []
     var hotspotID: [String] = []
     var longitude: [Double] = []
@@ -33,20 +33,19 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         self.location = locations[0]
         
-        let span:MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
-        self.myLocation = CLLocationCoordinate2DMake(location!.coordinate.latitude, location!.coordinate.longitude)
-        
-        let region:MKCoordinateRegion = MKCoordinateRegionMake(self.myLocation!, span)
-        
-        mapview.setRegion(region, animated: true)
-        
-        self.mapview.showsUserLocation = true
-        
         if (!haveLocation)
         {
+            let span:MKCoordinateSpan = MKCoordinateSpanMake(0.1, 0.1)
+            self.myLocation = CLLocationCoordinate2DMake(location!.coordinate.latitude, location!.coordinate.longitude)
+            
+            let region:MKCoordinateRegion = MKCoordinateRegionMake(self.myLocation!, span)
+            
+            mapview.setRegion(region, animated: true)
             findHotspots(String(location!.coordinate.latitude), longitude: String(location!.coordinate.longitude))
             self.haveLocation = true
         }
+        
+        self.mapview.showsUserLocation = true
     }
     
     override func viewDidLoad() {
@@ -62,16 +61,21 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         self.mapview.delegate = self
         
         self.title = "Study Hotspot"
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
         
         self.navigationController?.navigationBar.isTranslucent = false
         
-//        self.navigationItem.hidesBackButton = true
-//        let newBackButton = UIBarButtonItem(title: "< Courses", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ClassOptionsViewController.back(_:)))
-//        self.navigationItem.leftBarButtonItem = newBackButton
-    }
-    
-    func back(_ sender: UIBarButtonItem) {
-        _ = navigationController?.popToRootViewController(animated: true)
+        self.createHotspotButton.backgroundColor = UIColor.darkGray
+        self.createHotspotButton.layer.cornerRadius = 5
+        createHotspotButton.layer.borderWidth = 1
+        
+        var navArray:Array = (self.navigationController?.viewControllers)!
+        if(navArray[navArray.count - 2] is ActiveHotspotViewController)
+        {
+            navArray.remove(at: navArray.count - 2)
+            
+            self.navigationController?.viewControllers = navArray
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -119,8 +123,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
-        print(postParameters)
-        
         // Creating a task to send the post request
         let task = URLSession.shared.dataTask(with: request as URLRequest){
             data, response, error in
@@ -139,8 +141,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
                         for index in 0...arrJSON.count-1 {
                             
                             let aObject = arrJSON[index] as! [String : AnyObject]
-                            
-                            print(aObject)
                             
                             self.ownerEmail.append(aObject ["topic"] as! String)
                             self.hotspotID.append(aObject["hotspotID"] as! String)
@@ -189,8 +189,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
             request.httpBody = postParameters.data(using: String.Encoding.utf8)
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             request.addValue("application/json", forHTTPHeaderField: "Accept")
-            
-            print(postParameters)
             
             // Creating a task to send the post request
             let task = URLSession.shared.dataTask(with: request as URLRequest){
@@ -312,8 +310,6 @@ class HotspotInitialViewController: UIViewController, CLLocationManagerDelegate,
         if segue.identifier == "viewHotspotDetail"
         {
             let appointmentInfo = sender as! [String]
-            print(appointmentInfo[0])
-            print(appointmentInfo[1])
             
             if let destination = segue.destination as? HotspotDetailViewController
             {

@@ -11,6 +11,7 @@ import UIKit
 class ScheduleTutorConfirmViewController: UIViewController {
 
     @IBOutlet weak var confirmLabel: UILabel!
+    @IBOutlet weak var confirmButton: UIButton!
     
     // Set on ScheduleTutorViewController
     var passed: [String]!
@@ -23,6 +24,9 @@ class ScheduleTutorConfirmViewController: UIViewController {
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
         
         confirmLabel.text = passed[0]
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        confirmButton.layer.cornerRadius = 5
+        confirmButton.layer.borderWidth = 1
     }
 
     override func didReceiveMemoryWarning() {

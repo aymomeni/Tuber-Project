@@ -20,6 +20,7 @@ class ConfirmedAppointmentTutorViewController: UIViewController {
     
     var labelContents: [String] = []
 
+    @IBOutlet weak var button: UIButton!
     @IBOutlet weak var messageLabel: UILabel!
     
     override func viewDidLoad() {
@@ -29,6 +30,27 @@ class ConfirmedAppointmentTutorViewController: UIViewController {
         if (labelContents.count == 2)
         {
             messageLabel.text = "You earned $\(labelContents[1]) for your session with \(labelContents[0])"
+        }
+        
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        
+        button.layer.cornerRadius = 5
+        button.layer.borderWidth = 1
+        
+        var navArray:Array = (self.navigationController?.viewControllers)!
+        if(navArray[navArray.count - 2] is UnconfirmedAppointmentTutorViewController)
+        {
+            navArray.remove(at: navArray.count - 2)
+            navArray.remove(at: navArray.count - 2)
+            self.navigationController?.viewControllers = navArray
+        }
+        else if (navArray[navArray.count - 2] is ActiveHotspotViewController)
+        {
+            navArray.remove(at: navArray.count - 2)
+            navArray.remove(at: navArray.count - 2)
+            navArray.remove(at: navArray.count - 2)
+            
+            self.navigationController?.viewControllers = navArray
         }
     }
 

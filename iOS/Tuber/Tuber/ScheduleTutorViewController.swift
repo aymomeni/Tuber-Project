@@ -13,6 +13,7 @@ class ScheduleTutorViewController: UIViewController {
     @IBOutlet weak var dateDatePicker: UIDatePicker!
     @IBOutlet weak var durationTextField: UITextField!
     @IBOutlet weak var subjectTextField: UITextField!
+    @IBOutlet weak var confirmButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,10 @@ class ScheduleTutorViewController: UIViewController {
         self.title = UserDefaults.standard.object(forKey: "selectedCourse") as? String
 
         dateDatePicker.minimumDate = Date()
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        
+        confirmButton.layer.cornerRadius = 5
+        confirmButton.layer.borderWidth = 1
     }
 
     override func didReceiveMemoryWarning() {
@@ -31,6 +36,25 @@ class ScheduleTutorViewController: UIViewController {
      * This function prepares the post parameters and the message displayed for the confirmation page.
      */
     @IBAction func confirmButtonPress(_ sender: Any) {
+        
+        // Ensure the form has been filled out.
+        if (durationTextField.text == nil || durationTextField.text == "")
+        {
+            let alertController = UIAlertController(title: "Cannot Schedule Tutor", message:
+                "You must enter a duration.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return;
+        }
+        
+        if (subjectTextField.text == nil || subjectTextField.text == "")
+        {
+            let alertController = UIAlertController(title: "Cannot Schedule Tutor", message:
+                "You must enter a subject.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return;
+        }
         
         // Set up the different aspects of the message and post parameter.
         let userEmail = UserDefaults.standard.object(forKey: "userEmail") as! String

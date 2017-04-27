@@ -25,8 +25,29 @@ class ActiveHotspotViewController: UIViewController {
         // Set up the page to delete or leave a hotspot
         if (pageSetup != nil)
         {
-            messageLabel.text = "Successfully Joined Hotspot"
-            deletebutton.setTitle("Leave Hotspot", for: .normal)
+            if (pageSetup == "leave")
+            {
+                messageLabel.text = messageContents
+                deletebutton.setTitle("Leave Hotspot", for: .normal)
+            }
+            else if (pageSetup == "deleteCurrent")
+            {
+                messageLabel.text = messageContents
+            }
+        }
+        
+        deletebutton.backgroundColor = UIColor.darkGray
+        deletebutton.layer.cornerRadius = 5
+        deletebutton.layer.borderWidth = 1
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
+        
+        var navArray:Array = (self.navigationController?.viewControllers)!
+        if(navArray[navArray.count - 2] is HotspotDetailViewController || navArray[navArray.count - 2] is CreateHotspotViewController)
+        {
+            navArray.remove(at: navArray.count - 2)
+            navArray.remove(at: navArray.count - 2)
+            
+            self.navigationController?.viewControllers = navArray
         }
     }
     
@@ -48,14 +69,14 @@ class ActiveHotspotViewController: UIViewController {
         let userToken = defaults.object(forKey: "userToken") as! String
         var postParameters = String()
         
-        if (messageLabel.text == "Successfully Created Hotspot")
+        if (pageSetup != nil && pageSetup == "leave")
         {
-            server.append("deletestudyhotspot")
-            postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"hotspotID\":\"\(hotspotID!)\"}"
-        }
-        else{
             server.append("leavestudyhotspot")
             postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\"}"
+        }
+        else{
+            server.append("deletestudyhotspot")
+            postParameters = "{\"userEmail\":\"\(userEmail)\",\"userToken\":\"\(userToken)\",\"hotspotID\":\"\(hotspotID!)\"}"
         }
         
         // Set up the post request

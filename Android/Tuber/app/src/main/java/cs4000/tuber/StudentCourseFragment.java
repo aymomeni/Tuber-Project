@@ -63,14 +63,6 @@ public class StudentCourseFragment extends Fragment {
                 DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL_LIST);
         recList.addItemDecoration(itemDecoration);
 
-//        LinearLayoutManager llm = new LinearLayoutManager(this.getContext());
-//        llm.setOrientation(LinearLayoutManager.VERTICAL);
-//
-//        //GridLayoutManager gl= new GridLayoutmanager(context,6,GridLayoutManager.HORIZONTAL,reverseLayout);
-//        //StaggeredGridLayoutManager sgl= new StaggeredGridLayoutManager(6, StaggeredGridLayoutManager.HORIZONTAL);
-//        recList.setLayoutManager(llm);
-
-
         ItemClickSupport.addTo(recList).setOnItemClickListenerStudent(
                 new ItemClickSupport.OnItemClickListenerStudent() {
                     @Override
@@ -139,8 +131,6 @@ public class StudentCourseFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent in = new Intent(getActivity(), InsertActivity.class);
-//                startActivity(in);
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.MyAlertDialogStyle);
                 builder.setTitle("Add a Course");
                 // I'm using fragment here so I'm using getView() to provide ViewGroup
@@ -202,7 +192,6 @@ public class StudentCourseFragment extends Fragment {
         // Set layout manager to position the items
         recList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //mAdapter.clear();
         // Attach the adapter to the recyclerview to populate items
         recList.setAdapter(mAdapter);
 
@@ -269,15 +258,6 @@ public class StudentCourseFragment extends Fragment {
             @Override
             public void Done(JSONObject result) {
                 if(result != null) {
-
-//                    for(int i = 0; i < courses.size(); i++){
-//                        RecyclerCourseObject newOffer = new RecyclerCourseObject();
-//                        newOffer.setCourse(courses.get(i));
-//                        newOffer.setSubTitle("Subtitle");
-//                        newOffer.setType("one");
-//
-//                        mAdapter.remove(newOffer);
-//                    }
                     mAdapter.remove(Pos);
 
 

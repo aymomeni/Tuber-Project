@@ -100,7 +100,6 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 			public void Done(JSONObject result) {
 
 				if(result != null) {
-//					Log.i("@check_paired_student","GOOD");
 
 					try {
 
@@ -147,21 +146,12 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 							_studentLat = String.valueOf(lastKnownLocation.getLatitude());
 							_studentLong = String.valueOf(lastKnownLocation.getLongitude());
 
-//							Location tutorLocation = new Location(LocationManager.GPS_PROVIDER);
-//							try {
-//								tutorLocation.setLatitude(Double.valueOf(result.getString("tutorLatitude")));
-//								tutorLocation.setLongitude(Double.valueOf(result.getString("tutorLongitude")));
-//							} catch (JSONException e) {
-//								e.printStackTrace();
-//							}
 							double DistanceToStudent = 0;
 							try {
 								DistanceToStudent = distance(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude(), Double.valueOf(result.getString("tutorLatitude")), Double.valueOf(result.getString("tutorLongitude")));
 							} catch (JSONException e) {
 								e.printStackTrace();
 							}
-
-							//Double distanceInMiles = Double.parseDouble(result.getString("distanceFromStudent"));
 
 							if (DistanceToStudent < 0.5) { // tutor has arrived!
 								infoTextView.setTextColor(Color.GREEN);
@@ -171,27 +161,16 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 								handler.postDelayed(new Runnable() {
 									@Override
 									public void run() {
-//                                            infoTextView.setText("");
-//                                            offerToTutorButton.setVisibility(View.VISIBLE);
-//                                            offerToTutorButton.setText("Offer to Tutor");
-//                                            tutor_offered = false;
-//                                            initial_pairing = true;
 
 										Intent intent = new Intent(StudentMapActivity.this, StudentStudySession.class);
 										intent.putExtra("course", course);
-										//intent.putExtra("status", "0");
 										startActivity(intent);
 										finish();
 									}
 								}, 5000);
 							} else { // tutor hasn't arrived yet
 
-
-//								Log.i("Tutor dist:", String.valueOf(DistanceToStudent));
-
 								Double distanceOneDP = (double) Math.round(DistanceToStudent * 10) / 10;
-
-//								Log.i("Tutor dist (rounded):", distanceOneDP.toString());
 
 								infoTextView.setText("Your tutor is " + distanceOneDP.toString() + " miles away!");
 
@@ -220,7 +199,6 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 								handler.postDelayed(new Runnable() {
 									@Override
 									public void run() {
-//										Log.i("@check_paired_status", "CALL 4");
 										check_paired_status();
 									}
 								}, 2000);
@@ -230,12 +208,10 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 
 
 				} else { // not paied yet
-//					Log.i("@check_paired_student","BAD");
 					handler.postDelayed(new Runnable() {
 
 						@Override
 						public void run() {
-//							Log.i("@check_paired_status", "CALL 3");
 							check_paired_status();
 						}
 					}, 2000);
@@ -270,11 +246,9 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 			public void Done(JSONObject result) {
 				// Do Something after the task has finished
 				if(result != null) {
-//					Log.i("@check_paired_status", "CALL 2");
 					check_paired_status();
 				}
 				else {
-//					Log.i("@acceptTutorService","Pairing failed!");
 				}
 			}
 		});
@@ -345,12 +319,10 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 			@Override
 			public void Done(JSONObject result) {
 				if(result != null) {
-//					Log.i("@check_session_student", "check sessionStudent completed");
 
 					acceptTutorServiceButton = (Button)findViewById(R.id.acceptTutorButton);
 					acceptTutorServiceButton.setVisibility(View.INVISIBLE);
 
-//					Log.i("@check_paired_status", "CALL 1");
 					check_paired_status();
 				} else {
 
@@ -373,8 +345,6 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 
 					mMap.animateCamera(cu);
 
-
-//					Log.i("@check_session_student", "check sessionStudent failed - no pairing");
 				}
 			}
 		});
@@ -474,10 +444,8 @@ public class StudentMapActivity extends FragmentActivity implements OnMapReadyCa
 			@Override
 			public void Done(JSONObject result) {
 				if(result != null){
-//					Log.i("@onLocationChanged","Location updated successfully");
 				}
 				else {
-//					Log.i("@onLocationChanged","Location update failed");
 				}
 			}
 		});

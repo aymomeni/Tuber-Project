@@ -12,6 +12,7 @@ class CreateHotspotViewController: UIViewController {
 
     @IBOutlet weak var topicTextArea: UITextView!
     @IBOutlet weak var locationTextArea: UITextView!
+    @IBOutlet weak var createHotspotButton: UIButton!
     
     // Set on HotspotInitalViewController
     var latitude: String!
@@ -25,6 +26,12 @@ class CreateHotspotViewController: UIViewController {
         
         locationTextArea!.layer.borderWidth = 1
         locationTextArea!.layer.borderColor = UIColor.lightGray.cgColor
+        
+        createHotspotButton.backgroundColor =  UIColor.darkGray
+        createHotspotButton.layer.cornerRadius = 5
+        createHotspotButton.layer.borderWidth = 1
+        
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,6 +40,26 @@ class CreateHotspotViewController: UIViewController {
     }
     
     @IBAction func createButtonPressed(_ sender: Any) {
+        
+        // Ensure the form has been filled out.
+        if (topicTextArea.text == nil || topicTextArea.text == "")
+        {
+            let alertController = UIAlertController(title: "Cannot Create Hotspot", message:
+                "You must enter a topic.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return;
+        }
+        
+        if (locationTextArea.text == nil || locationTextArea.text == "")
+        {
+            let alertController = UIAlertController(title: "Cannot Create Hotspot", message:
+                "You must enter a location.", preferredStyle: UIAlertControllerStyle.alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+            return;
+        }
+        
         // Set up the post request
         let server = "http://tuber-test.cloudapp.net/ProductRESTService.svc/createstudyhotspot"
         let requestURL = URL(string: server)
@@ -103,6 +130,8 @@ class CreateHotspotViewController: UIViewController {
             if let destination = segue.destination as? ActiveHotspotViewController
             {
                 destination.hotspotID = hotspot
+                destination.pageSetup = "delete"
+                destination.messageContents = "Successfully Created Hotspot"
             }
         }
         

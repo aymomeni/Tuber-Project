@@ -213,18 +213,6 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
 
         mLastKnownLocation = getMyLocation();
 
-//        mHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                try {
-//                    Looper();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, 3000);
-
     }
 
     @Override
@@ -264,9 +252,6 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
                 }
 
                 break;
-//            case R.id.textView_settings:
-//                switchFragment(SettingsFragment.TAG);
-//                break;
         }
     }
 
@@ -341,150 +326,6 @@ public class HotspotFragment extends Fragment implements View.OnClickListener {
             }
         });
     }
-
-//    /*
-//     * returns a list of currently available HotspotObject (Students that created a hotspot)
-//     */
-//    private void Looper() throws JSONException {
-//
-//        // filling JSON object
-//        JSONObject me = new JSONObject();
-//        me.put("userEmail", mUserEmail);
-//        me.put("userToken", mUserToken);
-//        me.put("course", mCourse);
-//        try {
-//            me.put("latitude", "" + mLastKnownLocation.getLatitude());
-//            me.put("longitude", "" + mLastKnownLocation.getLongitude());
-//        } catch (NullPointerException e) {
-//            e.printStackTrace();
-//            me.put("latitude", "" + 0.0);
-//            me.put("longitude", "" + 0.0);
-//        }
-//        mConnectionTask = new ConnectionTask(me);
-//        mConnectionTask.find_study_hotspots(new ConnectionTask.CallBack() {
-//            @Override
-//            public void Done(JSONObject result) {
-//
-//                if(result != null) {
-//                    LooperHelper(result);
-//
-//                    Log.i("HotspotFragment", "InLooper");
-//                } else {
-//                    Log.e("HotspotFragment", "Null response from server");
-//                    // TODO: Does null mean no Hotspots?
-//                }
-//
-//            }
-//        });
-//
-//        return;
-//    }
-
-//    /**
-//     * Parses the result json array of find_hotspots
-//     *
-//     * Returns : 200 OK
-//     * {
-//     * "studyHotspots": [
-//     * {
-//     * "course": "CS 4000",
-//     * "distanceToHotspot": 0.00005229515916537725,
-//     * "hotspotID": "11",
-//     * "latitude": 40.867701,
-//     * "longitude": 111.8452,
-//     * "ownerEmail": "brandontobin@cox.net",
-//     * "student_count": "1"
-//     * },
-//     * ],
-//     * }
-//     * @param result
-//     * @return
-//     */
-//    private void LooperHelper(JSONObject result) {
-//
-//        JSONArray jsonMainArr = null;
-//        ArrayList<HotspotObject> freshlyPulledDataset = new ArrayList<HotspotObject>();
-//        try {
-//            jsonMainArr = result.getJSONArray("studyHotspots");
-//
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-//        if(jsonMainArr.length() == 0) {
-//            // no hotspots
-//            //TODO: what to do when there is no hotspots?
-//            // create study hotspot
-//            return;
-//        }
-//
-//        Log.i("HS_JSON OBJECT L: ", ""+jsonMainArr.toString());
-//        for (int i = 0; i < jsonMainArr.length(); i++) {
-//            try {
-//
-//                HotspotObject tempStudyHotspotObject = new HotspotObject();
-//
-//                JSONObject childJSONObject = jsonMainArr.getJSONObject(i);
-//                tempStudyHotspotObject.setmCourse(childJSONObject.getString("course"));
-//
-//                tempStudyHotspotObject.setMdistanceToHotspot(childJSONObject.getDouble("distanceToHotspot"));
-//                tempStudyHotspotObject.setmHotspotID(childJSONObject.getString("hotspotID"));
-//                tempStudyHotspotObject.setmTopic(childJSONObject.getString("topic"));
-//                tempStudyHotspotObject.setmLocationDiscription(childJSONObject.getString("locationDescription"));
-//                tempStudyHotspotObject.setmLatitude(childJSONObject.getDouble("latitude"));
-//                tempStudyHotspotObject.setmLongitude(childJSONObject.getDouble("longitude"));
-//                tempStudyHotspotObject.setmOwnerEmail(childJSONObject.getString("ownerEmail"));
-//                tempStudyHotspotObject.setmStudentCount(childJSONObject.getString("student_count"));
-//
-//                freshlyPulledDataset.add(tempStudyHotspotObject);
-//
-//                Log.i("HS_JSON OBJECT RETURN: ", tempStudyHotspotObject.getmCourse() + " " +  tempStudyHotspotObject.getmTopic() + " " + tempStudyHotspotObject.getMdistanceToHotspot() + " " + tempStudyHotspotObject.getmHotspotID() + " " + tempStudyHotspotObject.getmLatitude() + " " +
-//                        tempStudyHotspotObject.getmLongitude() + " " + tempStudyHotspotObject.getmOwnerEmail() + " " + tempStudyHotspotObject.getmStudentCount());
-//
-//            } catch(JSONException e){
-//                e.printStackTrace();
-//                Log.e("HotspotFragment", "ERROR parsing returned hotspot JSON");
-//            }
-//
-//        }
-
-//        if(!freshlyPulledDataset.toString().equals(mDataSet.toString())){
-//
-//            mDataSet = freshlyPulledDataset;
-//            ArrayList<String> listElements = new ArrayList<String>();
-//            Log.e("HotspotFragment", "HEEEEEEEEEEEERRRREEEEEE");
-//            if(mDataSet.size() > 0){
-//                listElements.add("Class: " + mDataSet.get(index).getmCourse() + "\n" + "Email: " + mDataSet.get(index).getmOwnerEmail() + "\n" + "Location Description: " + mDataSet.get(index).getmLocationDiscription() + "\n" + "Distance: ~" + String.format("%.1f", mDataSet.get(index).getMdistanceToHotspot()) + " miles" + "\n" +"Student Count: " + mDataSet.get(index).getmStudentCount() + "\n");
-//                mListAdapter = new ArrayAdapter<String>(getContext(), R.layout.hotspot_fragment_text_elements, listElements);
-//
-//                mHotspotInformationListView = (ListView) this.mFragmentView.findViewById(R.id.hotspot_fragment_text_list_view);
-//
-//                mHotspotInformationListView.setAdapter(mListAdapter);
-//                Log.e("HotspotFragment", "HEEEEEEEEEEEERRRREEEEEE2");
-//
-//            } else {
-//                mCourse = ""; //TODO: VERY BAD WAY TO DO THINGS
-//            }
-//        }
-//        mDataSet = freshlyPulledDataset;
-//        Fragment newFragment = new HotspotFragment();
-//        FragmentTransaction ft = this.getChildFragmentManager().beginTransaction();
-//        ft.replace(R.id.hotspot_fragment_card_view, newFragment).commit();
-//
-//        mHandler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                try {
-//                    Looper();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, 20000);
-//
-//        return;
-//    }
 
     /**
      * Returns the location of the user in the context of this class

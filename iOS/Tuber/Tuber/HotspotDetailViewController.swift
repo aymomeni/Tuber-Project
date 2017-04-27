@@ -12,6 +12,7 @@ class HotspotDetailViewController: UIViewController {
     
     @IBOutlet weak var memberListTextView: UITextView!
     
+    @IBOutlet weak var joinHotspotButton: UIButton!
     // Set on HotspotInitialViewController
     var hotspotID: String!
     var memberList: String!
@@ -20,6 +21,11 @@ class HotspotDetailViewController: UIViewController {
         super.viewDidLoad()
         
         memberListTextView.text = memberList
+        joinHotspotButton.backgroundColor = UIColor.darkGray
+        joinHotspotButton.layer.cornerRadius = 5
+        joinHotspotButton.layer.borderWidth = 1
+        
+        self.view.backgroundColor = UIColor(patternImage: #imageLiteral(resourceName: "background"))
     }
     
     
@@ -82,8 +88,8 @@ class HotspotDetailViewController: UIViewController {
         {
             if let destination = segue.destination as? ActiveHotspotViewController
             {
-                print(sender as! String)
                 destination.pageSetup = sender as! String
+                destination.messageContents = "Successfully Joined Hotspot"
                 destination.hotspotID = nil
             }
         }
